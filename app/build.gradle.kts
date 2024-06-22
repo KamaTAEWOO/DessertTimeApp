@@ -53,7 +53,7 @@ dependencies {
 
     implementation(project(":core"))
     implementation(project(":data"))
-    implementation(project(":feature"))
+    implementation(project(":feature:auth"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
