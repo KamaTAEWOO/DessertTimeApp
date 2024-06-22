@@ -21,4 +21,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "DessertTimeApp"
 include(":app")
+include(":design")
+include(":domain")
+include(":feature")
 include(":core")
+include(":data")
+include(":common")
+include(":common:designsystem")
+include(":common:navigation")
+include(":common:utility")
