@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.desserttime.domain"
+    namespace = "com.desserttime.home"
     compileSdk = 34
 
     defaultConfig {
@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-//    의존 모듈 없음.
+    implementation(project(":core"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

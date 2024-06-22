@@ -1,4 +1,4 @@
-package com.desserttime.feature
+package com.desserttime.auth
 
 import org.junit.Test
 

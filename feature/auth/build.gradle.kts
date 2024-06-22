@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.desserttime.feature"
+    namespace = "com.desserttime.auth"
     compileSdk = 34
 
     defaultConfig {
@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
