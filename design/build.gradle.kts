@@ -37,7 +37,14 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // 3rd party compose UI
+    implementation(libs.coil.compose)
+    implementation(libs.calendar.compose)
+    implementation(libs.bottomsheet.dialog)
+    implementation(libs.accompanist.systemuicontroller)
 }
