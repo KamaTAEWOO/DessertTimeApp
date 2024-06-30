@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.sp
 /*
 * Text(
        text = "Hello, Roboto!",
-       style = MaterialTheme.typography.displayLarge
+       style = typography.displayLarge,
   )
 * */
 // Define Typography with Roboto FontFamily

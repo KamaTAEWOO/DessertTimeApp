@@ -3,6 +3,7 @@ package com.desserttime.auth.login
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.desserttime.design.theme.*
 
 @Composable
 fun LoginScreen() {
@@ -30,8 +32,7 @@ fun LoginScreen() {
         ) {
             Text(
                 text = "Login Screen",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
+                style = typography.displayLarge,
                 color = Color.Black, // 텍스트 색상을 검정색으로 설정
                 modifier = Modifier.align(Alignment.Center)
             )
