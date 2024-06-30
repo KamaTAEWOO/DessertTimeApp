@@ -22,7 +22,7 @@ fun NextScreen() {
             text = "Next Screen",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = Color.White,
             modifier = Modifier.align(Alignment.Center)
         )
     }
