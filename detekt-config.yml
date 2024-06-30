@@ -1,0 +1,55 @@
+complexity:
+  LongParameterList:
+    active: false
+  LongMethod:
+    active: false
+  CyclomaticComplexMethod:
+    active: false
+  TooManyFunctions:
+    active: false
+
+style:
+  MagicNumber:
+    active: false
+  WildcardImport:
+    active: false
+  UnusedParameter:
+    active: false
+  MaxLineLength:
+    active: false
+  UseCheckOrError:
+    active: false
+  ReturnCount:
+    active: false
+  UnusedPrivateMember:
+    active: false
+  UnusedPrivateProperty:
+    active: false
+
+naming:
+  TopLevelPropertyNaming:
+    constantPattern: '[A-Z][A-Za-z0-9_]*'
+  FunctionNaming:
+    ignoreAnnotated: [ 'Composable' ]
+  MatchingDeclarationName:
+    active: false
+
+empty-blocks:
+  EmptyClassBlock:
+    active: false
+  EmptyKtFile:
+    active: false
+  EmptyFunctionBlock:
+    active: false
+
+exceptions:
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: false
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+potential-bugs:
+  ImplicitDefaultLocale:
+    active: false

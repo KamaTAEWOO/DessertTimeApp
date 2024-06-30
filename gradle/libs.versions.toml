@@ -1,6 +1,5 @@
 [versions]
 agp = "8.3.1"
-kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -10,6 +9,60 @@ activityCompose = "1.9.0"
 composeBom = "2023.08.00"
 appcompat = "1.7.0"
 material = "1.12.0"
+navigation-compose = "2.5.3"
+lifecycle = "2.5.1"
+
+# plugins
+androidPlugin = "7.4.1"
+kotlinPlugin = "1.7.20"
+ktlintPlugin = "11.4.2"
+detektPlugin = "1.23.0"
+googleServicesPlugin = "4.3.15"
+hiltPlugin = "2.45"
+
+## hilt
+hilt = "2.45"
+hilt-navigation-compose = "1.0.0"
+java-inject = "1"
+
+## coroutine
+corotine-core = "1.6.4"
+
+## network
+retrofit = "2.9.0"
+logging-interceptor = "4.11.0"
+
+# logging
+timber = "5.0.1"
+
+# compose
+androidx-activity-compose = "1.5.1"
+androidx-compose-bom = "2023.10.01"
+androidx-navigation-compose = "2.5.3"
+androidx-splashscreen = "1.0.0"
+androidx-lifecycle-compose = "2.6.0"
+androidxPagingCompose = "1.0.0-alpha18"
+
+# related compose UI
+accompanist-compose = "0.31.5-beta"
+calendar-compose = "2.4.0"
+naver-map-compose = "1.2.3"
+coil-compose = "2.4.0"
+bottomsheet-dialog = "1.2.2"
+getstream-chat-android-compose = "5.17.7"
+kotlinBom = "1.8.0"
+
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinPlugin" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
+googleServices = { id = "com.google.gms.google-services", version.ref = "googleServicesPlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltPlugin" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -17,8 +70,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -29,8 +82,40 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
-[plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+# hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "java-inject" }
+
+# coroutine
+coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "corotine-core" }
+
+# network
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
+
+# logging
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
+# compose
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splashscreen" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation-compose" }
+androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle-compose" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidxPagingCompose" }
+
+# related compose UI
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-compose" }
+accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist-compose" }
+accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist-compose" }
+accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist-compose" }
+accompanist-inset = { group = "com.google.accompanist", name = "accompanist-insets", version.ref = "accompanist-compose" }
+calendar-compose = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar-compose" }
+naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naver-map-compose" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
+bottomsheet-dialog = { group = "com.holix.android", name = "bottomsheetdialog-compose", version.ref = "bottomsheet-dialog" }
+getstream-chat-android-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "getstream-chat-android-compose" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
 
