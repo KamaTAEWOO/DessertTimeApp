@@ -1,6 +1,8 @@
 package com.desserttime.desserttimeapp.splash
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
+            .background(Color.Red)
     ) {
         Text(
             text = "Splash Screen",

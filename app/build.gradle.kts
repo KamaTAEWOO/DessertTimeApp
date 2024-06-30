@@ -64,6 +64,9 @@ dependencies {
     // splash screen
     implementation(libs.androidx.splashscreen)
 
+    // status color
+    implementation(libs.accompanist.systemuicontroller)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
