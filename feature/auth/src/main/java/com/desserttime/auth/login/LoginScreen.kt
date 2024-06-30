@@ -1,4 +1,4 @@
-package com.desserttime.desserttimeapp.splash
+package com.desserttime.auth.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun NextScreen() {
+fun LoginScreen() {
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -28,7 +28,7 @@ fun NextScreen() {
                 .wrapContentSize(Alignment.Center)
         ) {
             Text(
-                text = "Next Screen",
+                text = "Login Screen",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black, // 텍스트 색상을 검정색으로 설정
