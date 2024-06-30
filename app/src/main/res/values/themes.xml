@@ -3,7 +3,7 @@
 
     <style name="Theme.DessertTimeApp" parent="android:Theme.Material.Light.NoActionBar" />
 
-<!--    splash-->
+    <!--    splash-->
     <style name="Theme.DessertTimeApp.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimationDuration">1000</item>
         <item name="windowSplashScreenBackground">@color/bg_screen</item>
