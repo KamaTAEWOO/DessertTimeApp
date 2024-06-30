@@ -15,10 +15,11 @@ import com.desserttime.desserttimeapp.R
 
 @Composable
 fun SplashScreen(onTimeout: () -> Unit) {
-    LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(3000)
-        onTimeout()
-    }
+    // @@2
+//    LaunchedEffect(Unit) {
+//        kotlinx.coroutines.delay(3000)
+//        onTimeout()
+//    }
 
     Box(
         modifier = Modifier

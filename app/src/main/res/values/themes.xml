@@ -2,8 +2,10 @@
 <resources>
 
     <style name="Theme.DessertTimeApp" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item> <!-- status bar transparent -->
-        <item name="android:statusBarColor">#00000000</item>
+<!--        <item name="android:windowTranslucentStatus">true</item> &lt;!&ndash; status bar transparent &ndash;&gt;-->
+<!--        <item name="android:statusBarColor">#FFEF4444</item>-->
+        <!-- 상태 바 색상을 변경합니다. -->
+        <item name="android:statusBarColor">#FFEF4444</item>
     </style>
 
     <!--    splash-->
@@ -13,6 +15,6 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_screen_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.DessertTimeApp</item>
         <item name="android:windowTranslucentStatus">true</item> <!-- status bar transparent -->
-        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:statusBarColor">#FFEF4444</item>
     </style>
 </resources>
