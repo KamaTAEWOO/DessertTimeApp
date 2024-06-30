@@ -49,9 +49,8 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":design"))
     implementation(project(":core"))
-    implementation(project(":data"))
     implementation(project(":feature:auth"))
 
     // logging
@@ -62,6 +61,11 @@ dependencies {
     kapt(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // splash screen
+    implementation(libs.androidx.splashscreen)
+
+    // status color
+    implementation(libs.accompanist.systemuicontroller)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
