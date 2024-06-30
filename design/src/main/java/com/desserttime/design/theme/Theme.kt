@@ -18,9 +18,9 @@ import androidx.core.view.WindowCompat
 import com.desserttime.design.theme.BgScreen
 
 private val DarkColorScheme = darkColorScheme(
-    primary = BgScreen,
-    secondary = BgScreen,
-    tertiary = BgScreen
+    primary = BgScreen, // 주색상
+    secondary = BgScreen, // 보조 색상, 주 색상과 함께 사용하여 UI의 강조 및 보조 요소에 사용됨
+    tertiary = BgScreen // 삼차 색상, 주 색상과 보조 색상 외에 추가적인 색상으로 배경이나 구분선 등 다양한 요소에 사용
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -66,7 +66,7 @@ fun DessertTimeAppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content
     )
 }

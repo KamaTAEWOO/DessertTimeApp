@@ -7,8 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.desserttime.auth.login.LoginScreen
+import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.RootDestination
-import com.desserttime.desserttimeapp.splash.NextScreen
 import com.desserttime.desserttimeapp.splash.SplashScreen
 
 @Composable
@@ -22,7 +23,7 @@ fun AppNavHost(
     ) {
         composable(route = RootDestination.Splash.route) {
             SplashScreen {
-                navHostController.navigate(RootDestination.Next.route) {
+                navHostController.navigate(AuthDestination.Login.route) {
                     popUpTo(RootDestination.Splash.route) {
                         inclusive = true
                     }
@@ -30,8 +31,8 @@ fun AppNavHost(
             }
         }
 
-        composable(route = RootDestination.Next.route) {
-            NextScreen()
+        composable(route = AuthDestination.Login.route) {
+            LoginScreen()
         }
     }
 }

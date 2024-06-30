@@ -2,32 +2,75 @@ package com.desserttime.design.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-val Typography = Typography(
+/*
+* Text(
+       text = "Hello, Roboto!",
+       style = typography.displayLarge,
+  )
+* */
+// Define Typography with Roboto FontFamily
+val typography = Typography(
+    displayLarge = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 30.sp
+    ),
+    displayMedium = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    ),
+    headlineMedium = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
+    ),
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontSize = 16.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontSize = 14.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = roboto,
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontFamily = roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 10.sp
     )
-    */
 )
