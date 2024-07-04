@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -22,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.desserttime.design.theme.*
+import com.desserttime.design.theme.DessertTimeAppTheme
 
 @Composable
 fun LoginScreen() {
@@ -42,6 +46,11 @@ fun LoginScreen() {
             contentDescription = "img_login_logo",
             modifier = Modifier.size(171.dp, 64.6.dp),
             contentScale = ContentScale.FillBounds
+        )
+        Spacer(Modifier.padding(top = 32.dp))
+        // 로그인/회원가입
+        Text(
+            text = stringResource(R.string.txt_login_title),
         )
     }
 }
