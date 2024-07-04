@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+<!--    Login-->
     <string name="img_login_logo" tools:ignore="MissingDefaultResource">login_logo</string>
+    <string name="txt_login_title">로그인/회원가입</string>
+    <string name="txt_login_kakao">카카오로 시작하기</string>
+    <string name="txt_login_naver">네이버로 시작하기</string>
+    <string name="txt_login_google">구글로 시작하기</string>
+    <string name="txt_login_question">문의하기</string>
+
+
 </resources>
