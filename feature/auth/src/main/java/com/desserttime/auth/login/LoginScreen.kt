@@ -1,23 +1,27 @@
 package com.desserttime.auth.login
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.desserttime.design.theme.*
 
 @Composable
 fun LoginScreen() {
@@ -25,22 +29,20 @@ fun LoginScreen() {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.White // 전체 화면 배경을 흰색으로 설정
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_login_logo),
-                contentDescription = R.string.img_login_logo.toString(),
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .wrapContentSize(Alignment.Center)
-            )
-        }
+        Spacer(Modifier.padding(top = 127.dp))
+        // 로그인 화면 상단 로고 이미지
+        Image(
+            painter = painterResource(id = R.drawable.ic_login_logo),
+            contentDescription = "img_login_logo",
+            modifier = Modifier.size(171.dp, 64.6.dp),
+            contentScale = ContentScale.FillBounds
+        )
     }
 }
 

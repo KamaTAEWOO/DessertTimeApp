@@ -15,6 +15,6 @@ val PurpleGrey40 = Color(0xFF625b71)
 val BgScreenPink40 = Color(0xFF7D5260)
 
 // Light
-
+val OsloGray = Color(0xFF858789)
 
 // Dark
