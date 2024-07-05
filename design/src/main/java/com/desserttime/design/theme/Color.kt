@@ -15,6 +15,13 @@ val PurpleGrey40 = Color(0xFF625b71)
 val BgScreenPink40 = Color(0xFF7D5260)
 
 // Light
-val OsloGray = Color(0xFF858789)
+val Oslo_Gray = Color(0xFF858789)
+val Turbo = Color(0xFFFEE500)
+val Malachite = Color(0xFF03C75A)
+val Black54 = Color(0x8A000000)
+val Alto = Color(0xFFD6D6D6)
+val Gallery = Color(0xFFEBEBEB)
+val Emperor = Color(0xFF555555)
+
 
 // Dark
