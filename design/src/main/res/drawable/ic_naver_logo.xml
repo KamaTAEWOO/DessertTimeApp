@@ -1,0 +1,53 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:aapt="http://schemas.android.com/aapt"
+    android:viewportWidth="48"
+    android:viewportHeight="52"
+    android:width="48dp"
+    android:height="52dp">
+    <path
+        android:pathData="M0 0L13.5 0L16 2.5L31.5 28L32 0L46.5 0L47 0.5L47 52L33.5 52L32 50.5L15.5 24L15 52L0.5 52L0 51.5L0 0Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M47.5 0L48 51.5L47 51.5L47.5 0Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.1176471"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.1176471"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M18.5 6L19.5 8L18.5 6Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3254902"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.3254902"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M23.5 14L24.5 16L23.5 14Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3254902"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.3254902"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M15.5 25Q18.3 26.2 16 27.5L15.5 52L15.5 25Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3254902"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.3254902"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M19.5 31L20.5 33L19.5 31Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3254902"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.3254902"
+        android:strokeWidth="1" />
+    <path
+        android:pathData="M24.5 39L25.5 41L24.5 39Z"
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.3254902"
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.3254902"
+        android:strokeWidth="1" />
+</vector>
