@@ -1,4 +1,4 @@
-package com.cmc.curtaincall.common.navigation
+package com.desserttime.core.navigation
 
 object NavGraphLabel {
     const val ROOT = "root_graph"
