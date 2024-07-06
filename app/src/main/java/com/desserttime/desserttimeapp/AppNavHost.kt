@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.auth.authNavGraph
-import com.desserttime.auth.inquiryNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
@@ -50,10 +49,6 @@ fun AppNavHost(
         }
 
         authNavGraph(
-            navHostController = navHostController
-        )
-
-        inquiryNavGraph(
             navHostController = navHostController
         )
     }
