@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.desserttime.auth.authNavGraph
+import com.desserttime.auth.inquiryNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
@@ -35,17 +37,24 @@ fun AppNavHost(
 
         composable(route = AuthDestination.Login.route) {
             LoginScreen(
-                onNavigateToLogin = {
-                    //navHostController.navigate(AuthDestination.SignUpAgree.route)
+                onNavigateToSignUpAgree = {
+                    navHostController.navigate(AuthDestination.SignUpAgree.route)
+                },
+                onNavigationToInquiryInput = {
+                    navHostController.navigate(AuthDestination.InquiryInput.route)
                 },
                 onBack = {
-//                    navHostController.navigate(AuthDestination.SignUpAgree.route) {
-//                        popUpTo(AuthDestination.Login.route) {
-//                            inclusive = true
-//                        }
-//                    }
+                    navHostController.popBackStack()
                 }
             )
         }
+
+        authNavGraph(
+            navHostController = navHostController
+        )
+
+        inquiryNavGraph(
+            navHostController = navHostController
+        )
     }
 }

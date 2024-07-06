@@ -1,4 +1,10 @@
 package com.desserttime.auth.inquiry
 
-class InquiryCompleteScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun InquiryCompleteScreen(
+    onNavigateToLogin: () -> Unit
+) {
+
 }

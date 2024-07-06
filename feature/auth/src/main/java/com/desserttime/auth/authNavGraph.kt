@@ -19,29 +19,10 @@ fun NavGraphBuilder.authNavGraph(
         startDestination = AuthDestination.Login.route,
         route = NavGraphLabel.AUTH
     ) {
-        composable(route = AuthDestination.Login.route) {
-            LoginScreen(
-                onNavigateToSignUpAgree = {
-                    navHostController.navigate(AuthDestination.SignUpAgree.route)
-                },
-                onBack = {
-                    navHostController.navigate(AuthDestination.SignUpAgree.route) {
-                        popUpTo(AuthDestination.Login.route) {
-                            inclusive = true
-                        }
-                    }
-                }
-            )
-        }
-
         composable(route = AuthDestination.SignUpAgree.route) {
             SignUpAgreeScreen(
                 onNavigateToSignUpInput = {
-                    navHostController.navigate(AuthDestination.SignUpInput.route) {
-                        popUpTo(AuthDestination.SignUpAgree.route) {
-                            inclusive = true
-                        }
-                    }
+                    navHostController.navigate(AuthDestination.SignUpInput.route)
                 },
                 onBack = {
                     navHostController.popBackStack()
@@ -52,11 +33,7 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthDestination.SignUpInput.route) {
             SignUpInputScreen(
                 onNavigateToSignUpChoose = {
-                    navHostController.navigate(AuthDestination.SignUpChoose.route) {
-                        popUpTo(AuthDestination.SignUpInput.route) {
-                            inclusive = true
-                        }
-                    }
+                    navHostController.navigate(AuthDestination.SignUpChoose.route)
                 },
                 onBack = {
                     navHostController.popBackStack()
@@ -67,11 +44,7 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthDestination.SignUpChoose.route) {
             SignUpChooseScreen(
                 onNavigateToSignUpComplete = {
-                    navHostController.navigate(AuthDestination.SignUpComplete.route) {
-                        popUpTo(AuthDestination.SignUpChoose.route) {
-                            inclusive = true
-                        }
-                    }
+                    navHostController.navigate(AuthDestination.SignUpComplete.route)
                 },
                 onBack = {
                     navHostController.popBackStack()

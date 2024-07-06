@@ -1,4 +1,10 @@
 package com.desserttime.auth.inquiry
 
-class InquiryInputScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun InquiryInputScreen(
+    onNavigateToInquiryInput: () -> Unit,
+    onBack: () -> Unit
+) {
 }
