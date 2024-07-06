@@ -7,47 +7,27 @@ sealed class AuthDestination : Destination {
         override val route = NavRouteLabel.LOGIN
     }
 
-    object SignUp02 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP02
+    object SignUpAgree : AuthDestination() {
+        override val route = NavRouteLabel.SIGNUP_AGREE
     }
 
-    object SignUp03 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP03
+    object SignUpInput : AuthDestination() {
+        override val route = NavRouteLabel.SIGNUP_INPUT
     }
 
-    object SignUp04 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP04
+    object SignUpChoose : AuthDestination() {
+        override val route = NavRouteLabel.SIGNUP_CHOOSE
     }
 
-    object SignUp05 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP05
+    object SignUpComplete : AuthDestination() {
+        override val route = NavRouteLabel.SIGNUP_COMPLETE
     }
 
-    object SignUp06 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP06
+    object InquiryInput : AuthDestination() {
+        override val route = NavRouteLabel.INQUIRY_INPUT
     }
 
-    object SignUp07 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP07
-    }
-
-    object SignUp08 : AuthDestination() {
-        override val route = NavRouteLabel.SIGNUP08
-    }
-
-    object Inquiry01 : AuthDestination() {
-        override val route = NavRouteLabel.INQUIRY01
-    }
-
-    object Inquiry02 : AuthDestination() {
-        override val route = NavRouteLabel.INQUIRY02
-    }
-
-    object Inquiry03 : AuthDestination() {
-        override val route = NavRouteLabel.INQUIRY03
-    }
-
-    object Inquiry04 : AuthDestination() {
-        override val route = NavRouteLabel.INQUIRY04
+    object InquiryComplete : AuthDestination() {
+        override val route = NavRouteLabel.INQUIRY_COMPLETE
     }
 }
