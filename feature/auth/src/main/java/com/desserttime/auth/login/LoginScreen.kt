@@ -34,7 +34,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.zIndex
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onNavigateToSignUpAgree: () -> Unit = {},
+    onBack: () -> Unit
+) {
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -169,6 +172,9 @@ fun LoginTextAndLine()
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    LoginScreen()
+fun LoginScreenPreview() {
+    LoginScreen(
+        onNavigateToSignUpAgree = {},
+        onBack = {}
+    )
 }

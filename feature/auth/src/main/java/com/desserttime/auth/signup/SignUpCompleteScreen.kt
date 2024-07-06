@@ -1,4 +1,10 @@
 package com.desserttime.auth.signup
 
-class SignUpCompleteScreen {
+import androidx.compose.runtime.Composable
+
+@Composable
+fun SignUpCompleteScreen(
+    onNavigateToSignIn: () -> Unit
+
+) {
 }

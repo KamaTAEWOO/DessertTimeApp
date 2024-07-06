@@ -34,7 +34,18 @@ fun AppNavHost(
         }
 
         composable(route = AuthDestination.Login.route) {
-            LoginScreen()
+            LoginScreen(
+                onNavigateToLogin = {
+                    //navHostController.navigate(AuthDestination.SignUpAgree.route)
+                },
+                onBack = {
+//                    navHostController.navigate(AuthDestination.SignUpAgree.route) {
+//                        popUpTo(AuthDestination.Login.route) {
+//                            inclusive = true
+//                        }
+//                    }
+                }
+            )
         }
     }
 }
