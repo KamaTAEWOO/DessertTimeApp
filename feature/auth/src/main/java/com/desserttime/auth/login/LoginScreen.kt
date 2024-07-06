@@ -2,39 +2,49 @@ package com.desserttime.auth.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Text
-import androidx.compose.foundation.border
-import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
+import com.desserttime.design.theme.Alto
+import com.desserttime.design.theme.Black
+import com.desserttime.design.theme.Black54
+import com.desserttime.design.theme.Emperor
+import com.desserttime.design.theme.Gallery
+import com.desserttime.design.theme.Malachite
+import com.desserttime.design.theme.Oslo_Gray
+import com.desserttime.design.theme.Turbo
+import com.desserttime.design.theme.White
+import com.desserttime.design.theme.typography
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.desserttime.design.theme.*
-import com.desserttime.design.theme.DessertTimeAppTheme
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.zIndex
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onNavigateToSignUpAgree: () -> Unit = {},
+    onNavigationToInquiryInput: () -> Unit = {},
+    onBack: () -> Unit
+) {
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -60,7 +70,7 @@ fun LoginScreen() {
         // 카카오 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
-            {},
+            onNavigateToSignUpAgree,
             Turbo,
             Black,
             R.drawable.ic_kakao_logo,
@@ -93,11 +103,17 @@ fun LoginScreen() {
                 .background(Gallery) // Line color
         )
         Spacer(Modifier.padding(top = 48.dp))
-        Text(
-            text = stringResource(R.string.txt_login_question),
-            style = typography.labelMedium,
-            color = Emperor
-        )
+        // 문의하기 버튼으로 변경
+        Button(
+            onClick = onNavigationToInquiryInput,
+            colors = ButtonDefaults.buttonColors(White),
+        ) {
+            Text(
+                text = stringResource(R.string.txt_login_question),
+                style = typography.labelMedium,
+                color = Emperor
+            )
+        }
     }
 }
 
@@ -105,26 +121,28 @@ fun LoginScreen() {
 @Composable
 fun LoginButton(
     text: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     background: Color,
     textColor: Color,
     image: Int,
     borderColor: Color,
 ) {
-    Box(
+    Button(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(background),
+        shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .size(320.dp, 52.dp)
-            .background(background, RoundedCornerShape(8.dp))
-            .clickable { onClick() }
-            .border(1.dp, borderColor, RoundedCornerShape(8.dp)),
-        contentAlignment = Alignment.Center
+            .border(1.dp, borderColor, RoundedCornerShape(8.dp))
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
             Image(
                 painter = painterResource(id = image),
-                contentDescription = R.string.txt_login_title.toString(),
+                contentDescription = stringResource(id = R.string.txt_login_title),
                 modifier = Modifier.size(16.dp, 16.dp),
                 contentScale = ContentScale.FillBounds
             )
@@ -169,6 +187,10 @@ fun LoginTextAndLine()
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    LoginScreen()
+fun LoginScreenPreview() {
+    LoginScreen(
+        onNavigateToSignUpAgree = {},
+        onNavigationToInquiryInput = {},
+        onBack = {}
+    )
 }

@@ -7,7 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.desserttime.auth.authNavGraph
+import com.desserttime.auth.inquiryNavGraph
 import com.desserttime.auth.login.LoginScreen
+import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.RootDestination
 import com.desserttime.desserttimeapp.splash.SplashScreen
@@ -19,7 +22,8 @@ fun AppNavHost(
     NavHost(
         navController = navHostController,
         startDestination = RootDestination.Splash.route,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        route = NavGraphLabel.ROOT
     ) {
         composable(route = RootDestination.Splash.route) {
             SplashScreen {
@@ -32,7 +36,25 @@ fun AppNavHost(
         }
 
         composable(route = AuthDestination.Login.route) {
-            LoginScreen()
+            LoginScreen(
+                onNavigateToSignUpAgree = {
+                    navHostController.navigate(AuthDestination.SignUpAgree.route)
+                },
+                onNavigationToInquiryInput = {
+                    navHostController.navigate(AuthDestination.InquiryInput.route)
+                },
+                onBack = {
+                    navHostController.popBackStack()
+                }
+            )
         }
+
+        authNavGraph(
+            navHostController = navHostController
+        )
+
+        inquiryNavGraph(
+            navHostController = navHostController
+        )
     }
 }
