@@ -24,6 +24,7 @@ val Gallery = Color(0xFFEBEBEB)
 val Emperor = Color(0xFF555555)
 val AltoAgree = Color(0xFFDFDFDF)
 val Black60 = Color(0x99000000)
+val Black30 = Color(0x4D000000)
 
 
 // Dark
