@@ -8,5 +8,14 @@
     <string name="txt_login_google">구글로 시작하기</string>
     <string name="txt_login_question">문의하기</string>
 
+    <!--    SignUpAgreeScreen-->
+    <string name="title_dessert_time1">디저트타임</string>
+    <string name="title_dessert_time2">에\n오신걸환영합니다!</string>
+    <string name="all_agree">전체동의 (선택 동의 포함)</string>
+    <string name="all_agree_detail1">(필수) 홈페이지 이용약관</string>
+    <string name="all_agree_detail2">(필수) 개인정보 제공 활용</string>
+    <string name="all_agree_detail3">(선택) 마케팅 및 광고 활용</string>
 
+    <!--    common-->
+    <string name="next">다음</string>
 </resources>
