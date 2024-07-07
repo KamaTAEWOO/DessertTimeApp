@@ -30,13 +30,13 @@ import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black54
+import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Emperor
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.Malachite
 import com.desserttime.design.theme.Oslo_Gray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
-import com.desserttime.design.theme.typography
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -110,7 +110,7 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(R.string.txt_login_question),
-                style = typography.labelMedium,
+                style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Emperor
             )
         }
@@ -149,7 +149,7 @@ fun LoginButton(
             Spacer(Modifier.width(8.dp))
             Text(
                 text = text,
-                style = typography.bodyMedium,
+                style = DessertTimeTheme.typography.textStyleRegular14,
                 color = textColor
             )
         }
@@ -173,7 +173,7 @@ fun LoginTextAndLine()
         // 로그인/회원가입
         Text(
             text = stringResource(R.string.txt_login_title),
-            style = typography.bodyMedium,
+            style = DessertTimeTheme.typography.textStyleRegular14,
             color = Oslo_Gray,
         )
         Spacer(Modifier.padding(start = 4.dp))
