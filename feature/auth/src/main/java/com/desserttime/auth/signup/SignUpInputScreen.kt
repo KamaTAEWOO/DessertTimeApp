@@ -12,13 +12,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.design.R
 import com.desserttime.design.theme.Athens_Gray
+import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.ui.common.CommonUi
 
@@ -39,21 +43,38 @@ fun SignUpInputScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(5.dp) // Adjust height to ensure visibility
-                .border(1.dp, Athens_Gray, RoundedCornerShape(10.dp)) // Use Color.Gray if Athens_Gray is not defined
+                .border(
+                    1.dp,
+                    Athens_Gray,
+                    RoundedCornerShape(10.dp)
+                ) // Use Color.Gray if Athens_Gray is not defined
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Athens_Gray, RoundedCornerShape(10.dp)) // Use Color.Gray if Athens_Gray is not defined
+                    .background(
+                        Athens_Gray,
+                        RoundedCornerShape(10.dp)
+                    ) // Use Color.Gray if Athens_Gray is not defined
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.5f) // Width is 50% of the parent
                     .fillMaxHeight() // Full height
-                    .background(Flamingo, RoundedCornerShape(10.dp)) // Use Color.Red if Flamingo is not defined
+                    .background(
+                        Flamingo,
+                        RoundedCornerShape(10.dp)
+                    ) // Use Color.Red if Flamingo is not defined
             )
         }
         Spacer(Modifier.padding(top = 28.dp))
+        Text(
+            text = stringResource(id = R.string.txt_add_input),
+            style = DessertTimeTheme.typography.textStyleBold26,
+            color = Color.Black,
+            modifier = Modifier
+                .align(Alignment.Start)
+        )
     }
 }
 
