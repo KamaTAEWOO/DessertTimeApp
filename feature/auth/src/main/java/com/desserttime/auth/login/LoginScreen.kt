@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,13 +31,14 @@ import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black54
+import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Emperor
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.Malachite
 import com.desserttime.design.theme.Oslo_Gray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
-import com.desserttime.design.theme.typography
+import com.desserttime.design.ui.common.CommonUi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -97,10 +99,12 @@ fun LoginScreen(
             Alto
         )
         Spacer(Modifier.padding(top = 28.dp))
-        Box(
+        CommonUi.GrayLine(
             modifier = Modifier
-                .size(320.dp, 1.dp)
-                .background(Gallery) // Line color
+                .fillMaxWidth()
+                .height(1.dp)
+                .padding(start = 30.dp, end = 30.dp)
+                .background(Gallery),
         )
         Spacer(Modifier.padding(top = 48.dp))
         // 문의하기 버튼으로 변경
@@ -110,7 +114,7 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(R.string.txt_login_question),
-                style = typography.labelMedium,
+                style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Emperor
             )
         }
@@ -149,7 +153,7 @@ fun LoginButton(
             Spacer(Modifier.width(8.dp))
             Text(
                 text = text,
-                style = typography.bodyMedium,
+                style = DessertTimeTheme.typography.textStyleRegular14,
                 color = textColor
             )
         }
@@ -173,7 +177,7 @@ fun LoginTextAndLine()
         // 로그인/회원가입
         Text(
             text = stringResource(R.string.txt_login_title),
-            style = typography.bodyMedium,
+            style = DessertTimeTheme.typography.textStyleRegular14,
             color = Oslo_Gray,
         )
         Spacer(Modifier.padding(start = 4.dp))
