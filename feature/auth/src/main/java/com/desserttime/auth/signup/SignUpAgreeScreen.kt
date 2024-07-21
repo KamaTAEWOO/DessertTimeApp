@@ -122,7 +122,9 @@ fun AllAgreeRadioButtonGroup() {
                 Spacer(Modifier.padding(top = 13.dp))
                 CommonUi.GrayLine(
                     Modifier
-                        .size(300.dp, 1.dp)
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .padding(end = 30.dp)
                         .background(Gallery),
                 )
                 Spacer(Modifier.padding(top = 29.dp))

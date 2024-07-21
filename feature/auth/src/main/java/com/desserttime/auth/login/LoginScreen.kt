@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -100,7 +101,9 @@ fun LoginScreen(
         Spacer(Modifier.padding(top = 28.dp))
         CommonUi.GrayLine(
             modifier = Modifier
-                .size(320.dp, 1.dp)
+                .fillMaxWidth()
+                .height(1.dp)
+                .padding(start = 30.dp, end = 30.dp)
                 .background(Gallery),
         )
         Spacer(Modifier.padding(top = 48.dp))
