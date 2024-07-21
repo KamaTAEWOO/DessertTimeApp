@@ -35,7 +35,7 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Emperor
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.Malachite
-import com.desserttime.design.theme.Oslo_Gray
+import com.desserttime.design.theme.OsloGray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
@@ -178,7 +178,7 @@ fun LoginTextAndLine()
         Text(
             text = stringResource(R.string.txt_login_title),
             style = DessertTimeTheme.typography.textStyleRegular14,
-            color = Oslo_Gray,
+            color = OsloGray,
         )
         Spacer(Modifier.padding(start = 4.dp))
         Box(

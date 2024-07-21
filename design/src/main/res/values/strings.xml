@@ -17,7 +17,7 @@
 
     <!--    SignUpInputScreen-->
     <string name="txt_add_input">추가 정보 입력</string>
-    <string name="txt_add_description">추가 정보를 입력하면/n추천후기를 알 수 있습니다.</string>
+    <string name="txt_add_description">추가 정보를 입력하면\n추천후기를 알 수 있습니다.</string>
     <string name="txt_sex">성별</string>
     <string name="txt_sex_man">남성</string>
     <string name="txt_sex_woman">여성</string>
