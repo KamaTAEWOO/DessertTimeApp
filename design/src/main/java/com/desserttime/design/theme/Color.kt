@@ -25,6 +25,8 @@ val Emperor = Color(0xFF555555)
 val AltoAgree = Color(0xFFDFDFDF)
 val Black60 = Color(0x99000000)
 val Black30 = Color(0x4D000000)
+val Athens_Gray = Color(0xFFE9E9F1)
+val Flamingo = Color(0xFFEF4444)
 
 
 // Dark

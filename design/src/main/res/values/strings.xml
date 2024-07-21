@@ -15,6 +15,9 @@
     <string name="txt_all_agree_detail2">(필수) 개인정보 제공 활용</string>
     <string name="txt_all_agree_detail3">(선택) 마케팅 및 광고 활용</string>
 
+    <!--    SignUpInputScreen-->
+
+
     <!--    common-->
     <string name="txt_next">다음</string>
 </resources>
