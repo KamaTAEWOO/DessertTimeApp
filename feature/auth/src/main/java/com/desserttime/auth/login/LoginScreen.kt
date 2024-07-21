@@ -37,6 +37,7 @@ import com.desserttime.design.theme.Malachite
 import com.desserttime.design.theme.Oslo_Gray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
+import com.desserttime.design.ui.common.CommonUi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -97,10 +98,10 @@ fun LoginScreen(
             Alto
         )
         Spacer(Modifier.padding(top = 28.dp))
-        Box(
+        CommonUi.GrayLine(
             modifier = Modifier
                 .size(320.dp, 1.dp)
-                .background(Gallery) // Line color
+                .background(Gallery),
         )
         Spacer(Modifier.padding(top = 48.dp))
         // 문의하기 버튼으로 변경
