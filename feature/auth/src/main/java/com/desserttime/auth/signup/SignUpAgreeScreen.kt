@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material3.Text
@@ -32,8 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.AltoAgree
 import com.desserttime.design.theme.Black30
-import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
+import com.desserttime.design.theme.Gallery
+import com.desserttime.design.ui.common.CommonUi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -115,7 +117,18 @@ fun AllAgreeRadioButtonGroup() {
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(options[0]) }
 
     Column {
-        options.forEach { text ->
+        options.forEachIndexed { index, text ->
+            if(index == 1) {
+                Spacer(Modifier.padding(top = 13.dp))
+                CommonUi.GrayLine(
+                    Modifier
+                        .size(300.dp, 1.dp)
+                        .background(Gallery),
+                )
+                Spacer(Modifier.padding(top = 29.dp))
+            } else {
+                Spacer(Modifier.padding(top = 29.dp))
+            }
             Row(
                 //modifier = Modifier.padding(top = 13.dp)
             ) {
@@ -130,7 +143,7 @@ fun AllAgreeRadioButtonGroup() {
                     style = DessertTimeTheme.typography.textStyleRegular16,
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .size(300.dp, 50.dp)
+                        .wrapContentSize()
                 )
             }
         }
