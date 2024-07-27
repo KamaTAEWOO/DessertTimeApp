@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MyPageScreen() {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
         Text("MyPage Screen", modifier = Modifier.align(Alignment.Center))
     }
 }

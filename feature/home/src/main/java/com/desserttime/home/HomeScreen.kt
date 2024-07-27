@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HomeScreen() {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
         Text("Home Screen", modifier = Modifier.align(Alignment.Center))
     }
 }
