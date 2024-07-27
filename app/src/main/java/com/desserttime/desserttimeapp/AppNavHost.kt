@@ -11,6 +11,7 @@ import com.desserttime.auth.authNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
+import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.core.navigation.destination.RootDestination
 import com.desserttime.desserttimeapp.splash.SplashScreen
 
@@ -39,8 +40,11 @@ fun AppNavHost(
                 onNavigateToSignUpAgree = {
                     navHostController.navigate(AuthDestination.SignUpAgree.route)
                 },
-                onNavigationToInquiryInput = {
+                onNavigateToInquiryInput = {
                     navHostController.navigate(AuthDestination.InquiryInput.route)
+                },
+                onNavigateToHome = {
+                    navHostController.navigate(MainDestination.Home.route)
                 },
                 onBack = {
                     navHostController.popBackStack()

@@ -44,7 +44,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun LoginScreen(
     onNavigateToSignUpAgree: () -> Unit = {},
-    onNavigationToInquiryInput: () -> Unit = {},
+    onNavigateToInquiryInput: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {},
     onBack: () -> Unit
 ) {
     // SystemUiController를 사용하여 상태 바 색상 설정
@@ -82,7 +83,7 @@ fun LoginScreen(
         // 네이버 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_naver),
-            {},
+            onNavigateToHome,
             Malachite,
             White,
             R.drawable.ic_naver_logo,
@@ -109,7 +110,7 @@ fun LoginScreen(
         Spacer(Modifier.padding(top = 48.dp))
         // 문의하기 버튼으로 변경
         Button(
-            onClick = onNavigationToInquiryInput,
+            onClick = onNavigateToInquiryInput,
             colors = ButtonDefaults.buttonColors(White),
         ) {
             Text(
@@ -194,7 +195,8 @@ fun LoginTextAndLine()
 fun LoginScreenPreview() {
     LoginScreen(
         onNavigateToSignUpAgree = {},
-        onNavigationToInquiryInput = {},
+        onNavigateToInquiryInput = {},
+        onNavigateToHome = {},
         onBack = {}
     )
 }

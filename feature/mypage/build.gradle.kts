@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.desserttime.home"
+    namespace = "com.desserttime.mypage"
     compileSdk = 34
 
     defaultConfig {
@@ -41,10 +41,6 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":design"))
-    implementation(project(":feature:category"))
-    implementation(project(":feature:review"))
-    implementation(project(":feature:mypage"))
-    implementation(project(":feature:like"))
 
     // hilt
     implementation(libs.hilt.android)
