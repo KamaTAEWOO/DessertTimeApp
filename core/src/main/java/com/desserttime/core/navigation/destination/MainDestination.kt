@@ -3,6 +3,10 @@ package com.desserttime.core.navigation.destination
 import com.desserttime.core.navigation.NavRouteLabel
 
 sealed class MainDestination : Destination {
+    object Main : MainDestination() {
+        override val route = NavRouteLabel.MAIN
+    }
+
     object Home : MainDestination() {
         override val route = NavRouteLabel.HOME
     }
@@ -19,7 +23,7 @@ sealed class MainDestination : Destination {
         override val route = NavRouteLabel.LIKE
     }
 
-    object WritingReview : MainDestination() {
-        override val route = NavRouteLabel.WRITING_REVOEW
+    object Review : MainDestination() {
+        override val route = NavRouteLabel.REVIEW
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun WritingReviewScreen() {
+fun ReviewScreen() {
     Box(modifier = Modifier.fillMaxSize().background(Color.Gray)) {
         Text("WritingReview Screen", modifier = Modifier.align(Alignment.Center))
     }
@@ -20,5 +20,5 @@ fun WritingReviewScreen() {
 @Preview(showBackground = true)
 @Composable
 fun WritingReviewScreenPreview() {
-    WritingReviewScreen()
+    ReviewScreen()
 }

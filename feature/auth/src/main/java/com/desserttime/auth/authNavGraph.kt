@@ -10,10 +10,10 @@ import com.desserttime.auth.signup.SignUpAgreeScreen
 import com.desserttime.auth.signup.SignUpChooseScreen
 import com.desserttime.auth.signup.SignUpCompleteScreen
 import com.desserttime.auth.signup.SignUpInputScreen
+import com.desserttime.controler.MainControl
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
-import com.desserttime.home.HomeScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
@@ -91,9 +91,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.Home.route) {
-            HomeScreen(
-
-            )
+            MainControl()
         }
     }
 }

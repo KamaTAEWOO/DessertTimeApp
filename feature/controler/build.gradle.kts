@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.desserttime.home"
+    namespace = "com.desserttime.controler"
     compileSdk = 34
 
     defaultConfig {
@@ -41,6 +41,11 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":design"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:like"))
+    implementation(project(":feature:mypage"))
+    implementation(project(":feature:review"))
+    implementation(project(":feature:category"))
 
     // hilt
     implementation(libs.hilt.android)
@@ -68,4 +73,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }

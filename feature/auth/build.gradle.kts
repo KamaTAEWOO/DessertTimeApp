@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":design"))
-    implementation(project(":feature:home"))
+    implementation(project(":feature:controler"))
 
     // hilt
     implementation(libs.hilt.android)
