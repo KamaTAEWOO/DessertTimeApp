@@ -17,6 +17,11 @@ object NavRouteLabel {
     const val INQUIRY_INPUT = "inquiry_input"
     const val INQUIRY_COMPLETE = "inquiry_complete"
 
-    // home
+    // main
+    const val MAIN = "main"
     const val HOME = "home"
+    const val CATEGORY = "category"
+    const val LIKE = "like"
+    const val MY_PAGE = "my_page"
+    const val REVIEW = "writing_review"
 }

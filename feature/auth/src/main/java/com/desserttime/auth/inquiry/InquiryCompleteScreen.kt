@@ -2,6 +2,7 @@ package com.desserttime.auth.inquiry
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -60,6 +61,7 @@ fun InquiryCompleteScreen(
                 color = Black60,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
+                    .clickable(onClick = onNavigateToLogin) // @@2 Test
             )
         }
     }

@@ -6,13 +6,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.desserttime.auth.inquiry.InquiryCompleteScreen
 import com.desserttime.auth.inquiry.InquiryInputScreen
-import com.desserttime.auth.login.LoginScreen
 import com.desserttime.auth.signup.SignUpAgreeScreen
 import com.desserttime.auth.signup.SignUpChooseScreen
 import com.desserttime.auth.signup.SignUpCompleteScreen
 import com.desserttime.auth.signup.SignUpInputScreen
+import com.desserttime.controler.MainControl
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
+import com.desserttime.core.navigation.destination.MainDestination
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
@@ -57,7 +58,11 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthDestination.SignUpComplete.route) {
             SignUpCompleteScreen(
                 onNavigateToSignIn = {
-                    navHostController.navigate(AuthDestination.SignUpComplete.route)
+                    navHostController.navigate(AuthDestination.Login.route) {
+                        popUpTo(AuthDestination.SignUpComplete.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
@@ -83,6 +88,10 @@ fun NavGraphBuilder.authNavGraph(
                     }
                 },
             )
+        }
+
+        composable(route = MainDestination.Home.route) {
+            MainControl()
         }
     }
 }
