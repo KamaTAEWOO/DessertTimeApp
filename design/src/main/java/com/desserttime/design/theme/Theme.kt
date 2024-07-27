@@ -1,7 +1,6 @@
 package com.desserttime.design.theme
 
 import android.app.Activity
-import android.graphics.Color
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -18,21 +17,19 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
 import com.desserttime.design.extensions.toSp
-import com.desserttime.design.theme.BgScreen
 
 private val DarkColorScheme = darkColorScheme(
-    primary = BgScreen, // 주색상
-    secondary = BgScreen, // 보조 색상, 주 색상과 함께 사용하여 UI의 강조 및 보조 요소에 사용됨
-    tertiary = BgScreen // 삼차 색상, 주 색상과 보조 색상 외에 추가적인 색상으로 배경이나 구분선 등 다양한 요소에 사용
+    primary = MainColor, // 주색상
+    secondary = MainColor, // 보조 색상, 주 색상과 함께 사용하여 UI의 강조 및 보조 요소에 사용됨
+    tertiary = MainColor // 삼차 색상, 주 색상과 보조 색상 외에 추가적인 색상으로 배경이나 구분선 등 다양한 요소에 사용
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = BgScreen,
-    secondary = BgScreen,
-    tertiary = BgScreen
+    primary = MainColor,
+    secondary = MainColor,
+    tertiary = MainColor
 )
 
 @Composable
@@ -204,7 +201,7 @@ fun DessertTimeAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = BgScreen.toArgb()
+            window.statusBarColor = MainColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
