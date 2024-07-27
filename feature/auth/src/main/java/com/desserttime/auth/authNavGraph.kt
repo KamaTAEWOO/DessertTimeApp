@@ -57,7 +57,11 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = AuthDestination.SignUpComplete.route) {
             SignUpCompleteScreen(
                 onNavigateToSignIn = {
-                    navHostController.navigate(AuthDestination.SignUpComplete.route)
+                    navHostController.navigate(AuthDestination.Login.route) {
+                        popUpTo(AuthDestination.SignUpComplete.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
