@@ -33,5 +33,6 @@ val WildSand = Color(0xFFF4F4F4)
 val Tundora = Color(0xFF4E4E4E)
 val DoveGray = Color(0xFF656565)
 val Silver = Color(0xFFBCBCBC)
+val AzureRadiance = Color(0xFF068DFF)
 
 // Dark
