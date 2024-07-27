@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
+import com.desserttime.design.theme.Manatee
 import com.desserttime.home.HomeScreen
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
@@ -52,7 +53,7 @@ fun BottomNavBar(navController: NavController) {
 
     NavigationBar(
         containerColor = Color.White,
-        contentColor = Color.Black,
+        contentColor = Manatee,
     ) {
         NavigationBarItem(
             icon = {
@@ -61,7 +62,7 @@ fun BottomNavBar(navController: NavController) {
                     contentDescription = stringResource(id = R.string.txt_bottom_home)
                 )
             },
-            label = { Text(stringResource(id = R.string.txt_bottom_home)) },
+            label = { Text(stringResource(id = R.string.txt_bottom_home), color = Manatee) },
             selected = currentRoute == MainDestination.Home.route,
             onClick = {
                 if (currentRoute != MainDestination.Home.route) {
@@ -79,7 +80,7 @@ fun BottomNavBar(navController: NavController) {
                     contentDescription = stringResource(id = R.string.txt_bottom_category)
                 )
             },
-            label = { Text(stringResource(id = R.string.txt_bottom_category)) },
+            label = { Text(stringResource(id = R.string.txt_bottom_category), color = Manatee) },
             selected = currentRoute == MainDestination.Category.route,
             onClick = {
                 if (currentRoute != MainDestination.Category.route) {
@@ -96,7 +97,7 @@ fun BottomNavBar(navController: NavController) {
                     contentDescription = stringResource(id = R.string.txt_bottom_review)
                 )
             },
-            label = { Text(stringResource(id = R.string.txt_bottom_review)) },
+            label = { Text(stringResource(id = R.string.txt_bottom_review), color = Manatee) },
             selected = currentRoute == MainDestination.Review.route,
             onClick = {
                 if (currentRoute != MainDestination.Review.route) {
@@ -113,7 +114,7 @@ fun BottomNavBar(navController: NavController) {
                     contentDescription = stringResource(id = R.string.txt_bottom_like)
                 )
             },
-            label = { Text(stringResource(id = R.string.txt_bottom_like)) },
+            label = { Text(stringResource(id = R.string.txt_bottom_like), color = Manatee) },
             selected = currentRoute == MainDestination.Like.route,
             onClick = {
                 if (currentRoute != MainDestination.Like.route) {
@@ -130,7 +131,7 @@ fun BottomNavBar(navController: NavController) {
                     contentDescription = stringResource(id = R.string.txt_bottom_my_page)
                 )
             },
-            label = { Text(stringResource(id = R.string.txt_bottom_my_page)) },
+            label = { Text(stringResource(id = R.string.txt_bottom_my_page), color = Manatee) },
             selected = currentRoute == MainDestination.MyPage.route,
             onClick = {
                 if (currentRoute != MainDestination.MyPage.route) {

@@ -34,5 +34,6 @@ val Tundora = Color(0xFF4E4E4E)
 val DoveGray = Color(0xFF656565)
 val Silver = Color(0xFFBCBCBC)
 val AzureRadiance = Color(0xFF068DFF)
+val Manatee = Color(0xFF9A9C9F)
 
 // Dark
