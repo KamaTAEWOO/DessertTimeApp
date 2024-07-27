@@ -50,7 +50,8 @@
     <string name="txt_pan_cake">팬케이크</string>
 
     <!--    SignUpCompleteScreen-->
-    <string name="txt_complete">회원가입 해주셔서\n감사합니다</string>
+    <string name="txt_complete1">회원가입 해주셔서</string>
+    <string name="txt_complete2">감사합니다</string>
     <string name="txt_next_page">NN초 후 메인화면으로 이동합니다.</string>
 
     <!--    common-->
