@@ -28,6 +28,31 @@
     <string name="txt_address_hint">주소를 입력해주세요</string>
     <string name="txt_address_description">주소검색</string>
 
+    <!--    SignUpChooseScreen-->
+    <string name="txt_choose_interest">취향 선택</string>
+    <string name="txt_choose_interest_hint">최대 5가지를 선택해주세요 (선택)</string>
+    <string name="txt_fish_shaped_bun">겨울디저트</string>
+    <string name="txt_fruit_dessert">과일디저트</string>
+    <string name="txt_baked_confectionery">구운과자</string>
+    <string name="txt_donut">도넛</string>
+    <string name="txt_rice_cake">떡</string>
+    <string name="txt_macaron">마카롱</string>
+    <string name="txt_bakery">베이커리</string>
+    <string name="txt_summer_dessert">여름디저트</string>
+    <string name="txt_yogurt">요거트</string>
+    <string name="txt_tradition_dessert">전통디저트</string>
+    <string name="txt_cookie">쿠키</string>
+    <string name="txt_chocolate">초콜릿</string>
+    <string name="txt_cake">케이크</string>
+    <string name="txt_tart">타르트,파이</string>
+    <string name="txt_pastries">페이스트리</string>
+    <string name="txt_pudding">푸딩</string>
+    <string name="txt_pan_cake">팬케이크</string>
+
+    <!--    SignUpCompleteScreen-->
+    <string name="txt_complete1">회원가입 해주셔서</string>
+    <string name="txt_complete2">감사합니다</string>
+    <string name="txt_next_page">NN초 후 메인화면으로 이동합니다.</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>
