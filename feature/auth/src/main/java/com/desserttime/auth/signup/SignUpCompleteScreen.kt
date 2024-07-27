@@ -21,9 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
-import com.desserttime.design.theme.MainColor
-import com.desserttime.design.theme.MainColor20
-import com.desserttime.design.ui.common.CommonUi
 
 @Composable
 fun SignUpCompleteScreen(
