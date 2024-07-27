@@ -31,5 +31,7 @@ val Flamingo = Color(0xFFEF4444)
 val MineShaft = Color(0xFF2B2B2B)
 val WildSand = Color(0xFFF4F4F4)
 val Tundora = Color(0xFF4E4E4E)
+val DoveGray = Color(0xFF656565)
+val Silver = Color(0xFFBCBCBC)
 
 // Dark

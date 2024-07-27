@@ -223,8 +223,8 @@ fun SignUpInputScreen(
             CommonUi.NextButton(
                 text = stringResource(R.string.txt_next),
                 onClick = onNavigateToSignUpChoose,
-                background = MainColor,
-                textColor = White
+                background = MainColor20,
+                textColor = MainColor
             )
         }
     }
