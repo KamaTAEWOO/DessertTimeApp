@@ -11,9 +11,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.desserttime.design.theme.BgScreen
+import com.desserttime.design.theme.MainColor
 import com.desserttime.desserttimeapp.R
 
 @Composable
@@ -26,7 +25,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BgScreen)
+            .background(MainColor)
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_screen_logo),

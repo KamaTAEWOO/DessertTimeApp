@@ -76,7 +76,7 @@ fun SignUpAgreeScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             //Spacer(Modifier.padding(top = 177.dp))
-            NextButton(
+            CommonUi.NextButton(
                 text = stringResource(R.string.txt_next),
                 onClick = onNavigateToSignUpInput,
                 background = AltoAgree,
@@ -148,35 +148,6 @@ fun AllAgreeRadioButtonGroup() {
                         .wrapContentSize()
                 )
             }
-        }
-    }
-}
-
-@Composable
-fun NextButton(
-    text: String,
-    onClick: () -> Unit = {},
-    background: Color,
-    textColor: Color,
-) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(background),
-        shape = RoundedCornerShape(12.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(61.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = text,
-                style = DessertTimeTheme.typography.textStyleRegular20,
-                color = textColor
-            )
         }
     }
 }
