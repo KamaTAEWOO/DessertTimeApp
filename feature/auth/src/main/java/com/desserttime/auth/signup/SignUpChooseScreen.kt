@@ -29,18 +29,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.desserttime.design.R
-import com.desserttime.design.theme.AltoAgree
 import com.desserttime.design.theme.AthensGray
-import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
-import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
 
 @Composable
