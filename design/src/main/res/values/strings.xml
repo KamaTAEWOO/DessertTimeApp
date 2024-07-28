@@ -75,4 +75,7 @@
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>
+    <string name="txt_search_description">검색</string>
+    <string name="txt_bell_description">벨</string>
+
 </resources>
