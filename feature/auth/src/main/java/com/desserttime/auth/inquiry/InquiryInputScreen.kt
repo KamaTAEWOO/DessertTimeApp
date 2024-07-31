@@ -86,10 +86,10 @@ fun InquiryInputScreen(
         Text(
             text = stringResource(id = R.string.txt_inquiry_email),
             style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
+            color = DoveGray
         )
         Spacer(Modifier.padding(top = 8.dp))
-        //EditText
+        // EditText
         TextField(
             value = emailText,
             onValueChange = { newText -> emailText = newText },
@@ -100,20 +100,20 @@ fun InquiryInputScreen(
                 Text(
                     text = stringResource(id = R.string.txt_inquiry_email_hint),
                     style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Color.Gray, // Adjust the placeholder text color if needed
+                    color = Color.Gray // Adjust the placeholder text color if needed
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
                 focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30,
+                unfocusedIndicatorColor = Black30
             )
         )
         Spacer(Modifier.padding(top = 20.dp))
         Text(
             text = stringResource(id = R.string.txt_inquiry_content),
             style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
+            color = DoveGray
         )
         Spacer(Modifier.padding(top = 8.dp))
         // outlineTextField
@@ -128,13 +128,13 @@ fun InquiryInputScreen(
                 Text(
                     text = stringResource(id = R.string.txt_inquiry_content_hint),
                     style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Black30,
+                    color = Black30
                 )
             },
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = WildSand,
                 focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30,
+                unfocusedIndicatorColor = Black30
             )
         )
         Column(

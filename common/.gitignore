@@ -14,4 +14,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+/utility/build
+/navigation/build
+/designsystem/build
 /feature/build

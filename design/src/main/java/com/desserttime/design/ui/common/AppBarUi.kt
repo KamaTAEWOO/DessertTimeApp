@@ -5,13 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -26,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
-import com.desserttime.design.theme.OsloGray
 
 object AppBarUi {
 
@@ -38,7 +34,7 @@ object AppBarUi {
     @Composable
     fun AppBar(
         onSearchClick: () -> Unit = {},
-        onBellClick: () -> Unit = {},
+        onBellClick: () -> Unit = {}
     ) {
         Row(
             modifier = Modifier
@@ -82,7 +78,7 @@ object AppBarUi {
     fun AppBar(
         title: String,
         onSearchClick: () -> Unit = {},
-        onBellClick: () -> Unit = {},
+        onBellClick: () -> Unit = {}
     ) {
         Box(
             modifier = Modifier
@@ -127,7 +123,7 @@ object AppBarUi {
         onBackClick: () -> Unit = {},
         title: String,
         onSearchClick: () -> Unit = {},
-        onBellClick: () -> Unit = {},
+        onBellClick: () -> Unit = {}
     ) {
         Box(
             modifier = Modifier
@@ -180,7 +176,7 @@ object AppBarUi {
     @Composable
     fun AppBar(
         onBackClick: () -> Unit = {},
-        title: String,
+        title: String
     ) {
         Box(
             modifier = Modifier
@@ -209,9 +205,6 @@ object AppBarUi {
             )
         }
     }
-
-
-
 }
 
 @Preview(showBackground = true)

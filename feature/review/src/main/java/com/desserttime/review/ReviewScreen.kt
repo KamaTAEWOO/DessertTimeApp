@@ -14,11 +14,19 @@ import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
 fun ReviewScreen() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)) {
-        AppBarUi.AppBar({}, stringResource(id = com.desserttime.design.R.string.txt_bottom_review), {}, {})
-        Text("WritingReview Screen", modifier = Modifier.align(Alignment.Center))
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color.White)
+    ) {
+        AppBarUi.AppBar(
+            {},
+            stringResource(id = com.desserttime.design.R.string.txt_bottom_review),
+            {},
+            {}
+        )
+        Text(
+            "WritingReview Screen",
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }
 

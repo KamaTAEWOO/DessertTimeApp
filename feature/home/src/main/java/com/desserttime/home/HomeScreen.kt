@@ -13,9 +13,9 @@ import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
 fun HomeScreen() {
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)) {
+    Box(
+        modifier = Modifier.fillMaxSize().background(Color.White)
+    ) {
         AppBarUi.AppBar()
         Text("Home Screen", modifier = Modifier.align(Alignment.Center))
     }

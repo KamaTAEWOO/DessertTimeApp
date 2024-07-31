@@ -136,7 +136,7 @@ private fun ViewSelectTasteData() {
         R.drawable.ic_tart_off to stringResource(id = R.string.txt_tart),
         R.drawable.ic_pan_cake_off to stringResource(id = R.string.txt_pan_cake),
         R.drawable.ic_pastry_off to stringResource(id = R.string.txt_pastries),
-        R.drawable.ic_pudding_off to stringResource(id = R.string.txt_pudding),
+        R.drawable.ic_pudding_off to stringResource(id = R.string.txt_pudding)
     )
 
     SelectTasteRecyclerView(items = items)
@@ -148,7 +148,7 @@ fun SelectTasteRecyclerView(items: List<Pair<Int, String>>) {
         columns = GridCells.Fixed(4),
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 15.dp, end = 15.dp),
+            .padding(start = 15.dp, end = 15.dp)
     ) {
         items(items.size) { index ->
             val item = items[index]

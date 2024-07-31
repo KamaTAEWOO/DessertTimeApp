@@ -1,13 +1,8 @@
 package com.desserttime.controler
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material.*
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -45,7 +40,7 @@ import com.desserttime.review.ReviewScreen
 fun MainControl() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomNavBar(navController) },
+        bottomBar = { BottomNavBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -72,7 +67,7 @@ fun BottomNavBar(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
-        color = Color.Transparent,
+        color = Color.Transparent
     ) {
         NavigationBar(
             containerColor = Color.Transparent, // Set transparent to avoid background color interference
@@ -81,14 +76,14 @@ fun BottomNavBar(navController: NavController) {
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp))
                 .background(Color.White)
-                .shadow(2.dp),
+                .shadow(2.dp)
         ) {
             NavigationBarItem(
                 icon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_bottom_home),
                         contentDescription = stringResource(id = R.string.txt_bottom_home),
-                        tint = if (currentRoute == MainDestination.Home.route) selectedColor else unselectedColor,
+                        tint = if (currentRoute == MainDestination.Home.route) selectedColor else unselectedColor
                     )
                 },
                 label = {
@@ -237,4 +232,3 @@ fun BottomNavBar(navController: NavController) {
         }
     }
 }
-

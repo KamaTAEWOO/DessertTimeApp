@@ -105,13 +105,13 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .height(1.dp)
                 .padding(start = 30.dp, end = 30.dp)
-                .background(Gallery),
+                .background(Gallery)
         )
         Spacer(Modifier.padding(top = 48.dp))
         // 문의하기 버튼으로 변경
         Button(
             onClick = onNavigateToInquiryInput,
-            colors = ButtonDefaults.buttonColors(White),
+            colors = ButtonDefaults.buttonColors(White)
         ) {
             Text(
                 text = stringResource(R.string.txt_login_question),
@@ -130,7 +130,7 @@ fun LoginButton(
     background: Color,
     textColor: Color,
     image: Int,
-    borderColor: Color,
+    borderColor: Color
 ) {
     Button(
         onClick = onClick,
@@ -162,8 +162,7 @@ fun LoginButton(
 }
 
 @Composable
-fun LoginTextAndLine()
-{
+fun LoginTextAndLine() {
     Row(
         modifier = Modifier
             .height(20.dp),
@@ -179,7 +178,7 @@ fun LoginTextAndLine()
         Text(
             text = stringResource(R.string.txt_login_title),
             style = DessertTimeTheme.typography.textStyleRegular14,
-            color = OsloGray,
+            color = OsloGray
         )
         Spacer(Modifier.padding(start = 4.dp))
         Box(

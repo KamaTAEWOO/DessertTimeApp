@@ -213,7 +213,7 @@ fun DessertTimeAppTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        //typography = typography1,
+        // typography = typography1,
         content = content
     )
 

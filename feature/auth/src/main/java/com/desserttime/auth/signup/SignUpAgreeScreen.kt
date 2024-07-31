@@ -73,7 +73,7 @@ fun SignUpAgreeScreen(
                 .padding(horizontal = 16.dp, vertical = 58.dp),
             verticalArrangement = Arrangement.Bottom
         ) {
-            //Spacer(Modifier.padding(top = 177.dp))
+            // Spacer(Modifier.padding(top = 177.dp))
             CommonUi.NextButton(
                 text = stringResource(R.string.txt_next),
                 onClick = onNavigateToSignUpInput,
@@ -111,26 +111,27 @@ fun AllAgreeRadioButtonGroup() {
         stringResource(R.string.txt_all_agree),
         stringResource(R.string.txt_all_agree_detail1),
         stringResource(R.string.txt_all_agree_detail2),
-        stringResource(R.string.txt_all_agree_detail3))
+        stringResource(R.string.txt_all_agree_detail3)
+    )
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(options[0]) }
 
     Column {
         options.forEachIndexed { index, text ->
-            if(index == 1) {
+            if (index == 1) {
                 Spacer(Modifier.padding(top = 13.dp))
                 CommonUi.GrayLine(
                     Modifier
                         .fillMaxWidth()
                         .height(1.dp)
                         .padding(end = 30.dp)
-                        .background(Gallery),
+                        .background(Gallery)
                 )
                 Spacer(Modifier.padding(top = 29.dp))
             } else {
                 Spacer(Modifier.padding(top = 29.dp))
             }
             Row(
-                //modifier = Modifier.padding(top = 13.dp)
+                // modifier = Modifier.padding(top = 13.dp)
             ) {
                 RadioButton(
                     modifier = Modifier

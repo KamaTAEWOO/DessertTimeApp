@@ -37,7 +37,7 @@ object CommonUi {
         text: String,
         onClick: () -> Unit = {},
         background: Color,
-        textColor: Color,
+        textColor: Color
     ) {
         Button(
             onClick = onClick,
