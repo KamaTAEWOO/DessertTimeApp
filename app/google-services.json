@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "499309259293",
+    "project_id": "dessert-time-44a86",
+    "storage_bucket": "dessert-time-44a86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499309259293:android:8ba6f8408a06d2081c34f4",
+        "android_client_info": {
+          "package_name": "com.desserttime.desserttimeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDyh4jgCzFhd0achxRVpvFlTSiDxHkLg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
