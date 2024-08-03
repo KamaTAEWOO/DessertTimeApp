@@ -1,5 +1,6 @@
 package com.desserttime.controler
 
+import HomeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,6 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
-import com.desserttime.home.HomeScreen
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
 import com.desserttime.review.ReviewScreen
