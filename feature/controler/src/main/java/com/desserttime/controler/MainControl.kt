@@ -74,7 +74,7 @@ fun BottomNavBar(navController: NavController) {
             contentColor = Manatee,
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp))
+                .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
                 .background(Color.White)
                 .shadow(2.dp)
         ) {
