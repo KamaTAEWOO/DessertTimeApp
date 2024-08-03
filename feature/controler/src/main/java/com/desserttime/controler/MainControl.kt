@@ -1,5 +1,6 @@
 package com.desserttime.controler
 
+import HomeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,13 +32,14 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
-import com.desserttime.home.HomeScreen
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
 import com.desserttime.review.ReviewScreen
 
 @Composable
-fun MainControl() {
+fun MainControl(
+    onNavigateToLogin: () -> Unit
+) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -47,7 +49,7 @@ fun MainControl() {
             startDestination = MainDestination.Home.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(MainDestination.Home.route) { HomeScreen() }
+            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen() }
             composable(MainDestination.MyPage.route) { MyPageScreen() }
@@ -74,7 +76,7 @@ fun BottomNavBar(navController: NavController) {
             contentColor = Manatee,
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp))
+                .clip(RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp))
                 .background(Color.White)
                 .shadow(2.dp)
         ) {

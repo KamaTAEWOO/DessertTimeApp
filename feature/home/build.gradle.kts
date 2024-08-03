@@ -53,6 +53,13 @@ dependencies {
     // bottom navigation
     implementation(libs.androidx.navigation.compose)
 
+    // coil
+    implementation(libs.coil.compose)
+
+    // pager
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

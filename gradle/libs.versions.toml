@@ -45,7 +45,8 @@ androidx-lifecycle-compose = "2.6.0"
 androidxPagingCompose = "1.0.0-alpha18"
 
 # related compose UI
-accompanist-compose = "0.31.5-beta"
+#accompanist-compose = "0.31.5-beta"
+accompanist-compose = "0.28.0"
 calendar-compose = "2.4.0"
 naver-map-compose = "1.2.3"
 coil-compose = "2.4.0"
