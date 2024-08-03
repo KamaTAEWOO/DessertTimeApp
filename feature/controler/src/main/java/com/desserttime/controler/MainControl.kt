@@ -37,7 +37,9 @@ import com.desserttime.mypage.MyPageScreen
 import com.desserttime.review.ReviewScreen
 
 @Composable
-fun MainControl() {
+fun MainControl(
+    onNavigateToLogin: () -> Unit
+) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -47,7 +49,7 @@ fun MainControl() {
             startDestination = MainDestination.Home.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(MainDestination.Home.route) { HomeScreen() }
+            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen() }
             composable(MainDestination.MyPage.route) { MyPageScreen() }

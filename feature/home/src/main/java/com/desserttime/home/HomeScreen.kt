@@ -39,7 +39,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onNavigateToLogin: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -47,7 +47,7 @@ fun HomeScreen() {
     ) {
         item {
             // AppBar
-            AppBarUi.AppBar()
+            AppBarUi.AppBar({}, onNavigateToLogin)
         }
 
         item {
@@ -254,5 +254,5 @@ fun ReviewHome(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen({})
 }

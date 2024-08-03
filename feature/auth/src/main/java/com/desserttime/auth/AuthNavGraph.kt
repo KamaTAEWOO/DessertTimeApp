@@ -91,7 +91,15 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.Home.route) {
-            MainControl()
+            MainControl(
+                onNavigateToLogin = {
+                    navHostController.navigate(AuthDestination.Login.route) {
+                        popUpTo(AuthDestination.InquiryComplete.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
