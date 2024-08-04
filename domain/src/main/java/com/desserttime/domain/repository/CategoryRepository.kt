@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryRepository {
 
     // all categories
-    fun requestAllCategories() : Flow<List<CategoryMainInfoModel>>
+    fun requestAllCategories(): Flow<List<CategoryMainInfoModel>>
 }

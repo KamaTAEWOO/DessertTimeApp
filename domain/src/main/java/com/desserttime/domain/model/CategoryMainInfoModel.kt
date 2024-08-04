@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-data class CategoryMainInfoModel (
+data class CategoryMainInfoModel(
     val dessertCategoryId: Int = 0,
     val dessertName: String = "",
     val parentDCId: Int = 0,

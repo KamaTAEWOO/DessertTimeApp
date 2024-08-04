@@ -67,7 +67,7 @@ fun CategoryScreen(
         Text(
             text = stringResource(id = R.string.txt_category_sub_title),
             style = DessertTimeTheme.typography.textStyleBold18,
-            color = Color.Black,
+            color = Color.Black
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -178,7 +178,7 @@ fun CategoryItemImage(
         R.drawable.ic_off_17,
         R.drawable.ic_off_18,
         R.drawable.ic_off_19,
-        R.drawable.ic_off_20,
+        R.drawable.ic_off_20
     )
 
     // 인덱스 범위 체크 추가
@@ -206,7 +206,7 @@ fun CategoryItemText(
     Text(
         text = categoryMainName,
         style = DessertTimeTheme.typography.textStyleRegular16,
-        color = TundoraCategory,
+        color = TundoraCategory
     )
 }
 

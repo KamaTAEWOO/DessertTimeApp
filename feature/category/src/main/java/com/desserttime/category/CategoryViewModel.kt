@@ -1,8 +1,6 @@
 package com.desserttime.category
 
 import androidx.lifecycle.viewModelScope
-import com.desserttime.core.base.BaseEvent
-import com.desserttime.core.base.BaseState
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.repository.CategoryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

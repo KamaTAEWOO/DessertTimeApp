@@ -5,7 +5,7 @@ import com.desserttime.domain.model.CategorySubInfoModel
 import com.google.gson.annotations.SerializedName
 
 data class CategoryDataResponse(
-    @SerializedName("data") val responseCategoryData: List<CategoryMainInfoResponse>,
+    @SerializedName("data") val responseCategoryData: List<CategoryMainInfoResponse>
 )
 
 // Response -> Model
