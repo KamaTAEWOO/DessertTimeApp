@@ -38,7 +38,6 @@ import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black5
 import com.desserttime.design.theme.DessertTimeTheme
-import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.ui.common.AppBarUi
@@ -197,7 +196,7 @@ fun CategoryItemImage(
             .width(24.dp) // 이미지 너비 설정
             .height(24.dp), // 이미지 높이 설정
         colorFilter = ColorFilter.tint(MainColor)
-        )
+    )
 }
 
 @Composable
