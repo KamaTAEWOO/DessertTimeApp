@@ -24,7 +24,6 @@ class CategoryViewModel @Inject constructor(
             is CategoryEvent.RequestCategoryData -> {
                 currentState.copy(allCategory = event.allCategory)
             }
-
             else -> currentState
         }
 
@@ -32,8 +31,8 @@ class CategoryViewModel @Inject constructor(
     fun requestCategoryData() {
         categoryRepository.requestAllCategories()
             .onEach {
-                // Log 찍기
-                Timber.i("$TAG requestCategoryData: $it")
+                // Timber.i("$TAG requestCategoryData: $it")
+                sendAction(CategoryEvent.RequestCategoryData(it))
             }
             .catch {
                 // Error 처리

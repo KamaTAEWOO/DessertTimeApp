@@ -53,6 +53,7 @@ coil-compose = "2.4.0"
 bottomsheet-dialog = "1.2.2"
 getstream-chat-android-compose = "5.17.7"
 kotlinBom = "1.8.0"
+lifecycleRuntimeComposeAndroid = "2.8.4"
 
 
 [plugins]
@@ -120,6 +121,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 bottomsheet-dialog = { group = "com.holix.android", name = "bottomsheetdialog-compose", version.ref = "bottomsheet-dialog" }
 getstream-chat-android-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "getstream-chat-android-compose" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [bundles]
 retrofit = ["retrofit", "converter-gson", "logging-interceptor"]
