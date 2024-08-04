@@ -43,7 +43,7 @@ import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.ui.common.AppBarUi
 import timber.log.Timber
 
-private val TAG: String = "CategoryScreen::"
+private const val TAG: String = "CategoryScreen::"
 
 @Composable
 fun CategoryScreen(

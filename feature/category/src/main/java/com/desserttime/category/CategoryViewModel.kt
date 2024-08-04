@@ -10,13 +10,14 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
+private const val TAG = "CategoryViewModel::"
+
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
     private val categoryRepository: CategoryRepository
 ) : BaseViewModel<CategoryState, CategoryEvent>(
     initialState = CategoryState()
 ) {
-    private val TAG = "CategoryViewModel::"
     override fun reduceState(currentState: CategoryState, event: CategoryEvent): CategoryState =
         when (event) {
             is CategoryEvent.RequestCategoryData -> {
