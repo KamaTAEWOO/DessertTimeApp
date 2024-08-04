@@ -1,10 +1,26 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kapt)
 }
 
 android {
     namespace = "com.desserttime.core"
+
+    defaultConfig {
+        val localProperties = loadLocalProperties(rootDir)
+        val baseUrl = localProperties.getProperty("BASE_URL", "https://default-url.com") // 기본값을 적절한 URL로 설정
+
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"") // 문자열 값을 올바르게 설정
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 //    compileSdk = 34
 //
 //    defaultConfig {
@@ -35,10 +51,33 @@ android {
 dependencies {
     implementation(project(":domain"))
 
+    // viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // retrofit
+    implementation(libs.bundles.retrofit)
+
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    // logging
+    implementation(libs.timber)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+fun loadLocalProperties(rootDir: File): Properties {
+    val properties = Properties()
+    val localPropertiesFile = File(rootDir, "local.properties")
+    if (localPropertiesFile.exists()) {
+        FileInputStream(localPropertiesFile).use { properties.load(it) }
+    }
+    return properties
 }

@@ -16,6 +16,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val BgScreenPink40 = Color(0xFF7D5260)
 
 // Light
+val Black5 = Color(0x0D000000)
 val Black30 = Color(0x4D000000)
 val Black54 = Color(0x8A000000)
 val Black60 = Color(0x99000000)
@@ -36,5 +37,6 @@ val Silver = Color(0xFFBCBCBC)
 val AzureRadiance = Color(0xFF068DFF)
 val Manatee = Color(0xFF9A9C9F)
 val CornflowerBlue = Color(0xFFCCCCCC)
+val TundoraCategory = Color(0xFF404040)
 
 // Dark

@@ -78,6 +78,10 @@
     <string name="txt_home_review_title_test2">망고빙수 후기</string>
     <string name="txt_home_review_title_test3">Test 후기</string>
 
+    <!--    Category-->
+    <string name="txt_category_sub_title">후기가 궁금한 디저트를 찾아보세요</string>
+    <string name="img_category_description">카테고리 이미지</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>

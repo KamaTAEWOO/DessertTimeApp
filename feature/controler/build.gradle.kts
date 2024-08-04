@@ -58,6 +58,9 @@ dependencies {
     // bottom navigation
     implementation(libs.androidx.navigation.compose)
 
+    // logging
+    implementation(libs.timber)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
