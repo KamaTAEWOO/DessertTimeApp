@@ -36,5 +36,6 @@ val Silver = Color(0xFFBCBCBC)
 val AzureRadiance = Color(0xFF068DFF)
 val Manatee = Color(0xFF9A9C9F)
 val CornflowerBlue = Color(0xFFCCCCCC)
+val TundoraCategory = Color(0xFF404040)
 
 // Dark
