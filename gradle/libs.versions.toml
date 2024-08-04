@@ -121,3 +121,5 @@ bottomsheet-dialog = { group = "com.holix.android", name = "bottomsheetdialog-co
 getstream-chat-android-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "getstream-chat-android-compose" }
 kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
 
+[bundles]
+retrofit = ["retrofit", "converter-gson", "logging-interceptor"]

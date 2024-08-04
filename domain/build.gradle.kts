@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-//    의존 모듈 없음.
+    // 의존 모듈 없음.
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
