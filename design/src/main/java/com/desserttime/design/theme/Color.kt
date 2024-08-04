@@ -16,6 +16,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val BgScreenPink40 = Color(0xFF7D5260)
 
 // Light
+val Black5 = Color(0x0D000000)
 val Black30 = Color(0x4D000000)
 val Black54 = Color(0x8A000000)
 val Black60 = Color(0x99000000)

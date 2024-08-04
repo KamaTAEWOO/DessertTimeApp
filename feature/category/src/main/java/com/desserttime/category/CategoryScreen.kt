@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +36,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
+import com.desserttime.design.theme.Black5
 import com.desserttime.design.theme.DessertTimeTheme
+import com.desserttime.design.theme.Gallery
+import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.ui.common.AppBarUi
 import timber.log.Timber
@@ -127,10 +131,16 @@ fun CategoryItem(
             }
         }
         if (isExpanded) {
+            Divider(
+                color = Alto,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            )
+            // 확장 상태일 때 추가 정보 표시
             Column(
                 modifier = Modifier
-                    .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 8.dp)
                     .fillMaxWidth()
+                    .background(Black5)
             ) {
                 Text(
                     text = "추가 정보: $categoryMainName",
@@ -185,8 +195,9 @@ fun CategoryItemImage(
         contentScale = ContentScale.Fit,
         modifier = Modifier
             .width(24.dp) // 이미지 너비 설정
-            .height(24.dp) // 이미지 높이 설정
-    )
+            .height(24.dp), // 이미지 높이 설정
+        colorFilter = ColorFilter.tint(MainColor)
+        )
 }
 
 @Composable
