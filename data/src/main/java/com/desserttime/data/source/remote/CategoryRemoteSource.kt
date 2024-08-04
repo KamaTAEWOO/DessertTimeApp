@@ -7,8 +7,7 @@ import javax.inject.Inject
 class CategoryRemoteSource @Inject constructor(
     private val categoryService: CategoryService
 ) {
-//    fun requestAllCategories() = flow {
-//        emit(categoryService.requestAllCategories())
-//    }
-
+    fun requestAllCategories() = flow {
+        emit(categoryService.requestAllCategories().responseCategoryData.map { it.toModel() })
+    }
 }

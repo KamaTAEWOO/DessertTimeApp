@@ -1,7 +1,11 @@
 package com.desserttime.category
 
 import com.desserttime.core.base.BaseEvent
+import com.desserttime.domain.model.CategoryMainInfoModel
 
-data class CategoryEvent(
-    val test: String = ""
-) : BaseEvent
+sealed class CategoryEvent : BaseEvent {
+
+    data class RequestCategoryData(
+        val allCategory: List<CategoryMainInfoModel>
+    ) : CategoryEvent()
+}

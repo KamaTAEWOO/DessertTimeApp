@@ -41,6 +41,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
     implementation(project(":design"))
+    implementation(project(":data"))
 
     // hilt
     implementation(libs.hilt.android)
@@ -49,6 +50,9 @@ dependencies {
 
     // status color
     implementation(libs.accompanist.systemuicontroller)
+
+    // logging
+    implementation(libs.timber)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

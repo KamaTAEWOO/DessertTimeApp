@@ -45,6 +45,7 @@ fun CategoryContent(
     categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     Text("Category Content")
+    categoryViewModel.requestCategoryData()
 }
 
 @Preview(showBackground = true)

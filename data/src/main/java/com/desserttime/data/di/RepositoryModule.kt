@@ -11,6 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
+
     @Binds
     @Singleton
     fun bindCategoryRepository(

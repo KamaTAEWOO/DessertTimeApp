@@ -44,7 +44,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     // retrofit
-    implementation(libs.retrofit)
+    implementation(libs.bundles.retrofit)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
