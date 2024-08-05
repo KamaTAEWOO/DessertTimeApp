@@ -54,6 +54,9 @@ dependencies {
     // logging
     implementation(libs.timber)
 
+    // flowlayout
+    implementation(libs.flowlayout)
+
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -1,9 +1,14 @@
 package com.desserttime.category
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -25,9 +31,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +60,7 @@ fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     val categoryUiState by categoryViewModel.uiState.collectAsStateWithLifecycle()
+    var expandedItemId by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(categoryViewModel) {
         categoryViewModel.requestCategoryData()
@@ -71,90 +82,86 @@ fun CategoryScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        // LazyColumn에 Divider를 추가하기 전에, Divider를 LazyColumn 외부에 위치시킵니다.
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
         ) {
             items(categoryUiState.allCategory) { category ->
-                CategoryItem(category.dessertCategoryId, category.dessertName)
+                CategoryMainItem(
+                    categoryUiState,
+                    category.dessertCategoryId,
+                    category.dessertName,
+                    isExpanded = expandedItemId == category.dessertCategoryId,
+                    onExpandToggle = {
+                        expandedItemId = if (expandedItemId == category.dessertCategoryId) null else category.dessertCategoryId
+                    }
+                )
             }
         }
-
-        // LazyColumn 외부에 Divider를 위치시킵니다.
-        Divider(
-            color = Alto,
-            thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 }
 
 @Composable
-fun CategoryItem(
+fun CategoryMainItem(
+    categoryUiState: CategoryState,
     categoryMainId: Int,
-    categoryMainName: String
+    categoryMainName: String,
+    isExpanded: Boolean,
+    onExpandToggle: () -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier.fillMaxWidth()
+    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Divider(
-            color = Alto,
-            thickness = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        )
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, start = 12.dp, end = 12.dp)
-                .clickable { isExpanded = !isExpanded } // Row 클릭 시 확장 상태 변경
+                .padding(top = 8.dp, bottom = 8.dp)
+                .clickable { onExpandToggle() }
+                .testTag("$categoryMainId")
         ) {
-            CategoryItemImage(categoryMainId)
+            val color = if (isExpanded) MainColor else TundoraCategory
+            CategoryMainItemImage(
+                categoryMainId,
+                color
+            )
             Spacer(modifier = Modifier.width(12.dp))
-            CategoryItemText(categoryMainName)
+            CategoryMainItemText(
+                categoryMainName,
+                if (isExpanded) Color.Black else TundoraCategory
+            )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = { isExpanded = !isExpanded } // 버튼 클릭 시 확장 상태 변경
+                onClick = { onExpandToggle() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_expand),
                     contentDescription = stringResource(id = R.string.img_category_description),
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(16.dp),
+                    colorFilter = ColorFilter.tint(color)
                 )
             }
         }
+
         if (isExpanded) {
-            Divider(
-                color = Alto,
-                thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
-            )
-            // 확장 상태일 때 추가 정보 표시
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Black5)
-            ) {
-                Text(
-                    text = "추가 정보: $categoryMainName",
-                    style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = TundoraCategory
-                )
-                // 여기에 추가로 표시하고 싶은 내용을 추가할 수 있습니다.
-            }
+            Timber.i("$TAG categoryMainId: $categoryMainId")
+            CategorySubItem(categoryUiState, categoryMainId)
         }
     }
 }
 
 @Composable
-fun CategoryItemImage(
-    categoryMainId: Int
+fun CategoryMainItemImage(
+    categoryMainId: Int,
+    color: Color
 ) {
     Timber.i("$TAG categoryMainId: $categoryMainId")
 
@@ -181,38 +188,96 @@ fun CategoryItemImage(
         R.drawable.ic_off_20
     )
 
-    // 인덱스 범위 체크 추가
-    val imageResId = if (categoryMainId in imageResIds.indices) {
-        imageResIds[categoryMainId]
-    } else {
-        R.drawable.ic_off_1 // 기본 이미지
+    val imageResId = imageResIds.getOrElse(categoryMainId) {
+        R.drawable.ic_off_1 // Fallback image
     }
 
     Image(
         painter = painterResource(id = imageResId),
         contentDescription = stringResource(id = R.string.img_category_description),
         contentScale = ContentScale.Fit,
-        modifier = Modifier
-            .width(24.dp) // 이미지 너비 설정
-            .height(24.dp), // 이미지 높이 설정
-        colorFilter = ColorFilter.tint(MainColor)
+        modifier = Modifier.size(24.dp),
+        colorFilter = ColorFilter.tint(color)
     )
 }
 
 @Composable
-fun CategoryItemText(
-    categoryMainName: String
+fun CategoryMainItemText(
+    categoryMainName: String,
+    color: Color
 ) {
     Text(
         text = categoryMainName,
         style = DessertTimeTheme.typography.textStyleRegular16,
-        color = TundoraCategory
+        color = color
     )
+}
+
+@SuppressLint("UnusedBoxWithConstraintsScope")
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun CategorySubItem(
+    categoryUiState: CategoryState,
+    categoryMainId: Int
+) {
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier.fillMaxWidth()
+    )
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Black5)
+            .padding(vertical = 4.dp)
+    ) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            categoryUiState.allCategory.forEach { rowItems ->
+                rowItems.secondCategory?.forEach { item ->
+                    if (item.parentDCId == categoryMainId) {
+                        CategorySubItemRound(item.dessertName)
+                    }
+                }
+            }
+        }
+    }
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = 4.dp,
+                shape = RectangleShape,
+                clip = false
+            )
+    )
+}
+
+@Composable
+fun CategorySubItemRound(
+    categorySubName: String
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .padding(8.dp)
+            .clip(RoundedCornerShape(50))
+            .background(Color.White)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
+    ) {
+        Text(
+            text = categorySubName,
+            style = DessertTimeTheme.typography.textStyleRegular16,
+            color = TundoraCategory
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun CategoryScreenPreview() {
-    // Sample data for preview
     CategoryScreen()
 }
