@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         val localProperties = loadLocalProperties(rootDir)
-        val baseUrl = localProperties.getProperty("BASE_URL", "https://default-url.com") // 기본값을 적절한 URL로 설정
+        val baseUrl = localProperties.getProperty("BASE_URL", "") // 기본값을 적절한 URL로 설정
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"") // 문자열 값을 올바르게 설정
     }
