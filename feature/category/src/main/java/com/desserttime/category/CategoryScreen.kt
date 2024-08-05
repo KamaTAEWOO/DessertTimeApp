@@ -266,7 +266,7 @@ fun CategorySubItemRound(
             .padding(8.dp)
             .clip(RoundedCornerShape(50))
             .background(Color.White)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         Text(
             text = categorySubName,
@@ -281,4 +281,3 @@ fun CategorySubItemRound(
 fun CategoryScreenPreview() {
     CategoryScreen()
 }
-
