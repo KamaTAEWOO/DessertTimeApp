@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,9 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
+import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black5
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
@@ -55,6 +60,7 @@ fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     val categoryUiState by categoryViewModel.uiState.collectAsStateWithLifecycle()
+    var expandedItemId by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(categoryViewModel) {
         categoryViewModel.requestCategoryData()
@@ -86,7 +92,10 @@ fun CategoryScreen(
                     categoryUiState,
                     category.dessertCategoryId,
                     category.dessertName,
-                    category.parentDCId
+                    isExpanded = expandedItemId == category.dessertCategoryId,
+                    onExpandToggle = {
+                        expandedItemId = if (expandedItemId == category.dessertCategoryId) null else category.dessertCategoryId
+                    }
                 )
             }
         }
@@ -98,10 +107,14 @@ fun CategoryMainItem(
     categoryUiState: CategoryState,
     categoryMainId: Int,
     categoryMainName: String,
-    parentDCId: Int,
+    isExpanded: Boolean,
+    onExpandToggle: () -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier.fillMaxWidth()
+    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,34 +124,44 @@ fun CategoryMainItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp, bottom = 8.dp)
-                .clickable { isExpanded = !isExpanded }
+                .clickable { onExpandToggle() }
+                .testTag("$categoryMainId")
         ) {
-            CategoryMainItemImage(categoryMainId)
+            val color = if (isExpanded) MainColor else TundoraCategory
+            CategoryMainItemImage(
+                categoryMainId,
+                color
+            )
             Spacer(modifier = Modifier.width(12.dp))
-            CategoryMainItemText(categoryMainName)
+            CategoryMainItemText(
+                categoryMainName,
+                if (isExpanded) Color.Black else TundoraCategory
+            )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = { isExpanded = !isExpanded }
+                onClick = { onExpandToggle() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_expand),
                     contentDescription = stringResource(id = R.string.img_category_description),
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(16.dp),
+                    colorFilter = ColorFilter.tint(color)
                 )
             }
         }
 
         if (isExpanded) {
-            val parentDCIdData = parentDCId + 1
-            CategorySubItem(categoryUiState, parentDCIdData)
+            Timber.i("$TAG categoryMainId: $categoryMainId")
+            CategorySubItem(categoryUiState, categoryMainId)
         }
     }
 }
 
 @Composable
 fun CategoryMainItemImage(
-    categoryMainId: Int
+    categoryMainId: Int,
+    color: Color
 ) {
     Timber.i("$TAG categoryMainId: $categoryMainId")
 
@@ -174,18 +197,19 @@ fun CategoryMainItemImage(
         contentDescription = stringResource(id = R.string.img_category_description),
         contentScale = ContentScale.Fit,
         modifier = Modifier.size(24.dp),
-        colorFilter = ColorFilter.tint(MainColor)
+        colorFilter = ColorFilter.tint(color)
     )
 }
 
 @Composable
 fun CategoryMainItemText(
-    categoryMainName: String
+    categoryMainName: String,
+    color: Color
 ) {
     Text(
         text = categoryMainName,
         style = DessertTimeTheme.typography.textStyleRegular16,
-        color = TundoraCategory
+        color = color
     )
 }
 
@@ -194,8 +218,13 @@ fun CategoryMainItemText(
 @Composable
 fun CategorySubItem(
     categoryUiState: CategoryState,
-    parentDCId: Int
+    categoryMainId: Int
 ) {
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier.fillMaxWidth()
+    )
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
@@ -207,13 +236,24 @@ fun CategorySubItem(
         ) {
             categoryUiState.allCategory.forEach { rowItems ->
                 rowItems.secondCategory?.forEach { item ->
-                    if (item.parentDCId == parentDCId) {
+                    if (item.parentDCId == categoryMainId) {
                         CategorySubItemRound(item.dessertName)
                     }
                 }
             }
         }
     }
+    Divider(
+        color = Alto,
+        thickness = 1.dp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(
+                elevation = 4.dp,
+                shape = RectangleShape,
+                clip = false
+            )
+    )
 }
 
 @Composable
