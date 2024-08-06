@@ -68,8 +68,9 @@ fun ReviewScreen() {
                     .padding(start = 20.dp, end = 8.dp)
             )
             // 6건
-            Box(modifier = Modifier
-                .padding(top = 4.dp)
+            Box(
+                modifier = Modifier
+                    .padding(top = 4.dp)
             ) {
                 Text(
                     text = stringResource(id = R.string.txt_review_possibility_count),
@@ -158,10 +159,12 @@ fun ReviewItemView(modifier: Modifier = Modifier) {
     ) {
         items(10) {
             ReviewItem()
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .height(4.dp)
-                .background(WildSand))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(4.dp)
+                    .background(WildSand)
+            )
         }
     }
 }
