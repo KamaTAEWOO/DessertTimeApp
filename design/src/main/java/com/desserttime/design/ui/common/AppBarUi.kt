@@ -210,5 +210,5 @@ object AppBarUi {
 @Preview(showBackground = true)
 @Composable
 fun AppBarPreview() {
-    AppBarUi.AppBar()
+    AppBarUi.AppBar("카테고리", {}, {})
 }

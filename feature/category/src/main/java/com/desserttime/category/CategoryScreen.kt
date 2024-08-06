@@ -69,8 +69,7 @@ fun CategoryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .padding(start = 20.dp, end = 20.dp),
+            .background(Color.White),
         horizontalAlignment = Alignment.Start
     ) {
         AppBarUi.AppBar(stringResource(id = R.string.txt_bottom_category))
@@ -78,7 +77,8 @@ fun CategoryScreen(
         Text(
             text = stringResource(id = R.string.txt_category_sub_title),
             style = DessertTimeTheme.typography.textStyleBold18,
-            color = Color.Black
+            color = Color.Black,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -86,6 +86,7 @@ fun CategoryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
+                .padding(start = 20.dp, end = 20.dp)
         ) {
             items(categoryUiState.allCategory) { category ->
                 CategoryMainItem(
