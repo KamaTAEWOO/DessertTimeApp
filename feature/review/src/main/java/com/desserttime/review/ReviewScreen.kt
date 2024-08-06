@@ -44,7 +44,7 @@ fun ReviewScreen() {
     ) {
         AppBarUi.AppBar(
             {},
-            stringResource(id = com.desserttime.design.R.string.txt_bottom_review),
+            stringResource(id = R.string.txt_bottom_review),
             {},
             {}
         )
@@ -55,7 +55,8 @@ fun ReviewScreen() {
         )
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(42.dp) // Fixed height to prevent stretching
                 .background(WildSand)
         ) {
             // 작성 가능 후기
@@ -109,16 +110,17 @@ fun ReviewScreen() {
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp)) // Use height instead of padding
-        // 영수증 등록하기 버튼은 하단에 고정하고 위에 떠있어야함.
+        ReviewItemView(
+            modifier = Modifier
+                .fillMaxSize()
+        )
     }
 }
 
 @Composable
-fun ReviewItemView() {
+fun ReviewItemView(modifier: Modifier = Modifier) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
     ) {
         items(10) {
             ReviewItem()
@@ -126,14 +128,14 @@ fun ReviewItemView() {
     }
 }
 
+
 @Composable
 fun ReviewItem() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(84.dp)
+            .height(78.dp)
             .background(Color.White)
-            .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         Column(
             modifier = Modifier
@@ -189,5 +191,5 @@ fun ReviewItem() {
 @Preview(showBackground = true)
 @Composable
 fun WritingReviewScreenPreview() {
-    ReviewItemView()
+    ReviewScreen()
 }
