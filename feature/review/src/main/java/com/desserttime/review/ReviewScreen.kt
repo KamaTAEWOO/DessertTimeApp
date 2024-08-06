@@ -6,16 +6,30 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.design.R
+import com.desserttime.design.theme.DessertTimeTheme
+import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.TundoraCategory
+import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
@@ -31,14 +45,65 @@ fun ReviewScreen() {
             {},
             {}
         )
-        Spacer(modifier = Modifier.padding(top = 20.dp))
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(20.dp)
+            .background(WildSand)
+        )
         Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WildSand)
         ) {
             // 작성 가능 후기
-
+            Text(
+                text = stringResource(id = R.string.txt_review_possibility),
+                style = DessertTimeTheme.typography.textStyleBold18,
+                color = Color.Black,
+                modifier = Modifier.padding(start = 20.dp, end = 8.dp)
+            )
             // 6건
-            // 22일 남았어요!
-            // icon
+            Box(modifier = Modifier
+                .padding(top = 4.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.txt_review_possibility_count),
+                    style = DessertTimeTheme.typography.textStyleMedium12,
+                    color = Color.White,
+                    modifier = Modifier
+                        .background(MainColor, shape = RoundedCornerShape(20.dp))
+                        .clip(RoundedCornerShape(20.dp))
+                        .size(38.dp, 18.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, end = 20.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, // Center the contents vertically in the Row
+                    modifier = Modifier.align(Alignment.CenterEnd) // Align the Row to the end of the Box
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.txt_review_leave_days),
+                        style = DessertTimeTheme.typography.textStyleMedium12,
+                        color = TundoraCategory,
+                        modifier = Modifier.padding(end = 4.dp) // Add space between text and icon if necessary
+                    )
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier
+                            .size(14.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_alert_review),
+                            contentDescription = stringResource(id = R.string.txt_review_leave_days_info_description)
+                        )
+                    }
+                }
+            }
         }
         Spacer(modifier = Modifier.padding(top = 16.dp))
         LazyColumn {
