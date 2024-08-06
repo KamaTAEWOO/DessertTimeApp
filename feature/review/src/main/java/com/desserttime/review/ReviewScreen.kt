@@ -44,7 +44,6 @@ fun ReviewScreen() {
             .background(Color.White)
     ) {
         AppBarUi.AppBar(
-            {},
             stringResource(id = R.string.txt_bottom_review),
             {},
             {}
@@ -227,6 +226,6 @@ fun ReviewItem() {
 
 @Preview(showBackground = true)
 @Composable
-fun WritingReviewScreenPreview() {
+fun ReviewScreenPreview() {
     ReviewScreen()
 }

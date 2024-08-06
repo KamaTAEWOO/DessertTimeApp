@@ -92,6 +92,27 @@
     <string name="img_review_write_description">리뷰 작성</string>
     <string name="txt_review_delete">삭제하기</string>
     <string name="txt_review_new_receipt">새로운 영수증 등록하기</string>
+    <string name="txt_review_write_store_name">매장명</string>
+    <string name="txt_review_write_menu_name">메뉴명</string>
+    <string name="txt_review_write_category">카테고리</string>
+    <string name="txt_review_write_category_hint">카테고리를 입력해주세요 (ex.스콘)</string>
+    <string name="txt_review_write_material_selection">재료 선택</string>
+    <string name="txt_review_write_material_selection_1">과일</string>
+    <string name="txt_review_write_material_selection_2">크림/치즈/유제품</string>
+    <string name="txt_review_write_material_selection_3">초콜릿/캐러맬</string>
+    <string name="txt_review_write_material_selection_4">견과류</string>
+    <string name="txt_review_write_material_selection_5">커피/차/시럽류</string>
+    <string name="txt_review_write_material_selection_6">채소/향신료</string>
+    <string name="txt_review_write_material_selection_7">기타</string>
+    <string name="txt_review_write_score">점수</string>
+    <string name="img_review_write_score_description">별점</string>
+    <string name="txt_review_write_behind">후기 작성</string>
+    <string name="txt_review_write_behind_hint">최대 500자로 입력 가능합니다.</string>
+    <string name="txt_review_write_text_count">0 / 최소 40자</string>
+    <string name="txt_review_write_menu_image">메뉴 사진</string>
+    <string name="txt_review_write_menu_image_count">(0/4)</string>
+    <string name="img_review_write_menu_image_description">메뉴 사진</string>
+    <string name="txt_review_write_complete">작성완료</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>
