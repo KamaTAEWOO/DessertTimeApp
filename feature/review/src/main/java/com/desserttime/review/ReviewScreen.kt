@@ -131,7 +131,7 @@ fun ReviewItem() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(84.dp)
             .background(Color.White)
             .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
