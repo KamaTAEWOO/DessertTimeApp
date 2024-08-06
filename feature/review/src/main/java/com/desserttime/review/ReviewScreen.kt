@@ -44,7 +44,7 @@ fun ReviewScreen() {
         LazyColumn {
             // items -> ReviewItem
         }
-
+        // 영수증 등록하기 버튼은 하단에 고정하고 위에 떠있어야함.
     }
 }
 
