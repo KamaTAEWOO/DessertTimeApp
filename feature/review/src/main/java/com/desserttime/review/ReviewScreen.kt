@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,12 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
+import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
@@ -83,14 +86,14 @@ fun ReviewScreen() {
                     .padding(top = 4.dp, end = 20.dp)
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically, // Center the contents vertically in the Row
-                    modifier = Modifier.align(Alignment.CenterEnd) // Align the Row to the end of the Box
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.align(Alignment.CenterEnd)
                 ) {
                     Text(
                         text = stringResource(id = R.string.txt_review_leave_days),
                         style = DessertTimeTheme.typography.textStyleMedium12,
                         color = TundoraCategory,
-                        modifier = Modifier.padding(end = 4.dp) // Add space between text and icon if necessary
+                        modifier = Modifier.padding(end = 4.dp)
                     )
                     IconButton(
                         onClick = { /*TODO*/ },
@@ -99,7 +102,7 @@ fun ReviewScreen() {
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_alert_review),
-                            contentDescription = stringResource(id = R.string.txt_review_leave_days_info_description)
+                            contentDescription = stringResource(id = R.string.img_review_leave_days_info_description)
                         )
                     }
                 }
@@ -115,18 +118,63 @@ fun ReviewScreen() {
 
 @Composable
 fun ReviewItem() {
-    Row {
-        Column {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(74.dp)
+            .background(Color.White)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(start = 28.dp, top = 17.dp)
+        ) {
             // Text
+            Text(
+                text = stringResource(id = R.string.txt_review_test_id),
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                color = Black60
+            )
             // Text
+            Text(
+                text = stringResource(id = R.string.txt_review_test_title),
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                color = TundoraCategory,
+                modifier = Modifier.padding(top = 4.dp, bottom = 17.dp)
+            )
         }
-        // Image -> 클릭 시 다음 화면 전환 / item의 id를 넘겨줘야함.
-        // Image -> 클릭 시 삭제하기 팝업창 Image 위에나 아래에 떠야함.
+        Box(
+            modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                // Image -> 클릭 시 다음 화면 전환 / item의 id를 넘겨줘야함.
+                IconButton(
+                    onClick = { /*TODO*/ }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_review_write),
+                        contentDescription = stringResource(id = R.string.img_review_write_description),
+                        tint = Color.Gray
+                    )
+                }
+                // Image -> 클릭 시 삭제하기 팝업창 Image 위에나 아래에 떠야함.
+                IconButton(
+                    onClick = { /*TODO*/ }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_review_delete),
+                        contentDescription = stringResource(id = R.string.txt_review_delete)
+                    )
+                }
+            }
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun WritingReviewScreenPreview() {
-    ReviewScreen()
+    ReviewItem()
 }
