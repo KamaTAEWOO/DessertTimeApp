@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,12 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
@@ -51,8 +52,7 @@ fun ReviewScreen() {
         Box(modifier = Modifier
             .fillMaxWidth()
             .height(20.dp)
-            .background(WildSand)
-        )
+            .background(WildSand))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,6 +116,30 @@ fun ReviewScreen() {
                 .background(WildSand)
                 .padding(horizontal = 12.dp)
         )
+        // 버튼 추가 및 ReviewItemView에 제약사항 없이 위에 떠있기
+        Box(
+            modifier = Modifier
+                .padding(16.dp) // Adjust padding if needed
+                .zIndex(1f) // Ensure it floats above other content
+        ) {
+            Button(
+                onClick = { /* TODO: Handle click */ },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MainColor,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .height(61.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.txt_review_new_receipt),
+                    style = DessertTimeTheme.typography.textStyleMedium20,
+                    color = Color.White
+                )
+            }
+        }
     }
 }
 
@@ -129,8 +153,7 @@ fun ReviewItemView(modifier: Modifier = Modifier) {
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp)
-                .background(WildSand)
-            )
+                .background(WildSand))
         }
     }
 }
