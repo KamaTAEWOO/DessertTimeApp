@@ -110,34 +110,42 @@ fun ReviewScreen() {
                 }
             }
         }
-        ReviewItemView(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(WildSand)
-                .padding(horizontal = 12.dp)
-        )
-        // 버튼 추가 및 ReviewItemView에 제약사항 없이 위에 떠있기
         Box(
             modifier = Modifier
-                .padding(16.dp) // Adjust padding if needed
-                .zIndex(1f) // Ensure it floats above other content
+                .fillMaxSize()
+                .background(Color.White)
         ) {
-            Button(
-                onClick = { /* TODO: Handle click */ },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MainColor,
-                    contentColor = Color.White
-                ),
-                shape = RoundedCornerShape(12.dp),
+            // Main content with review items
+            ReviewItemView(
                 modifier = Modifier
-                    .height(61.dp)
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .background(WildSand)
+                    .padding(horizontal = 12.dp)
+            )
+            // Floating button positioned at the bottom
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+                    .zIndex(1f)
             ) {
-                Text(
-                    text = stringResource(id = R.string.txt_review_new_receipt),
-                    style = DessertTimeTheme.typography.textStyleMedium20,
-                    color = Color.White
-                )
+                Button(
+                    onClick = { /* TODO: Handle click */ },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MainColor,
+                        contentColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .height(61.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.txt_review_new_receipt),
+                        style = DessertTimeTheme.typography.textStyleMedium20,
+                        color = Color.White
+                    )
+                }
             }
         }
     }
