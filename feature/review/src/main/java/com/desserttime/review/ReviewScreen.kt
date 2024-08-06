@@ -113,6 +113,8 @@ fun ReviewScreen() {
         ReviewItemView(
             modifier = Modifier
                 .fillMaxSize()
+                .background(WildSand)
+                .padding(horizontal = 12.dp)
         )
     }
 }
@@ -124,17 +126,21 @@ fun ReviewItemView(modifier: Modifier = Modifier) {
     ) {
         items(10) {
             ReviewItem()
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .height(4.dp)
+                .background(WildSand)
+            )
         }
     }
 }
-
 
 @Composable
 fun ReviewItem() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(78.dp)
+            .height(80.dp)
             .background(Color.White)
     ) {
         Column(
