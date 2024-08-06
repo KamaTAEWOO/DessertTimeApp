@@ -63,7 +63,8 @@ fun ReviewScreen() {
                 text = stringResource(id = R.string.txt_review_possibility),
                 style = DessertTimeTheme.typography.textStyleBold18,
                 color = Color.Black,
-                modifier = Modifier.padding(start = 20.dp, end = 8.dp)
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 8.dp)
             )
             // 6건
             Box(modifier = Modifier
@@ -108,11 +109,20 @@ fun ReviewScreen() {
                 }
             }
         }
-        Spacer(modifier = Modifier.padding(top = 16.dp))
-        LazyColumn {
-            // items -> ReviewItem
-        }
+        Spacer(modifier = Modifier.height(16.dp)) // Use height instead of padding
         // 영수증 등록하기 버튼은 하단에 고정하고 위에 떠있어야함.
+    }
+}
+
+@Composable
+fun ReviewItemView() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        items(10) {
+            ReviewItem()
+        }
     }
 }
 
@@ -121,8 +131,9 @@ fun ReviewItem() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(74.dp)
+            .height(80.dp)
             .background(Color.White)
+            .padding(vertical = 4.dp, horizontal = 8.dp)
     ) {
         Column(
             modifier = Modifier
@@ -143,7 +154,9 @@ fun ReviewItem() {
             )
         }
         Box(
-            modifier = Modifier.fillMaxWidth().fillMaxHeight()
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -176,5 +189,5 @@ fun ReviewItem() {
 @Preview(showBackground = true)
 @Composable
 fun WritingReviewScreenPreview() {
-    ReviewItem()
+    ReviewItemView()
 }
