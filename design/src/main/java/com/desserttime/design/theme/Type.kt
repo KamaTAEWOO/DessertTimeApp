@@ -42,7 +42,17 @@ data class DessertTimeTypography(
     val textStyleItalic18: TextStyle,
     val textStyleItalic20: TextStyle,
     val textStyleItalic24: TextStyle,
-    val textStyleItalic30: TextStyle
+    val textStyleItalic30: TextStyle,
+    val textStyleMedium12: TextStyle,
+    val textStyleMedium14: TextStyle,
+    val textStyleMedium16: TextStyle,
+    val textStyleMedium18: TextStyle,
+    val textStyleMedium20: TextStyle,
+    val textStyleMedium22: TextStyle,
+    val textStyleMedium24: TextStyle,
+    val textStyleMedium26: TextStyle,
+    val textStyleMedium28: TextStyle,
+    val textStyleMedium30: TextStyle
 )
 
 val LocalDessertTimeTypography = staticCompositionLocalOf {
@@ -76,6 +86,16 @@ val LocalDessertTimeTypography = staticCompositionLocalOf {
         textStyleItalic18 = TextStyle.Default,
         textStyleItalic20 = TextStyle.Default,
         textStyleItalic24 = TextStyle.Default,
-        textStyleItalic30 = TextStyle.Default
+        textStyleItalic30 = TextStyle.Default,
+        textStyleMedium12 = TextStyle.Default,
+        textStyleMedium14 = TextStyle.Default,
+        textStyleMedium16 = TextStyle.Default,
+        textStyleMedium18 = TextStyle.Default,
+        textStyleMedium20 = TextStyle.Default,
+        textStyleMedium22 = TextStyle.Default,
+        textStyleMedium24 = TextStyle.Default,
+        textStyleMedium26 = TextStyle.Default,
+        textStyleMedium28 = TextStyle.Default,
+        textStyleMedium30 = TextStyle.Default
     )
 }

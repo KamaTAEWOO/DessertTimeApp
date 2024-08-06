@@ -190,6 +190,56 @@ fun DessertTimeAppTheme(
             fontFamily = roboto,
             fontWeight = FontWeight.Normal,
             fontSize = 30.dp.toSp()
+        ),
+        textStyleMedium12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.dp.toSp()
+        ),
+        textStyleMedium14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.dp.toSp()
+        ),
+        textStyleMedium16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.dp.toSp()
+        ),
+        textStyleMedium18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 18.dp.toSp()
+        ),
+        textStyleMedium20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.dp.toSp()
+        ),
+        textStyleMedium22 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 22.dp.toSp()
+        ),
+        textStyleMedium24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.dp.toSp()
+        ),
+        textStyleMedium26 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 26.dp.toSp()
+        ),
+        textStyleMedium28 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 28.dp.toSp()
+        ),
+        textStyleMedium30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 30.dp.toSp()
         )
     )
 
