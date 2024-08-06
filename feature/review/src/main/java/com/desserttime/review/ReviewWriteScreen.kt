@@ -123,7 +123,6 @@ fun EditTextBox(
     contentHint: String,
     onContentChange: (String) -> Unit
 ) {
-
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = title,
