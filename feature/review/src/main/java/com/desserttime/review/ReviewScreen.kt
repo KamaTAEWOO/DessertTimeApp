@@ -128,7 +128,7 @@ fun ReviewScreen() {
                     .zIndex(1f)
             ) {
                 Button(
-                    onClick = { /* TODO: Handle click */ },
+                    onClick = {},
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MainColor,
                         contentColor = Color.White
@@ -203,7 +203,7 @@ fun ReviewItem() {
             ) {
                 // Image -> 클릭 시 다음 화면 전환 / item의 id를 넘겨줘야함.
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {}
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_review_write),
@@ -213,7 +213,7 @@ fun ReviewItem() {
                 }
                 // Image -> 클릭 시 삭제하기 팝업창 Image 위에나 아래에 떠야함.
                 IconButton(
-                    onClick = { /*TODO*/ }
+                    onClick = {}
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_review_delete),
