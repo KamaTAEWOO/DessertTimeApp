@@ -1,9 +1,11 @@
 package com.desserttime.review
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -15,15 +17,25 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,12 +47,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
+import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.AltoAgree
 import com.desserttime.design.theme.AzureRadiance
@@ -102,17 +118,27 @@ fun ReviewWriteScreen() {
                 title = stringResource(id = R.string.txt_review_write_menu_name),
                 content = inputMenuName,
                 contentHint = "",
-                onContentChange = { newText -> inputStoreName = newText }
+                onContentChange = { newText -> inputMenuName = newText }
             )
         }
+        // 카테고리
         Box(modifier = Modifier.padding(top = 20.dp))
         Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            EditTextBox(
-                title = stringResource(id = R.string.txt_review_write_category),
-                content = inputCategoryName,
-                contentHint = "",
-                onContentChange = { newText -> inputStoreName = newText }
+            Text(
+                text = stringResource(id = R.string.txt_review_write_category),
+                style = DessertTimeTheme.typography.textStyleBold14,
+                color = DoveGray,
+                modifier = Modifier.wrapContentSize()
             )
+        }
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .border(0.dp, Color.Transparent)
+                .shadow(0.dp, RoundedCornerShape(0.dp)),
+            color = Color.Transparent
+        ) {
+            DropdownExample()
         }
         // 재료 선택
         Box(modifier = Modifier.padding(top = 20.dp))
@@ -253,6 +279,70 @@ fun EditTextBox(
     }
 }
 
+@Composable
+fun DropdownExample() {
+    val suggestions = listOf("Android", "Compose", "Kotlin", "Jetpack")
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember { mutableStateOf<String?>(null) }
+
+    Column(modifier = Modifier
+        .padding(16.dp)
+        .border(0.dp, Color.Transparent)
+        .shadow(0.dp, RoundedCornerShape(0.dp)),
+    ) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .border(0.dp, Color.Transparent)
+            .shadow(0.dp, RoundedCornerShape(0.dp)),
+        ) {
+            Button(
+                onClick = { expanded = true },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = selectedItem ?: "Select an item")
+            }
+            Box(modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 5.dp)
+                .border(0.dp, Color.Transparent) // Remove border
+                .shadow(0.dp, RoundedCornerShape(0.dp)) // Remove shadow
+            ) {
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White) // Background color for the dropdown menu
+                        .padding(top = 4.dp, start = 16.dp, end = 16.dp) // Padding to fit the menu
+                        .border(0.dp, Color.Transparent) // Remove border
+                        .shadow(0.dp, RoundedCornerShape(0.dp)) // Remove shadow
+                ) {
+                    suggestions.forEachIndexed { index, suggestion ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(41.dp)
+                                .border(0.5.dp, Alto) // Border for each item
+                                .background(Alabaster) // Background color for each item
+                                .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
+                                .clickable {
+                                    selectedItem = suggestion
+                                    expanded = false
+                                }
+                        ) {
+                            Text(
+                                text = suggestion,
+                                style = DessertTimeTheme.typography.textStyleRegular14,
+                                color = Color.Black
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -317,7 +407,8 @@ fun ScoreCheck() {
         repeat(4) {
             Image(
                 painter = imageResource,
-                contentDescription = stringResource(id = R.string.img_review_write_score_description)
+                contentDescription = stringResource(id = R.string.img_review_write_score_description),
+                modifier = Modifier.padding(end = 4.dp)
             )
         }
     }
