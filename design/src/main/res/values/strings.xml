@@ -107,7 +107,6 @@
     <string name="txt_review_write_score">점수</string>
     <string name="img_review_write_score_description">별점</string>
     <string name="txt_review_write_behind">후기 작성</string>
-    <string name="txt_review_write_behind_hint">최대 500자로 입력 가능합니다.</string>
     <string name="txt_review_write_text_count">0 / 최소 40자</string>
     <string name="txt_review_write_menu_image">메뉴 사진</string>
     <string name="txt_review_write_menu_image_count">(0/4)</string>
