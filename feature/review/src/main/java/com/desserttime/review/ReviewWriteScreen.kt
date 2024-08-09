@@ -282,7 +282,7 @@ fun EditTextBox(
             },
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.White,
-                focusedIndicatorColor = AzureRadiance,
+                focusedIndicatorColor = Alto,
                 unfocusedIndicatorColor = Alto
             )
         )
@@ -340,80 +340,91 @@ fun DropdownExample() {
                     .fillMaxWidth()
                     .background(Color.White) // 흰색 배경 설정
             )
+
             // 입력된 텍스트와 일치하는 항목이 있는 경우에만 DropdownMenu 표시
             if (expanded) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .padding(top = 44.dp) // Padding을 조정하여 여백 추가
-                        .border(1.dp, Alto, shape = RoundedCornerShape(4.dp)) // 경계 설정
-                        .background(WildSand, shape = RoundedCornerShape(4.dp))
-                        .shadow(0.dp, RectangleShape) // 그림자 제거
-                        .clip(RoundedCornerShape(4.dp)) // 4dp 라운드 설정
-                ) {
-                    Column {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .heightIn(max = (41.dp * 5)) // 최대 5개의 항목까지 표시
-                        ) {
-                            items(filteredSuggestions.size) { index ->
-                                val suggestion = filteredSuggestions[index]
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(41.dp)
-                                        .border(0.5.dp, Alto)
-                                        .background(Alabaster)
-                                        .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
-                                        .clickable {
-                                            selectedItem = suggestion
-                                            textFieldValue = TextFieldValue(suggestion)
-                                            expanded = false
-                                        }
-                                ) {
-                                    // 일치하는 부분을 빨간색으로 강조
-                                    val annotatedString = buildAnnotatedString {
-                                        val inputText = textFieldValue.text
-                                        val startIndex = suggestion.indexOf(inputText, ignoreCase = true)
-                                        if (startIndex >= 0) {
-                                            append(suggestion.substring(0, startIndex))
-                                            withStyle(style = SpanStyle(color = Color.Red)) {
-                                                append(suggestion.substring(startIndex, startIndex + inputText.length))
+                Column {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(top = 44.dp)
+                            .offset(y = 20.dp)
+                            .border(1.dp, Alto, shape = RoundedCornerShape(4.dp)) // 경계 설정
+                            .background(WildSand, shape = RoundedCornerShape(4.dp))
+                            .shadow(0.dp, RectangleShape) // 그림자 제거
+                            .clip(RoundedCornerShape(4.dp)) // 4dp 라운드 설정
+                    ) {
+                        Column {
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .heightIn(max = (41.dp * 5)) // 최대 5개의 항목까지 표시
+                            ) {
+                                items(filteredSuggestions.size) { index ->
+                                    val suggestion = filteredSuggestions[index]
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(41.dp)
+                                            .border(0.5.dp, Alto)
+                                            .background(Alabaster)
+                                            .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
+                                            .clickable {
+                                                selectedItem = suggestion
+                                                textFieldValue = TextFieldValue(suggestion)
+                                                expanded = false
                                             }
-                                            append(suggestion.substring(startIndex + inputText.length))
-                                        } else {
-                                            append(suggestion)
+                                    ) {
+                                        // 일치하는 부분을 빨간색으로 강조
+                                        val annotatedString = buildAnnotatedString {
+                                            val inputText = textFieldValue.text
+                                            val startIndex = suggestion.indexOf(inputText, ignoreCase = true)
+                                            if (startIndex >= 0) {
+                                                append(suggestion.substring(0, startIndex))
+                                                withStyle(style = SpanStyle(color = Color.Red)) {
+                                                    append(suggestion.substring(startIndex, startIndex + inputText.length))
+                                                }
+                                                append(suggestion.substring(startIndex + inputText.length))
+                                            } else {
+                                                append(suggestion)
+                                            }
                                         }
-                                    }
 
-                                    Text(
-                                        text = annotatedString,
-                                        fontSize = 14.sp,
-                                        color = Color.Black
-                                    )
+                                        Text(
+                                            text = annotatedString,
+                                            fontSize = 14.sp,
+                                            color = Color.Black
+                                        )
+                                    }
                                 }
                             }
-                        }
-                        // 맨 아래 오른쪽에 TextView 추가
-                        Divider(
-                            color = Alto,
-                            thickness = 1.dp,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 14.dp, horizontal = 12.dp)
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.txt_review_write_category_not_find_category),
-                                style = DessertTimeTheme.typography.textStyleRegular12,
-                                color = Black60,
-                                modifier = Modifier
-                                    .align(Alignment.CenterEnd) // Text를 오른쪽 아래로 정렬
+                            // 맨 아래에 텍스트와 그 아래 라인 추가
+                            Divider(
+                                color = Alto,
+                                thickness = 1.dp,
+                                modifier = Modifier.fillMaxWidth()
                             )
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 8.dp, horizontal = 12.dp), // 좌우 패딩 추가
+                                    horizontalArrangement = Arrangement.End // 오른쪽 정렬
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.txt_review_write_category_not_find_category),
+                                        style = DessertTimeTheme.typography.textStyleRegular12,
+                                        color = Black60
+                                    )
+                                }
+                                Divider(
+                                    color = Alto,
+                                    thickness = 5.dp,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+                            }
                         }
                     }
                 }
