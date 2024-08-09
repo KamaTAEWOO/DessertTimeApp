@@ -52,6 +52,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
@@ -248,7 +249,9 @@ fun EditTextBox(
     title: String,
     content: String,
     contentHint: String,
-    onContentChange: (String) -> Unit
+    onContentChange: (String) -> Unit,
+    paddingVertical: Dp = 20.dp, // 텍스트와 언더라인 사이의 간격을 조절하기 위한 패딩
+    underlineThickness: Dp = 1.dp // 언더라인의 두께
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -257,24 +260,40 @@ fun EditTextBox(
             color = DoveGray,
             modifier = Modifier.wrapContentSize()
         )
-        TextField(
-            value = content,
-            onValueChange = onContentChange,
-            textStyle = DessertTimeTheme.typography.textStyleRegular16,
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = contentHint,
-                    style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Black30
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = paddingVertical) // 텍스트와 언더라인 사이의 간격을 조정하기 위한 패딩
+        ) {
+            TextField(
+                value = content,
+                onValueChange = onContentChange,
+                textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White), // 배경을 흰색으로 설정
+                placeholder = {
+                    Text(
+                        text = contentHint,
+                        style = DessertTimeTheme.typography.textStyleRegular16,
+                        color = Black30
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.White, // 배경색
+                    focusedIndicatorColor = Alto, // 포커스 시 언더라인 색상
+                    unfocusedIndicatorColor = Alto // 포커스가 없을 때 언더라인 색상
                 )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                focusedIndicatorColor = Alto,
-                unfocusedIndicatorColor = Alto
             )
-        )
+            // 언더라인을 설정
+            Divider(
+                color = Alto,
+                thickness = underlineThickness,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter) // 언더라인을 텍스트 아래에 정렬
+                    .fillMaxWidth()
+            )
+        }
     }
 }
 
