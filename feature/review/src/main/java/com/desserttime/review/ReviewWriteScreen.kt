@@ -433,21 +433,6 @@ fun DropdownExample() {
     }
 }
 
-@Composable
-fun DropdownItem() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.txt_review_write_category_not_find_category),
-            fontSize = 14.sp,
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.BottomEnd) // Align Text to the bottom right
-        )
-    }
-}
-
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
