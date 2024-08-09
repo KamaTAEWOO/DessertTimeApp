@@ -95,7 +95,8 @@
     <string name="txt_review_write_store_name">매장명</string>
     <string name="txt_review_write_menu_name">메뉴명</string>
     <string name="txt_review_write_category">카테고리</string>
-    <string name="txt_review_write_category_hint">카테고리를 입력해주세요 (ex.스콘)</string>
+    <string name="txt_review_write_category_hint">카테고리를 입력해주세요 (ex.android)</string>
+    <string name="txt_review_write_category_not_find_category">찾는 카테고리가 없어요.</string>
     <string name="txt_review_write_material_selection">재료 선택</string>
     <string name="txt_review_write_material_selection_1">과일</string>
     <string name="txt_review_write_material_selection_2">크림/치즈/유제품</string>
