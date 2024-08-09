@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -290,7 +291,7 @@ fun EditTextBox(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownExample() {
-    val suggestions = listOf("Android", "Compose", "Kotlin", "Jetpack")
+    val suggestions = listOf("Android", "Android", "Android", "Android", "Android", "Android", "Compose", "Kotlin", "Jetpack")
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<String?>(null) }
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
@@ -320,12 +321,19 @@ fun DropdownExample() {
                     textFieldValue = it
                     expanded = it.text.isNotEmpty() // 입력된 텍스트가 있으면 드롭다운 확장
                 },
-                placeholder = { Text(text = "Select an item") },
+                placeholder = {
+                    Text(
+                        text = stringResource(id = R.string.txt_review_write_category_hint),
+                        style = DessertTimeTheme.typography.textStyleMedium14,
+                        color = Black30,
+                        modifier = Modifier.wrapContentSize()
+                    )
+                },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = Color.Transparent, // TextField의 배경색을 투명으로 설정
                     cursorColor = Color.Gray, // 커서 색상
-                    focusedIndicatorColor = Color.Gray, // 포커스 시 언더라인 색상
-                    unfocusedIndicatorColor = Color.Gray // 포커스가 없을 때 언더라인 색상
+                    focusedIndicatorColor = Alto, // 포커스 시 언더라인 색상
+                    unfocusedIndicatorColor = Alto // 포커스가 없을 때 언더라인 색상
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -337,15 +345,17 @@ fun DropdownExample() {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(max = 240.dp) // 최대 높이 설정
-                        .padding(top = 8.dp, bottom = 16.dp) // Padding을 조정하여 여백 추가
-                        .border(1.dp, Color.LightGray) // 경계 설정
-                        .background(Color.White)
+                        .wrapContentHeight()
+                        .padding(top = 44.dp) // Padding을 조정하여 여백 추가
+                        .border(1.dp, Alto, shape = RoundedCornerShape(4.dp)) // 경계 설정
+                        .background(WildSand, shape = RoundedCornerShape(4.dp))
                         .shadow(0.dp, RectangleShape) // 그림자 제거
+                        .clip(RoundedCornerShape(4.dp)) // 4dp 라운드 설정
                 ) {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
+                            .heightIn(max = (41.dp * 5)) // 최대 5개의 항목까지 표시
                     ) {
                         items(filteredSuggestions.size) { index ->
                             val suggestion = filteredSuggestions[index]
@@ -353,8 +363,8 @@ fun DropdownExample() {
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(41.dp)
-                                    .border(0.5.dp, Color.LightGray)
-                                    .background(Color.White)
+                                    .border(0.5.dp, Alto)
+                                    .background(Alabaster)
                                     .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
                                     .clickable {
                                         selectedItem = suggestion
@@ -390,103 +400,6 @@ fun DropdownExample() {
         }
     }
 }
-
-//@Composable
-//fun DropdownExample() {
-//    val suggestions = listOf("Android", "Compose", "Kotlin", "Jetpack", "Coroutines", "Flow", "State", "Lifecycle", "ViewModel", "LiveData")
-//    var expanded by remember { mutableStateOf(false) }
-//    var selectedItem by remember { mutableStateOf<String?>(null) }
-//    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-//
-//    // 입력된 텍스트와 일치하는 항목만 필터링
-//    val filteredSuggestions = suggestions.filter {
-//        it.contains(textFieldValue.text, ignoreCase = true)
-//    }
-//
-//    Column(
-//        modifier = Modifier
-//            .padding(16.dp)
-//    ) {
-//        Box {
-//            TextField(
-//                value = textFieldValue,
-//                onValueChange = {
-//                    textFieldValue = it
-//                    expanded = it.text.isNotEmpty() // 입력된 텍스트가 있으면 드롭다운 확장
-//                },
-//                placeholder = { Text(text = "Select an item") },
-//                colors = TextFieldDefaults.textFieldColors(
-//                    containerColor = Color.Transparent, // TextField의 배경색을 투명으로 설정
-//                    textColor = Color.Black, // 텍스트 색상을 검정으로 설정
-//                    cursorColor = Color.Gray, // 커서 색상
-//                    focusedIndicatorColor = Color.Gray, // 포커스 시 언더라인 색상
-//                    unfocusedIndicatorColor = Color.Gray // 포커스가 없을 때 언더라인 색상
-//                ),
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .background(Color.White) // 흰색 배경 설정
-//            )
-//
-//            // 입력된 텍스트와 일치하는 항목이 있는 경우에만 DropdownMenu 표시
-//            if (expanded) {
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .heightIn(max = 240.dp) // 최대 높이 설정
-//                        .padding(top = 0.dp) // Padding을 조정하여 여백 추가
-//                        .border(1.dp, Color.LightGray) // 경계 설정
-//                        .background(Color.White)
-//                        .shadow(0.dp, RectangleShape) // 그림자 제거
-//                        .offset(y = -8.dp) // 위치 조정: TextField 위로 이동
-//                ) {
-//                    LazyColumn(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(top = 8.dp) // 상단 여백 추가
-//                    ) {
-//                        items(filteredSuggestions.size) { index ->
-//                            val suggestion = filteredSuggestions[index]
-//                            Box(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .height(41.dp)
-//                                    .border(0.5.dp, Color.LightGray)
-//                                    .background(Color.White)
-//                                    .padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
-//                                    .clickable {
-//                                        selectedItem = suggestion
-//                                        textFieldValue = TextFieldValue(suggestion)
-//                                        expanded = false
-//                                    }
-//                            ) {
-//                                // 일치하는 부분을 빨간색으로 강조
-//                                val annotatedString = buildAnnotatedString {
-//                                    val inputText = textFieldValue.text
-//                                    val startIndex = suggestion.indexOf(inputText, ignoreCase = true)
-//                                    if (startIndex >= 0) {
-//                                        append(suggestion.substring(0, startIndex))
-//                                        withStyle(style = SpanStyle(color = Color.Red)) {
-//                                            append(suggestion.substring(startIndex, startIndex + inputText.length))
-//                                        }
-//                                        append(suggestion.substring(startIndex + inputText.length))
-//                                    } else {
-//                                        append(suggestion)
-//                                    }
-//                                }
-//
-//                                Text(
-//                                    text = annotatedString,
-//                                    fontSize = 14.sp,
-//                                    color = Color.Black
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
