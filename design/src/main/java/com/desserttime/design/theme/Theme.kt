@@ -81,6 +81,11 @@ fun DessertTimeAppTheme(
             fontWeight = FontWeight.Bold,
             fontSize = 30.dp.toSp()
         ),
+        textStyleRegular10 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 10.dp.toSp()
+        ),
         textStyleRegular12 = TextStyle(
             fontFamily = roboto,
             fontWeight = FontWeight.Normal,
