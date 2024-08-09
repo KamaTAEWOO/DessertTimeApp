@@ -11,7 +11,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.desserttime.design.theme.DessertTimeAppTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -22,7 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //installSplashScreen()
+        // installSplashScreen()
 
         // 시스템 창이 콘텐츠를 가리지 않도록 설정합니다.
         WindowCompat.setDecorFitsSystemWindows(window, false)
