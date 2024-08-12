@@ -93,7 +93,9 @@
     <string name="txt_review_delete">삭제하기</string>
     <string name="txt_review_new_receipt">새로운 영수증 등록하기</string>
     <string name="txt_review_write_store_name">매장명</string>
+    <string name="txt_review_write_store_name_hint">매장명을 입력해주세요</string>
     <string name="txt_review_write_menu_name">메뉴명</string>
+    <string name="txt_review_write_menu_name_hint">메뉴명을 입력해주세요</string>
     <string name="txt_review_write_category">카테고리</string>
     <string name="txt_review_write_category_hint">카테고리를 입력해주세요 (ex.android)</string>
     <string name="txt_review_write_category_not_find_category">찾는 카테고리가 없어요.</string>
