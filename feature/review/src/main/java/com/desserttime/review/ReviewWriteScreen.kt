@@ -32,7 +32,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,8 +79,8 @@ fun ReviewWriteScreen() {
             .background(Color.White)
             .verticalScroll(scrollState) // Add vertical scrolling
     ) {
-        var inputStoreName by remember { mutableStateOf("") }
-        var inputMenuName by remember { mutableStateOf("") }
+        var inputStoreName by remember { mutableStateOf(TextFieldValue("")) }
+        var inputMenuName by remember { mutableStateOf(TextFieldValue("")) }
         var inputCategoryName by remember { mutableStateOf("") }
         var inputMaterialName by remember { mutableStateOf("") }
         var inputScore by remember { mutableStateOf("") }
@@ -107,7 +106,7 @@ fun ReviewWriteScreen() {
             EditTextBox(
                 title = stringResource(id = R.string.txt_review_write_store_name),
                 content = inputStoreName,
-                contentHint = "",
+                contentHint = stringResource(id = R.string.txt_review_write_store_name_hint),
                 onContentChange = { newText -> inputStoreName = newText }
             )
         }
@@ -116,7 +115,7 @@ fun ReviewWriteScreen() {
             EditTextBox(
                 title = stringResource(id = R.string.txt_review_write_menu_name),
                 content = inputMenuName,
-                contentHint = "",
+                contentHint = stringResource(id = R.string.txt_review_write_menu_name_hint),
                 onContentChange = { newText -> inputMenuName = newText }
             )
         }
@@ -242,38 +241,38 @@ fun ReviewWriteScreen() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditTextBox(
     title: String,
-    content: String,
+    content: TextFieldValue,
     contentHint: String,
-    onContentChange: (String) -> Unit
+    onContentChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier) {
+        // 제목을 표시하는 Text 컴포저블
         Text(
             text = title,
             style = DessertTimeTheme.typography.textStyleBold14,
             color = DoveGray,
             modifier = Modifier.wrapContentSize()
         )
-        TextField(
-            value = content,
+        // CustomTextField를 사용하여 텍스트 입력 필드를 구성
+        CommonUi.CustomTextField(
+            textFieldValue = content,
             onValueChange = onContentChange,
-            textStyle = DessertTimeTheme.typography.textStyleRegular16,
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = contentHint,
-                    style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Black30
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                focusedIndicatorColor = Alto,
-                unfocusedIndicatorColor = Alto
-            )
+            placeholderText = contentHint,
+            placeholderStyle = DessertTimeTheme.typography.textStyleMedium14,
+            containerColor = Color.Transparent,
+            cursorColor = Color.Black,
+            focusedIndicatorColor = Color.Black,
+            unfocusedIndicatorColor = Color.Gray,
+            textStyle = DessertTimeTheme.typography.textStyleMedium14,
+            underlineThickness = 1.dp,
+            paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp)
         )
     }
 }
@@ -294,7 +293,7 @@ fun DropdownExample() {
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
             .border(0.dp, Color.Transparent)
             .shadow(0.dp, RectangleShape)
     ) {
@@ -305,30 +304,50 @@ fun DropdownExample() {
                 .border(0.dp, Color.Transparent)
                 .shadow(0.dp, RectangleShape)
         ) {
-            TextField(
-                value = textFieldValue,
+            // CustomTextField를 사용하여 텍스트 입력 필드를 구성
+            CommonUi.CustomTextField(
+                textFieldValue = textFieldValue,
                 onValueChange = {
                     textFieldValue = it
                     expanded = it.text.isNotEmpty() // 입력된 텍스트가 있으면 드롭다운 확장
                 },
-                placeholder = {
-                    Text(
-                        text = stringResource(id = R.string.txt_review_write_category_hint),
-                        style = DessertTimeTheme.typography.textStyleMedium14,
-                        color = Black30,
-                        modifier = Modifier.wrapContentSize()
-                    )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.Transparent, // TextField의 배경색을 투명으로 설정
-                    cursorColor = Color.Gray, // 커서 색상
-                    focusedIndicatorColor = Alto, // 포커스 시 언더라인 색상
-                    unfocusedIndicatorColor = Alto // 포커스가 없을 때 언더라인 색상
-                ),
+                placeholderText = stringResource(id = R.string.txt_review_write_category_hint),
+                placeholderStyle = DessertTimeTheme.typography.textStyleMedium14,
+                containerColor = Color.Transparent,
+                cursorColor = Color.Black,
+                focusedIndicatorColor = Color.Black,
+                unfocusedIndicatorColor = Color.Gray,
+                textStyle = DessertTimeTheme.typography.textStyleMedium14,
+                underlineThickness = 1.dp,
+                paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White) // 흰색 배경 설정
+                    .padding(0.dp)
             )
+//            TextField(
+//                value = textFieldValue,
+//                onValueChange = {
+//                    textFieldValue = it
+//                    expanded = it.text.isNotEmpty() // 입력된 텍스트가 있으면 드롭다운 확장
+//                },
+//                placeholder = {
+//                    Text(
+//                        text = stringResource(id = R.string.txt_review_write_category_hint),
+//                        style = DessertTimeTheme.typography.textStyleMedium14,
+//                        color = Black30,
+//                        modifier = Modifier.wrapContentSize()
+//                    )
+//                },
+//                colors = TextFieldDefaults.textFieldColors(
+//                    containerColor = Color.Transparent, // TextField의 배경색을 투명으로 설정
+//                    cursorColor = Color.Gray, // 커서 색상
+//                    focusedIndicatorColor = Alto, // 포커스 시 언더라인 색상
+//                    unfocusedIndicatorColor = Alto // 포커스가 없을 때 언더라인 색상
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(Color.White) // 흰색 배경 설정
+//            )
 
             // 입력된 텍스트와 일치하는 항목이 있는 경우에만 DropdownMenu 표시
             if (expanded) {
@@ -337,8 +356,8 @@ fun DropdownExample() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
-                            .padding(top = 44.dp)
-                            .offset(y = 20.dp)
+                            .padding(top = 30.dp)
+                            .offset(y = 15.dp)
                             .border(1.dp, Alto, shape = RoundedCornerShape(4.dp)) // 경계 설정
                             .background(WildSand, shape = RoundedCornerShape(4.dp))
                             .shadow(0.dp, RectangleShape) // 그림자 제거

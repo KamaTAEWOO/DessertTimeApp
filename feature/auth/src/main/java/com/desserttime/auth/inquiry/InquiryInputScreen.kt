@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
@@ -52,7 +52,7 @@ fun InquiryInputScreen(
             .background(Color.White)
             .padding(start = 16.dp, end = 16.dp)
     ) {
-        var emailText by remember { mutableStateOf("") }
+        var emailText by remember { mutableStateOf(TextFieldValue("")) }
         var contentText by remember { mutableStateOf("") }
 
         Spacer(Modifier.padding(top = 54.dp))
@@ -90,24 +90,21 @@ fun InquiryInputScreen(
         )
         Spacer(Modifier.padding(top = 8.dp))
         // EditText
-        TextField(
-            value = emailText,
+        CommonUi.CustomTextField(
+            textFieldValue = emailText,
             onValueChange = { newText -> emailText = newText },
-            textStyle = DessertTimeTheme.typography.textStyleRegular16,
+            placeholderText = stringResource(id = R.string.txt_inquiry_email_hint),
+            placeholderStyle = DessertTimeTheme.typography.textStyleMedium16,
+            containerColor = Color.Transparent,
+            cursorColor = Color.Black,
+            focusedIndicatorColor = AzureRadiance,
+            unfocusedIndicatorColor = Black30,
+            textStyle = DessertTimeTheme.typography.textStyleMedium16,
+            underlineThickness = 1.dp,
+            paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
             modifier = Modifier
-                .fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.txt_inquiry_email_hint),
-                    style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Color.Gray // Adjust the placeholder text color if needed
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.White,
-                focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30
-            )
+                .fillMaxWidth()
+                .padding(0.dp)
         )
         Spacer(Modifier.padding(top = 20.dp))
         Text(
