@@ -118,10 +118,12 @@
 
     <!--    like-->
     <string name="txt_like_review">좋아요 한 후기</string>
+    <string name="txt_like_nickname_image">닉네임 이미지</string>
     <string name="txt_like_nickname">129번째달달한고구마</string>
     <string name="txt_like_date">24.06.01</string>
     <string name="txt_like_title">장인더 약과찰떡</string>
     <string name="txt_like_count">450</string>
+    <string name="txt_like_picture">음식 이미지</string>
     <string name="txt_like_content">약과찰떡은 말 그대로 약과에 찰떡이 들어가있는 약과에요. 무화과, 완두콩, 팥, 병아리콩, 호두, 크랜베리, 건포도도 들어가있어 맛있어요!</string>
     <string name="txt_like_material1">채소/향신료</string>
     <string name="txt_like_material2">크림/치즈/유제품</string>
