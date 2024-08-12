@@ -124,8 +124,7 @@ object CommonUi {
                                 .background(
                                     if (textFieldValue.text.isEmpty()) {
                                         unfocusedIndicatorColor
-                                    }
-                                    else {
+                                    } else {
                                         focusedIndicatorColor
                                     }
                                 )
