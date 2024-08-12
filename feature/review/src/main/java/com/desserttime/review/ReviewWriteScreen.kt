@@ -265,8 +265,8 @@ fun EditTextBox(
             placeholderStyle = DessertTimeTheme.typography.textStyleMedium14,
             containerColor = Color.Transparent,
             cursorColor = Color.Black,
-            focusedIndicatorColor = Color.Black,
-            unfocusedIndicatorColor = Color.Gray,
+            focusedIndicatorColor = Alto,
+            unfocusedIndicatorColor = Alto,
             textStyle = DessertTimeTheme.typography.textStyleMedium14,
             underlineThickness = 1.dp,
             paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
@@ -315,8 +315,8 @@ fun DropdownExample() {
                 placeholderStyle = DessertTimeTheme.typography.textStyleMedium14,
                 containerColor = Color.Transparent,
                 cursorColor = Color.Black,
-                focusedIndicatorColor = Color.Black,
-                unfocusedIndicatorColor = Color.Gray,
+                focusedIndicatorColor = Alto,
+                unfocusedIndicatorColor = Alto,
                 textStyle = DessertTimeTheme.typography.textStyleMedium14,
                 underlineThickness = 1.dp,
                 paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
