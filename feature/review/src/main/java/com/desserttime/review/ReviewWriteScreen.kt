@@ -307,7 +307,7 @@ fun DropdownExample() {
             // CustomTextField를 사용하여 텍스트 입력 필드를 구성
             CommonUi.CustomTextField(
                 textFieldValue = textFieldValue,
-                onValueChange =  {
+                onValueChange = {
                     textFieldValue = it
                     expanded = it.text.isNotEmpty() // 입력된 텍스트가 있으면 드롭다운 확장
                 },
