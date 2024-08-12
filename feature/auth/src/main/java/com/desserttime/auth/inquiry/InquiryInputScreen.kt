@@ -92,7 +92,7 @@ fun InquiryInputScreen(
         // EditText
         CommonUi.CustomTextField(
             textFieldValue = emailText,
-            onValueChange =  { newText -> emailText = newText },
+            onValueChange = { newText -> emailText = newText },
             placeholderText = stringResource(id = R.string.txt_inquiry_email_hint),
             placeholderStyle = DessertTimeTheme.typography.textStyleMedium16,
             containerColor = Color.Transparent,
