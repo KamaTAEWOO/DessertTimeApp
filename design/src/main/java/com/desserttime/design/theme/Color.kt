@@ -41,5 +41,6 @@ val TundoraCategory = Color(0xFF404040)
 val DustyGray = Color(0xFF9C9C9C)
 val Alabaster = Color(0xFFFBFBFB)
 val Mercury = Color(0xFFE4E4E4)
+val Pippin = Color(0xFFFFE0E0)
 
 // Dark
