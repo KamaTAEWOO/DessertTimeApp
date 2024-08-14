@@ -128,6 +128,7 @@
     <string name="txt_like_content">약과찰떡은 말 그대로 약과에 찰떡이 들어가있는 약과에요. 무화과, 완두콩, 팥, 병아리콩, 호두, 크랜베리, 건포도도 들어가있어 맛있어요!</string>
     <string name="txt_like_material1">채소/향신료</string>
     <string name="txt_like_material2">크림/치즈/유제품</string>
+    <string name="txt_like_detail_title">상세 후기</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>

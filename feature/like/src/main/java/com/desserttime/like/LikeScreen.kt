@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +37,6 @@ import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
-import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.DustyGray
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Mercury
@@ -46,11 +45,14 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
-fun LikeScreen() {
+fun LikeScreen(
+    onNavigateToLikeDetail: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .clickable { onNavigateToLikeDetail() }
     ) {
         // AppBar
         AppBarUi.AppBar(
@@ -78,15 +80,44 @@ fun LikeScreen() {
 
 @Composable
 fun LikeList() {
+    val materialArr = listOf(
+        stringResource(id = R.string.txt_review_write_material_selection_2),
+        stringResource(id = R.string.txt_review_write_material_selection_6),
+        stringResource(id = R.string.txt_review_write_material_selection_2),
+        stringResource(id = R.string.txt_review_write_material_selection_6),
+        stringResource(id = R.string.txt_review_write_material_selection_2),
+        stringResource(id = R.string.txt_review_write_material_selection_6)
+    )
+
     LazyColumn {
         items(10) {
-            LikeItem() // 240813 매개변수로 데이터 넣기
+            LikeItem(
+                R.drawable.ic_like_profile,
+                stringResource(id = R.string.txt_like_nickname),
+                stringResource(id = R.string.txt_like_date),
+                R.string.txt_like_count,
+                R.string.txt_like_title,
+                3,
+                R.drawable.ic_like_picture,
+                stringResource(id = R.string.txt_like_content),
+                materialArr
+            )
         }
     }
 }
 
 @Composable
-fun LikeItem() {
+fun LikeItem(
+    icLikeProfile: Int,
+    nickName: String,
+    date: String,
+    likeCount: Int,
+    title: Int,
+    score: Int,
+    likePicture: Int,
+    content: String,
+    materialArr: List<String>
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,22 +125,13 @@ fun LikeItem() {
             .padding(8.dp)
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
     ) {
-        val materialArr = listOf(
-            stringResource(id = R.string.txt_review_write_material_selection_2),
-            stringResource(id = R.string.txt_review_write_material_selection_6),
-            stringResource(id = R.string.txt_review_write_material_selection_2),
-            stringResource(id = R.string.txt_review_write_material_selection_6),
-            stringResource(id = R.string.txt_review_write_material_selection_2),
-            stringResource(id = R.string.txt_review_write_material_selection_6)
-        )
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_like_profile),
+                painter = painterResource(id = icLikeProfile),
                 contentDescription = stringResource(id = R.string.img_like_nickname),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -122,12 +144,12 @@ fun LikeItem() {
                     .padding(start = 8.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.txt_like_nickname),
+                    text = nickName,
                     style = DessertTimeTheme.typography.textStyleRegular12,
                     color = Color.Black
                 )
                 Text(
-                    text = stringResource(id = R.string.txt_like_date),
+                    text = date,
                     style = DessertTimeTheme.typography.textStyleRegular12,
                     color = DustyGray
                 )
@@ -146,7 +168,7 @@ fun LikeItem() {
                         .padding(end = 4.dp)
                 )
                 Text(
-                    text = stringResource(id = R.string.txt_like_count),
+                    text = stringResource(id = likeCount),
                     style = DessertTimeTheme.typography.textStyleBold12,
                     color = MainColor,
                     modifier = Modifier.padding(top = 3.dp, end = 3.dp)
@@ -160,14 +182,14 @@ fun LikeItem() {
         ) {
             // title
             Text(
-                text = stringResource(id = R.string.txt_like_title),
+                text = stringResource(id = title),
                 style = DessertTimeTheme.typography.textStyleBold16,
                 color = Color.Black
             )
-            ScoreCheck()
-            MenuPicture()
+            ScoreCheck(score)
+            MenuPicture(likePicture)
             Text(
-                text = stringResource(id = R.string.txt_like_content),
+                text = content,
                 style = DessertTimeTheme.typography.textStyleRegular14,
                 color = Black60,
                 maxLines = 1,  // Restricting to a single line
@@ -183,7 +205,7 @@ fun LikeItem() {
 }
 
 @Composable
-fun ScoreCheck() {
+fun ScoreCheck(score: Int) {
     val imageResource = painterResource(id = R.drawable.ic_star_off)
 
     Row(
@@ -202,7 +224,7 @@ fun ScoreCheck() {
 }
 
 @Composable
-fun MenuPicture() {
+fun MenuPicture(likePicture: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -216,7 +238,7 @@ fun MenuPicture() {
                 .border(1.dp, Alto, RoundedCornerShape(9.dp))
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_like_picture),
+                painter = painterResource(id = likePicture),
                 contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -281,5 +303,5 @@ fun MaterialItemRound(
 @Preview(showBackground = true)
 @Composable
 fun LikeScreenPreview() {
-    LikeScreen()
+    LikeScreen {}
 }
