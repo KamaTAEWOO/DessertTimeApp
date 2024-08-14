@@ -39,7 +39,6 @@ import com.desserttime.review.ReviewWriteScreen
 @Composable
 fun MainControl(
     onNavigateToLogin: () -> Unit,
-    onNavigateToLikeDetail: () -> Unit
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -52,7 +51,7 @@ fun MainControl(
         ) {
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
-            composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
+            composable(MainDestination.Like.route) { LikeScreen() }
             composable(MainDestination.MyPage.route) { MyPageScreen() }
             // composable(MainDestination.Review.route) { ReviewScreen() }
             composable(MainDestination.Review.route) { ReviewWriteScreen() }

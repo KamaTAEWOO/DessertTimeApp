@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,37 +47,43 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.like.model.LikeData
 
 @Composable
-fun LikeScreen(
-    onNavigateToLikeDetail: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .clickable { onNavigateToLikeDetail() }
-    ) {
-        // AppBar
-        AppBarUi.AppBar(
-            stringResource(id = R.string.txt_bottom_like),
-            {},
-            {}
-        )
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.padding(top = 10.dp))
-            Text(
-                text = stringResource(id = R.string.txt_like_review),
-                style = DessertTimeTheme.typography.textStyleBold18,
-                color = Color.Black,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp)
+fun LikeScreen() {
+
+    Scaffold(
+        topBar = {
+            AppBarUi.AppBar(
+                stringResource(id = R.string.txt_bottom_like),
+                {},
+                {}
             )
-            Spacer(modifier = Modifier.padding(top = 16.dp))
-            LikeList()
-        }
-    }
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues) // 시스템 패딩을 적용하여 AppBar와의 간격 유지
+                    .background(Color.White)
+            ) {
+
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Text(
+                        text = stringResource(id = R.string.txt_like_review),
+                        style = DessertTimeTheme.typography.textStyleBold18,
+                        color = Color.Black,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 20.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(top = 16.dp))
+                    LikeList()
+                }
+            }
+        },
+
+        )
 }
 
 @Composable
@@ -116,6 +123,7 @@ fun LikeItem(
             .background(Color.White)
             .padding(8.dp)
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
+            .clickable { }
     ) {
         Row(
             modifier = Modifier
@@ -295,5 +303,5 @@ fun MaterialItemRound(
 @Preview(showBackground = true)
 @Composable
 fun LikeScreenPreview() {
-    LikeScreen {}
+    LikeScreen()
 }

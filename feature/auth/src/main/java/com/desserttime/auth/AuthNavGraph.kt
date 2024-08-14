@@ -15,7 +15,6 @@ import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
-import com.desserttime.like.LikeScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController
@@ -101,33 +100,19 @@ fun NavGraphBuilder.authNavGraph(
                         }
                     }
                 }
-            ) {
-                navHostController.navigate(MainDestination.LikeDetail.route) {
-                    popUpTo(MainDestination.Home.route) {
-                        inclusive = true
-                    }
-                }
-            }
+            )
         }
 
         composable(route = MainDestination.LikeDetail.route) {
-            LikeDetailScreen {
-                navHostController.navigate(MainDestination.Like.route) {
-                    popUpTo(MainDestination.LikeDetail.route) {
-                        inclusive = true
+            LikeDetailScreen(
+                onNavigateToLike = {
+                    navHostController.navigate(MainDestination.Like.route) {
+                        popUpTo(MainDestination.LikeDetail.route) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
-        }
-
-        composable(route = MainDestination.Like.route) {
-            LikeScreen {
-                navHostController.navigate(MainDestination.LikeDetail.route) {
-                    popUpTo(MainDestination.Like.route) {
-                        inclusive = true
-                    }
-                }
-            }
+            )
         }
     }
 }
