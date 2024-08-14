@@ -129,6 +129,7 @@
     <string name="txt_like_material1">채소/향신료</string>
     <string name="txt_like_material2">크림/치즈/유제품</string>
     <string name="txt_like_detail_title">상세 후기</string>
+    <string name="txt_like_report">신고하기</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>

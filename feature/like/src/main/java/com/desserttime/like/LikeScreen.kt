@@ -43,6 +43,7 @@ import com.desserttime.design.theme.Mercury
 import com.desserttime.design.theme.Pippin
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.like.model.LikeData
 
 @Composable
 fun LikeScreen(
@@ -80,27 +81,18 @@ fun LikeScreen(
 
 @Composable
 fun LikeList() {
-    val materialArr = listOf(
-        stringResource(id = R.string.txt_review_write_material_selection_2),
-        stringResource(id = R.string.txt_review_write_material_selection_6),
-        stringResource(id = R.string.txt_review_write_material_selection_2),
-        stringResource(id = R.string.txt_review_write_material_selection_6),
-        stringResource(id = R.string.txt_review_write_material_selection_2),
-        stringResource(id = R.string.txt_review_write_material_selection_6)
-    )
-
     LazyColumn {
         items(10) {
             LikeItem(
-                R.drawable.ic_like_profile,
-                stringResource(id = R.string.txt_like_nickname),
-                stringResource(id = R.string.txt_like_date),
-                R.string.txt_like_count,
-                R.string.txt_like_title,
-                3,
-                R.drawable.ic_like_picture,
-                stringResource(id = R.string.txt_like_content),
-                materialArr
+                LikeData.icLikeProfile,
+                stringResource(id = LikeData.nickName),
+                stringResource(id = LikeData.date),
+                LikeData.likeCount,
+                LikeData.title,
+                LikeData.score,
+                LikeData.likePicture,
+                stringResource(id = LikeData.content),
+                LikeData.materialArr
             )
         }
     }
@@ -116,7 +108,7 @@ fun LikeItem(
     score: Int,
     likePicture: Int,
     content: String,
-    materialArr: List<String>
+    materialArr: List<Int>
 ) {
     Column(
         modifier = Modifier
@@ -252,7 +244,7 @@ fun MenuPicture(likePicture: Int) {
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MaterialItemList(items: List<String>) {
+fun MaterialItemList(items: List<Int>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -268,7 +260,7 @@ fun MaterialItemList(items: List<String>) {
             ) {
                 items.forEach { material ->
                     MaterialItemRound(
-                        categorySubName = material,
+                        categorySubName = stringResource(id = material),
                         modifier = Modifier
                             .padding(end = 3.dp, bottom = 8.dp)
                             .clip(RoundedCornerShape(50))
