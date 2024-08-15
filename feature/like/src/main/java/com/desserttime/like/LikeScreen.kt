@@ -48,7 +48,6 @@ import com.desserttime.like.model.LikeData
 
 @Composable
 fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
-
     Scaffold(
         topBar = {
             AppBarUi.AppBar(
@@ -64,7 +63,6 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
                     .padding(paddingValues) // 시스템 패딩을 적용하여 AppBar와의 간격 유지
                     .background(Color.White)
             ) {
-
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -81,9 +79,8 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
                     LikeList(onNavigateToLikeDetail)
                 }
             }
-        },
-
-        )
+        }
+    )
 }
 
 @Composable
@@ -194,8 +191,8 @@ fun LikeItem(
                 text = content,
                 style = DessertTimeTheme.typography.textStyleRegular14,
                 color = Black60,
-                maxLines = 1,  // Restricting to a single line
-                overflow = TextOverflow.Ellipsis,  // Adding ellipsis if text exceeds the max line
+                maxLines = 1, // Restricting to a single line
+                overflow = TextOverflow.Ellipsis, // Adding ellipsis if text exceeds the max line
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp)
