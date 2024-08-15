@@ -1,26 +1,21 @@
 package com.desserttime.like
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,26 +27,29 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
+import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DustyGray
 import com.desserttime.design.theme.MainColor
-import com.desserttime.design.theme.Mercury
-import com.desserttime.design.theme.Pippin
+import com.desserttime.design.theme.Tundora50
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.like.model.LikeData
 
 @Composable
-fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
+fun LikeDetailScreen(
+    onNavigateToLike: () -> Unit
+) {
     Scaffold(
+        modifier = Modifier.padding(top = 26.dp),
         topBar = {
             AppBarUi.AppBar(
-                stringResource(id = R.string.txt_bottom_like),
+                { onNavigateToLike() },
+                title = stringResource(id = R.string.txt_like_detail_title),
                 {},
                 {}
             )
@@ -63,48 +61,25 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
                     .padding(paddingValues) // 시스템 패딩을 적용하여 AppBar와의 간격 유지
                     .background(Color.White)
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
-                    Text(
-                        text = stringResource(id = R.string.txt_like_review),
-                        style = DessertTimeTheme.typography.textStyleBold18,
-                        color = Color.Black,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 20.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(top = 16.dp))
-                    LikeList(onNavigateToLikeDetail)
-                }
+                // LikeDetailItem
+                LikeDetailItem(
+                    LikeData.icLikeProfile,
+                    stringResource(id = LikeData.nickName),
+                    stringResource(id = LikeData.date),
+                    LikeData.likeCount,
+                    LikeData.title,
+                    LikeData.score,
+                    LikeData.likePicture,
+                    stringResource(id = LikeData.content),
+                    LikeData.materialArr
+                )
             }
         }
     )
 }
 
 @Composable
-fun LikeList(onNavigateToLikeDetail: () -> Unit) {
-    LazyColumn {
-        items(10) {
-            LikeItem(
-                LikeData.icLikeProfile,
-                stringResource(id = LikeData.nickName),
-                stringResource(id = LikeData.date),
-                LikeData.likeCount,
-                LikeData.title,
-                LikeData.score,
-                LikeData.likePicture,
-                stringResource(id = LikeData.content),
-                LikeData.materialArr,
-                onNavigateToLikeDetail
-            )
-        }
-    }
-}
-
-@Composable
-fun LikeItem(
+fun LikeDetailItem(
     icLikeProfile: Int,
     nickName: String,
     date: String,
@@ -113,16 +88,12 @@ fun LikeItem(
     score: Int,
     likePicture: Int,
     content: String,
-    materialArr: List<Int>,
-    onNavigateToLikeDetail: () -> Unit
+    materialArr: List<Int>
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(8.dp)
-            .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
-            .clickable { onNavigateToLikeDetail() }
     ) {
         Row(
             modifier = Modifier
@@ -179,59 +150,50 @@ fun LikeItem(
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 20.dp, bottom = 20.dp)
         ) {
-            // title
+            MenuDetailPicture(likePicture)
+            Spacer(modifier = Modifier.padding(top = 20.dp))
             Text(
                 text = stringResource(id = title),
-                style = DessertTimeTheme.typography.textStyleBold16,
+                style = DessertTimeTheme.typography.textStyleBold18,
                 color = Color.Black
             )
+            Spacer(modifier = Modifier.padding(top = 8.dp))
             ScoreCheck(score)
-            MenuPicture(likePicture)
+            Spacer(modifier = Modifier.padding(top = 16.dp))
             Text(
                 text = content,
-                style = DessertTimeTheme.typography.textStyleRegular14,
+                style = DessertTimeTheme.typography.textStyleRegular12,
                 color = Black60,
-                maxLines = 1, // Restricting to a single line
-                overflow = TextOverflow.Ellipsis, // Adding ellipsis if text exceeds the max line
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp)
             )
             Spacer(modifier = Modifier.padding(top = 16.dp))
             MaterialItemList(materialArr)
-        }
-    }
-}
-
-@Composable
-fun ScoreCheck(score: Int) {
-    val imageResource = painterResource(id = R.drawable.ic_star_off)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp)
-    ) {
-        repeat(4) {
-            Image(
-                painter = imageResource,
-                contentDescription = stringResource(id = R.string.img_review_write_score_description),
-                modifier = Modifier.padding(end = 4.dp)
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+            Divider(
+                color = Alabaster,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth()
             )
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+            ReportButton()
         }
     }
 }
 
 @Composable
-fun MenuPicture(likePicture: Int) {
+fun MenuDetailPicture(likePicture: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp)
     ) {
         Box(
             modifier = Modifier
-                .size(79.dp)
+                .fillMaxWidth()
+                .height(192.dp)
                 .clip(RoundedCornerShape(9.dp))
                 .background(WildSand)
                 .border(1.dp, Alto, RoundedCornerShape(9.dp))
@@ -248,59 +210,19 @@ fun MenuPicture(likePicture: Int) {
     }
 }
 
-@SuppressLint("UnusedBoxWithConstraintsScope")
-@OptIn(ExperimentalLayoutApi::class)
+// 신고하기 버튼
+// 오른쪽 끝으로 정렬
 @Composable
-fun MaterialItemList(items: List<Int>) {
-    Column(
+fun ReportButton() {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
-            .padding(vertical = 3.dp)
-    ) {
-        BoxWithConstraints(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            FlowRow(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items.forEach { material ->
-                    MaterialItemRound(
-                        categorySubName = stringResource(id = material),
-                        modifier = Modifier
-                            .padding(end = 3.dp, bottom = 8.dp)
-                            .clip(RoundedCornerShape(50))
-                            .background(Pippin)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MaterialItemRound(
-    categorySubName: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
     ) {
         Text(
-            text = categorySubName,
-            style = DessertTimeTheme.typography.textStyleMedium12,
-            color = MainColor,
-            modifier = Modifier
-                .wrapContentWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp)
+            text = stringResource(id = R.string.txt_like_report),
+            style = DessertTimeTheme.typography.textStyleRegular12,
+            color = Tundora50,
+            modifier = Modifier.align(Alignment.CenterEnd)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LikeScreenPreview() {
-    LikeScreen(onNavigateToLikeDetail = {})
 }
