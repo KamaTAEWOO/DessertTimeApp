@@ -99,6 +99,9 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = true
                         }
                     }
+                },
+                onNavigateToLikeDetail = {
+                    navHostController.navigate(MainDestination.LikeDetail.route)
                 }
             )
         }
@@ -106,11 +109,7 @@ fun NavGraphBuilder.authNavGraph(
         composable(route = MainDestination.LikeDetail.route) {
             LikeDetailScreen(
                 onNavigateToLike = {
-                    navHostController.navigate(MainDestination.Like.route) {
-                        popUpTo(MainDestination.LikeDetail.route) {
-                            inclusive = true
-                        }
-                    }
+                    navHostController.popBackStack()
                 }
             )
         }

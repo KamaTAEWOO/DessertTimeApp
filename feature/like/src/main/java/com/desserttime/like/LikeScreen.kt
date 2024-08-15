@@ -47,7 +47,7 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.like.model.LikeData
 
 @Composable
-fun LikeScreen() {
+fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
 
     Scaffold(
         topBar = {
@@ -78,7 +78,7 @@ fun LikeScreen() {
                             .padding(start = 20.dp)
                     )
                     Spacer(modifier = Modifier.padding(top = 16.dp))
-                    LikeList()
+                    LikeList(onNavigateToLikeDetail)
                 }
             }
         },
@@ -87,7 +87,7 @@ fun LikeScreen() {
 }
 
 @Composable
-fun LikeList() {
+fun LikeList(onNavigateToLikeDetail: () -> Unit) {
     LazyColumn {
         items(10) {
             LikeItem(
@@ -99,7 +99,8 @@ fun LikeList() {
                 LikeData.score,
                 LikeData.likePicture,
                 stringResource(id = LikeData.content),
-                LikeData.materialArr
+                LikeData.materialArr,
+                onNavigateToLikeDetail
             )
         }
     }
@@ -115,7 +116,8 @@ fun LikeItem(
     score: Int,
     likePicture: Int,
     content: String,
-    materialArr: List<Int>
+    materialArr: List<Int>,
+    onNavigateToLikeDetail: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -123,7 +125,7 @@ fun LikeItem(
             .background(Color.White)
             .padding(8.dp)
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
-            .clickable { }
+            .clickable { onNavigateToLikeDetail() }
     ) {
         Row(
             modifier = Modifier
@@ -303,5 +305,5 @@ fun MaterialItemRound(
 @Preview(showBackground = true)
 @Composable
 fun LikeScreenPreview() {
-    LikeScreen()
+    LikeScreen(onNavigateToLikeDetail = {})
 }

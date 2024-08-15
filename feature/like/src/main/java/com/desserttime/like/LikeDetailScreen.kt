@@ -45,6 +45,7 @@ fun LikeDetailScreen(
     onNavigateToLike: () -> Unit
 ) {
     Scaffold(
+        modifier = Modifier.padding(top = 26.dp),
         topBar = {
             AppBarUi.AppBar(
                 { onNavigateToLike() },
