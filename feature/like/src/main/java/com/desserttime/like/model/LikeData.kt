@@ -8,7 +8,7 @@ object LikeData {
     val date: Int = R.string.txt_like_date
     val likeCount: Int = R.string.txt_like_count
     val title: Int = R.string.txt_like_title
-    val score: Int = 3
+    const val score: Int = 3
     val likePicture: Int = R.drawable.ic_like_picture
     val content: Int = R.string.txt_like_content
     val materialArr = listOf(
