@@ -131,6 +131,15 @@
     <string name="txt_like_detail_title">상세 후기</string>
     <string name="txt_like_report">신고하기</string>
 
+    <!--    myPage-->
+    <string name="img_mypage_setting">설정버튼</string>
+    <string name="img_mypage_profile">프로필 이미지</string>
+    <string name="txt_mypage_no_login_title">로그인하지 않은 상태입니다.\n로그인/회원가입 후 이용해주세요.</string>
+    <string name="txt_mypage_go_login">로그인/회원가입</string>
+    <string name="txt_mypage_notice">공지사항</string>
+    <string name="txt_mypage_event">이벤트</string>
+    <string name="txt_mypage_inquiry">문의하기</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>
