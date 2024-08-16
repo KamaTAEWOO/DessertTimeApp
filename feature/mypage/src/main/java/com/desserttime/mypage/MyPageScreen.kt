@@ -15,10 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +31,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Abbey
-import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
@@ -66,8 +63,6 @@ fun MyPageScreen() {
 
 @Composable
 fun ProfileSection() {
-    // TODO: 로그인 여부에 따라 다른 화면을 보여줘야 함
-
     // NotLoginProfileSection()
     // Spacer(modifier = Modifier.height(40.dp))
     // NoticeSection()
