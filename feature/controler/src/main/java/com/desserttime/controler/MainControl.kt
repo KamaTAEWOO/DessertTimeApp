@@ -34,7 +34,7 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
-import com.desserttime.review.ReviewWriteScreen
+import com.desserttime.review.ReviewScreen
 
 @Composable
 fun MainControl(
@@ -54,8 +54,8 @@ fun MainControl(
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
             composable(MainDestination.MyPage.route) { MyPageScreen() }
-            // composable(MainDestination.Review.route) { ReviewScreen() }
-            composable(MainDestination.Review.route) { ReviewWriteScreen() }
+            composable(MainDestination.Review.route) { ReviewScreen() }
+            // composable(MainDestination.Review.route) { ReviewWriteScreen() }
         }
     }
     Spacer(Modifier.padding(bottom = 42.dp))
