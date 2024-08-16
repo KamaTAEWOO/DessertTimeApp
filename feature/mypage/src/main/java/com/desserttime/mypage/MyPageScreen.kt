@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
+import com.desserttime.design.theme.Abbey
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -58,8 +59,6 @@ fun MyPageScreen() {
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
                 ProfileSection()
-                Spacer(modifier = Modifier.height(40.dp))
-                NoticeSection()
             }
         }
     )
@@ -67,6 +66,24 @@ fun MyPageScreen() {
 
 @Composable
 fun ProfileSection() {
+    // TODO: 로그인 여부에 따라 다른 화면을 보여줘야 함
+
+    // NotLoginProfileSection()
+    // Spacer(modifier = Modifier.height(40.dp))
+    // NoticeSection()
+
+    LoginProfileSection()
+    Spacer(modifier = Modifier.height(20.dp))
+    MyBehind()
+    Spacer(modifier = Modifier.height(4.dp))
+    MyMileage()
+    Spacer(modifier = Modifier.height(20.dp))
+    NoticeSection()
+}
+
+// login 안 한 상태
+@Composable
+fun NotLoginProfileSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -92,6 +109,34 @@ fun ProfileSection() {
     }
 }
 
+// login 한 상태
+@Composable
+fun LoginProfileSection() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 48.dp)
+            .height(220.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_like_profile),
+            contentDescription = stringResource(id = R.string.img_mypage_profile),
+            modifier = Modifier
+                .size(106.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        CenteredTextBox(
+            text = stringResource(id = R.string.txt_mypage_nickname),
+            textStyle = DessertTimeTheme.typography.textStyleBold24,
+            textColor = Color.Black
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        ModifyMyInfo()
+    }
+}
+
 @Composable
 fun CenteredTextBox(
     text: String,
@@ -110,6 +155,139 @@ fun CenteredTextBox(
             style = textStyle,
             textAlign = TextAlign.Center
         )
+    }
+}
+
+@Composable
+fun ModifyMyInfo() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier
+                .width(89.dp)
+                .height(33.dp)
+                .border(1.dp, Color.White, shape = RoundedCornerShape(17.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(id = R.string.txt_mypage_edit_profile),
+                color = Abbey,
+                style = DessertTimeTheme.typography.textStyleRegular12,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
+fun MyBehind() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 24.dp)
+            .border(1.dp, Gallery, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+    ) {
+        Column(
+            modifier = Modifier
+                .wrapContentHeight() // This will allow the height to adjust dynamically
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
+                verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.txt_mypage_behind),
+                    color = Tundora,
+                    style = DessertTimeTheme.typography.textStyleMedium16
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
+                        horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.txt_mypage_behind_count),
+                            color = Color.Black,
+                            style = DessertTimeTheme.typography.textStyleMedium16
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_right_arrow),
+                            contentDescription = stringResource(id = R.string.txt_next),
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun MyMileage() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 24.dp)
+            .border(1.dp, Gallery, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+    ) {
+        Column(
+            modifier = Modifier
+                .wrapContentHeight() // This will allow the height to adjust dynamically
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
+                verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
+            ) {
+                Text(
+                    text = stringResource(id = R.string.txt_mypage_mileage),
+                    color = Tundora,
+                    style = DessertTimeTheme.typography.textStyleMedium16
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
+                        horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.txt_mypage_mileage_count),
+                            color = Color.Black,
+                            style = DessertTimeTheme.typography.textStyleMedium16
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_cash),
+                            contentDescription = stringResource(id = R.string.txt_next),
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_right_arrow),
+                            contentDescription = stringResource(id = R.string.txt_next),
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -166,7 +344,7 @@ fun NoticeSection() {
                 Text(
                     text = stringResource(id = R.string.txt_mypage_notice),
                     color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14,
+                    style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
             Divider(
@@ -189,7 +367,7 @@ fun NoticeSection() {
                 Text(
                     text = stringResource(id = R.string.txt_mypage_event),
                     color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14,
+                    style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
             Divider(
@@ -212,7 +390,7 @@ fun NoticeSection() {
                 Text(
                     text = stringResource(id = R.string.txt_mypage_inquiry),
                     color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14,
+                    style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
         }
