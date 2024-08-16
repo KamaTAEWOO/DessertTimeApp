@@ -205,6 +205,38 @@ object AppBarUi {
             )
         }
     }
+
+    @Composable
+    fun AppBar(
+        title: String,
+        onSettingClick: () -> Unit = {}
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .background(color = Color.White)
+                .padding(horizontal = 16.dp)
+        ) {
+            // 타이틀 중앙 배치
+            Text(
+                text = title,
+                style = DessertTimeTheme.typography.textStyleBold20,
+                color = Color.Black,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            // setting 이미지
+            IconButton(
+                onClick = onSettingClick,
+                modifier = Modifier.align(Alignment.CenterEnd)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_settings),
+                    contentDescription = stringResource(id = R.string.img_mypage_setting)
+                )
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
