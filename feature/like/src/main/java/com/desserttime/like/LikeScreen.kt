@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
@@ -60,13 +63,18 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues) // 시스템 패딩을 적용하여 AppBar와의 간격 유지
-                    .background(Color.White)
+                    .padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = 0.dp // Remove the bottom padding
+                    )
+                    .background(WildSand)
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    Spacer(modifier = Modifier.padding(top = 10.dp))
+                    Spacer(modifier = Modifier.padding(top = 16.dp))
                     Text(
                         text = stringResource(id = R.string.txt_like_review),
                         style = DessertTimeTheme.typography.textStyleBold18,
@@ -87,18 +95,26 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
 fun LikeList(onNavigateToLikeDetail: () -> Unit) {
     LazyColumn {
         items(10) {
-            LikeItem(
-                LikeData.icLikeProfile,
-                stringResource(id = LikeData.nickName),
-                stringResource(id = LikeData.date),
-                LikeData.likeCount,
-                LikeData.title,
-                LikeData.score,
-                LikeData.likePicture,
-                stringResource(id = LikeData.content),
-                LikeData.materialArr,
-                onNavigateToLikeDetail
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(WildSand)
+                    .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+                    .clip(RoundedCornerShape(12.dp))
+            ) {
+                LikeItem(
+                    LikeData.icLikeProfile,
+                    stringResource(id = LikeData.nickName),
+                    stringResource(id = LikeData.date),
+                    LikeData.likeCount,
+                    LikeData.title,
+                    LikeData.score,
+                    LikeData.likePicture,
+                    stringResource(id = LikeData.content),
+                    LikeData.materialArr,
+                    onNavigateToLikeDetail
+                )
+            }
         }
     }
 }
@@ -120,7 +136,6 @@ fun LikeItem(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(8.dp)
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
             .clickable { onNavigateToLikeDetail() }
     ) {
@@ -177,7 +192,7 @@ fun LikeItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, end = 20.dp, bottom = 20.dp)
+                .padding(start = 24.dp, end = 20.dp, bottom = 24.dp)
         ) {
             // title
             Text(
