@@ -172,9 +172,9 @@ fun ModifyMyInfo() {
     ) {
         Box(
             modifier = Modifier
-                .clip(RoundedCornerShape(40))
+                .clip(RoundedCornerShape(50))
                 .background(Color.White)
-                .border(1.dp, Color.White, RoundedCornerShape(40))
+                .border(1.dp, Color.White, RoundedCornerShape(50))
                 .padding(horizontal = 14.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
