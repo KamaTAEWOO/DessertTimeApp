@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,48 +24,62 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
-import com.desserttime.design.theme.Abbey
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora
+import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
-fun MyPageScreen() {
+fun MyPageScreen(
+    onNavigateToLogin: () -> Unit,
+    onNavigateToSetting: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             AppBarUi.AppBar(
                 title = stringResource(id = R.string.txt_bottom_full_name_my_page),
-                onSettingClick = {}
+                onSettingClick = { onNavigateToSetting() }
             )
         },
         content = { paddingValues ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
-                    .background(Color.White)
+                    .padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = 0.dp // Remove the bottom padding
+                    )
+                    .background(WildSand)
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
-                ProfileSection()
+                ProfileSection(
+                    onNavigateToLogin
+                )
             }
         }
     )
 }
 
 @Composable
-fun ProfileSection() {
-    // NotLoginProfileSection()
+fun ProfileSection(
+    onNavigateToLogin: () -> Unit
+) {
+    // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
     // NoticeSection()
 
@@ -127,7 +143,6 @@ fun LoginProfileSection() {
             textStyle = DessertTimeTheme.typography.textStyleBold24,
             textColor = Color.Black
         )
-        Spacer(modifier = Modifier.height(8.dp))
         ModifyMyInfo()
     }
 }
@@ -163,14 +178,15 @@ fun ModifyMyInfo() {
     ) {
         Box(
             modifier = Modifier
-                .width(89.dp)
-                .height(33.dp)
-                .border(1.dp, Color.White, shape = RoundedCornerShape(17.dp)),
+                .clip(RoundedCornerShape(50))
+                .background(Color.White)
+                .border(1.dp, Color.White, RoundedCornerShape(50))
+                .padding(horizontal = 14.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = stringResource(id = R.string.txt_mypage_edit_profile),
-                color = Abbey,
+                color = Color.Black,
                 style = DessertTimeTheme.typography.textStyleRegular12,
                 textAlign = TextAlign.Center
             )
@@ -183,45 +199,59 @@ fun MyBehind() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(WildSand)
             .padding(horizontal = 24.dp)
-            .border(1.dp, Gallery, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+            .clip(RoundedCornerShape(12.dp))
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .wrapContentHeight() // This will allow the height to adjust dynamically
+                .fillMaxWidth()
+                .background(Color.White)
+                .border(
+                    1.dp,
+                    Color.White,
+                    shape = RoundedCornerShape(12.dp)
+                ) // Ensure border color is defined
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
-                verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
+                    .wrapContentHeight() // This will allow the height to adjust dynamically
             ) {
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_behind),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium16
-                )
-                Box(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = 17.dp,
+                            horizontal = 20.dp
+                        ), // Adjust padding for balance
+                    verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
-                        horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                    Text(
+                        text = stringResource(id = R.string.txt_mypage_behind),
+                        color = Tundora,
+                        style = DessertTimeTheme.typography.textStyleMedium16
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.txt_mypage_behind_count),
-                            color = Color.Black,
-                            style = DessertTimeTheme.typography.textStyleMedium16
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_right_arrow),
-                            contentDescription = stringResource(id = R.string.txt_next),
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
+                            horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.txt_mypage_behind_count),
+                                color = Color.Black,
+                                style = DessertTimeTheme.typography.textStyleMedium16
+                            )
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_right_arrow),
+                                contentDescription = stringResource(id = R.string.txt_next),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -234,51 +264,65 @@ fun MyMileage() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(WildSand)
             .padding(horizontal = 24.dp)
-            .border(1.dp, Gallery, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+            .clip(RoundedCornerShape(12.dp))
     ) {
-        Column(
+        Box(
             modifier = Modifier
-                .wrapContentHeight() // This will allow the height to adjust dynamically
+                .fillMaxWidth()
+                .background(Color.White)
+                .border(
+                    1.dp,
+                    Color.White,
+                    shape = RoundedCornerShape(12.dp)
+                ) // Ensure border color is defined
         ) {
-            Row(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
-                verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
+                    .wrapContentHeight() // This will allow the height to adjust dynamically
             ) {
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_mileage),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium16
-                )
-                Box(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = 17.dp,
+                            horizontal = 20.dp
+                        ), // Adjust padding for balance
+                    verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
-                        horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                    Text(
+                        text = stringResource(id = R.string.txt_mypage_mileage),
+                        color = Tundora,
+                        style = DessertTimeTheme.typography.textStyleMedium16
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.CenterEnd // Aligns the Row to the end
                     ) {
-                        Text(
-                            text = stringResource(id = R.string.txt_mypage_mileage_count),
-                            color = Color.Black,
-                            style = DessertTimeTheme.typography.textStyleMedium16
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_cash),
-                            contentDescription = stringResource(id = R.string.txt_next),
-                            modifier = Modifier
-                                .size(18.dp)
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_right_arrow),
-                            contentDescription = stringResource(id = R.string.txt_next),
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically, // Ensure vertical alignment
+                            horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.txt_mypage_mileage_count),
+                                color = Color.Black,
+                                style = DessertTimeTheme.typography.textStyleMedium16
+                            )
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_cash),
+                                contentDescription = stringResource(id = R.string.txt_next),
+                                modifier = Modifier
+                                    .size(18.dp)
+                            )
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_right_arrow),
+                                contentDescription = stringResource(id = R.string.txt_next),
+                                modifier = Modifier
+                                    .size(24.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -316,18 +360,23 @@ fun NoticeSection() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White)
+            .background(WildSand)
             .padding(horizontal = 24.dp)
             .border(1.dp, Gallery, shape = RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
     ) {
         Column(
             modifier = Modifier
                 .wrapContentHeight() // Remove fixed height
+                .background(Color.White) // Ensure background color is defined
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_notice),
@@ -350,7 +399,10 @@ fun NoticeSection() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_event),
@@ -373,7 +425,10 @@ fun NoticeSection() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_inquire),
@@ -395,5 +450,5 @@ fun NoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen()
+    MyPageScreen({}, {})
 }

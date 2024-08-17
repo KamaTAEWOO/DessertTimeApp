@@ -27,4 +27,7 @@ object NavRouteLabel {
 
     // like
     const val LIKE_DETAIL = "like_detail"
+
+    // mypage
+    const val SETTING = "setting"
 }

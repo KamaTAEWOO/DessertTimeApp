@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":design"))
     implementation(project(":feature:controler"))
     implementation(project(":feature:like"))
+    implementation(project(":feature:mypage"))
 
     // hilt
     implementation(libs.hilt.android)

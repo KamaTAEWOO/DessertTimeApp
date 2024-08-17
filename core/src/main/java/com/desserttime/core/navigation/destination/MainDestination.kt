@@ -30,4 +30,8 @@ sealed class MainDestination : Destination {
     object LikeDetail : MainDestination() {
         override val route = NavRouteLabel.LIKE_DETAIL
     }
+
+    object Setting : MainDestination() {
+        override val route = NavRouteLabel.SETTING
+    }
 }
