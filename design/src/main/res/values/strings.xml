@@ -152,7 +152,9 @@
     <string name="txt_mypage_setting_push">알림설정</string>
     <string name="txt_mypage_setting_terms_of_use">이용약관</string>
     <string name="txt_mypage_setting_privacy_policy">개인정보처리방침</string>
-    <string name="txt_mypage_setting_withdrawal1">디저트타임을 탈퇴하려면 <b><u>여기</u></b> 를 눌러주세요. </string>
+    <string name="txt_mypage_setting_withdrawal1">디저트타임을 탈퇴하려면</string>
+    <string name="txt_mypage_setting_withdrawal2">여기</string>
+    <string name="txt_mypage_setting_withdrawal3">를 눌러주세요. </string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>

@@ -28,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
+import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
@@ -39,7 +40,8 @@ import com.desserttime.review.ReviewScreen
 @Composable
 fun MainControl(
     onNavigateToLogin: () -> Unit,
-    onNavigateToLikeDetail: () -> Unit
+    onNavigateToLikeDetail: () -> Unit,
+    onNavigateToSetting: () -> Unit
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -53,7 +55,7 @@ fun MainControl(
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
-            composable(MainDestination.MyPage.route) { MyPageScreen() }
+            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting) }
             composable(MainDestination.Review.route) { ReviewScreen() }
             // composable(MainDestination.Review.route) { ReviewWriteScreen() }
         }

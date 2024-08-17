@@ -33,8 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.desserttime.core.navigation.destination.AuthDestination
+import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
-import com.desserttime.design.theme.Abbey
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
@@ -43,13 +44,16 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
-fun MyPageScreen() {
+fun MyPageScreen(
+    onNavigateToLogin: () -> Unit,
+    onNavigateToSetting: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             AppBarUi.AppBar(
                 title = stringResource(id = R.string.txt_bottom_full_name_my_page),
-                onSettingClick = {}
+                onSettingClick = { onNavigateToSetting() }
             )
         },
         content = { paddingValues ->
@@ -65,15 +69,19 @@ fun MyPageScreen() {
                     .background(WildSand)
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
-                ProfileSection()
+                ProfileSection(
+                    onNavigateToLogin
+                )
             }
         }
     )
 }
 
 @Composable
-fun ProfileSection() {
-    // NotLoginProfileSection()
+fun ProfileSection(
+    onNavigateToLogin: () -> Unit
+) {
+    // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
     // NoticeSection()
 
@@ -419,5 +427,5 @@ fun NoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen()
+    MyPageScreen({}, {})
 }
