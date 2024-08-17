@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,6 +50,7 @@ import com.desserttime.design.ui.common.CommonUi
 @Composable
 fun SettingScreen(
     onNavigateToHome: () -> Unit,
+    onNavigateToWithdrawal: () -> Unit,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -79,7 +79,10 @@ fun SettingScreen(
             }
         },
         bottomBar = {
-            BottomContent(onNavigateToHome)
+            SettingBottomContent(
+                onNavigateToHome,
+                onNavigateToWithdrawal
+            )
         }
     )
 }
@@ -143,7 +146,7 @@ fun CustomSwitch(
 fun AlarmPush() {
     var isPushEnabled by remember { mutableStateOf(false) }
 
-    Divide()
+    CommonUi.Divide(Gallery)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -173,7 +176,7 @@ fun AlarmPush() {
 
 @Composable
 fun TermsOfService() {
-    Divide()
+    CommonUi.Divide(Gallery)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -203,7 +206,7 @@ fun TermsOfService() {
 
 @Composable
 fun PrivacyPolicy() {
-    Divide()
+    CommonUi.Divide(Gallery)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -230,20 +233,13 @@ fun PrivacyPolicy() {
             )
         }
     }
-    Divide()
+    CommonUi.Divide(Gallery)
 }
 
 @Composable
-fun Divide() {
-    Divider(
-        color = Gallery,
-        thickness = 1.dp
-    )
-}
-
-@Composable
-fun BottomContent(
-    onNavigateToHome: () -> Unit
+fun SettingBottomContent(
+    onNavigateToHome: () -> Unit,
+    onNavigateToWithdrawal: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -276,7 +272,7 @@ fun BottomContent(
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .padding(start = 4.dp)
-                    .clickable { onNavigateToHome() }
+                    .clickable { onNavigateToWithdrawal() }
             )
             Text(
                 text = stringResource(id = R.string.txt_mypage_setting_withdrawal3),
@@ -291,5 +287,5 @@ fun BottomContent(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSettingContent() {
-    SettingScreen({}, {})
+    SettingScreen({}, {}, {})
 }

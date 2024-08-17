@@ -16,6 +16,8 @@ import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
 import com.desserttime.mypage.setting.SettingScreen
+import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
+import com.desserttime.mypage.withdrawal.WithdrawalScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController
@@ -127,8 +129,46 @@ fun NavGraphBuilder.authNavGraph(
                         }
                     }
                 },
+                onNavigateToWithdrawal = {
+                    navHostController.navigate(MainDestination.Withdrawal.route) {
+                        popUpTo(MainDestination.Setting.route) {
+                            inclusive = true
+                        }
+                    }
+                },
                 onBack = {
                     navHostController.popBackStack()
+                }
+            )
+        }
+
+        composable(route = MainDestination.Withdrawal.route) {
+            WithdrawalScreen(
+                onNavigateToWithdrawalComplete = {
+                    navHostController.navigate(MainDestination.WithdrawalComplete.route) {
+                        popUpTo(MainDestination.Withdrawal.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onBack = {
+                    navHostController.navigate(MainDestination.Setting.route) {
+                        popUpTo(MainDestination.Withdrawal.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
+        composable(route = MainDestination.WithdrawalComplete.route) {
+            WithdrawalCompleteScreen(
+                onNavigateToHome = {
+                    navHostController.navigate(MainDestination.Home.route) {
+                        popUpTo(MainDestination.WithdrawalComplete.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
