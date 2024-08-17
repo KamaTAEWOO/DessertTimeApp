@@ -33,8 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import com.desserttime.core.navigation.destination.AuthDestination
-import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -198,17 +196,22 @@ fun ModifyMyInfo() {
 
 @Composable
 fun MyBehind() {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .background(WildSand)
-        .padding(horizontal = 24.dp)
-        .clip(RoundedCornerShape(12.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(WildSand)
+            .padding(horizontal = 24.dp)
+            .clip(RoundedCornerShape(12.dp))
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .border(1.dp, Color.White, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+                .border(
+                    1.dp,
+                    Color.White,
+                    shape = RoundedCornerShape(12.dp)
+                ) // Ensure border color is defined
         ) {
             Column(
                 modifier = Modifier
@@ -217,7 +220,10 @@ fun MyBehind() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
+                        .padding(
+                            vertical = 17.dp,
+                            horizontal = 20.dp
+                        ), // Adjust padding for balance
                     verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
                 ) {
                     Text(
@@ -255,17 +261,22 @@ fun MyBehind() {
 
 @Composable
 fun MyMileage() {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .background(WildSand)
-        .padding(horizontal = 24.dp)
-        .clip(RoundedCornerShape(12.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(WildSand)
+            .padding(horizontal = 24.dp)
+            .clip(RoundedCornerShape(12.dp))
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .border(1.dp, Color.White, shape = RoundedCornerShape(12.dp)) // Ensure border color is defined
+                .border(
+                    1.dp,
+                    Color.White,
+                    shape = RoundedCornerShape(12.dp)
+                ) // Ensure border color is defined
         ) {
             Column(
                 modifier = Modifier
@@ -274,7 +285,10 @@ fun MyMileage() {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 17.dp, horizontal = 20.dp), // Adjust padding for balance
+                        .padding(
+                            vertical = 17.dp,
+                            horizontal = 20.dp
+                        ), // Adjust padding for balance
                     verticalAlignment = Alignment.CenterVertically // Align content vertically in the center
                 ) {
                     Text(
@@ -359,7 +373,10 @@ fun NoticeSection() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_notice),
@@ -382,7 +399,10 @@ fun NoticeSection() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_event),
@@ -405,7 +425,10 @@ fun NoticeSection() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp, horizontal = 20.dp) // Adjust padding for better spacing
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    ) // Adjust padding for better spacing
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_inquire),

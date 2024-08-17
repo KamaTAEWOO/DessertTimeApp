@@ -291,5 +291,5 @@ fun BottomContent(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSettingContent() {
-    SettingScreen( {}, {} )
+    SettingScreen({}, {})
 }
