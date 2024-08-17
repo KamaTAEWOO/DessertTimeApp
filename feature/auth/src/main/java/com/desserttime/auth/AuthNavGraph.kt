@@ -16,7 +16,6 @@ import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
 import com.desserttime.mypage.setting.SettingScreen
-import com.desserttime.mypage.withdrawal.WithdrawalBottomScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
 import com.desserttime.mypage.withdrawal.WithdrawalScreen
 
