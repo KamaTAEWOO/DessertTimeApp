@@ -15,7 +15,6 @@ import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
-import com.desserttime.mypage.MyPageScreen
 import com.desserttime.mypage.setting.SettingScreen
 
 fun NavGraphBuilder.authNavGraph(
