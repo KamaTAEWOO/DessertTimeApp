@@ -151,7 +151,7 @@ fun AlarmPush() {
             .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 8.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,  // 수직 정렬
+            verticalAlignment = Alignment.CenterVertically, // 수직 정렬
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -164,7 +164,7 @@ fun AlarmPush() {
             CustomSwitch(
                 isChecked = isPushEnabled,
                 onCheckedChange = { isChecked ->
-                    isPushEnabled = isChecked  // 상태 업데이트
+                    isPushEnabled = isChecked // 상태 업데이트
                 }
             )
         }
@@ -181,7 +181,7 @@ fun TermsOfService() {
             .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 8.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,  // 수직 정렬
+            verticalAlignment = Alignment.CenterVertically, // 수직 정렬
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -211,7 +211,7 @@ fun PrivacyPolicy() {
             .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 8.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,  // 수직 정렬
+            verticalAlignment = Alignment.CenterVertically, // 수직 정렬
             modifier = Modifier
                 .fillMaxWidth()
                 .height(24.dp)
@@ -256,7 +256,7 @@ fun BottomContent(
             text = stringResource(R.string.txt_mypage_setting_logout),
             onClick = onNavigateToHome,
             background = MainColor, // 버튼 배경색
-            textColor = Color.White  // 버튼 텍스트 색상
+            textColor = Color.White // 버튼 텍스트 색상
         )
         Spacer(modifier = Modifier.height(12.dp))
         Row(
@@ -267,7 +267,7 @@ fun BottomContent(
             Text(
                 text = stringResource(id = R.string.txt_mypage_setting_withdrawal1),
                 color = Black30, // 텍스트 색상
-                style = DessertTimeTheme.typography.textStyleMedium12,
+                style = DessertTimeTheme.typography.textStyleMedium12
             )
             Text(
                 text = stringResource(id = R.string.txt_mypage_setting_withdrawal2),
@@ -281,7 +281,7 @@ fun BottomContent(
             Text(
                 text = stringResource(id = R.string.txt_mypage_setting_withdrawal3),
                 color = Black30, // 텍스트 색상
-                style = DessertTimeTheme.typography.textStyleMedium12,
+                style = DessertTimeTheme.typography.textStyleMedium12
             )
         }
         Spacer(modifier = Modifier.height(20.dp))
