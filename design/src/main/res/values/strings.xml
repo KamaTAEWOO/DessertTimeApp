@@ -159,13 +159,14 @@
     <!--    withdrawal-->
     <string name="txt_withdrawal_title">탈퇴하기</string>
     <string name="txt_withdrawal_sub_title1">정말 디저트타임을 탈퇴하시나요?</string>
-    <string name="txt_withdrawal_description">* 기존에 작성하신 모든 후기는 자동으로 삭제되지 않으며, 탈퇴 이후에는 작성자 정보를 찾을 수 없어 삭제가 불가능합니다. 후기 삭제를 원하시는 경우 탈퇴 전 직접 삭제하시 거나, 문의하기를 통해 삭제요청 후 결과를 확인하시고 탈퇴를 진행해주세요. * 보유 밀은 탈퇴 즉시 삭제되며, 복구할 수 없습니다.</string>
+    <string name="txt_withdrawal_description">* 기존에 작성하신 모든 후기는 자동으로 삭제되지 않으며, 탈퇴 이후에는 작성자 정보를 찾을 수 없어 삭제가 불가능합니다. 후기 삭제를 원하시는 경우 탈퇴 전 직접 삭제하시거나, 문의하기를 통해 삭제요청 후 결과를 확인하시고 탈퇴를 진행해주세요.\n\n * 보유 밀은 탈퇴 즉시 삭제되며, 복구할 수 없습니다.</string>
     <string name="txt_withdrawal_sub_title2">서비스 탈퇴 이유는 무엇인가요?</string>
     <string name="txt_withdrawal_sub_description1">자주 사용하지 않아서</string>
     <string name="txt_withdrawal_sub_description2">디저트 정보가 부족해서</string>
     <string name="txt_withdrawal_sub_description3">서비스 사용이 어려워서</string>
     <string name="txt_withdrawal_sub_description4">기타(직접입력)</string>
-    <string name="txt_withdrawal_complete">탈퇴가 완료 되었습니다.\n 이용해 주셔서 감사합니다.</string>
+    <string name="txt_withdrawal_complete1">탈퇴가 완료 되었습니다.</string>
+    <string name="txt_withdrawal_complete2">이용해 주셔서 감사합니다.</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>

@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -134,5 +135,13 @@ object CommonUi {
                 modifier = Modifier.fillMaxWidth()
             )
         }
+    }
+
+    @Composable
+    fun Divide(color: Color) {
+        Divider(
+            color = color,
+            thickness = 1.dp
+        )
     }
 }

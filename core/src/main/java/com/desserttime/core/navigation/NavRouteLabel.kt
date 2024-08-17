@@ -30,4 +30,6 @@ object NavRouteLabel {
 
     // mypage
     const val SETTING = "setting"
+    const val WITHDRAWAL = "withdrawal"
+    const val WITHDRAWAL_COMPLETE = "withdrawal_complete"
 }
