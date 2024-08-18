@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.magnifier
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -56,7 +55,7 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 
 @Composable
-fun MyInfoScreen () {
+fun MyInfoScreen() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -126,22 +125,6 @@ fun OverlappingImages() {
         }
     }
 }
-
-//@Composable
-//fun MyInfoProfile() {
-//    Column(
-//        modifier = Modifier.fillMaxWidth(),
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.ic_like_profile),
-//            contentDescription = stringResource(id = R.string.txt_my_info_nickname),
-//            modifier = Modifier
-//                .size(106.dp)
-//                .align(Alignment.CenterHorizontally)
-//        )
-//    }
-//}
 
 @Composable
 fun Nickname() {
