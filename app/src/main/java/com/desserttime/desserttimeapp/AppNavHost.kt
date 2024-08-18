@@ -27,7 +27,8 @@ fun AppNavHost(
     ) {
         composable(route = RootDestination.Splash.route) {
             SplashScreen {
-                navHostController.navigate(AuthDestination.Login.route) {
+                navHostController.navigate(MainDestination.Home.route) {
+                //navHostController.navigate(AuthDestination.Login.route) {
                     popUpTo(RootDestination.Splash.route) {
                         inclusive = true
                     }
