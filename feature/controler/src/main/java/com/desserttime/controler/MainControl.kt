@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,13 +36,16 @@ import com.desserttime.design.theme.Manatee
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
 import com.desserttime.review.ReviewScreen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainControl(
     onNavigateToLogin: () -> Unit,
     onNavigateToLikeDetail: () -> Unit,
-    onNavigateToSetting: () -> Unit
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMyInfo: () -> Unit
 ) {
+    SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -54,9 +58,8 @@ fun MainControl(
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
-            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting) }
+            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }
             composable(MainDestination.Review.route) { ReviewScreen() }
-            // composable(MainDestination.Review.route) { ReviewWriteScreen() }
         }
     }
     Spacer(Modifier.padding(bottom = 42.dp))
@@ -235,5 +238,13 @@ fun BottomNavBar(navController: NavController) {
                 )
             )
         }
+    }
+}
+
+@Composable
+fun SetStatusBarColor(color: Color) {
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setSystemBarsColor(color)
     }
 }

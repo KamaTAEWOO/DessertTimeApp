@@ -25,9 +25,10 @@ fun AppNavHost(
         modifier = Modifier.fillMaxSize(),
         route = NavGraphLabel.ROOT
     ) {
+        // navHostController.navigate(AuthDestination.Login.route) {
         composable(route = RootDestination.Splash.route) {
             SplashScreen {
-                navHostController.navigate(AuthDestination.Login.route) {
+                navHostController.navigate(MainDestination.Home.route) {
                     popUpTo(RootDestination.Splash.route) {
                         inclusive = true
                     }
