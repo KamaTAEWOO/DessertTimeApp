@@ -42,7 +42,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun MainControl(
     onNavigateToLogin: () -> Unit,
     onNavigateToLikeDetail: () -> Unit,
-    onNavigateToSetting: () -> Unit
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMyInfo: () -> Unit
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -57,7 +58,7 @@ fun MainControl(
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
-            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting) }
+            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }
             composable(MainDestination.Review.route) { ReviewScreen() }
         }
     }

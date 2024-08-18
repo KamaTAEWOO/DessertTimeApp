@@ -168,6 +168,18 @@
     <string name="txt_withdrawal_complete1">탈퇴가 완료 되었습니다.</string>
     <string name="txt_withdrawal_complete2">이용해 주셔서 감사합니다.</string>
 
+    <!--    my info-->
+    <string name="txt_my_info_title">내 정보 수정</string>
+    <string name="txt_my_info_nickname">닉네임</string>
+    <string name="txt_my_info_nickname_check">중복확인</string>
+    <string name="txt_my_info_confirm">확인</string>
+    <string name="txt_my_info_nickname_error">이미 존재하는 닉네임입니다.</string>
+    <string name="txt_my_info_nickname_access">사용 가능한 닉네임입니다.</string>
+    <string name="txt_my_info_nickname_hint">변경할 닉네임을 입력해주세요</string>
+    <string name="txt_save">저장</string>
+    <string name="txt_my_info_taste">취향 (최대5가지)</string>
+    <string name="txt_my_info_taste_hint">선택하지 않음</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>

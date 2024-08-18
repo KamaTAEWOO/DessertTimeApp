@@ -42,4 +42,8 @@ sealed class MainDestination : Destination {
     object WithdrawalComplete : MainDestination() {
         override val route = NavRouteLabel.WITHDRAWAL_COMPLETE
     }
+
+    object MyInfo : MainDestination() {
+        override val route = NavRouteLabel.MY_INFO
+    }
 }

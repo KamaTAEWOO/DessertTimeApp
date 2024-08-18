@@ -43,6 +43,8 @@ val Alabaster = Color(0xFFFBFBFB)
 val Mercury = Color(0xFFE4E4E4)
 val Pippin = Color(0xFFFFE0E0)
 val Tundora50 = Color(0x80404040)
+val Tundora60 = Color(0x99404040)
 val Abbey = Color(0xFF54575C)
+val SilverChalice = Color(0xFFB0B0B0)
 
 // Dark

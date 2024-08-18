@@ -2,8 +2,10 @@ package com.desserttime.design.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -235,6 +237,49 @@ object AppBarUi {
                     contentDescription = stringResource(id = R.string.img_mypage_setting)
                 )
             }
+        }
+    }
+
+    @Composable
+    fun AppBar(
+        onBackClick: () -> Unit = {},
+        title: String,
+        onSaveClick: () -> Unit = {},
+        color: Color
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(60.dp)
+                .background(color = Color.White)
+                .padding(horizontal = 16.dp)
+        ) {
+            // 뒤로가기 이미지
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.align(Alignment.CenterStart)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back_arrow),
+                    contentDescription = stringResource(id = R.string.txt_previous)
+                )
+            }
+            // 타이틀 중앙 배치
+            Text(
+                text = title,
+                style = DessertTimeTheme.typography.textStyleBold20,
+                color = Color.Black,
+                modifier = Modifier.align(Alignment.Center)
+            )
+            // save 버튼을 오른쪽 상단에 배치
+            Text(
+                text = stringResource(id = R.string.txt_save),
+                style = DessertTimeTheme.typography.textStyleRegular18,
+                color = color,
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .clickable { onSaveClick() }
+            )
         }
     }
 }

@@ -32,4 +32,5 @@ object NavRouteLabel {
     const val SETTING = "setting"
     const val WITHDRAWAL = "withdrawal"
     const val WITHDRAWAL_COMPLETE = "withdrawal_complete"
+    const val MY_INFO = "my_info"
 }

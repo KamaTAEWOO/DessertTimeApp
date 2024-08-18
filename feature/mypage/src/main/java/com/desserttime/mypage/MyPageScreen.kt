@@ -3,6 +3,7 @@ package com.desserttime.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +45,8 @@ import com.desserttime.design.ui.common.AppBarUi
 @Composable
 fun MyPageScreen(
     onNavigateToLogin: () -> Unit,
-    onNavigateToSetting: () -> Unit
+    onNavigateToSetting: () -> Unit,
+    onNavigateToMyInfo: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +70,7 @@ fun MyPageScreen(
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
                 ProfileSection(
-                    onNavigateToLogin
+                    onNavigateToMyInfo
                 )
             }
         }
@@ -77,13 +79,13 @@ fun MyPageScreen(
 
 @Composable
 fun ProfileSection(
-    onNavigateToLogin: () -> Unit
+    onNavigateToMyInfo: () -> Unit
 ) {
     // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
     // NoticeSection()
 
-    LoginProfileSection()
+    LoginProfileSection(onNavigateToMyInfo)
     Spacer(modifier = Modifier.height(20.dp))
     MyBehind()
     Spacer(modifier = Modifier.height(4.dp))
@@ -122,7 +124,7 @@ fun NotLoginProfileSection() {
 
 // login 한 상태
 @Composable
-fun LoginProfileSection() {
+fun LoginProfileSection(onNavigateToMyInfo: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -143,7 +145,7 @@ fun LoginProfileSection() {
             textStyle = DessertTimeTheme.typography.textStyleBold24,
             textColor = Color.Black
         )
-        ModifyMyInfo()
+        ModifyMyInfo(onNavigateToMyInfo)
     }
 }
 
@@ -169,7 +171,7 @@ fun CenteredTextBox(
 }
 
 @Composable
-fun ModifyMyInfo() {
+fun ModifyMyInfo(onNavigateToMyInfo: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -181,7 +183,8 @@ fun ModifyMyInfo() {
                 .clip(RoundedCornerShape(50))
                 .background(Color.White)
                 .border(1.dp, Color.White, RoundedCornerShape(50))
-                .padding(horizontal = 14.dp, vertical = 8.dp),
+                .padding(horizontal = 14.dp, vertical = 8.dp)
+                .clickable { onNavigateToMyInfo() },
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -450,5 +453,5 @@ fun NoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen({}, {})
+    MyPageScreen({}, {}, {})
 }

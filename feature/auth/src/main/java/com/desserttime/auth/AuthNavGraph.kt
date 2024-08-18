@@ -15,6 +15,7 @@ import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
+import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
 import com.desserttime.mypage.withdrawal.WithdrawalScreen
@@ -108,6 +109,9 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onNavigateToSetting = {
                     navHostController.navigate(MainDestination.Setting.route)
+                },
+                onNavigateToMyInfo = {
+                    navHostController.navigate(MainDestination.MyInfo.route)
                 }
             )
         }
@@ -171,6 +175,10 @@ fun NavGraphBuilder.authNavGraph(
                     }
                 }
             )
+        }
+
+        composable(route = MainDestination.MyInfo.route) {
+            MyInfoScreen()
         }
     }
 }
