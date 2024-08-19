@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
+import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -53,6 +54,7 @@ import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
 
 @Composable
 fun MyInfoScreen() {
@@ -149,6 +151,9 @@ fun NicknameInputWithCheck(
     onNicknameChange: (TextFieldValue) -> Unit,
     onCheckDuplicate: () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedYear by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -260,7 +265,7 @@ fun NicknameInputWithCheck(
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { },
+            onClick = { expanded = true },  // 버튼 클릭 시 DropdownMenu를 표시
             colors = ButtonDefaults.buttonColors(White),
             modifier = Modifier
                 .fillMaxWidth()
@@ -273,8 +278,8 @@ fun NicknameInputWithCheck(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.txt_birth_hint),
-                    color = Black30,
+                    text = selectedYear.ifEmpty { stringResource(R.string.txt_birth_hint) },  // 조건에 따라 hint 또는 선택된 연도 표시
+                    color = if (selectedYear.isEmpty()) Black30 else Black,  // 힌트일 때와 선택된 값일 때 색상 다르게
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
 
@@ -285,6 +290,19 @@ fun NicknameInputWithCheck(
                 )
             }
         }
+
+        // DropdownMenu 표시
+        BirthYearDropdown(
+            expanded = expanded,
+            onYearSelected = { year ->
+                selectedYear = year  // 선택된 연도 설정
+                expanded = false  // DropdownMenu 닫기
+            },
+            selectedYear = selectedYear,
+            onDismiss = {
+                expanded = false  // DropdownMenu를 닫기 위한 콜백
+            }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 

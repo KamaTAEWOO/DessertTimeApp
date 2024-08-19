@@ -9,12 +9,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,10 +30,13 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
+import java.util.Calendar
 
 object CommonUi {
 
@@ -144,4 +152,78 @@ object CommonUi {
             thickness = 1.dp
         )
     }
+
+    @Composable
+    fun BirthYearDropdown(expanded: Boolean, selectedYear: String, onYearSelected: (String) -> Unit, onDismiss: () -> Unit) {
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val birthYears = (1900..currentYear).toList()
+
+        // Popup 사용하여 DropdownMenu를 팝업으로 표시
+        if (expanded) {
+            Popup(
+                onDismissRequest = onDismiss,
+                alignment = Alignment.BottomCenter
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
+                        .padding(16.dp),
+                    color = Color.White,  // 배경 색상 화이트 설정
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    LazyColumn( // 스크롤 가능한 Column
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 300.dp),  // 최대 높이 설정, 스크롤 가능
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        items(birthYears) { year ->
+                            val isSelected = (year.toString() == selectedYear)
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = year.toString(),
+                                        color = if (isSelected) Color.Black else Color.Gray,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        style = DessertTimeTheme.typography.textStyleRegular16,
+                                        textAlign = TextAlign.Center  // 텍스트 중앙 정렬
+                                    )
+                                },
+                                onClick = {
+                                    onYearSelected(year.toString())  // 선택된 연도를 콜백으로 전달
+                                    onDismiss()  // 선택 후 팝업 닫기
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+//    @Composable
+//    fun BirthYearDropdown(expanded: Boolean, onYearSelected: (String) -> Unit) {
+//        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+//        val birthYears = (1990..currentYear).toList()
+//
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { },
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            birthYears.forEach { year ->
+//                DropdownMenuItem(
+//                    text = { Text(text = year.toString()) },
+//                    onClick = {
+//                        onYearSelected(year.toString())  // 선택된 연도를 콜백으로 전달
+//                    }
+//                )
+//            }
+//        }
+//    }
 }
