@@ -1,5 +1,8 @@
 package com.desserttime.auth.login
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +44,10 @@ import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kakao.sdk.user.UserApiClient
+import timber.log.Timber
+
+private const val TAG = "LoginScreen"
 
 @Composable
 fun LoginScreen(
@@ -48,6 +56,8 @@ fun LoginScreen(
     onNavigateToHome: () -> Unit = {},
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -73,7 +83,7 @@ fun LoginScreen(
         // 카카오 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
-            onNavigateToSignUpAgree,
+            { loginWithKakao(context) },
             Turbo,
             Black,
             R.drawable.ic_kakao_logo,
@@ -186,6 +196,54 @@ fun LoginTextAndLine() {
                 .size(108.dp, 1.dp)
                 .background(Gallery)
         )
+    }
+}
+
+fun loginWithKakao(context: Context) {
+    if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
+        // Try KakaoTalk login first
+        UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
+            if (error != null) {
+                // Handle error, fallback to Kakao account login if necessary
+                Timber.i("$TAG Login failed: ${error.message}")
+
+                // Optional: Fallback to web login
+                loginWithKakaoAccount(context)
+            } else if (token != null) {
+                // Handle successful login
+                Timber.i("$TAG Login successful. Token: ${token.accessToken}")
+                fetchKakaoUserInfo()
+            }
+        }
+    } else {
+        // KakaoTalk is not installed, fallback to Kakao Account login
+        loginWithKakaoAccount(context)
+    }
+}
+
+fun loginWithKakaoAccount(context: Context) {
+    UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
+        if (error != null) {
+            Timber.i("$TAG Login failed: ${error.message}")
+        } else if (token != null) {
+            Timber.i("$TAG Login successful. Token: ${token.accessToken}")
+            fetchKakaoUserInfo()
+        }
+    }
+}
+
+fun fetchKakaoUserInfo() {
+    UserApiClient.instance.me { user, error ->
+        if (error != null) {
+            Timber.i("$TAG Failed to get user info: ${error.message}")
+        } else if (user != null) {
+            val userId = user.id
+            val userEmail = user.kakaoAccount?.email
+            val userConnect = user.connectedAt // Login time
+            Timber.i("$TAG User ID: $userId")
+            Timber.i("$TAG User Email: $userEmail")
+            Timber.i("$TAG User Connected At: $userConnect")
+        }
     }
 }
 

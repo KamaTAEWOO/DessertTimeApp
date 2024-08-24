@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -7,28 +10,14 @@ plugins {
 
 android {
     namespace = "com.desserttime.auth"
-//    compileSdk = 34
-//
-//    defaultConfig {
-//        minSdk = 26
-//
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro")
-//    }
-//
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = false
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_1_8
-//        targetCompatibility = JavaVersion.VERSION_1_8
-//    }
+
+    defaultConfig {
+        val localProperties = loadLocalProperties(rootDir)
+        val kakaoRedirectUrl = localProperties.getProperty("KAKAO_API_KEY", "") // 기본값을 적절한 URL로 설정
+
+        resValue("string", "KAKAO_REDIRECT_SCHEME", "kakao$kakaoRedirectUrl")
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -57,6 +46,9 @@ dependencies {
     // kakao
     implementation(libs.kakao.user)
 
+    // Timber
+    implementation(libs.timber)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -72,4 +64,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+fun loadLocalProperties(rootDir: File): Properties {
+    val properties = Properties()
+    val localPropertiesFile = File(rootDir, "local.properties")
+    if (localPropertiesFile.exists()) {
+        FileInputStream(localPropertiesFile).use { properties.load(it) }
+    }
+    return properties
 }
