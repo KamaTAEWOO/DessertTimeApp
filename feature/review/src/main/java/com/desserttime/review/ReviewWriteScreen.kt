@@ -1,6 +1,10 @@
 package com.desserttime.review
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,9 +30,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -38,6 +45,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,6 +55,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -56,6 +66,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
@@ -70,6 +81,7 @@ import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -540,36 +552,91 @@ fun ScoreCheck() {
     }
 }
 
+// 지금은 이미지 선택 후 재 선택 시 처음부터 다시 선택 해야함.
 @Composable
 fun MenuPicture() {
+    val context = LocalContext.current
+    val selectedImages = remember { mutableStateListOf<Uri>() }
+
+    // ActivityResultLauncher를 사용하여 이미지 선택을 처리합니다.
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetMultipleContents()
+    ) { uris ->
+        // 4개 이하의 이미지 선택만 허용
+        if (uris.size <= 4) {
+            selectedImages.clear()
+            selectedImages.addAll(uris)
+        } else {
+            Toast.makeText(context, "You can only select up to 4 images.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // URL 로그 찍기
+    selectedImages.forEach {
+        Timber.i("selectedImages: $it")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .size(76.dp)
-                .background(WildSand)
-                .border(1.dp, Alto, RoundedCornerShape(9.dp))
-                .clip(RoundedCornerShape(9.dp))
-                .padding(top = 15.dp, start = 26.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_camera),
-                contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
+        // 이미지가 선택되지 않은 경우
+        if (selectedImages.isEmpty()) {
+            Box(
                 modifier = Modifier
-                    .size(24.dp)
-            )
-            Text(
-                text = stringResource(id = R.string.txt_review_write_menu_image_count),
-                style = DessertTimeTheme.typography.textStyleMedium12,
-                color = Color.Gray,
+                    .size(76.dp)
+                    .background(WildSand)
+                    .border(1.dp, Alto, RoundedCornerShape(9.dp))
+                    .clip(RoundedCornerShape(9.dp))
+                    .padding(top = 15.dp, start = 26.dp)
+                    .clickable {
+                        imagePickerLauncher.launch("image/*")
+                    }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_camera),
+                    contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
+                    modifier = Modifier
+                        .size(24.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.txt_review_write_menu_image_count),
+                    style = DessertTimeTheme.typography.textStyleMedium12,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.Center)
+                        .padding(top = 4.dp)
+                )
+            }
+        } else {
+            // 이미지가 선택된 경우 LazyRow를 보여줍니다
+            LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.Center)
-                    .padding(top = 4.dp)
-            )
+                    .padding(vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
+            ) {
+                items(selectedImages) { uri ->
+                    Box(
+                        modifier = Modifier
+                            .size(76.dp) // 이미지 크기 조정
+                            .clip(RoundedCornerShape(9.dp))
+                    ) {
+                        AsyncImage(
+                            model = uri,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clickable {
+                                    imagePickerLauncher.launch("image/*")
+                                }
+                        )
+                    }
+                }
+            }
         }
     }
 }
