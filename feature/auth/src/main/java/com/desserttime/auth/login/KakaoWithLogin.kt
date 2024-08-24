@@ -4,7 +4,7 @@ import android.content.Context
 import com.kakao.sdk.user.UserApiClient
 import timber.log.Timber
 
-private val TAG = "KakaoWithLogin"
+private const val TAG = "KakaoWithLogin"
 
 fun loginWithKakao(
     context: Context,
