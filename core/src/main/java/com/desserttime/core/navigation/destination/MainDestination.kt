@@ -27,6 +27,10 @@ sealed class MainDestination : Destination {
         override val route = NavRouteLabel.REVIEW
     }
 
+    object ReviewWrite : MainDestination() {
+        override val route = NavRouteLabel.REVIEW_WRITE
+    }
+
     object LikeDetail : MainDestination() {
         override val route = NavRouteLabel.LIKE_DETAIL
     }

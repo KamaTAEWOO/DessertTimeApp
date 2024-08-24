@@ -43,7 +43,8 @@ fun MainControl(
     onNavigateToLogin: () -> Unit,
     onNavigateToLikeDetail: () -> Unit,
     onNavigateToSetting: () -> Unit,
-    onNavigateToMyInfo: () -> Unit
+    onNavigateToMyInfo: () -> Unit,
+    onNavigateToReviewWrite: () -> Unit
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -59,7 +60,7 @@ fun MainControl(
             composable(MainDestination.Category.route) { CategoryScreen() }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
             composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }
-            composable(MainDestination.Review.route) { ReviewScreen() }
+            composable(MainDestination.Review.route) { ReviewScreen(onNavigateToReviewWrite) }
         }
     }
     Spacer(Modifier.padding(bottom = 42.dp))

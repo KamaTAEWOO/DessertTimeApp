@@ -1,8 +1,12 @@
 package com.desserttime.mypage.myinfo
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,16 +36,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
+import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -53,6 +62,7 @@ import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
 
 @Composable
 fun MyInfoScreen() {
@@ -98,6 +108,18 @@ fun MyInfoScreen() {
 
 @Composable
 fun OverlappingImages() {
+    // 상태를 사용하여 현재 이미지를 관리합니다
+    val context = LocalContext.current
+    val currentImageUri = remember { mutableStateOf<Uri?>(null) }
+    // 이미지 선택을 위한 ActivityResultLauncher 설정
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            currentImageUri.value = uri
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -109,18 +131,33 @@ fun OverlappingImages() {
                 .wrapContentWidth()
                 .wrapContentHeight()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_like_profile),
-                contentDescription = stringResource(id = R.string.txt_my_info_nickname),
-                modifier = Modifier
-                    .size(106.dp)
-            )
+            if (currentImageUri.value != null) {
+                Image(
+                    painter = rememberImagePainter(currentImageUri.value),
+                    contentDescription = stringResource(id = R.string.txt_my_info_nickname),
+                    modifier = Modifier
+                        .size(106.dp)
+                        .clip(RoundedCornerShape(53.dp)),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                // 기본 이미지가 없을 경우 보여줄 기본 이미지
+                Image(
+                    painter = painterResource(id = R.drawable.ic_like_profile),
+                    contentDescription = stringResource(id = R.string.txt_my_info_nickname),
+                    modifier = Modifier
+                        .size(106.dp)
+                )
+            }
             Image(
                 painter = painterResource(id = R.drawable.ic_modify_nickname),
                 contentDescription = stringResource(id = R.string.txt_my_info_nickname),
                 modifier = Modifier
                     .size(28.dp)
                     .align(Alignment.BottomEnd)
+                    .clickable {
+                        imagePickerLauncher.launch("image/*")
+                    }
             )
         }
     }
@@ -149,6 +186,9 @@ fun NicknameInputWithCheck(
     onNicknameChange: (TextFieldValue) -> Unit,
     onCheckDuplicate: () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedYear by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -260,7 +300,7 @@ fun NicknameInputWithCheck(
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { },
+            onClick = { expanded = true }, // 버튼 클릭 시 DropdownMenu를 표시
             colors = ButtonDefaults.buttonColors(White),
             modifier = Modifier
                 .fillMaxWidth()
@@ -273,8 +313,8 @@ fun NicknameInputWithCheck(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.txt_birth_hint),
-                    color = Black30,
+                    text = selectedYear.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                    color = if (selectedYear.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
 
@@ -285,6 +325,19 @@ fun NicknameInputWithCheck(
                 )
             }
         }
+
+        // DropdownMenu 표시
+        BirthYearDropdown(
+            expanded = expanded,
+            onYearSelected = { year ->
+                selectedYear = year // 선택된 연도 설정
+                expanded = false // DropdownMenu 닫기
+            },
+            selectedYear = selectedYear,
+            onDismiss = {
+                expanded = false // DropdownMenu를 닫기 위한 콜백
+            }
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 

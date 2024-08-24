@@ -37,7 +37,9 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 
 @Composable
-fun ReviewScreen() {
+fun ReviewScreen(
+    onNavigateToReviewWrite: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,7 +50,12 @@ fun ReviewScreen() {
             {},
             {}
         )
-        Box(modifier = Modifier.fillMaxWidth().height(20.dp).background(WildSand))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+                .background(WildSand)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -117,7 +124,8 @@ fun ReviewScreen() {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(WildSand)
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 12.dp),
+                onNavigateToReviewWrite = onNavigateToReviewWrite
             )
             // Floating button positioned at the bottom
             Box(
@@ -149,12 +157,15 @@ fun ReviewScreen() {
 }
 
 @Composable
-fun ReviewItemView(modifier: Modifier = Modifier) {
+fun ReviewItemView(
+    modifier: Modifier = Modifier,
+    onNavigateToReviewWrite: () -> Unit
+) {
     LazyColumn(
         modifier = modifier
     ) {
         items(10) {
-            ReviewItem()
+            ReviewItem(onNavigateToReviewWrite)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -166,7 +177,9 @@ fun ReviewItemView(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ReviewItem() {
+fun ReviewItem(
+    onNavigateToReviewWrite: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -202,7 +215,7 @@ fun ReviewItem() {
             ) {
                 // Image -> 클릭 시 다음 화면 전환 / item의 id를 넘겨줘야함.
                 IconButton(
-                    onClick = {}
+                    onClick = { onNavigateToReviewWrite() }
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_review_write),
@@ -227,5 +240,5 @@ fun ReviewItem() {
 @Preview(showBackground = true)
 @Composable
 fun ReviewScreenPreview() {
-    ReviewScreen()
+    ReviewScreen {}
 }
