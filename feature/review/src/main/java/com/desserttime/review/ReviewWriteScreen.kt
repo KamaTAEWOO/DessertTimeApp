@@ -35,7 +35,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -136,7 +135,6 @@ fun ReviewWriteScreen(
                         stringResource(id = R.string.txt_review_write_material_selection_6),
                         stringResource(id = R.string.txt_review_write_material_selection_7)
                     )
-
 
                     Box(modifier = Modifier.padding(top = 20.dp))
                     Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
@@ -644,7 +642,7 @@ fun MenuPicture() {
 @Preview(showBackground = true)
 @Composable
 fun WriteReviewScreenPreview() {
-    ReviewWriteScreen (
-        onNavigateToReview = {false}
+    ReviewWriteScreen(
+        onNavigateToReview = { false }
     )
 }

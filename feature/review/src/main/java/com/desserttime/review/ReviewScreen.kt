@@ -50,10 +50,12 @@ fun ReviewScreen(
             {},
             {}
         )
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(20.dp)
-            .background(WildSand))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(20.dp)
+                .background(WildSand)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()

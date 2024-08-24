@@ -31,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -139,7 +138,7 @@ fun OverlappingImages() {
                     modifier = Modifier
                         .size(106.dp)
                         .clip(RoundedCornerShape(53.dp)),
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Crop
                 )
             } else {
                 // 기본 이미지가 없을 경우 보여줄 기본 이미지
@@ -301,7 +300,7 @@ fun NicknameInputWithCheck(
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { expanded = true },  // 버튼 클릭 시 DropdownMenu를 표시
+            onClick = { expanded = true }, // 버튼 클릭 시 DropdownMenu를 표시
             colors = ButtonDefaults.buttonColors(White),
             modifier = Modifier
                 .fillMaxWidth()
@@ -314,8 +313,8 @@ fun NicknameInputWithCheck(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = selectedYear.ifEmpty { stringResource(R.string.txt_birth_hint) },  // 조건에 따라 hint 또는 선택된 연도 표시
-                    color = if (selectedYear.isEmpty()) Black30 else Black,  // 힌트일 때와 선택된 값일 때 색상 다르게
+                    text = selectedYear.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                    color = if (selectedYear.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
 
@@ -331,12 +330,12 @@ fun NicknameInputWithCheck(
         BirthYearDropdown(
             expanded = expanded,
             onYearSelected = { year ->
-                selectedYear = year  // 선택된 연도 설정
-                expanded = false  // DropdownMenu 닫기
+                selectedYear = year // 선택된 연도 설정
+                expanded = false // DropdownMenu 닫기
             },
             selectedYear = selectedYear,
             onDismiss = {
-                expanded = false  // DropdownMenu를 닫기 위한 콜백
+                expanded = false // DropdownMenu를 닫기 위한 콜백
             }
         )
 
