@@ -1,8 +1,12 @@
 package com.desserttime.mypage.myinfo
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,19 +31,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
 import com.desserttime.design.theme.Black
@@ -100,6 +109,18 @@ fun MyInfoScreen() {
 
 @Composable
 fun OverlappingImages() {
+    // 상태를 사용하여 현재 이미지를 관리합니다
+    val context = LocalContext.current
+    val currentImageUri = remember { mutableStateOf<Uri?>(null) }
+    // 이미지 선택을 위한 ActivityResultLauncher 설정
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            currentImageUri.value = uri
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,18 +132,33 @@ fun OverlappingImages() {
                 .wrapContentWidth()
                 .wrapContentHeight()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_like_profile),
-                contentDescription = stringResource(id = R.string.txt_my_info_nickname),
-                modifier = Modifier
-                    .size(106.dp)
-            )
+            if (currentImageUri.value != null) {
+                Image(
+                    painter = rememberImagePainter(currentImageUri.value),
+                    contentDescription = stringResource(id = R.string.txt_my_info_nickname),
+                    modifier = Modifier
+                        .size(106.dp)
+                        .clip(RoundedCornerShape(53.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                // 기본 이미지가 없을 경우 보여줄 기본 이미지
+                Image(
+                    painter = painterResource(id = R.drawable.ic_like_profile),
+                    contentDescription = stringResource(id = R.string.txt_my_info_nickname),
+                    modifier = Modifier
+                        .size(106.dp)
+                )
+            }
             Image(
                 painter = painterResource(id = R.drawable.ic_modify_nickname),
                 contentDescription = stringResource(id = R.string.txt_my_info_nickname),
                 modifier = Modifier
                     .size(28.dp)
                     .align(Alignment.BottomEnd)
+                    .clickable {
+                        imagePickerLauncher.launch("image/*")
+                    }
             )
         }
     }
