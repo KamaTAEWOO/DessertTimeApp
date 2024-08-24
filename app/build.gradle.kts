@@ -39,6 +39,9 @@ dependencies {
     // status color
     implementation(libs.accompanist.systemuicontroller)
 
+    // kakao
+    implementation(libs.kakao.user)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

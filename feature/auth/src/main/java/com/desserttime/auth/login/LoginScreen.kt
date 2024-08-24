@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +49,8 @@ fun LoginScreen(
     onNavigateToHome: () -> Unit = {},
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -73,7 +76,12 @@ fun LoginScreen(
         // 카카오 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
-            onNavigateToSignUpAgree,
+            {
+                loginWithKakao(
+                    context,
+                    onNavigateToSignUpAgree
+                )
+            },
             Turbo,
             Black,
             R.drawable.ic_kakao_logo,

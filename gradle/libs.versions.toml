@@ -22,6 +22,10 @@ detektPlugin = "1.23.0"
 googleServicesPlugin = "4.3.15"
 hiltPlugin = "2.45"
 
+# auth
+kakao-user = "2.14.0"
+naver-login = "5.8.0"
+
 ## hilt
 hilt = "2.45"
 hilt-navigation-compose = "1.0.0"
@@ -92,6 +96,10 @@ hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "java-inject" }
+
+# auth
+kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
+naver-login = { group = "com.navercorp.nid", name = "oauth", version.ref = "naver-login" }
 
 # coroutine
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "corotine-core" }
