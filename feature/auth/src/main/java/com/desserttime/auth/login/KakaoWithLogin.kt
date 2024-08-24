@@ -6,7 +6,10 @@ import timber.log.Timber
 
 private val TAG = "KakaoWithLogin"
 
-fun loginWithKakao(context: Context) {
+fun loginWithKakao(
+    context: Context,
+    onNavigateToSignUpAgree: () -> Unit
+) {
     if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
         // Try KakaoTalk login first
         UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
@@ -15,31 +18,31 @@ fun loginWithKakao(context: Context) {
                 Timber.i("$TAG Login failed: ${error.message}")
 
                 // Optional: Fallback to web login
-                loginWithKakaoAccount(context)
+                loginWithKakaoAccount(context, onNavigateToSignUpAgree)
             } else if (token != null) {
                 // Handle successful login
                 Timber.i("$TAG Login successful. Token: ${token.accessToken}")
-                fetchKakaoUserInfo()
+                fetchKakaoUserInfo(onNavigateToSignUpAgree)
             }
         }
     } else {
         // KakaoTalk is not installed, fallback to Kakao Account login
-        loginWithKakaoAccount(context)
+        loginWithKakaoAccount(context, onNavigateToSignUpAgree)
     }
 }
 
-fun loginWithKakaoAccount(context: Context) {
+fun loginWithKakaoAccount(context: Context, onNavigateToSignUpAgree: () -> Unit) {
     UserApiClient.instance.loginWithKakaoAccount(context) { token, error ->
         if (error != null) {
             Timber.i("$TAG Login failed: ${error.message}")
         } else if (token != null) {
             Timber.i("$TAG Login successful. Token: ${token.accessToken}")
-            fetchKakaoUserInfo()
+            fetchKakaoUserInfo(onNavigateToSignUpAgree)
         }
     }
 }
 
-fun fetchKakaoUserInfo() {
+fun fetchKakaoUserInfo(onNavigateToSignUpAgree: () -> Unit) {
     UserApiClient.instance.me { user, error ->
         if (error != null) {
             Timber.i("$TAG Failed to get user info: ${error.message}")
@@ -50,6 +53,9 @@ fun fetchKakaoUserInfo() {
             Timber.i("$TAG User ID: $userId")
             Timber.i("$TAG User Email: $userEmail")
             Timber.i("$TAG User Connected At: $userConnect")
+
+            // 화면 전환
+            onNavigateToSignUpAgree()
         }
     }
 }

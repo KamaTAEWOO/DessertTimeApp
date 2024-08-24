@@ -76,7 +76,12 @@ fun LoginScreen(
         // 카카오 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
-            { loginWithKakao(context) },
+            {
+                loginWithKakao(
+                    context,
+                    onNavigateToSignUpAgree
+                )
+            },
             Turbo,
             Black,
             R.drawable.ic_kakao_logo,
