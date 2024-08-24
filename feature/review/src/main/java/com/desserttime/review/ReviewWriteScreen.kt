@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -51,6 +54,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
@@ -70,175 +74,200 @@ import com.desserttime.design.ui.common.CommonUi
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun ReviewWriteScreen() {
+fun ReviewWriteScreen(
+    onNavigateToReview: () -> Boolean
+) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .verticalScroll(scrollState) // Add vertical scrolling
-    ) {
-        var inputStoreName by remember { mutableStateOf(TextFieldValue("")) }
-        var inputMenuName by remember { mutableStateOf(TextFieldValue("")) }
-        var inputCategoryName by remember { mutableStateOf("") }
-        var inputMaterialName by remember { mutableStateOf("") }
-        var inputScore by remember { mutableStateOf("") }
-        var inputReviewBehind by remember { mutableStateOf("") }
-        val materialArr = listOf(
-            stringResource(id = R.string.txt_review_write_material_selection_1),
-            stringResource(id = R.string.txt_review_write_material_selection_2),
-            stringResource(id = R.string.txt_review_write_material_selection_3),
-            stringResource(id = R.string.txt_review_write_material_selection_4),
-            stringResource(id = R.string.txt_review_write_material_selection_5),
-            stringResource(id = R.string.txt_review_write_material_selection_6),
-            stringResource(id = R.string.txt_review_write_material_selection_7)
-        )
-
-        AppBarUi.AppBar(
-            {},
-            stringResource(id = R.string.txt_bottom_review),
-            {},
-            {}
-        )
-        Box(modifier = Modifier.padding(top = 20.dp))
-        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            EditTextBox(
-                title = stringResource(id = R.string.txt_review_write_store_name),
-                content = inputStoreName,
-                contentHint = stringResource(id = R.string.txt_review_write_store_name_hint),
-                onContentChange = { newText -> inputStoreName = newText }
+            .padding(top = 26.dp),
+        topBar = {
+            AppBarUi.AppBar(
+                { onNavigateToReview() },
+                stringResource(id = R.string.txt_bottom_review),
+                {},
+                {}
             )
-        }
-        Box(modifier = Modifier.padding(top = 20.dp))
-        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            EditTextBox(
-                title = stringResource(id = R.string.txt_review_write_menu_name),
-                content = inputMenuName,
-                contentHint = stringResource(id = R.string.txt_review_write_menu_name_hint),
-                onContentChange = { newText -> inputMenuName = newText }
-            )
-        }
-        // 카테고리
-        Box(modifier = Modifier.padding(top = 20.dp))
-        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
-            Text(
-                text = stringResource(id = R.string.txt_review_write_category),
-                style = DessertTimeTheme.typography.textStyleBold14,
-                color = DoveGray,
-                modifier = Modifier.wrapContentSize()
-            )
-        }
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .border(0.dp, Color.Transparent)
-                .shadow(0.dp, RoundedCornerShape(0.dp)),
-            color = Color.Transparent
-        ) {
-            DropdownExample()
-        }
-        // 재료 선택
-        Box(modifier = Modifier.padding(top = 20.dp))
-        Text(
-            text = stringResource(id = R.string.txt_review_write_material_selection),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(start = 16.dp)
-        )
-        Box(modifier = Modifier.padding(top = 8.dp))
-        MaterialItemList(materialArr)
-        // 점수
-        Spacer(modifier = Modifier.padding(top = 12.dp))
-        Text(
-            text = stringResource(id = R.string.txt_review_write_score),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(start = 16.dp)
-        )
-        Box(modifier = Modifier.padding(top = 8.dp))
-        ScoreCheck()
-        // 후기 작성
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-        Text(
-            text = stringResource(id = R.string.txt_review_write_behind),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(start = 16.dp)
-        )
-        Spacer(modifier = Modifier.padding(top = 8.dp))
-        OutlinedTextField(
-            value = inputReviewBehind,
-            onValueChange = { newText -> inputReviewBehind = newText },
-            textStyle = DessertTimeTheme.typography.textStyleRegular16,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(108.dp)
-                .padding(horizontal = 16.dp),
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.txt_inquiry_content_hint),
-                    style = DessertTimeTheme.typography.textStyleRegular12,
-                    color = Black30
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = WildSand,
-                focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30
-            )
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp) // Column 전체에 위쪽 패딩 추가
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End // 오른쪽 정렬
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = 0.dp // Remove the bottom padding
+                    )
+                    .background(WildSand)
             ) {
-                Text(
-                    text = stringResource(id = R.string.txt_review_write_text_count),
-                    style = DessertTimeTheme.typography.textStyleRegular10,
-                    color = TundoraCategory,
-                    modifier = Modifier.padding(end = 20.dp) // 오른쪽 패딩 추가
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                        .verticalScroll(scrollState) // Add vertical scrolling
+                ) {
+                    var inputStoreName by remember { mutableStateOf(TextFieldValue("")) }
+                    var inputMenuName by remember { mutableStateOf(TextFieldValue("")) }
+                    var inputCategoryName by remember { mutableStateOf("") }
+                    var inputMaterialName by remember { mutableStateOf("") }
+                    var inputScore by remember { mutableStateOf("") }
+                    var inputReviewBehind by remember { mutableStateOf("") }
+                    val materialArr = listOf(
+                        stringResource(id = R.string.txt_review_write_material_selection_1),
+                        stringResource(id = R.string.txt_review_write_material_selection_2),
+                        stringResource(id = R.string.txt_review_write_material_selection_3),
+                        stringResource(id = R.string.txt_review_write_material_selection_4),
+                        stringResource(id = R.string.txt_review_write_material_selection_5),
+                        stringResource(id = R.string.txt_review_write_material_selection_6),
+                        stringResource(id = R.string.txt_review_write_material_selection_7)
+                    )
+
+
+                    Box(modifier = Modifier.padding(top = 20.dp))
+                    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                        EditTextBox(
+                            title = stringResource(id = R.string.txt_review_write_store_name),
+                            content = inputStoreName,
+                            contentHint = stringResource(id = R.string.txt_review_write_store_name_hint),
+                            onContentChange = { newText -> inputStoreName = newText }
+                        )
+                    }
+                    Box(modifier = Modifier.padding(top = 20.dp))
+                    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                        EditTextBox(
+                            title = stringResource(id = R.string.txt_review_write_menu_name),
+                            content = inputMenuName,
+                            contentHint = stringResource(id = R.string.txt_review_write_menu_name_hint),
+                            onContentChange = { newText -> inputMenuName = newText }
+                        )
+                    }
+                    // 카테고리
+                    Box(modifier = Modifier.padding(top = 20.dp))
+                    Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+                        Text(
+                            text = stringResource(id = R.string.txt_review_write_category),
+                            style = DessertTimeTheme.typography.textStyleBold14,
+                            color = DoveGray,
+                            modifier = Modifier.wrapContentSize()
+                        )
+                    }
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .border(0.dp, Color.Transparent)
+                            .shadow(0.dp, RoundedCornerShape(0.dp)),
+                        color = Color.Transparent
+                    ) {
+                        DropdownExample()
+                    }
+                    // 재료 선택
+                    Box(modifier = Modifier.padding(top = 20.dp))
+                    Text(
+                        text = stringResource(id = R.string.txt_review_write_material_selection),
+                        style = DessertTimeTheme.typography.textStyleBold14,
+                        color = DoveGray,
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(start = 16.dp)
+                    )
+                    Box(modifier = Modifier.padding(top = 8.dp))
+                    MaterialItemList(materialArr)
+                    // 점수
+                    Spacer(modifier = Modifier.padding(top = 12.dp))
+                    Text(
+                        text = stringResource(id = R.string.txt_review_write_score),
+                        style = DessertTimeTheme.typography.textStyleBold14,
+                        color = DoveGray,
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(start = 16.dp)
+                    )
+                    Box(modifier = Modifier.padding(top = 8.dp))
+                    ScoreCheck()
+                    // 후기 작성
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Text(
+                        text = stringResource(id = R.string.txt_review_write_behind),
+                        style = DessertTimeTheme.typography.textStyleBold14,
+                        color = DoveGray,
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(start = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(top = 8.dp))
+                    OutlinedTextField(
+                        value = inputReviewBehind,
+                        onValueChange = { newText -> inputReviewBehind = newText },
+                        textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(108.dp)
+                            .padding(horizontal = 16.dp),
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.txt_inquiry_content_hint),
+                                style = DessertTimeTheme.typography.textStyleRegular12,
+                                color = Black30
+                            )
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            containerColor = WildSand,
+                            focusedIndicatorColor = AzureRadiance,
+                            unfocusedIndicatorColor = Black30
+                        )
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp) // Column 전체에 위쪽 패딩 추가
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End // 오른쪽 정렬
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.txt_review_write_text_count),
+                                style = DessertTimeTheme.typography.textStyleRegular10,
+                                color = TundoraCategory,
+                                modifier = Modifier.padding(end = 20.dp) // 오른쪽 패딩 추가
+                            )
+                        }
+                    }
+                    // 메뉴 사진
+                    Spacer(modifier = Modifier.padding(top = 5.dp))
+                    Text(
+                        text = stringResource(id = R.string.txt_review_write_menu_image),
+                        style = DessertTimeTheme.typography.textStyleBold14,
+                        color = DoveGray,
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(start = 16.dp)
+                    )
+                    Spacer(modifier = Modifier.padding(top = 8.dp))
+                    MenuPicture()
+                    // 작성완료
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        CommonUi.NextButton(
+                            text = stringResource(R.string.txt_review_write_complete),
+                            onClick = {},
+                            background = AltoAgree,
+                            textColor = DustyGray
+                        )
+                    }
+                    Spacer(modifier = Modifier.padding(top = 50.dp))
+                }
             }
         }
-        // 메뉴 사진
-        Spacer(modifier = Modifier.padding(top = 5.dp))
-        Text(
-            text = stringResource(id = R.string.txt_review_write_menu_image),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray,
-            modifier = Modifier
-                .wrapContentSize()
-                .padding(start = 16.dp)
-        )
-        Spacer(modifier = Modifier.padding(top = 8.dp))
-        MenuPicture()
-        // 작성완료
-        Spacer(modifier = Modifier.padding(top = 20.dp))
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            CommonUi.NextButton(
-                text = stringResource(R.string.txt_review_write_complete),
-                onClick = {},
-                background = AltoAgree,
-                textColor = DustyGray
-            )
-        }
-    }
+    )
 }
 
 @Composable
@@ -548,5 +577,7 @@ fun MenuPicture() {
 @Preview(showBackground = true)
 @Composable
 fun WriteReviewScreenPreview() {
-    ReviewWriteScreen()
+    ReviewWriteScreen (
+        onNavigateToReview = {false}
+    )
 }
