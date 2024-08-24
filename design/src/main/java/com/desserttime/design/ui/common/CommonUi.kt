@@ -205,25 +205,4 @@ object CommonUi {
             }
         }
     }
-
-//    @Composable
-//    fun BirthYearDropdown(expanded: Boolean, onYearSelected: (String) -> Unit) {
-//        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-//        val birthYears = (1990..currentYear).toList()
-//
-//        DropdownMenu(
-//            expanded = expanded,
-//            onDismissRequest = { },
-//            modifier = Modifier.fillMaxWidth()
-//        ) {
-//            birthYears.forEach { year ->
-//                DropdownMenuItem(
-//                    text = { Text(text = year.toString()) },
-//                    onClick = {
-//                        onYearSelected(year.toString())  // 선택된 연도를 콜백으로 전달
-//                    }
-//                )
-//            }
-//        }
-//    }
 }
