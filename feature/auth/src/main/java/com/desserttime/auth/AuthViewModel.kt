@@ -1,6 +1,5 @@
 package com.desserttime.auth
 
-import android.content.Context
 import com.desserttime.core.base.BaseViewModel
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -198,5 +197,4 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
             return Result.failure(Exception("AccessToken is null. Cannot fetch user info."))
         }
     }
-
 }
