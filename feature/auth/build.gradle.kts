@@ -46,6 +46,9 @@ dependencies {
     // kakao
     implementation(libs.kakao.user)
 
+    // naver
+    implementation(libs.naver.login)
+
     // Timber
     implementation(libs.timber)
 

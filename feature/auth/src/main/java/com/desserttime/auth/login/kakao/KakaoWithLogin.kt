@@ -1,4 +1,4 @@
-package com.desserttime.auth.login
+package com.desserttime.auth.login.kakao
 
 import android.content.Context
 import com.desserttime.auth.AuthViewModel
@@ -6,7 +6,7 @@ import com.kakao.sdk.user.UserApiClient
 import timber.log.Timber
 
 private const val TAG = "KakaoWithLogin"
-private const val KAKAO_LOGIN_SUCCESS = "kakao"
+private const val KAKAO_LOGIN_PROVIDER = "kakao"
 
 fun loginWithKakao(
     context: Context,
@@ -67,7 +67,7 @@ fun fetchKakaoUserInfo(
             authViewModel.saveMemberNameData(user.id.toString())
             authViewModel.saveMemberEmailData(user.kakaoAccount?.email.toString())
             authViewModel.saveSnsIdData(accessToken)
-            authViewModel.saveSignInSnsData(KAKAO_LOGIN_SUCCESS)
+            authViewModel.saveSignInSnsData(KAKAO_LOGIN_PROVIDER)
 
             // 화면 전환
             onNavigateToSignUpAgree()
