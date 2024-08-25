@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.google.service)
 }
 
 android {
@@ -44,6 +45,12 @@ dependencies {
 
     // naver
     implementation(libs.naver.login)
+
+    // google
+    implementation(libs.google.services)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.bom)
+    implementation(libs.play.services.auth)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
