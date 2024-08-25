@@ -28,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -47,7 +49,8 @@ fun LoginScreen(
     onNavigateToSignUpAgree: () -> Unit = {},
     onNavigateToInquiryInput: () -> Unit = {},
     onNavigateToHome: () -> Unit = {},
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    authViewModel: AuthViewModel
 ) {
     val context = LocalContext.current
 
@@ -79,7 +82,8 @@ fun LoginScreen(
             {
                 loginWithKakao(
                     context,
-                    onNavigateToSignUpAgree
+                    onNavigateToSignUpAgree,
+                    authViewModel
                 )
             },
             Turbo,
@@ -204,6 +208,7 @@ fun LoginScreenPreview() {
         onNavigateToSignUpAgree = {},
         onNavigateToInquiryInput = {},
         onNavigateToHome = {},
-        onBack = {}
+        onBack = {},
+        authViewModel = AuthViewModel()
     )
 }

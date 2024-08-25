@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AltoAgree
 import com.desserttime.design.theme.Black30
@@ -50,12 +51,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun SignUpAgreeScreen(
     onNavigateToSignUpInput: () -> Unit = {},
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    authViewModel: AuthViewModel
 ) {
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
-    
+
     // 버튼 색상 변경
     var buttonColor = remember { mutableStateOf(false) }
 
@@ -79,7 +81,7 @@ fun SignUpAgreeScreen(
             Spacer(Modifier.padding(top = 24.dp))
             TitleText()
             Spacer(Modifier.padding(top = 48.dp))
-            buttonColor = allAgreeRadioButtonGroup()
+            buttonColor = allAgreeRadioButtonGroup(authViewModel)
         }
         Column(
             modifier = Modifier
@@ -121,7 +123,7 @@ fun TitleText() {
 }
 
 @Composable
-fun allAgreeRadioButtonGroup(): MutableState<Boolean> {
+fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean> {
     val options = listOf(
         stringResource(R.string.txt_all_agree),
         stringResource(R.string.txt_all_agree_detail1),
@@ -196,6 +198,8 @@ fun allAgreeRadioButtonGroup(): MutableState<Boolean> {
     val check = selectedOptions.any { it }
     buttonColor.value = check
 
+    authViewModel.saveIsAgreeADData(if(selectedOptions[selectedOptions.size - 1]) "Y" else "N")
+
     return buttonColor
 }
 
@@ -234,6 +238,7 @@ fun CustomRadioButton(
 fun GreetingPreview() {
     SignUpAgreeScreen(
         onNavigateToSignUpInput = {},
-        onBack = {}
+        onBack = {},
+        authViewModel = AuthViewModel()
     )
 }

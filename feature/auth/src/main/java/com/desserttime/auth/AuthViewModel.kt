@@ -2,6 +2,7 @@ package com.desserttime.auth
 
 import com.desserttime.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -12,6 +13,8 @@ import javax.inject.Inject
 class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
+    private val TAG = "AuthViewModel::"
+
     override fun reduceState(currentState: AuthState, event: AuthEvent): AuthState {
         return when (event) {
             is AuthEvent.RequestMemberNameData -> {
@@ -120,5 +123,25 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
 
     fun saveMemberPickCategory5Data(memberPickCategory5: String) {
         sendAction(AuthEvent.RequestMemberPickCategory5Data(memberPickCategory5))
+    }
+
+    // 전체 변수 로그 찍기
+    fun printAllData() {
+        val currentState = uiState.value
+        Timber.i("$TAG memberName: ${currentState.memberName}")
+        Timber.i("$TAG memberEmail: ${currentState.memberEmail}")
+        Timber.i("$TAG snsId: ${currentState.snsId}")
+        Timber.i("$TAG signInSns: ${currentState.signInSns}")
+        Timber.i("$TAG birthYear: ${currentState.birthYear}")
+        Timber.i("$TAG memberGender: ${currentState.memberGender}")
+        Timber.i("$TAG firstCity: ${currentState.firstCity}")
+        Timber.i("$TAG secondaryCity: ${currentState.secondaryCity}")
+        Timber.i("$TAG thirdCity: ${currentState.thirdCity}")
+        Timber.i("$TAG isAgreeAD: ${currentState.isAgreeAD}")
+        Timber.i("$TAG memberPickCategory1: ${currentState.memberPickCategory1}")
+        Timber.i("$TAG memberPickCategory2: ${currentState.memberPickCategory2}")
+        Timber.i("$TAG memberPickCategory3: ${currentState.memberPickCategory3}")
+        Timber.i("$TAG memberPickCategory4: ${currentState.memberPickCategory4}")
+        Timber.i("$TAG memberPickCategory5: ${currentState.memberPickCategory5}")
     }
 }

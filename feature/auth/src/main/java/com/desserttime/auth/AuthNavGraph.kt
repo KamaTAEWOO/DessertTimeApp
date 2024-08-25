@@ -22,7 +22,8 @@ import com.desserttime.mypage.withdrawal.WithdrawalScreen
 import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -35,7 +36,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
