@@ -1,8 +1,8 @@
 package com.desserttime.auth.signup
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,13 +17,15 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -38,6 +40,9 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
 import com.desserttime.design.ui.common.CommonUi
+import timber.log.Timber
+
+private const val TAG = "SignUpChooseScreen"
 
 @Composable
 fun SignUpChooseScreen(
@@ -145,6 +150,9 @@ private fun ViewSelectTasteData() {
 
 @Composable
 fun SelectTasteRecyclerView(items: List<Pair<Int, String>>) {
+    // TODO : 저장할 데이터
+    val selectedItems = remember { mutableStateListOf<String>() }
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         modifier = Modifier
@@ -153,34 +161,57 @@ fun SelectTasteRecyclerView(items: List<Pair<Int, String>>) {
     ) {
         items(items.size) { index ->
             val item = items[index]
-            GridItem(imageRes = item.first, text = item.second)
+
+            val isSelected = selectedItems.contains(item.second)
+            GridItem(
+                imageRes = item.first,
+                text = item.second,
+                isSelected = isSelected,
+                onClick = {
+                    if (isSelected) {
+                        // 선택된 아이템 해제
+                        selectedItems.remove(item.second)
+                    } else {
+                        // 최대 5개까지만 추가 가능
+                        if (selectedItems.size < 5) {
+                            selectedItems.add(item.second)
+                        } else {
+                            Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
+                        }
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun GridItem(imageRes: Int, text: String) {
+fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp) // Add spacing to each item
+            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp)
             .size(72.dp)
             .clip(CircleShape) // Clip to a circular shape
-            .border(1.dp, AthensGray, CircleShape) // Add a circular border
+            .border(
+                width = 1.dp,
+                color = if (isSelected) MainColor else AthensGray,
+                shape = CircleShape
+            )
+            .clickable { onClick() } // 클릭 가능하도록 설정
             .padding(8.dp)
     ) {
-        Image(
+        Icon(
             painter = painterResource(id = imageRes),
             contentDescription = text,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(32.dp)
+            modifier = Modifier.size(32.dp),
+            tint = if (isSelected) MainColor else Silver
         )
         Text(
             text = text,
             style = DessertTimeTheme.typography.textStyleRegular12,
-            color = Silver,
+            color = if (isSelected) MainColor else Silver, // 선택 시 텍스트 색상 변경
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
