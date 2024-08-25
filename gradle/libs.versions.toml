@@ -25,6 +25,10 @@ hiltPlugin = "2.45"
 # auth
 kakao-user = "2.14.0"
 naver-login = "5.8.0"
+google-services = "4.3.10"
+firebase-auth = "21.0.1"
+firebase-bom = "29.0.0"
+play-services-auth = "19.2.0"
 
 ## hilt
 hilt = "2.45"
@@ -100,6 +104,10 @@ java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "ja
 # auth
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
 naver-login = { group = "com.navercorp.nid", name = "oauth", version.ref = "naver-login" }
+google-services = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "google-services" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-services-auth" }
 
 # coroutine
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "corotine-core" }

@@ -49,6 +49,12 @@ dependencies {
     // naver
     implementation(libs.naver.login)
 
+    // google
+    implementation(libs.google.services)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.bom)
+    implementation(libs.play.services.auth)
+
     // Timber
     implementation(libs.timber)
 

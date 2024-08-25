@@ -17,11 +17,13 @@ android {
         val kakaoUrl = localProperties.getProperty("KAKAO_API_KEY", "")
         val naverUrl = localProperties.getProperty("NAVER_API_KEY", "")
         val naverSecret = localProperties.getProperty("NAVER_API_SECRET", "")
+        val googleClientId = localProperties.getProperty("GOOGLE_CLIENT_ID", "")
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "KAKAO_API_KEY", "\"$kakaoUrl\"")
         buildConfigField("String", "NAVER_API_KEY", "\"$naverUrl\"")
         buildConfigField("String", "NAVER_API_SECRET", "\"$naverSecret\"")
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
     }
 
     buildFeatures {
