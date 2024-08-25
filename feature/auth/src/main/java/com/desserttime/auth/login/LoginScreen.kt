@@ -29,6 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
+import com.desserttime.auth.login.google.GoogleLoginInit
+import com.desserttime.auth.login.google.googleWithLogin
 import com.desserttime.auth.login.kakao.loginWithKakao
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.design.R
@@ -109,10 +111,15 @@ fun LoginScreen(
             Malachite
         )
         Spacer(Modifier.padding(top = 12.dp))
+        GoogleLoginInit(
+            context,
+            onNavigateToSignUpAgree,
+            authViewModel
+        )
         // 구글 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_google),
-            {},
+            { googleWithLogin() },
             White,
             Black54,
             R.drawable.ic_google_logo,
