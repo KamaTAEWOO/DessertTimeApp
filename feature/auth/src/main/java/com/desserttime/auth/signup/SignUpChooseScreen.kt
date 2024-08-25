@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -104,7 +105,7 @@ fun SignUpChooseScreen(
     }
     // 취향 리스트
     Column {
-        Spacer(Modifier.padding(top = 194.dp))
+        Spacer(Modifier.padding(top = 184.dp))
         ViewSelectTasteData()
     }
     Column(
@@ -191,8 +192,8 @@ fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Un
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp)
-            .size(72.dp)
+            .padding(start = 5.dp, end = 5.dp, top = 10.dp)
+            .size(80.dp)
             .clip(CircleShape) // Clip to a circular shape
             .border(
                 width = 1.dp,
