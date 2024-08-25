@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.model.Gender
 import com.desserttime.design.R
 import com.desserttime.design.theme.AthensGray
@@ -48,7 +49,8 @@ import com.desserttime.design.ui.common.CommonUi
 @Composable
 fun SignUpInputScreen(
     onNavigateToSignUpChoose: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    authViewModel: AuthViewModel
 ) {
     // TODO : 데이터 저장하기
     val selectedGender = remember { mutableStateOf<Gender?>(Gender.MALE) }
@@ -239,7 +241,15 @@ fun SignUpInputScreen(
         ) {
             CommonUi.NextButton(
                 text = stringResource(R.string.txt_next),
-                onClick = onNavigateToSignUpChoose,
+                onClick = {
+                    saveData(
+                        authViewModel,
+                        onNavigateToSignUpChoose,
+                        selectedGender.value,
+                        selectedBirth.value,
+                        selectedAddress.value
+                    )
+                },
                 background = MainColor20,
                 textColor = MainColor,
                 enabled = true
@@ -248,8 +258,26 @@ fun SignUpInputScreen(
     }
 }
 
+private fun saveData(
+    authViewModel: AuthViewModel,
+    onNavigateToSignUpChoose: () -> Unit,
+    sex: Gender?,
+    birth: String,
+    address: String
+) {
+    authViewModel.saveMemberGenderData(if(sex == Gender.MALE) "M" else "F")
+    authViewModel.saveBirthYearData(birth.toInt())
+    // address는 띄워쓰기에 따라 3개로 나누어 저장
+    val addressList = address.split(" ")
+    authViewModel.saveFirstCityData(addressList[0])
+    authViewModel.saveSecondaryCityData(addressList[1])
+    authViewModel.saveThirdCityData(addressList[2])
+    onNavigateToSignUpChoose()
+
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpInputScreen() {
-    SignUpInputScreen({}, {})
+    SignUpInputScreen({}, {}, AuthViewModel())
 }
