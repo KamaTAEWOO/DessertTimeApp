@@ -3,10 +3,12 @@ package com.desserttime.desserttimeapp
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.authNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.core.navigation.NavGraphLabel
@@ -19,6 +21,8 @@ import com.desserttime.desserttimeapp.splash.SplashScreen
 fun AppNavHost(
     navHostController: NavHostController = rememberNavController()
 ) {
+    val authViewModel: AuthViewModel = hiltViewModel()
+
     NavHost(
         navController = navHostController,
         startDestination = RootDestination.Splash.route,
@@ -49,12 +53,14 @@ fun AppNavHost(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
         authNavGraph(
-            navHostController = navHostController
+            navHostController = navHostController,
+            authViewModel = authViewModel
         )
     }
 }

@@ -144,7 +144,8 @@ fun InquiryInputScreen(
                 text = stringResource(R.string.txt_inquiry_content_send),
                 onClick = onNavigateToInquiryInput,
                 background = MainColor,
-                textColor = Color.White
+                textColor = Color.White,
+                enabled = true
             )
         }
     }

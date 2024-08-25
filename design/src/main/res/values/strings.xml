@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-<!--    Login-->
+    <!--    Login-->
     <string name="img_login_logo" tools:ignore="MissingDefaultResource">login_logo</string>
     <string name="txt_login_title">로그인/회원가입</string>
     <string name="txt_login_kakao">카카오로 시작하기</string>
@@ -52,7 +52,7 @@
     <!--    SignUpCompleteScreen-->
     <string name="txt_complete1">회원가입 해주셔서</string>
     <string name="txt_complete2">감사합니다</string>
-    <string name="txt_next_page">NN초 후 메인화면으로 이동합니다.</string>
+    <string name="txt_next_page">3초 후 메인화면으로 이동합니다.</string>
 
     <!--    InquiryInputScreen-->
     <string name="txt_inquiry_title">문의하기</string>

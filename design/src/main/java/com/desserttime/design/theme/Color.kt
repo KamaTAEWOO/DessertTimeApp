@@ -18,6 +18,7 @@ val BgScreenPink40 = Color(0xFF7D5260)
 // Light
 val Black5 = Color(0x0D000000)
 val Black30 = Color(0x4D000000)
+val Black50 = Color(0x80000000)
 val Black54 = Color(0x8A000000)
 val Black60 = Color(0x99000000)
 val OsloGray = Color(0xFF858789)

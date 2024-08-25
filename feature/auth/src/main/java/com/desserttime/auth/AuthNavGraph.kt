@@ -22,7 +22,8 @@ import com.desserttime.mypage.withdrawal.WithdrawalScreen
 import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -35,7 +36,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
@@ -46,7 +48,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
@@ -57,7 +60,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
@@ -67,6 +71,13 @@ fun NavGraphBuilder.authNavGraph(
                     navHostController.navigate(AuthDestination.Login.route) {
                         popUpTo(AuthDestination.SignUpComplete.route) {
                             inclusive = true
+                        }
+                    }
+                },
+                onTimeout = {
+                    navHostController.navigate(MainDestination.Home.route) {
+                        popUpTo(AuthDestination.SignUpComplete.route) {
+                            inclusive = false
                         }
                     }
                 }
