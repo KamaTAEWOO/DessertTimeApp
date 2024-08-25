@@ -37,9 +37,7 @@ fun GoogleLoginInit(
 ) {
     // GoogleSignInOptions 설정
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
-        .requestEmail()
-        .build()
+        .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID).requestEmail().build()
 
     googleSignInClient = GoogleSignIn.getClient(context, gso)
 
@@ -69,27 +67,26 @@ fun googleWithLoginSuccess(
     Timber.i("firebaseAuthWithGoogle: ${account?.idToken}")
 
     // Firebase Auth로 로그인
-     FirebaseAuth.getInstance().signInWithCredential(credential)
-         .addOnCompleteListener { task ->
-             if (task.isSuccessful) {
-                 Timber.i("signInWithCredential:success")
-                 val user = FirebaseAuth.getInstance().currentUser
-                 Timber.i("signInWithCredential:success: ${user?.displayName}")
-                 Timber.i("signInWithCredential:success: ${user?.email}")
-                 Timber.i("signInWithCredential:success: ${user?.photoUrl}")
-                 Timber.i("signInWithCredential:success: ${user?.uid}")
-                 Timber.i("signInWithCredential:success: ${user?.providerData}")
+    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            Timber.i("signInWithCredential:success")
+            val user = FirebaseAuth.getInstance().currentUser
+            Timber.i("signInWithCredential:success: ${user?.displayName}")
+            Timber.i("signInWithCredential:success: ${user?.email}")
+            Timber.i("signInWithCredential:success: ${user?.photoUrl}")
+            Timber.i("signInWithCredential:success: ${user?.uid}")
+            Timber.i("signInWithCredential:success: ${user?.providerData}")
 
-                 // 데이터 저장
-                 authViewModel.saveMemberNameData(user?.displayName ?: "")
-                 authViewModel.saveMemberEmailData(user?.email ?: "")
-                 authViewModel.saveSnsIdData(account?.idToken ?: "")
-                 authViewModel.saveSignInSnsData(GOOGLE_LOGIN_PROVIDER)
+            // 데이터 저장
+            authViewModel.saveMemberNameData(user?.displayName ?: "")
+            authViewModel.saveMemberEmailData(user?.email ?: "")
+            authViewModel.saveSnsIdData(account?.idToken ?: "")
+            authViewModel.saveSignInSnsData(GOOGLE_LOGIN_PROVIDER)
 
-                 // 화면 전환
-                 onNavigateToSignUpAgree()
-             } else {
-                 Timber.i("signInWithCredential:failure: ${task.exception}")
-             }
-         }
+            // 화면 전환
+            onNavigateToSignUpAgree()
+        } else {
+            Timber.i("signInWithCredential:failure: ${task.exception}")
+        }
+    }
 }
