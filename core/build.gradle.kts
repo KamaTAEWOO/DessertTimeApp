@@ -13,11 +13,15 @@ android {
 
     defaultConfig {
         val localProperties = loadLocalProperties(rootDir)
-        val baseUrl = localProperties.getProperty("BASE_URL", "") // 기본값을 적절한 URL로 설정
-        val kakaoUrl = localProperties.getProperty("KAKAO_API_KEY", "") // 기본값을 적절한 URL로 설정
+        val baseUrl = localProperties.getProperty("BASE_URL", "")
+        val kakaoUrl = localProperties.getProperty("KAKAO_API_KEY", "")
+        val naverUrl = localProperties.getProperty("NAVER_API_KEY", "")
+        val naverSecret = localProperties.getProperty("NAVER_API_SECRET", "")
 
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"") // 문자열 값을 올바르게 설정
-        buildConfigField("String", "KAKAO_API_KEY", "\"$kakaoUrl\"") // 문자열 값을 올바르게 설정
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "KAKAO_API_KEY", "\"$kakaoUrl\"")
+        buildConfigField("String", "NAVER_API_KEY", "\"$naverUrl\"")
+        buildConfigField("String", "NAVER_API_SECRET", "\"$naverSecret\"")
     }
 
     buildFeatures {

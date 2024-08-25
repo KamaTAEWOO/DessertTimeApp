@@ -29,6 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
+import com.desserttime.auth.login.kakao.loginWithKakao
+import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -94,7 +96,13 @@ fun LoginScreen(
         // 네이버 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_naver),
-            onNavigateToHome,
+            {
+                naverWithLogin(
+                    context,
+                    onNavigateToSignUpAgree,
+                    authViewModel
+                )
+            },
             Malachite,
             White,
             R.drawable.ic_naver_logo,
