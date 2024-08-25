@@ -52,7 +52,7 @@
     <!--    SignUpCompleteScreen-->
     <string name="txt_complete1">회원가입 해주셔서</string>
     <string name="txt_complete2">감사합니다</string>
-    <string name="txt_next_page">NN초 후 메인화면으로 이동합니다.</string>
+    <string name="txt_next_page">3초 후 메인화면으로 이동합니다.</string>
 
     <!--    InquiryInputScreen-->
     <string name="txt_inquiry_title">문의하기</string>

@@ -127,9 +127,9 @@ fun SignUpChooseScreen(
                     selectedItems
                 )
             },
-            background = MainColor20,
-            textColor = MainColor,
-            enabled = true
+            background = if (selectedItems.isEmpty()) MainColor20 else MainColor,
+            textColor = if (selectedItems.isEmpty()) MainColor else Color.White,
+            enabled = selectedItems.isNotEmpty()
         )
     }
 }

@@ -68,7 +68,10 @@ object CommonUi {
     ) {
         Button(
             onClick = onClick,
-            colors = ButtonDefaults.buttonColors(background),
+            colors = ButtonDefaults.buttonColors(
+                background,
+                disabledContainerColor = background
+            ),
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()

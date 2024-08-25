@@ -73,6 +73,13 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = true
                         }
                     }
+                },
+                onTimeout = {
+                    navHostController.navigate(MainDestination.Home.route) {
+                        popUpTo(AuthDestination.SignUpComplete.route) {
+                            inclusive = false
+                        }
+                    }
                 }
             )
         }
