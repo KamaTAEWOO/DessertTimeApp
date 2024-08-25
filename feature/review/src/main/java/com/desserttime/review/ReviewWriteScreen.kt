@@ -270,7 +270,8 @@ fun ReviewWriteScreen(
                             text = stringResource(R.string.txt_review_write_complete),
                             onClick = {},
                             background = AltoAgree,
-                            textColor = DustyGray
+                            textColor = DustyGray,
+                            enabled = true
                         )
                     }
                     Spacer(modifier = Modifier.padding(top = 50.dp))

@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -80,7 +79,7 @@ fun SignUpAgreeScreen(
             Spacer(Modifier.padding(top = 24.dp))
             TitleText()
             Spacer(Modifier.padding(top = 48.dp))
-            buttonColor = AllAgreeRadioButtonGroup()
+            buttonColor = allAgreeRadioButtonGroup()
         }
         Column(
             modifier = Modifier
@@ -93,7 +92,8 @@ fun SignUpAgreeScreen(
                 text = stringResource(R.string.txt_next),
                 onClick = onNavigateToSignUpInput,
                 background = if (buttonColor.value) MainColor else AltoAgree,
-                textColor = if (buttonColor.value) Color.White else Black30
+                textColor = if (buttonColor.value) Color.White else Black30,
+                enabled = buttonColor.value
             )
         }
     }
@@ -121,7 +121,7 @@ fun TitleText() {
 }
 
 @Composable
-fun AllAgreeRadioButtonGroup(): MutableState<Boolean> {
+fun allAgreeRadioButtonGroup(): MutableState<Boolean> {
     val options = listOf(
         stringResource(R.string.txt_all_agree),
         stringResource(R.string.txt_all_agree_detail1),

@@ -63,7 +63,8 @@ object CommonUi {
         text: String,
         onClick: () -> Unit = {},
         background: Color,
-        textColor: Color
+        textColor: Color,
+        enabled: Boolean
     ) {
         Button(
             onClick = onClick,
@@ -71,7 +72,8 @@ object CommonUi {
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(61.dp)
+                .height(61.dp),
+            enabled = enabled
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,

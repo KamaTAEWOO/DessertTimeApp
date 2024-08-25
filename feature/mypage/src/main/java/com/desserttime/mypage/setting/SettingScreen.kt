@@ -252,7 +252,8 @@ fun SettingBottomContent(
             text = stringResource(R.string.txt_mypage_setting_logout),
             onClick = onNavigateToHome,
             background = MainColor, // 버튼 배경색
-            textColor = Color.White // 버튼 텍스트 색상
+            textColor = Color.White,
+            enabled = true
         )
         Spacer(modifier = Modifier.height(12.dp))
         Row(

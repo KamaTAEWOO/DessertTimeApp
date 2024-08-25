@@ -112,7 +112,8 @@ fun SignUpChooseScreen(
             text = stringResource(R.string.txt_next),
             onClick = onNavigateToSignUpComplete,
             background = MainColor20,
-            textColor = MainColor
+            textColor = MainColor,
+            enabled = true
         )
     }
 }
