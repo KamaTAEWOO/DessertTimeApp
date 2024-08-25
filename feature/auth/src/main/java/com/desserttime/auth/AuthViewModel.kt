@@ -9,12 +9,12 @@ import javax.inject.Inject
 * 로그인 및 회원가입 시 사용되는 viewModel
 * */
 
+private const val TAG = "AuthViewModel::"
+
 @HiltViewModel
 class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
-    private val TAG = "AuthViewModel::"
-
     override fun reduceState(currentState: AuthState, event: AuthEvent): AuthState {
         return when (event) {
             is AuthEvent.RequestMemberNameData -> {

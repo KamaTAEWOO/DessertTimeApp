@@ -181,7 +181,7 @@ fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean
                             .padding(start = 8.dp)
                             .wrapContentSize()
                     )
-                    if(index != 0) {
+                    if (index != 0) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_right_arrow),
                             contentDescription = null,
@@ -198,7 +198,7 @@ fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean
     val check = selectedOptions.any { it }
     buttonColor.value = check
 
-    authViewModel.saveIsAgreeADData(if(selectedOptions[selectedOptions.size - 1]) "Y" else "N")
+    authViewModel.saveIsAgreeADData(if (selectedOptions[selectedOptions.size - 1]) "Y" else "N")
 
     return buttonColor
 }

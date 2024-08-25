@@ -269,7 +269,7 @@ private fun saveSignUpInputData(
     birth: String,
     address: String
 ) {
-    authViewModel.saveMemberGenderData(if(sex == Gender.MALE) "M" else "F")
+    authViewModel.saveMemberGenderData(if (sex == Gender.MALE) "M" else "F")
     authViewModel.saveBirthYearData(birth.toInt())
     // address는 띄워쓰기에 따라 3개로 나누어 저장
     val addressList = address.split(" ")

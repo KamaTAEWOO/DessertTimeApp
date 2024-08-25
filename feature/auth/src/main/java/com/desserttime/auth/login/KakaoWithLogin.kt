@@ -1,7 +1,6 @@
 package com.desserttime.auth.login
 
 import android.content.Context
-import com.desserttime.auth.AuthState
 import com.desserttime.auth.AuthViewModel
 import com.kakao.sdk.user.UserApiClient
 import timber.log.Timber
