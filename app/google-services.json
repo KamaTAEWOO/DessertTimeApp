@@ -12,7 +12,12 @@
           "package_name": "com.desserttime.desserttimeapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "499309259293-ml68vajtnh9ndu8rpe8mq9uanuhhujqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBDyh4jgCzFhd0achxRVpvFlTSiDxHkLg4"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499309259293-ml68vajtnh9ndu8rpe8mq9uanuhhujqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
