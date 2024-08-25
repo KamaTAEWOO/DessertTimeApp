@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AthensGray
 import com.desserttime.design.theme.DessertTimeTheme
@@ -48,8 +49,11 @@ private const val TAG = "SignUpChooseScreen"
 @Composable
 fun SignUpChooseScreen(
     onNavigateToSignUpComplete: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    authViewModel: AuthViewModel
 ) {
+    val selectedItems = remember { mutableStateListOf<String>() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -106,7 +110,7 @@ fun SignUpChooseScreen(
     // 취향 리스트
     Column {
         Spacer(Modifier.padding(top = 184.dp))
-        ViewSelectTasteData()
+        ViewSelectTasteData(selectedItems)
     }
     Column(
         modifier = Modifier
@@ -116,7 +120,13 @@ fun SignUpChooseScreen(
     ) {
         CommonUi.NextButton(
             text = stringResource(R.string.txt_next),
-            onClick = onNavigateToSignUpComplete,
+            onClick = {
+                saveSignUpChooseData(
+                    onNavigateToSignUpComplete,
+                    authViewModel,
+                    selectedItems
+                )
+            },
             background = MainColor20,
             textColor = MainColor,
             enabled = true
@@ -125,7 +135,7 @@ fun SignUpChooseScreen(
 }
 
 @Composable
-private fun ViewSelectTasteData() {
+private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
     val items = listOf(
         R.drawable.ic_fish_shaped_bun_off to stringResource(id = R.string.txt_fish_shaped_bun),
         R.drawable.ic_baked_confectionery_off to stringResource(id = R.string.txt_baked_confectionery),
@@ -146,14 +156,14 @@ private fun ViewSelectTasteData() {
         R.drawable.ic_pudding_off to stringResource(id = R.string.txt_pudding)
     )
 
-    SelectTasteRecyclerView(items = items)
+    SelectTasteRecyclerView(items = items, selectedItems = selectedItems)
 }
 
 @Composable
-fun SelectTasteRecyclerView(items: List<Pair<Int, String>>) {
-    // TODO : 저장할 데이터
-    val selectedItems = remember { mutableStateListOf<String>() }
-
+fun SelectTasteRecyclerView(
+    items: List<Pair<Int, String>>,
+    selectedItems: SnapshotStateList<String>
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         modifier = Modifier
@@ -219,8 +229,22 @@ fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Un
     }
 }
 
+private fun saveSignUpChooseData(
+    onNavigateToSignUpComplete: () -> Unit,
+    authViewModel: AuthViewModel,
+    selectedItems: SnapshotStateList<String>
+) {
+    // 갯수 체크 후 데이터 저장
+    authViewModel.saveMemberPickCategory1Data(selectedItems.getOrNull(0) ?: "")
+    authViewModel.saveMemberPickCategory2Data(selectedItems.getOrNull(1) ?: "")
+    authViewModel.saveMemberPickCategory3Data(selectedItems.getOrNull(2) ?: "")
+    authViewModel.saveMemberPickCategory4Data(selectedItems.getOrNull(3) ?: "")
+    authViewModel.saveMemberPickCategory5Data(selectedItems.getOrNull(4) ?: "")
+    onNavigateToSignUpComplete()
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpChooseScreen() {
-    SignUpChooseScreen({}, {})
+    SignUpChooseScreen({}, {}, AuthViewModel())
 }

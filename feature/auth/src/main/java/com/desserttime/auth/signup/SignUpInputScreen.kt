@@ -242,7 +242,7 @@ fun SignUpInputScreen(
             CommonUi.NextButton(
                 text = stringResource(R.string.txt_next),
                 onClick = {
-                    saveData(
+                    saveSignUpInputData(
                         authViewModel,
                         onNavigateToSignUpChoose,
                         selectedGender.value,
@@ -258,7 +258,7 @@ fun SignUpInputScreen(
     }
 }
 
-private fun saveData(
+private fun saveSignUpInputData(
     authViewModel: AuthViewModel,
     onNavigateToSignUpChoose: () -> Unit,
     sex: Gender?,
@@ -273,7 +273,6 @@ private fun saveData(
     authViewModel.saveSecondaryCityData(addressList[1])
     authViewModel.saveThirdCityData(addressList[2])
     onNavigateToSignUpChoose()
-
 }
 
 @Preview(showBackground = true)
