@@ -2,6 +2,7 @@ package com.desserttime.auth.login.kakao
 
 import android.content.Context
 import com.desserttime.auth.AuthViewModel
+import com.desserttime.auth.model.UserProfile
 import com.kakao.sdk.user.UserApiClient
 import timber.log.Timber
 
@@ -63,11 +64,12 @@ fun fetchKakaoUserInfo(
             Timber.i("$TAG User ID: $userId")
             Timber.i("$TAG User Email: $userEmail")
 
-            // Set user info to authUiState
-            authViewModel.saveMemberNameData(user.id.toString())
-            authViewModel.saveMemberEmailData(user.kakaoAccount?.email.toString())
-            authViewModel.saveSnsIdData(accessToken)
-            authViewModel.saveSignInSnsData(KAKAO_LOGIN_PROVIDER)
+            val userProfile = UserProfile(
+                id = userId.toString(),
+                name = user.kakaoAccount?.profile?.nickname.toString(),
+                email = userEmail.toString(),
+                token = accessToken
+            )
 
             // 화면 전환
             onNavigateToSignUpAgree()
