@@ -34,13 +34,13 @@ private lateinit var launcher: ActivityResultLauncher<Intent>
 private var userProfile: UserProfile? = null
 private var googleSignInAccount: GoogleSignInAccount? = null
 
-suspend fun googleLoginStart() : LoginResult {
+suspend fun googleLoginStart(): LoginResult {
     val signInIntent = googleSignInClient.signInIntent
     launcher.launch(signInIntent)
 
     // 로그인 성공 시 userProfile 반환
     delay(2000)
-    return if(userProfile != null) {
+    return if (userProfile != null) {
         userProfile?.let { LoginResult.Success(it) } ?: LoginResult.None("GoogleSignIn Failed")
     } else {
         // 로그인 실패 시

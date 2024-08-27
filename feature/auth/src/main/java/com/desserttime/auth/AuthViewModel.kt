@@ -4,20 +4,12 @@ import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.desserttime.auth.login.LoginResult
 import com.desserttime.auth.login.google.googleLoginStart
-import com.desserttime.auth.login.google.googleWithLogin
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
-import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import loginWithKakaoAccount
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -164,7 +156,7 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
     fun loginWithLogic(
         method: LoginMethod,
         context: Context,
-        onNavigateToSignUpAgree: () -> Unit,
+        onNavigateToSignUpAgree: () -> Unit
     ) {
         viewModelScope.launch {
             val result = when (method) {

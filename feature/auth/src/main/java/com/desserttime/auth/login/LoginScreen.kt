@@ -30,9 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
-import com.desserttime.auth.login.google.googleLoginStart
-import com.desserttime.auth.login.google.googleWithLogin
-import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
