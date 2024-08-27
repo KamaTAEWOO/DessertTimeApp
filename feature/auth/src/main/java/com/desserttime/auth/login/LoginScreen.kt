@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
 import com.desserttime.auth.login.google.googleWithLogin
-import com.desserttime.auth.login.kakao.loginWithKakao
 import com.desserttime.auth.login.naver.naverWithLogin
+import com.desserttime.auth.model.LoginMethod
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -83,10 +83,10 @@ fun LoginScreen(
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
             {
-                loginWithKakao(
+                authViewModel.loginWithLogic(
+                    LoginMethod.KAKAO,
                     context,
-                    onNavigateToSignUpAgree,
-                    authViewModel
+                    onNavigateToSignUpAgree
                 )
             },
             Turbo,

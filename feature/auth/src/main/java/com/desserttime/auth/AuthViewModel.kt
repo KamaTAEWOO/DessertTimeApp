@@ -1,10 +1,17 @@
 package com.desserttime.auth
 
+import android.content.Context
+import androidx.lifecycle.viewModelScope
+import com.desserttime.auth.login.LoginResult
+import com.desserttime.auth.login.naver.naverWithLogin
+import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import loginWithKakaoAccount
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -151,6 +158,44 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
         Timber.i("$TAG memberPickCategory3: ${currentState.memberPickCategory3}")
         Timber.i("$TAG memberPickCategory4: ${currentState.memberPickCategory4}")
         Timber.i("$TAG memberPickCategory5: ${currentState.memberPickCategory5}")
+    }
+
+    // 카카오 로그인 사용자 정보 가져오기
+    fun loginWithLogic(
+        method: LoginMethod,
+        context: Context,
+        onNavigateToSignUpAgree: () -> Unit,
+    ) {
+        viewModelScope.launch {
+            var result : LoginResult = LoginResult.None("")
+
+            when (method) {
+                LoginMethod.KAKAO -> {
+                    result = loginWithKakaoAccount(context)
+                }
+                LoginMethod.NAVER -> {
+                    naverWithLogin(context, onNavigateToSignUpAgree, this@AuthViewModel)
+                }
+                LoginMethod.GOOGLE -> {
+                    // 구글 로그인
+                }
+            }
+
+            // 로그인 성공 시 회원가입 동의 화면으로 이동
+            when (result) {
+                is LoginResult.Success -> {
+                    onNavigateToSignUpAgree()
+                }
+
+                is LoginResult.Error -> {
+                    Timber.e(result.message)
+                }
+
+                else -> {
+                    Timber.e("Unknown error occurred during Kakao login")
+                }
+            }
+        }
     }
 
     // 네이버 로그인 사용자 정보 가져오기
