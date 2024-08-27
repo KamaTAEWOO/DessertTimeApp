@@ -9,6 +9,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 private const val TAG = "KakaoWithLogin"
+private const val KAKAO_LOGIN_PROVIDER = "kakao"
 
 suspend fun loginWithKakaoAccount(
     context: Context
@@ -51,7 +52,7 @@ suspend fun fetchKakaoUserInfo(accessToken: String): LoginResult {
                 continuation.resume(LoginResult.Error("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
                 val userProfile = UserProfile(
-                    id = user.id.toString(),
+                    id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
                     email = user.kakaoAccount?.email.orEmpty(),
                     token = accessToken

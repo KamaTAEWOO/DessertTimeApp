@@ -3,6 +3,8 @@ package com.desserttime.auth
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.desserttime.auth.login.LoginResult
+import com.desserttime.auth.login.google.googleLoginStart
+import com.desserttime.auth.login.google.googleWithLogin
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
@@ -165,18 +167,10 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
         onNavigateToSignUpAgree: () -> Unit,
     ) {
         viewModelScope.launch {
-            var result : LoginResult = LoginResult.None("")
-
-            when (method) {
-                LoginMethod.KAKAO -> {
-                    result = loginWithKakaoAccount(context)
-                }
-                LoginMethod.NAVER -> {
-                    result = naverWithLogin(context)
-                }
-                LoginMethod.GOOGLE -> {
-                    // 구글 로그인
-                }
+            val result = when (method) {
+                LoginMethod.KAKAO -> loginWithKakaoAccount(context)
+                LoginMethod.NAVER -> naverWithLogin(context)
+                LoginMethod.GOOGLE -> googleLoginStart()
             }
 
             // 로그인 성공 시 회원가입 동의 화면으로 이동
