@@ -1,51 +1,93 @@
 package com.desserttime.auth.login.naver
 
 import android.content.Context
-import com.desserttime.auth.AuthViewModel
+import com.desserttime.auth.login.LoginResult
+import com.desserttime.auth.model.UserProfile
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
 import timber.log.Timber
+import kotlin.coroutines.resume
 
 private const val TAG = "NaverWithLogin"
+const val NAVER_LOGIN_PROVIDER = "naver"
 
-fun naverWithLogin(
-    context: Context,
-    onNavigateToSignUpAgree: () -> Unit,
-    authViewModel: AuthViewModel
-) {
-    val oauthLoginCallback = object : OAuthLoginCallback {
-        override fun onSuccess() {
-            // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
-            Timber.i("$TAG 로그인 성공")
-            Timber.i("$TAG AccessToken -> ${NaverIdLoginSDK.getAccessToken()}")
-            Timber.i("$TAG RefreshToken -> ${NaverIdLoginSDK.getRefreshToken()}")
-            Timber.i("$TAG Expires -> ${NaverIdLoginSDK.getExpiresAt()}")
-            Timber.i("$TAG Type -> ${NaverIdLoginSDK.getTokenType()}")
-            Timber.i("$TAG State -> ${NaverIdLoginSDK.getState()}")
-
-            CoroutineScope(Dispatchers.Main).launch {
-                val result = authViewModel.fetchNaverUserInfo()
-
-                result.onSuccess {
-                    Timber.i("$TAG Naver login success")
-                    onNavigateToSignUpAgree()
-                }
-                result.onFailure {
-                    Timber.e(it, "$TAG Error occurred during Naver login")
+suspend fun naverWithLogin(context: Context): LoginResult = withContext(Dispatchers.IO) {
+    suspendCancellableCoroutine { continuation ->
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onSuccess() {
+                Timber.i("$TAG 로그인 성공")
+                // Proceed to fetch user info
+                launch {
+                    continuation.resume(fetchNaverUserInfo())
                 }
             }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Timber.i("$TAG errorCode:$errorCode, errorDesc:$errorDescription")
+                continuation.resume(LoginResult.Error("Login failed: $message"))
+            }
+
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
         }
-        override fun onFailure(httpStatus: Int, message: String) {
-            val errorCode = NaverIdLoginSDK.getLastErrorCode().code
-            val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-            Timber.i("$TAG errorCode:$errorCode, errorDesc:$errorDescription")
-        }
-        override fun onError(errorCode: Int, message: String) {
-            onFailure(errorCode, message)
-        }
+        NaverIdLoginSDK.authenticate(context, oauthLoginCallback)
     }
-    NaverIdLoginSDK.authenticate(context, oauthLoginCallback)
+}
+
+// 네이버 로그인 사용자 정보 가져오기
+suspend fun fetchNaverUserInfo(): LoginResult {
+    val accessToken = NaverIdLoginSDK.getAccessToken()
+
+    return if (accessToken != null) {
+        val client = OkHttpClient()
+        val request = Request.Builder()
+            .url("https://openapi.naver.com/v1/nid/me")
+            .addHeader("Authorization", "Bearer $accessToken")
+            .build()
+
+        withContext(Dispatchers.IO) {
+            try {
+                val response: Response = client.newCall(request).execute()
+                val responseBody = response.body?.string()
+
+                if (response.isSuccessful && responseBody != null) {
+                    val jsonObject = JSONObject(responseBody)
+                    val responseObj = jsonObject.getJSONObject("response")
+                    val name = responseObj.getString("name")
+                    val email = responseObj.getString("email")
+                    val nickname = responseObj.getString("nickname")
+
+                    LoginResult.Success(
+                        UserProfile(
+                            id = NAVER_LOGIN_PROVIDER,
+                            name = name,
+                            email = email,
+                            token = accessToken
+                        )
+                    )
+                } else {
+                    // 실패 시 에러 반환
+                    LoginResult.Error("Failed to fetch user info: ${response.message}")
+                }
+            } catch (e: Exception) {
+                // 예외 발생 시 실패 반환
+                LoginResult.Error("Failed to fetch user info: ${e.message}")
+            }
+        }
+    } else {
+        // 액세스 토큰이 null인 경우 실패 처리
+        LoginResult.Error("Failed to fetch user info: Access token is null")
+    }
 }

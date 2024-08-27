@@ -99,10 +99,10 @@ fun LoginScreen(
         LoginButton(
             stringResource(id = R.string.txt_login_naver),
             {
-                naverWithLogin(
+                authViewModel.loginWithLogic(
+                    LoginMethod.NAVER,
                     context,
-                    onNavigateToSignUpAgree,
-                    authViewModel
+                    onNavigateToSignUpAgree
                 )
             },
             Malachite,

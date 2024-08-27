@@ -24,7 +24,6 @@ import javax.inject.Inject
 * */
 
 private const val TAG = "AuthViewModel::"
-private const val NAVER_LOGIN_PROVIDER = "naver"
 
 @HiltViewModel
 class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
@@ -160,7 +159,6 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
         Timber.i("$TAG memberPickCategory5: ${currentState.memberPickCategory5}")
     }
 
-    // 카카오 로그인 사용자 정보 가져오기
     fun loginWithLogic(
         method: LoginMethod,
         context: Context,
@@ -174,7 +172,7 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
                     result = loginWithKakaoAccount(context)
                 }
                 LoginMethod.NAVER -> {
-                    naverWithLogin(context, onNavigateToSignUpAgree, this@AuthViewModel)
+                    result = naverWithLogin(context)
                 }
                 LoginMethod.GOOGLE -> {
                     // 구글 로그인
@@ -184,6 +182,12 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
             // 로그인 성공 시 회원가입 동의 화면으로 이동
             when (result) {
                 is LoginResult.Success -> {
+                    // User 정보를 저장
+                    saveMemberNameData(result.user.name)
+                    saveMemberEmailData(result.user.email)
+                    saveSnsIdData(result.user.token)
+                    saveSignInSnsData(result.user.id)
+                    printAllData()
                     onNavigateToSignUpAgree()
                 }
 
@@ -195,51 +199,6 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
                     Timber.e("Unknown error occurred during Kakao login")
                 }
             }
-        }
-    }
-
-    // 네이버 로그인 사용자 정보 가져오기
-    suspend fun fetchNaverUserInfo(): Result<String> {
-        val accessToken = NaverIdLoginSDK.getAccessToken()
-
-        if (accessToken != null) {
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url("https://openapi.naver.com/v1/nid/me")
-                .addHeader("Authorization", "Bearer $accessToken")
-                .build()
-
-            return withContext(Dispatchers.IO) {
-                try {
-                    val response: Response = client.newCall(request).execute()
-                    val responseBody = response.body?.string()
-
-                    if (response.isSuccessful && responseBody != null) {
-                        val jsonObject = JSONObject(responseBody)
-                        val responseObj = jsonObject.getJSONObject("response")
-                        val name = responseObj.getString("name")
-                        val email = responseObj.getString("email")
-                        val nickname = responseObj.getString("nickname")
-
-                        saveMemberNameData(name)
-                        saveMemberEmailData(email)
-                        saveSnsIdData(accessToken)
-                        saveSignInSnsData(NAVER_LOGIN_PROVIDER)
-
-                        // 성공한 결과로 데이터를 반환
-                        Result.success("User Info: Name -> $name, Email -> $email, Nickname -> $nickname")
-                    } else {
-                        // 실패한 경우 에러 메시지 반환
-                        Result.failure(Exception("Failed to fetch user info. Response: $responseBody"))
-                    }
-                } catch (e: Exception) {
-                    // 예외 발생 시 실패 처리
-                    Result.failure(e)
-                }
-            }
-        } else {
-            // 액세스 토큰이 null인 경우 실패 처리
-            return Result.failure(Exception("AccessToken is null. Cannot fetch user info."))
         }
     }
 }
