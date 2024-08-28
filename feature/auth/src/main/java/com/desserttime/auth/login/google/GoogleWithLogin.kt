@@ -34,19 +34,40 @@ private lateinit var launcher: ActivityResultLauncher<Intent>
 private var userProfile: UserProfile? = null
 private var googleSignInAccount: GoogleSignInAccount? = null
 
-suspend fun googleLoginStart(): LoginResult {
-    val signInIntent = googleSignInClient.signInIntent
-    launcher.launch(signInIntent)
+suspend fun googleLoginStart(): LoginResult = suspendCancellableCoroutine { continuation ->
+    launcher.launch(googleSignInClient.signInIntent)
 
-    // 로그인 성공 시 userProfile 반환
-    delay(2000)
-    return if (userProfile != null) {
-        userProfile?.let { LoginResult.Success(it) } ?: LoginResult.None("GoogleSignIn Failed")
-    } else {
-        // 로그인 실패 시
-        LoginResult.Error("GoogleSignIn Failed")
+    CoroutineScope(Dispatchers.Main).launch {
+        while (googleSignInAccount == null) {
+            delay(100)
+        }
+
+        try {
+            val loginResult = googleWithLogin()
+            continuation.resume(loginResult)
+        } catch (e: Exception) {
+            continuation.resumeWithException(Exception("GoogleSignIn Failed"))
+        }
+    }
+
+    continuation.invokeOnCancellation {
+        Timber.i("googleLoginStart: Coroutine canceled")
     }
 }
+
+//suspend fun googleLoginStart(): LoginResult {
+//    val signInIntent = googleSignInClient.signInIntent
+//    launcher.launch(signInIntent)
+//
+//    // 로그인 성공 시 userProfile 반환
+//    delay(2500)
+//    return if (userProfile != null) {
+//        userProfile?.let { LoginResult.Success(it) } ?: LoginResult.None("GoogleSignIn Failed")
+//    } else {
+//        // 로그인 실패 시
+//        LoginResult.Error("GoogleSignIn Failed")
+//    }
+//}
 
 @Composable
 fun GoogleLoginInit(

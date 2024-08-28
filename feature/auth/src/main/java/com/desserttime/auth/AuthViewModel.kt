@@ -8,6 +8,7 @@ import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
 import timber.log.Timber
@@ -134,7 +135,7 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
     }
 
     // 전체 변수 로그 찍기
-    fun printAllData() {
+    private fun printAllData() {
         val currentState = uiState.value
         Timber.i("$TAG memberName: ${currentState.memberName}")
         Timber.i("$TAG memberEmail: ${currentState.memberEmail}")
@@ -173,6 +174,7 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
                     saveMemberEmailData(result.user.email)
                     saveSnsIdData(result.user.token)
                     saveSignInSnsData(result.user.id)
+                    delay(500)
                     printAllData()
                     onNavigateToSignUpAgree()
                 }
