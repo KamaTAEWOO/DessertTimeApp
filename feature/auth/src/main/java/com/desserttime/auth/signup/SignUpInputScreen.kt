@@ -299,5 +299,5 @@ private fun saveSignUpInputData(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpInputScreen() {
-    SignUpInputScreen({}, {}, AuthViewModel())
+//    SignUpInputScreen({}, {}, AuthViewModel())
 }

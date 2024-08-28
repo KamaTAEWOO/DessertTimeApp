@@ -240,11 +240,14 @@ private fun saveSignUpChooseData(
     authViewModel.saveMemberPickCategory3Data(selectedItems.getOrNull(2) ?: "")
     authViewModel.saveMemberPickCategory4Data(selectedItems.getOrNull(3) ?: "")
     authViewModel.saveMemberPickCategory5Data(selectedItems.getOrNull(4) ?: "")
+    authViewModel.printAllData()
+    // 서버로 데이터 보내기
+    authViewModel.requestUserSignUp()
     onNavigateToSignUpComplete()
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpChooseScreen() {
-    SignUpChooseScreen({}, {}, AuthViewModel())
+    //SignUpChooseScreen({}, {}, AuthViewModel())
 }

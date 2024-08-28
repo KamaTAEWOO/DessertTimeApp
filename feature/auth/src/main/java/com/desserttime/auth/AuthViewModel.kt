@@ -7,8 +7,12 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.domain.model.RequestUserSignUp
+import com.desserttime.domain.repository.UserInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
 import timber.log.Timber
@@ -21,7 +25,9 @@ import javax.inject.Inject
 private const val TAG = "AuthViewModel::"
 
 @HiltViewModel
-class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
+class AuthViewModel @Inject constructor(
+    private val userInfoRepository: UserInfoRepository
+) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
     override fun reduceState(currentState: AuthState, event: AuthEvent): AuthState {
@@ -135,7 +141,7 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
     }
 
     // 전체 변수 로그 찍기
-    private fun printAllData() {
+    fun printAllData() {
         val currentState = uiState.value
         Timber.i("$TAG memberName: ${currentState.memberName}")
         Timber.i("$TAG memberEmail: ${currentState.memberEmail}")
@@ -188,5 +194,35 @@ class AuthViewModel @Inject constructor() : BaseViewModel<AuthState, AuthEvent>(
                 }
             }
         }
+    }
+
+    // 회원가입 데이터 저장 후 멤버 번호 정보 받기
+    fun requestUserSignUp() {
+        val currentState = uiState.value
+        val requestUserSignUp = RequestUserSignUp(
+            memberName = currentState.memberName,
+            memberEmail = currentState.memberEmail,
+            snsId = currentState.snsId,
+            signInSns = currentState.signInSns,
+            birthYear = currentState.birthYear,
+            memberGender = currentState.memberGender,
+            firstCity = currentState.firstCity,
+            secondaryCity = currentState.secondaryCity,
+            thirdCity = currentState.thirdCity,
+            isAgreeAD = currentState.isAgreeAD,
+            memberPickCategory1 = currentState.memberPickCategory1,
+            memberPickCategory2 = currentState.memberPickCategory2,
+            memberPickCategory3 = currentState.memberPickCategory3,
+            memberPickCategory4 = currentState.memberPickCategory4,
+            memberPickCategory5 = currentState.memberPickCategory5
+        )
+
+        // return 값 받아오기
+        userInfoRepository.requestUserSignUp(requestUserSignUp)
+            .onEach {
+                Timber.i("$TAG requestUserSignUp: $it")
+            }
+            .launchIn(viewModelScope)
+
     }
 }

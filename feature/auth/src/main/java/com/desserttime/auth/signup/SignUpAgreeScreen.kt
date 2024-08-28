@@ -236,9 +236,9 @@ fun CustomRadioButton(
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    SignUpAgreeScreen(
-        onNavigateToSignUpInput = {},
-        onBack = {},
-        authViewModel = AuthViewModel()
-    )
+//    SignUpAgreeScreen(
+//        onNavigateToSignUpInput = {},
+//        onBack = {},
+//        authViewModel = AuthViewModel()
+//    )
 }

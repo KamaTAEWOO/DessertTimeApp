@@ -218,11 +218,11 @@ fun LoginTextAndLine() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(
-        onNavigateToSignUpAgree = {},
-        onNavigateToInquiryInput = {},
-        onNavigateToHome = {},
-        onBack = {},
-        authViewModel = AuthViewModel()
-    )
+//    LoginScreen(
+//        onNavigateToSignUpAgree = {},
+//        onNavigateToInquiryInput = {},
+//        onNavigateToHome = {},
+//        onBack = {},
+//        authViewModel = AuthViewModel()
+//    )
 }

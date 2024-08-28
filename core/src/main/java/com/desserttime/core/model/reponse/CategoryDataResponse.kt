@@ -1,4 +1,4 @@
-package com.desserttime.core.model
+package com.desserttime.core.model.reponse
 
 import com.desserttime.domain.model.CategoryMainInfoModel
 import com.desserttime.domain.model.CategorySubInfoModel
