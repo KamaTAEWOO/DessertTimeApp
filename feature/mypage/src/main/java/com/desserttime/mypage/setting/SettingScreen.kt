@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
@@ -56,7 +59,7 @@ fun SettingScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 26.dp),
+            .padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
             AppBarUi.AppBar(
                 { onBack() },
@@ -244,7 +247,7 @@ fun SettingBottomContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 58.dp, start = 16.dp, end = 16.dp),
+            .padding(bottom = 20.dp, start = 16.dp, end = 16.dp),
         verticalArrangement = Arrangement.Bottom, // 하단에 요소 배치
         horizontalAlignment = Alignment.CenterHorizontally // 수평 가운데 정렬
     ) {
@@ -281,7 +284,6 @@ fun SettingBottomContent(
                 style = DessertTimeTheme.typography.textStyleMedium12
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 

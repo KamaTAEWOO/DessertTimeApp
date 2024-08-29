@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -95,7 +98,7 @@ fun ReviewWriteScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 26.dp),
+            .padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
             AppBarUi.AppBar(
                 { onNavigateToReview() },
@@ -277,7 +280,7 @@ fun ReviewWriteScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
+                            .padding(start = 16.dp, end = 16.dp),
                         verticalArrangement = Arrangement.Bottom
                     ) {
                         CommonUi.NextButton(
@@ -288,7 +291,7 @@ fun ReviewWriteScreen(
                             enabled = inputReviewBehind.length >= 40
                         )
                     }
-                    Spacer(modifier = Modifier.padding(top = 50.dp))
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
             }
         }
