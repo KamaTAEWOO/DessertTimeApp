@@ -47,5 +47,6 @@ val Tundora50 = Color(0x80404040)
 val Tundora60 = Color(0x99404040)
 val Abbey = Color(0xFF54575C)
 val SilverChalice = Color(0xFFB0B0B0)
+val GrayChateau = Color(0xFFA3A9AB)
 
 // Dark
