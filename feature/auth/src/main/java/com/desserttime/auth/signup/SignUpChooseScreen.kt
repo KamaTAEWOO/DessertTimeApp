@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
@@ -70,7 +69,7 @@ fun SignUpChooseScreen(
                     1.dp,
                     AthensGray,
                     RoundedCornerShape(10.dp)
-                ) // Use Color.Gray if Athens_Gray is not defined
+                )
         ) {
             Box(
                 modifier = Modifier
@@ -78,7 +77,7 @@ fun SignUpChooseScreen(
                     .background(
                         Flamingo,
                         RoundedCornerShape(10.dp)
-                    ) // Use Color.Gray if Athens_Gray is not defined
+                    )
             )
             Box(
                 modifier = Modifier
@@ -244,10 +243,4 @@ private fun saveSignUpChooseData(
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp()
     onNavigateToSignUpComplete()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSignUpChooseScreen() {
-    //SignUpChooseScreen({}, {}, AuthViewModel())
 }

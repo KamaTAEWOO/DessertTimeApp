@@ -9,6 +9,6 @@ class UserInfoRemoteSource @Inject constructor(
     private val userInfoService: UserInfoService
 ) {
     fun requestUserSignUp(requestUserSignUp: RequestUserSignUp) = flow {
-        emit( userInfoService.requestUserSignUp(requestUserSignUp).toModel())
+        emit(userInfoService.requestUserSignUp(requestUserSignUp).toModel())
     }
 }

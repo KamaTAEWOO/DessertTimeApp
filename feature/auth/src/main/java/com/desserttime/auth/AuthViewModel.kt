@@ -223,6 +223,5 @@ class AuthViewModel @Inject constructor(
                 Timber.i("$TAG requestUserSignUp: $it")
             }
             .launchIn(viewModelScope)
-
     }
 }

@@ -55,20 +55,6 @@ suspend fun googleLoginStart(): LoginResult = suspendCancellableCoroutine { cont
     }
 }
 
-//suspend fun googleLoginStart(): LoginResult {
-//    val signInIntent = googleSignInClient.signInIntent
-//    launcher.launch(signInIntent)
-//
-//    // 로그인 성공 시 userProfile 반환
-//    delay(2500)
-//    return if (userProfile != null) {
-//        userProfile?.let { LoginResult.Success(it) } ?: LoginResult.None("GoogleSignIn Failed")
-//    } else {
-//        // 로그인 실패 시
-//        LoginResult.Error("GoogleSignIn Failed")
-//    }
-//}
-
 @Composable
 fun GoogleLoginInit(
     context: Context
