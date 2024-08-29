@@ -1,6 +1,6 @@
 package com.desserttime.core.network.service
 
-import com.desserttime.core.model.CategoryDataResponse
+import com.desserttime.core.model.reponse.CategoryDataResponse
 import retrofit2.http.GET
 
 interface CategoryService {

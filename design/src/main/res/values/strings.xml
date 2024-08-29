@@ -109,6 +109,7 @@
     <string name="txt_review_write_material_selection_7">기타</string>
     <string name="txt_review_write_score">점수</string>
     <string name="img_review_write_score_description">별점</string>
+    <string name="txt_review_write_content">최고의디저트</string>
     <string name="txt_review_write_behind">후기 작성</string>
     <string name="txt_review_write_text_count">0 / 최소 40자</string>
     <string name="txt_review_write_menu_image">메뉴 사진</string>

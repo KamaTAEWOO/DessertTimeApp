@@ -20,8 +20,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.model.Gender
 import com.desserttime.design.R
 import com.desserttime.design.theme.AthensGray
+import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
@@ -52,10 +55,10 @@ fun SignUpInputScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
-    // TODO : 데이터 저장하기
     val selectedGender = remember { mutableStateOf<Gender?>(Gender.MALE) }
-    val selectedBirth = remember { mutableStateOf("1997") }
+    var selectedBirth by remember { mutableStateOf("1997") }
     val selectedAddress = remember { mutableStateOf("서울특별시 별별구 별별동") }
+    var expanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -177,7 +180,7 @@ fun SignUpInputScreen(
             )
             Spacer(Modifier.padding(top = 8.dp))
             Button(
-                onClick = { /* Handle button click */ },
+                onClick = { expanded = true }, // 버튼 클릭 시 DropdownMenu를 표시
                 colors = ButtonDefaults.buttonColors(White),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -187,20 +190,34 @@ fun SignUpInputScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween // 텍스트와 이미지를 양 끝에 배치
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = stringResource(R.string.txt_birth_hint),
-                        color = Black30,
+                        text = selectedBirth.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                        color = if (selectedBirth.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
                         style = DessertTimeTheme.typography.textStyleRegular16
                     )
+
                     Image(
-                        painter = painterResource(R.drawable.ic_calendar), // 이미지 리소스를 사용
+                        painter = painterResource(R.drawable.ic_calendar),
                         contentDescription = stringResource(R.string.txt_birth_description),
-                        modifier = Modifier.size(24.dp) // 이미지 크기 조정
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
+
+            // DropdownMenu 표시
+            CommonUi.BirthYearDropdown(
+                expanded = expanded,
+                onYearSelected = { year ->
+                    selectedBirth = year // 선택된 연도 설정
+                    expanded = false // DropdownMenu 닫기
+                },
+                selectedYear = selectedBirth,
+                onDismiss = {
+                    expanded = false // DropdownMenu를 닫기 위한 콜백
+                }
+            )
             Spacer(Modifier.padding(top = 20.dp))
             Text(
                 text = stringResource(id = R.string.txt_address),
@@ -250,7 +267,7 @@ fun SignUpInputScreen(
                         authViewModel,
                         onNavigateToSignUpChoose,
                         selectedGender.value,
-                        selectedBirth.value,
+                        selectedBirth,
                         selectedAddress.value
                     )
                 },
@@ -282,5 +299,5 @@ private fun saveSignUpInputData(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSignUpInputScreen() {
-    SignUpInputScreen({}, {}, AuthViewModel())
+//    SignUpInputScreen({}, {}, AuthViewModel())
 }

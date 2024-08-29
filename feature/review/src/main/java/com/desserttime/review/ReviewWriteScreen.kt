@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -76,6 +79,8 @@ import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.DustyGray
+import com.desserttime.design.theme.GrayChateau
+import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
@@ -93,7 +98,7 @@ fun ReviewWriteScreen(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 26.dp),
+            .padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
             AppBarUi.AppBar(
                 { onNavigateToReview() },
@@ -208,42 +213,54 @@ fun ReviewWriteScreen(
                             .padding(start = 16.dp)
                     )
                     Spacer(modifier = Modifier.padding(top = 8.dp))
-                    OutlinedTextField(
-                        value = inputReviewBehind,
-                        onValueChange = { newText -> inputReviewBehind = newText },
-                        textStyle = DessertTimeTheme.typography.textStyleRegular16,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(108.dp)
-                            .padding(horizontal = 16.dp),
-                        placeholder = {
-                            Text(
-                                text = stringResource(id = R.string.txt_inquiry_content_hint),
-                                style = DessertTimeTheme.typography.textStyleRegular12,
-                                color = Black30
-                            )
-                        },
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = WildSand,
-                            focusedIndicatorColor = AzureRadiance,
-                            unfocusedIndicatorColor = Black30
-                        )
-                    )
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 4.dp) // Column 전체에 위쪽 패딩 추가
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.End // 오른쪽 정렬
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.txt_review_write_text_count),
-                                style = DessertTimeTheme.typography.textStyleRegular10,
-                                color = TundoraCategory,
-                                modifier = Modifier.padding(end = 20.dp) // 오른쪽 패딩 추가
+                        OutlinedTextField(
+                            value = inputReviewBehind,
+                            onValueChange = { newText -> inputReviewBehind = newText },
+                            textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(108.dp)
+                                .padding(horizontal = 16.dp),
+                            placeholder = {
+                                Text(
+                                    text = stringResource(id = R.string.txt_inquiry_content_hint),
+                                    style = DessertTimeTheme.typography.textStyleRegular12,
+                                    color = Black30
+                                )
+                            },
+                            colors = TextFieldDefaults.textFieldColors(
+                                containerColor = WildSand,
+                                focusedIndicatorColor = AzureRadiance,
+                                unfocusedIndicatorColor = Black30
                             )
+                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp) // Column 전체에 위쪽 패딩 추가
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End // 오른쪽 정렬
+                            ) {
+                                Text(
+                                    text = buildAnnotatedString {
+                                        withStyle(style = SpanStyle(color = MainColor)) {
+                                            append("${inputReviewBehind.length}")
+                                        }
+                                        append(" / ")
+                                        withStyle(style = SpanStyle(color = TundoraCategory)) {
+                                            append("최소 40자")
+                                        }
+                                    },
+                                    style = DessertTimeTheme.typography.textStyleRegular10,
+                                    modifier = Modifier.padding(end = 20.dp) // 오른쪽 패딩 추가
+                                )
+                            }
                         }
                     }
                     // 메뉴 사진
@@ -263,18 +280,18 @@ fun ReviewWriteScreen(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 16.dp, end = 16.dp, bottom = 20.dp),
+                            .padding(start = 16.dp, end = 16.dp),
                         verticalArrangement = Arrangement.Bottom
                     ) {
                         CommonUi.NextButton(
                             text = stringResource(R.string.txt_review_write_complete),
                             onClick = {},
-                            background = AltoAgree,
-                            textColor = DustyGray,
-                            enabled = true
+                            background = if (inputReviewBehind.length >= 40) MainColor else AltoAgree,
+                            textColor = if (inputReviewBehind.length >= 40) Color.White else DustyGray,
+                            enabled = inputReviewBehind.length >= 40
                         )
                     }
-                    Spacer(modifier = Modifier.padding(top = 50.dp))
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
                 }
             }
         }
@@ -534,20 +551,43 @@ fun MaterialItemRound(
 
 @Composable
 fun ScoreCheck() {
-    val imageResource = painterResource(id = R.drawable.ic_star_off)
+    val starStates = remember { mutableStateListOf(false, false, false, false) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        repeat(4) {
+        repeat(4) { index ->
+            val imageResource = if (starStates[index]) {
+                painterResource(id = R.drawable.ic_star_on) // 클릭되었을 때의 이미지
+            } else {
+                painterResource(id = R.drawable.ic_star_off) // 기본 이미지
+            }
+
             Image(
                 painter = imageResource,
                 contentDescription = stringResource(id = R.string.img_review_write_score_description),
-                modifier = Modifier.padding(end = 4.dp)
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .clickable {
+                        for (i in 0..index) {
+                            starStates[i] = true
+                        }
+                        for (i in index + 1 until starStates.size) {
+                            starStates[i] = false
+                        }
+                    }
             )
         }
+        Text(
+            text = stringResource(id = R.string.txt_review_write_content),
+            style = DessertTimeTheme.typography.textStyleMedium14,
+            color = GrayChateau,
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .padding(start = 8.dp)
+        )
     }
 }
 

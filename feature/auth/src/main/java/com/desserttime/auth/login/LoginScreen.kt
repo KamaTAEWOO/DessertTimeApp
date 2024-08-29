@@ -30,9 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
-import com.desserttime.auth.login.google.googleWithLogin
-import com.desserttime.auth.login.kakao.loginWithKakao
-import com.desserttime.auth.login.naver.naverWithLogin
+import com.desserttime.auth.model.LoginMethod
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -83,10 +81,10 @@ fun LoginScreen(
         LoginButton(
             stringResource(id = R.string.txt_login_kakao),
             {
-                loginWithKakao(
+                authViewModel.loginWithLogic(
+                    LoginMethod.KAKAO,
                     context,
-                    onNavigateToSignUpAgree,
-                    authViewModel
+                    onNavigateToSignUpAgree
                 )
             },
             Turbo,
@@ -99,10 +97,10 @@ fun LoginScreen(
         LoginButton(
             stringResource(id = R.string.txt_login_naver),
             {
-                naverWithLogin(
+                authViewModel.loginWithLogic(
+                    LoginMethod.NAVER,
                     context,
-                    onNavigateToSignUpAgree,
-                    authViewModel
+                    onNavigateToSignUpAgree
                 )
             },
             Malachite,
@@ -111,15 +109,17 @@ fun LoginScreen(
             Malachite
         )
         Spacer(Modifier.padding(top = 12.dp))
-        GoogleLoginInit(
-            context,
-            onNavigateToSignUpAgree,
-            authViewModel
-        )
+        GoogleLoginInit(context)
         // 구글 버튼
         LoginButton(
             stringResource(id = R.string.txt_login_google),
-            { googleWithLogin() },
+            {
+                authViewModel.loginWithLogic(
+                    LoginMethod.GOOGLE,
+                    context,
+                    onNavigateToSignUpAgree
+                )
+            },
             White,
             Black54,
             R.drawable.ic_google_logo,
@@ -218,11 +218,11 @@ fun LoginTextAndLine() {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(
-        onNavigateToSignUpAgree = {},
-        onNavigateToInquiryInput = {},
-        onNavigateToHome = {},
-        onBack = {},
-        authViewModel = AuthViewModel()
-    )
+//    LoginScreen(
+//        onNavigateToSignUpAgree = {},
+//        onNavigateToInquiryInput = {},
+//        onNavigateToHome = {},
+//        onBack = {},
+//        authViewModel = AuthViewModel()
+//    )
 }

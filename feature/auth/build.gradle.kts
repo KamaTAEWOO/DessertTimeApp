@@ -58,6 +58,8 @@ dependencies {
     // Timber
     implementation(libs.timber)
 
+    implementation(libs.coroutine.core)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.core.ktx)

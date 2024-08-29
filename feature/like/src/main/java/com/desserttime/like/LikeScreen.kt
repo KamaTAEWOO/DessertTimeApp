@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -72,24 +73,95 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
                     .background(WildSand)
             ) {
                 Column(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+
                 ) {
-                    Spacer(modifier = Modifier.padding(top = 16.dp))
-                    Text(
-                        text = stringResource(id = R.string.txt_like_review),
-                        style = DessertTimeTheme.typography.textStyleBold18,
-                        color = Color.Black,
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Header Row
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 20.dp)
-                    )
-                    Spacer(modifier = Modifier.padding(top = 16.dp))
+                            .padding(start = 20.dp, end = 20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween // Space between header items
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.txt_like_review),
+                            style = DessertTimeTheme.typography.textStyleBold18,
+                            color = Color.Black
+                        )
+                        // SortDropDown() // Dropdown for sorting
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Like List
                     LikeList(onNavigateToLikeDetail)
                 }
             }
         }
     )
 }
+
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun SortDropDown() {
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedOption by remember { mutableStateOf("최신순") }
+//    val interactionSource = remember { MutableInteractionSource() } // Required interactionSource
+//
+//    val options = listOf("최신순", "좋아요 순", "오랜된 순")
+//
+//    ExposedDropdownMenuBox(
+//        expanded = expanded,
+//        onExpandedChange = { expanded = !expanded },
+//        modifier = Modifier
+//            .wrapContentSize()
+//            .background(Color.Transparent)
+//    ) {
+//        TextField(
+//            value = selectedOption,
+//            onValueChange = { },
+//            readOnly = true,
+//            trailingIcon = {
+//                Icon(
+//                    imageVector = Icons.Default.ArrowDropDown,
+//                    contentDescription = null
+//                )
+//            },
+//            interactionSource = interactionSource, // Apply interactionSource
+//            modifier = Modifier
+//                .background(Color.Transparent), // Ensure TextField background is transparent
+//            colors = TextFieldDefaults.textFieldColors(
+//                containerColor = Color.Transparent, // Transparent container
+//                focusedIndicatorColor = Color.Transparent, // No underline when focused
+//                unfocusedIndicatorColor = Color.Transparent // No underline when not focused
+//            )
+//        )
+//        ExposedDropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false },
+//            modifier = Modifier
+//                .background(Color.White) // Set background of dropdown menu
+//                .border(1.dp, Color.Gray, RoundedCornerShape(4.dp)) // Optional: border for better visibility
+//        ) {
+//            options.forEach { option ->
+//                DropdownMenuItem(onClick = {
+//                    selectedOption = option
+//                    expanded = false
+//                }, text = {
+//                    Text(
+//                        text = option,
+//                        style = DessertTimeTheme.typography.textStyleMedium12,
+//                        color = ShipGray
+//                    )
+//                }
+//                )
+//            }
+//        }
+//    }
+// }
 
 @Composable
 fun LikeList(onNavigateToLikeDetail: () -> Unit) {
