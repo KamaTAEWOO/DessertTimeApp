@@ -271,14 +271,11 @@ fun ReviewItemDeletePopup(
 ) {
     Dialog(onDismissRequest = { onDismiss() }) {
         Surface(
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(4.dp),
             color = Color.White,
-            modifier = Modifier
-                .width(93.dp) // 팝업 너비 설정
-                .height(34.dp) // 팝업 높이 설정
+            modifier = Modifier.height(34.dp)
         ) {
             Column(
-                modifier = Modifier.padding(8.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -288,7 +285,7 @@ fun ReviewItemDeletePopup(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Delete, // 기본 제공 삭제 아이콘
+                            painter = painterResource(id = R.drawable.ic_delete),
                             contentDescription = stringResource(id = R.string.txt_review_delete),
                             tint = MainColor,
                             modifier = Modifier.size(16.dp)
@@ -297,7 +294,7 @@ fun ReviewItemDeletePopup(
                         Text(
                             text = stringResource(id = R.string.txt_review_delete), // "삭제하기"
                             color = MainColor,
-                            style = DessertTimeTheme.typography.textStyleRegular20
+                            style = DessertTimeTheme.typography.textStyleRegular12
                         )
                     }
                 }
