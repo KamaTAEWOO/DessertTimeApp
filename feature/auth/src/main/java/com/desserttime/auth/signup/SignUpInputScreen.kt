@@ -1,5 +1,9 @@
 package com.desserttime.auth.signup
 
+import android.annotation.SuppressLint
+import android.webkit.JavascriptInterface
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.model.Gender
 import com.desserttime.design.R
@@ -49,6 +54,8 @@ import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
 
+private const val TAG = "SignUpInputScreen"
+
 @Composable
 fun SignUpInputScreen(
     onNavigateToSignUpChoose: () -> Unit,
@@ -59,6 +66,7 @@ fun SignUpInputScreen(
     var selectedBirth by remember { mutableStateOf("1997") }
     val selectedAddress = remember { mutableStateOf("서울특별시 별별구 별별동") }
     var expanded by remember { mutableStateOf(false) }
+    var showAddressSearch by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -228,7 +236,7 @@ fun SignUpInputScreen(
             )
             Spacer(Modifier.padding(top = 8.dp))
             Button(
-                onClick = { /* Handle button click */ },
+                onClick = { showAddressSearch = true },
                 colors = ButtonDefaults.buttonColors(White),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -252,6 +260,12 @@ fun SignUpInputScreen(
                     )
                 }
             }
+        }
+        if (showAddressSearch) {
+            AddressSearchView(onAddressSelected = { address ->
+                selectedAddress.value = address
+                showAddressSearch = false
+            })
         }
         Spacer(Modifier.padding(top = 188.dp))
         Column(
@@ -294,6 +308,35 @@ private fun saveSignUpInputData(
     authViewModel.saveSecondaryCityData(addressList[1])
     authViewModel.saveThirdCityData(addressList[2])
     onNavigateToSignUpChoose()
+}
+
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun AddressSearchView(onAddressSelected: (String) -> Unit) {
+    var webView by remember { mutableStateOf<WebView?>(null) }
+
+    AndroidView(factory = {
+        WebView(it).apply {
+            webViewClient = WebViewClient()
+            settings.javaScriptEnabled = true
+            addJavascriptInterface(JavascriptBridge { address ->
+                onAddressSelected(address)
+                // 웹뷰 종료나 다른 처리 로직을 여기에 추가하세요.
+            }, "Android")
+            loadUrl("https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js")
+            loadUrl("file:///android_asset/daum.html")
+        }
+    }, update = {
+        webView = it
+    })
+}
+
+class JavascriptBridge(val callback: (String) -> Unit) {
+
+    @JavascriptInterface
+    fun processDATA(data: String) {
+        callback(data)
+    }
 }
 
 @Preview(showBackground = true)

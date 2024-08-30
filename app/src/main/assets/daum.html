@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Daum Postcode Service</title>
+</head>
+<body>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    new daum.Postcode({
+        oncomplete: function(data) {
+            var fullAddr = data.address;
+            window.Android.processDATA(fullAddr);
+        }
+    }).open();
+</script>
+</body>
+</html>
