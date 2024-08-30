@@ -58,6 +58,9 @@ dependencies {
     // Timber
     implementation(libs.timber)
 
+    // webview
+    implementation(libs.androidx.webkit)
+
     implementation(libs.coroutine.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)
