@@ -112,11 +112,13 @@ suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { conti
             Timber.i("signInWithCredential:success")
             val user = FirebaseAuth.getInstance().currentUser
 
+            Timber.i("user: ${user?.uid ?: ""}") // 로그인 시 토큰 대신 사용 RbHSlTdF8vYKjUYonN9HG6ntrr02
+
             userProfile = UserProfile(
                 id = GOOGLE_LOGIN_PROVIDER,
                 name = user?.displayName ?: "",
                 email = user?.email ?: "",
-                token = account.idToken ?: ""
+                token = user?.uid ?: "" // 매일 같은 지 확인하기
             )
 
             continuation.resume(LoginResult.Success(userProfile ?: UserProfile("", "", "", "")))

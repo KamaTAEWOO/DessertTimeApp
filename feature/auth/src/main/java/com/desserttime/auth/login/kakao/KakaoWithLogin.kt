@@ -51,11 +51,12 @@ suspend fun fetchKakaoUserInfo(accessToken: String): LoginResult {
                 Timber.i("$TAG Failed to get user info: ${error.message}")
                 continuation.resume(LoginResult.Error("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
+                Timber.i("$TAG user.id: ${user.id.toString()}") // 로그인 시 토큰 대신 사용 3677513571
                 val userProfile = UserProfile(
                     id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
                     email = user.kakaoAccount?.email.orEmpty(),
-                    token = accessToken
+                    token = user.id.toString()
                 )
                 continuation.resume(LoginResult.Success(userProfile))
             }
