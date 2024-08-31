@@ -7,4 +7,9 @@
         <domain includeSubdomains="true">138.2.122.18</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="true" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">test.com</domain>
+        <domain includeSubdomains="true">naver.com</domain>
+        <domain includeSubdomains="true">google.com</domain>
+    </domain-config>
 </network-security-config>
