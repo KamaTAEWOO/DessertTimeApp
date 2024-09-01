@@ -1,7 +1,10 @@
 package com.desserttime.auth.signup
 
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
@@ -24,6 +27,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +58,7 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
+import timber.log.Timber
 
 private const val TAG = "SignUpInputScreen"
 
@@ -262,10 +268,12 @@ fun SignUpInputScreen(
             }
         }
         if (showAddressSearch) {
-            AddressSearchView(onAddressSelected = { address ->
-                selectedAddress.value = address
-                showAddressSearch = false
-            })
+            WebViewScreen()
+            showAddressSearch = false
+//            AddressSearchView(onAddressSelected = { address ->
+//                selectedAddress.value = address
+//                showAddressSearch = false
+//            })
         }
         Spacer(Modifier.padding(top = 188.dp))
         Column(
@@ -310,32 +318,106 @@ private fun saveSignUpInputData(
     onNavigateToSignUpChoose()
 }
 
+@Composable
+fun WebViewScreen() {
+    val context = LocalContext.current
+    var address by remember { mutableStateOf("") }
+
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = {
+            WebView(it).apply {
+                settings.javaScriptEnabled = true
+                webViewClient = WebViewClient()
+
+                addJavascriptInterface(object {
+                    @JavascriptInterface
+                    fun processDATA(data: String) {
+                        // 주소 데이터를 받아와 상태를 업데이트
+                        address = data
+                    }
+                }, "Android")
+
+                loadUrl("https://dessert-time-44a86.web.app")
+            }
+        },
+        update = { webView ->
+            // 필요에 따라 WebView 업데이트 가능
+        }
+    )
+
+    // 주소가 업데이트되면 이곳에서 처리 가능
+    LaunchedEffect(address) {
+        if (address.isNotEmpty()) {
+            // 주소 처리 로직 추가
+            println("Received address: $address")
+        }
+    }
+}
+
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun AddressSearchView(onAddressSelected: (String) -> Unit) {
     var webView by remember { mutableStateOf<WebView?>(null) }
 
-    AndroidView(factory = {
-        WebView(it).apply {
-            webViewClient = WebViewClient()
-            settings.javaScriptEnabled = true
-            addJavascriptInterface(JavascriptBridge { address ->
-                onAddressSelected(address)
-                // 웹뷰 종료나 다른 처리 로직을 여기에 추가하세요.
-            }, "Android")
-            loadUrl("https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js")
-            loadUrl("file:///android_asset/daum.html")
+    AndroidView(
+        factory = { context ->
+            WebView(context).apply {
+                webChromeClient = object : WebChromeClient() {
+                    override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                        super.onProgressChanged(view, newProgress)
+                        // Optionally handle progress changes (e.g., show a progress bar)
+                        Timber.i("$TAG webChromeClient", "Loading progress: $newProgress%")
+                    }
+                }
+
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        Timber.i("$TAG webViewClient", "Page loaded: $url")
+
+                        // Delay execution to ensure all JavaScript is loaded
+//                        Handler(Looper.getMainLooper()).postDelayed({
+//                            webView?.evaluateJavascript("javascript:sample2_execDaumPostcode();", null)
+//                        }, 500) // 1-second delay
+                    }
+
+                    override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
+                        super.onReceivedError(view, errorCode, description, failingUrl)
+                        Timber.e("$TAG WebViewError", "Error: $description")
+                    }
+                }
+
+                settings.apply {
+                    javaScriptEnabled = true
+                    domStorageEnabled = true
+                    javaScriptCanOpenWindowsAutomatically = true
+                }
+
+                WebView.setWebContentsDebuggingEnabled(true)
+
+                addJavascriptInterface(JavascriptBridge { address ->
+                    onAddressSelected(address)
+                }, "Android")
+
+                // Load the remote URL
+                loadUrl("https://dessert-time-44a86.web.app")
+            }
+        },
+        update = { newWebView ->
+            webView = newWebView
         }
-    }, update = {
-        webView = it
-    })
+    )
 }
 
 class JavascriptBridge(val callback: (String) -> Unit) {
 
     @JavascriptInterface
     fun processDATA(data: String) {
-        callback(data)
+        // Ensure that the callback is invoked on the main thread
+        Handler(Looper.getMainLooper()).post {
+            callback(data)
+        }
     }
 }
 

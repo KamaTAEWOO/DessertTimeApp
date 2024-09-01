@@ -13,9 +13,9 @@ data class AuthState(
     val secondaryCity: String = "",
     val thirdCity: String = "",
     val isAgreeAD: String = "",
-    val memberPickCategory1: String = "",
-    val memberPickCategory2: String = "",
-    val memberPickCategory3: String = "",
-    val memberPickCategory4: String = "",
-    val memberPickCategory5: String = ""
+    val memberPickCategory1: Int = 0,
+    val memberPickCategory2: Int = 1,
+    val memberPickCategory3: Int = 2,
+    val memberPickCategory4: Int = 3,
+    val memberPickCategory5: Int = 4
 ) : BaseState

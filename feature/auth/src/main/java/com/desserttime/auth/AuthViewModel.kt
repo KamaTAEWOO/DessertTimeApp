@@ -120,23 +120,23 @@ class AuthViewModel @Inject constructor(
         sendAction(AuthEvent.RequestIsAgreeADData(isAgreeAD))
     }
 
-    fun saveMemberPickCategory1Data(memberPickCategory1: String) {
+    fun saveMemberPickCategory1Data(memberPickCategory1: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory1Data(memberPickCategory1))
     }
 
-    fun saveMemberPickCategory2Data(memberPickCategory2: String) {
+    fun saveMemberPickCategory2Data(memberPickCategory2: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory2Data(memberPickCategory2))
     }
 
-    fun saveMemberPickCategory3Data(memberPickCategory3: String) {
+    fun saveMemberPickCategory3Data(memberPickCategory3: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory3Data(memberPickCategory3))
     }
 
-    fun saveMemberPickCategory4Data(memberPickCategory4: String) {
+    fun saveMemberPickCategory4Data(memberPickCategory4: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory4Data(memberPickCategory4))
     }
 
-    fun saveMemberPickCategory5Data(memberPickCategory5: String) {
+    fun saveMemberPickCategory5Data(memberPickCategory5: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory5Data(memberPickCategory5))
     }
 
