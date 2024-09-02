@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">example.com</domain>
-    </domain-config>
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">138.2.122.18</domain>
-    </domain-config>
-    <base-config cleartextTrafficPermitted="true" />
-    <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">test.com</domain>
         <domain includeSubdomains="true">naver.com</domain>
         <domain includeSubdomains="true">google.com</domain>
+        <domain includeSubdomains="true">dessert-time-44a86.firebaseapp.com</domain>
+        <domain includeSubdomains="true">138.2.122.18</domain>
+        <domain includeSubdomains="true">dessert-time-44a86.web.app</domain>
+        <domain includeSubdomains="true">127.0.6533.103</domain>
     </domain-config>
 </network-security-config>

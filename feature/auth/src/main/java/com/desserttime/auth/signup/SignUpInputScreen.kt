@@ -268,12 +268,10 @@ fun SignUpInputScreen(
             }
         }
         if (showAddressSearch) {
-            WebViewScreen()
-            showAddressSearch = false
-//            AddressSearchView(onAddressSelected = { address ->
-//                selectedAddress.value = address
-//                showAddressSearch = false
-//            })
+            AddressSearchView(onAddressSelected = { address ->
+                selectedAddress.value = address
+                showAddressSearch = false
+            })
         }
         Spacer(Modifier.padding(top = 188.dp))
         Column(
@@ -318,43 +316,6 @@ private fun saveSignUpInputData(
     onNavigateToSignUpChoose()
 }
 
-@Composable
-fun WebViewScreen() {
-    val context = LocalContext.current
-    var address by remember { mutableStateOf("") }
-
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = {
-            WebView(it).apply {
-                settings.javaScriptEnabled = true
-                webViewClient = WebViewClient()
-
-                addJavascriptInterface(object {
-                    @JavascriptInterface
-                    fun processDATA(data: String) {
-                        // 주소 데이터를 받아와 상태를 업데이트
-                        address = data
-                    }
-                }, "Android")
-
-                loadUrl("https://dessert-time-44a86.web.app")
-            }
-        },
-        update = { webView ->
-            // 필요에 따라 WebView 업데이트 가능
-        }
-    )
-
-    // 주소가 업데이트되면 이곳에서 처리 가능
-    LaunchedEffect(address) {
-        if (address.isNotEmpty()) {
-            // 주소 처리 로직 추가
-            println("Received address: $address")
-        }
-    }
-}
-
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun AddressSearchView(onAddressSelected: (String) -> Unit) {
@@ -366,7 +327,6 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                 webChromeClient = object : WebChromeClient() {
                     override fun onProgressChanged(view: WebView?, newProgress: Int) {
                         super.onProgressChanged(view, newProgress)
-                        // Optionally handle progress changes (e.g., show a progress bar)
                         Timber.i("$TAG webChromeClient", "Loading progress: $newProgress%")
                     }
                 }
@@ -375,11 +335,16 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         Timber.i("$TAG webViewClient", "Page loaded: $url")
-
-                        // Delay execution to ensure all JavaScript is loaded
-//                        Handler(Looper.getMainLooper()).postDelayed({
-//                            webView?.evaluateJavascript("javascript:sample2_execDaumPostcode();", null)
-//                        }, 500) // 1-second delay
+//
+//                        // 페이지 로드 후 JavaScript로 함수가 존재하는지 확인하고 호출합니다.
+//                        view?.evaluateJavascript(
+//                            """
+//                            if (typeof sample2_execDaumPostcode === 'function') {
+//                                sample2_execDaumPostcode();
+//                            } else {
+//                                console.error('sample2_execDaumPostcode function is not defined.');
+//                            }
+//                            """.trimIndent(), null)
                     }
 
                     override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
@@ -400,7 +365,8 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                     onAddressSelected(address)
                 }, "Android")
 
-                // Load the remote URL
+                // HTTPS 페이지 로드
+                //loadUrl("https://postcode.pocketlesson.io")
                 loadUrl("https://dessert-time-44a86.web.app")
             }
         },
