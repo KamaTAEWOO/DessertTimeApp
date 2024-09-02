@@ -335,16 +335,6 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
                         Timber.i("$TAG webViewClient", "Page loaded: $url")
-//
-//                        // 페이지 로드 후 JavaScript로 함수가 존재하는지 확인하고 호출합니다.
-//                        view?.evaluateJavascript(
-//                            """
-//                            if (typeof sample2_execDaumPostcode === 'function') {
-//                                sample2_execDaumPostcode();
-//                            } else {
-//                                console.error('sample2_execDaumPostcode function is not defined.');
-//                            }
-//                            """.trimIndent(), null)
                     }
 
                     override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
