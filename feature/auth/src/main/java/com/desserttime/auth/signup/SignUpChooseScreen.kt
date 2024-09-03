@@ -51,7 +51,7 @@ fun SignUpChooseScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
-    val selectedItems = remember { mutableStateListOf<String>() }
+    val selectedItems = remember { mutableStateListOf<Int>() }
 
     Column(
         modifier = Modifier
@@ -126,15 +126,15 @@ fun SignUpChooseScreen(
                     selectedItems
                 )
             },
-            background = if (selectedItems.isEmpty()) MainColor20 else MainColor,
-            textColor = if (selectedItems.isEmpty()) MainColor else Color.White,
-            enabled = selectedItems.isNotEmpty()
+            background = MainColor,
+            textColor = Color.White,
+            enabled = true
         )
     }
 }
 
 @Composable
-private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
+private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
     val items = listOf(
         R.drawable.ic_fish_shaped_bun_off to stringResource(id = R.string.txt_fish_shaped_bun),
         R.drawable.ic_baked_confectionery_off to stringResource(id = R.string.txt_baked_confectionery),
@@ -161,7 +161,7 @@ private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
 @Composable
 fun SelectTasteRecyclerView(
     items: List<Pair<Int, String>>,
-    selectedItems: SnapshotStateList<String>
+    selectedItems: SnapshotStateList<Int>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
@@ -172,7 +172,7 @@ fun SelectTasteRecyclerView(
         items(items.size) { index ->
             val item = items[index]
 
-            val isSelected = selectedItems.contains(item.second)
+            val isSelected = selectedItems.contains(index)
             GridItem(
                 imageRes = item.first,
                 text = item.second,
@@ -180,11 +180,11 @@ fun SelectTasteRecyclerView(
                 onClick = {
                     if (isSelected) {
                         // 선택된 아이템 해제
-                        selectedItems.remove(item.second)
+                        selectedItems.remove(index + 1)
                     } else {
                         // 최대 5개까지만 추가 가능
                         if (selectedItems.size < 5) {
-                            selectedItems.add(item.second)
+                            selectedItems.add(index + 1)
                         } else {
                             Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
@@ -231,14 +231,14 @@ fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Un
 private fun saveSignUpChooseData(
     onNavigateToSignUpComplete: () -> Unit,
     authViewModel: AuthViewModel,
-    selectedItems: SnapshotStateList<String>
+    selectedItems: SnapshotStateList<Int>
 ) {
     // 갯수 체크 후 데이터 저장
-    authViewModel.saveMemberPickCategory1Data(0)
-    authViewModel.saveMemberPickCategory2Data(0)
-    authViewModel.saveMemberPickCategory3Data(0)
-    authViewModel.saveMemberPickCategory4Data(0)
-    authViewModel.saveMemberPickCategory5Data(0)
+    authViewModel.saveMemberPickCategory1Data(selectedItems[0])
+    authViewModel.saveMemberPickCategory2Data(selectedItems[1])
+    authViewModel.saveMemberPickCategory3Data(selectedItems[2])
+    authViewModel.saveMemberPickCategory4Data(selectedItems[3])
+    authViewModel.saveMemberPickCategory5Data(selectedItems[4])
     authViewModel.printAllData()
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp()

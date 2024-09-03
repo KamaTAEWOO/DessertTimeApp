@@ -80,19 +80,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun saveMemberNameData(memberName: String) {
+    private fun saveMemberNameData(memberName: String) {
         sendAction(AuthEvent.RequestMemberNameData(memberName))
     }
 
-    fun saveMemberEmailData(memberEmail: String) {
+    private fun saveMemberEmailData(memberEmail: String) {
         sendAction(AuthEvent.RequestMemberEmailData(memberEmail))
     }
 
-    fun saveSnsIdData(snsId: String) {
+    private fun saveSnsIdData(snsId: String) {
         sendAction(AuthEvent.RequestSnsIdData(snsId))
     }
 
-    fun saveSignInSnsData(signInSns: String) {
+    private fun saveSignInSnsData(signInSns: String) {
         sendAction(AuthEvent.RequestSignInSnsData(signInSns))
     }
 
