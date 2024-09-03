@@ -1,6 +1,6 @@
 import android.content.Context
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.auth.model.UserProfile
+import com.desserttime.auth.model.MemberProfile
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -52,13 +52,13 @@ suspend fun fetchKakaoUserInfo(accessToken: String): LoginResult {
                 continuation.resume(LoginResult.Error("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
                 Timber.i("$TAG user.id: ${user.id.toString()}") // 로그인 시 토큰 대신 사용 3677513571
-                val userProfile = UserProfile(
+                val memberProfile = MemberProfile(
                     id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
                     email = user.kakaoAccount?.email.orEmpty(),
                     token = user.id.toString()
                 )
-                continuation.resume(LoginResult.Success(userProfile))
+                continuation.resume(LoginResult.Success(memberProfile))
             }
         }
     }

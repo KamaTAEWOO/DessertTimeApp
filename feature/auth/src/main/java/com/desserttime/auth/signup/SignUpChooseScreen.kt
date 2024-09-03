@@ -180,11 +180,11 @@ fun SelectTasteRecyclerView(
                 onClick = {
                     if (isSelected) {
                         // 선택된 아이템 해제
-                        selectedItems.remove(index + 1)
+                        selectedItems.remove(index)
                     } else {
                         // 최대 5개까지만 추가 가능
                         if (selectedItems.size < 5) {
-                            selectedItems.add(index + 1)
+                            selectedItems.add(index)
                         } else {
                             Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
@@ -234,11 +234,11 @@ private fun saveSignUpChooseData(
     selectedItems: SnapshotStateList<Int>
 ) {
     // 갯수 체크 후 데이터 저장
-    authViewModel.saveMemberPickCategory1Data(selectedItems[0])
-    authViewModel.saveMemberPickCategory2Data(selectedItems[1])
-    authViewModel.saveMemberPickCategory3Data(selectedItems[2])
-    authViewModel.saveMemberPickCategory4Data(selectedItems[3])
-    authViewModel.saveMemberPickCategory5Data(selectedItems[4])
+    authViewModel.saveMemberPickCategory1Data(selectedItems[0] + 1)
+    authViewModel.saveMemberPickCategory2Data(selectedItems[1] + 1)
+    authViewModel.saveMemberPickCategory3Data(selectedItems[2] + 1)
+    authViewModel.saveMemberPickCategory4Data(selectedItems[3] + 1)
+    authViewModel.saveMemberPickCategory5Data(selectedItems[4] + 1)
     authViewModel.printAllData()
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp()

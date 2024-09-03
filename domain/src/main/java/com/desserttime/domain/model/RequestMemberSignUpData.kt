@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-data class RequestUserSignUp(
+data class RequestMemberSignUpData(
     val memberName: String,
     val memberEmail: String,
     val snsId: String,

@@ -1,9 +1,9 @@
 package com.desserttime.data.di
 
 import com.desserttime.data.repository.CategoryRepositoryImpl
-import com.desserttime.data.repository.UserInfoRepositoryImpl
+import com.desserttime.data.repository.MemberInfoRepositoryImpl
 import com.desserttime.domain.repository.CategoryRepository
-import com.desserttime.domain.repository.UserInfoRepository
+import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindUserInfoRepository(
-        userInfoRepositoryImpl: UserInfoRepositoryImpl
-    ): UserInfoRepository
+    fun bindMemberInfoRepository(
+        memberInfoRepositoryImpl: MemberInfoRepositoryImpl
+    ): MemberInfoRepository
 }

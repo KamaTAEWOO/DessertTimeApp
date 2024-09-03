@@ -8,6 +8,6 @@ class CategoryRemoteSource @Inject constructor(
     private val categoryService: CategoryService
 ) {
     fun requestAllCategories() = flow {
-        emit(categoryService.requestAllCategories().responseCategoryData.map { it.toModel() })
+        emit(categoryService.requestAllCategories().categoryMainInfoList.map { it.toModel() })
     }
 }

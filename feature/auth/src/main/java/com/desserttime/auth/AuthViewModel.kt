@@ -7,8 +7,8 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
-import com.desserttime.domain.model.RequestUserSignUp
-import com.desserttime.domain.repository.UserInfoRepository
+import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +26,7 @@ private const val TAG = "AuthViewModel::"
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val userInfoRepository: UserInfoRepository
+    private val memberInfoRepository: MemberInfoRepository
 ) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
@@ -163,7 +163,8 @@ class AuthViewModel @Inject constructor(
     fun loginWithLogic(
         method: LoginMethod,
         context: Context,
-        onNavigateToSignUpAgree: () -> Unit
+        onNavigateToSignUpAgree: () -> Unit,
+        onNavigateToHome: () -> Unit
     ) {
         viewModelScope.launch {
             val result = when (method) {
@@ -175,12 +176,13 @@ class AuthViewModel @Inject constructor(
             // 로그인 성공 시 회원가입 동의 화면으로 이동
             when (result) {
                 is LoginResult.Success -> {
-                    // User 정보를 저장
-                    saveMemberNameData(result.user.name)
-                    saveMemberEmailData(result.user.email)
-                    saveSnsIdData(result.user.token)
-                    saveSignInSnsData(result.user.id)
+                    // Member 정보를 저장
+                    saveMemberNameData(result.member.name)
+                    saveMemberEmailData(result.member.email)
+                    saveSnsIdData(result.member.token)
+                    saveSignInSnsData(result.member.id)
                     delay(500)
+                    checkValidation(result.member.token)
                     printAllData()
                     onNavigateToSignUpAgree()
                 }
@@ -199,7 +201,7 @@ class AuthViewModel @Inject constructor(
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
     fun requestUserSignUp() {
         val currentState = uiState.value
-        val requestUserSignUp = RequestUserSignUp(
+        val requestMemberSignUpData = RequestMemberSignUpData(
             memberName = currentState.memberName,
             memberEmail = currentState.memberEmail,
             snsId = currentState.snsId,
@@ -218,10 +220,21 @@ class AuthViewModel @Inject constructor(
         )
 
         // return 값 받아오기
-        userInfoRepository.requestUserSignUp(requestUserSignUp)
+        memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
                 Timber.i("$TAG requestUserSignUp: $it")
             }
             .launchIn(viewModelScope)
+    }
+
+    // Validation Check
+    private fun checkValidation(snsId: String): Boolean {
+        Timber.i("$TAG checkValidation: $snsId")
+        memberInfoRepository.requestMemberValidation(snsId)
+            .onEach {
+                Timber.i("$TAG checkValidation: $it")
+            }
+            .launchIn(viewModelScope)
+        return true
     }
 }
