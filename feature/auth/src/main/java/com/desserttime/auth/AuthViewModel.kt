@@ -182,9 +182,15 @@ class AuthViewModel @Inject constructor(
                     saveSnsIdData(result.member.token)
                     saveSignInSnsData(result.member.id)
                     delay(500)
-                    checkValidation(result.member.token)
+
+                    val checkValidation = checkValidation(result.member.token)
                     printAllData()
-                    onNavigateToSignUpAgree()
+
+                    if(checkValidation) {
+                        onNavigateToHome()
+                    } else {
+                        onNavigateToSignUpAgree()
+                    }
                 }
 
                 is LoginResult.Error -> {
