@@ -38,7 +38,6 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.theme.MainColor
-import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
@@ -51,7 +50,7 @@ fun SignUpChooseScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
-    val selectedItems = remember { mutableStateListOf<String>() }
+    val selectedItems = remember { mutableStateListOf<Int>() }
 
     Column(
         modifier = Modifier
@@ -126,15 +125,15 @@ fun SignUpChooseScreen(
                     selectedItems
                 )
             },
-            background = if (selectedItems.isEmpty()) MainColor20 else MainColor,
-            textColor = if (selectedItems.isEmpty()) MainColor else Color.White,
-            enabled = selectedItems.isNotEmpty()
+            background = MainColor,
+            textColor = Color.White,
+            enabled = true
         )
     }
 }
 
 @Composable
-private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
+private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
     val items = listOf(
         R.drawable.ic_fish_shaped_bun_off to stringResource(id = R.string.txt_fish_shaped_bun),
         R.drawable.ic_baked_confectionery_off to stringResource(id = R.string.txt_baked_confectionery),
@@ -161,7 +160,7 @@ private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
 @Composable
 fun SelectTasteRecyclerView(
     items: List<Pair<Int, String>>,
-    selectedItems: SnapshotStateList<String>
+    selectedItems: SnapshotStateList<Int>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
@@ -172,7 +171,7 @@ fun SelectTasteRecyclerView(
         items(items.size) { index ->
             val item = items[index]
 
-            val isSelected = selectedItems.contains(item.second)
+            val isSelected = selectedItems.contains(index)
             GridItem(
                 imageRes = item.first,
                 text = item.second,
@@ -180,11 +179,11 @@ fun SelectTasteRecyclerView(
                 onClick = {
                     if (isSelected) {
                         // 선택된 아이템 해제
-                        selectedItems.remove(item.second)
+                        selectedItems.remove(index)
                     } else {
                         // 최대 5개까지만 추가 가능
                         if (selectedItems.size < 5) {
-                            selectedItems.add(item.second)
+                            selectedItems.add(index)
                         } else {
                             Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
@@ -231,14 +230,16 @@ fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Un
 private fun saveSignUpChooseData(
     onNavigateToSignUpComplete: () -> Unit,
     authViewModel: AuthViewModel,
-    selectedItems: SnapshotStateList<String>
+    selectedItems: SnapshotStateList<Int>
 ) {
-    // 갯수 체크 후 데이터 저장
-    authViewModel.saveMemberPickCategory1Data(selectedItems.getOrNull(0) ?: "")
-    authViewModel.saveMemberPickCategory2Data(selectedItems.getOrNull(1) ?: "")
-    authViewModel.saveMemberPickCategory3Data(selectedItems.getOrNull(2) ?: "")
-    authViewModel.saveMemberPickCategory4Data(selectedItems.getOrNull(3) ?: "")
-    authViewModel.saveMemberPickCategory5Data(selectedItems.getOrNull(4) ?: "")
+    // 갯수 체크 후 데이터 저장 -> 데이터가 없을 경우 0으로 저장
+    // selectedItems 배열의 크기를 체크한 후, 데이터 저장
+    authViewModel.saveMemberPickCategory1Data(if (selectedItems.size > 0) selectedItems[0] + 1 else 0)
+    authViewModel.saveMemberPickCategory2Data(if (selectedItems.size > 1) selectedItems[1] + 1 else 0)
+    authViewModel.saveMemberPickCategory3Data(if (selectedItems.size > 2) selectedItems[2] + 1 else 0)
+    authViewModel.saveMemberPickCategory4Data(if (selectedItems.size > 3) selectedItems[3] + 1 else 0)
+    authViewModel.saveMemberPickCategory5Data(if (selectedItems.size > 4) selectedItems[4] + 1 else 0)
+
     authViewModel.printAllData()
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp()

@@ -1,5 +1,10 @@
 package com.desserttime.auth.signup
 
+import android.annotation.SuppressLint
+import android.webkit.JavascriptInterface
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.model.Gender
 import com.desserttime.design.R
@@ -48,6 +54,9 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
+import timber.log.Timber
+
+private const val TAG = "SignUpInputScreen"
 
 @Composable
 fun SignUpInputScreen(
@@ -57,8 +66,9 @@ fun SignUpInputScreen(
 ) {
     val selectedGender = remember { mutableStateOf<Gender?>(Gender.MALE) }
     var selectedBirth by remember { mutableStateOf("1997") }
-    val selectedAddress = remember { mutableStateOf("서울특별시 별별구 별별동") }
+    val selectedAddress = remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
+    var showAddressSearch by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -228,7 +238,7 @@ fun SignUpInputScreen(
             )
             Spacer(Modifier.padding(top = 8.dp))
             Button(
-                onClick = { /* Handle button click */ },
+                onClick = { showAddressSearch = true },
                 colors = ButtonDefaults.buttonColors(White),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -241,7 +251,7 @@ fun SignUpInputScreen(
                     horizontalArrangement = Arrangement.SpaceBetween // 텍스트와 이미지를 양 끝에 배치
                 ) {
                     Text(
-                        text = stringResource(R.string.txt_address_hint),
+                        text = selectedAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
                         color = Black30,
                         style = DessertTimeTheme.typography.textStyleRegular16
                     )
@@ -252,6 +262,13 @@ fun SignUpInputScreen(
                     )
                 }
             }
+        }
+        if (showAddressSearch) {
+            AddressSearchView(onAddressSelected = { address ->
+                selectedAddress.value = address
+                showAddressSearch = false
+                Timber.d("$TAG Address $address")
+            })
         }
         Spacer(Modifier.padding(top = 188.dp))
         Column(
@@ -289,11 +306,98 @@ private fun saveSignUpInputData(
     authViewModel.saveMemberGenderData(if (sex == Gender.MALE) "M" else "F")
     authViewModel.saveBirthYearData(birth.toInt())
     // address는 띄워쓰기에 따라 3개로 나누어 저장
+    // 주소를 공백으로 분리
     val addressList = address.split(" ")
-    authViewModel.saveFirstCityData(addressList[0])
-    authViewModel.saveSecondaryCityData(addressList[1])
-    authViewModel.saveThirdCityData(addressList[2])
+
+    if (addressList.size >= 3) {
+        authViewModel.saveFirstCityData(addressList[0])
+        authViewModel.saveSecondaryCityData(addressList[1])
+
+        val thirdCityData = addressList.drop(2).joinToString(" ")
+        authViewModel.saveThirdCityData(thirdCityData)
+    } else {
+        // 요소가 3개 미만일 경우 처리
+        Timber.e("주소 리스트의 요소가 부족합니다: ${addressList.size}")
+    }
+
     onNavigateToSignUpChoose()
+}
+
+@SuppressLint("SetJavaScriptEnabled")
+@Composable
+fun AddressSearchView(onAddressSelected: (String) -> Unit) {
+    var webView by remember { mutableStateOf<WebView?>(null) }
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column {
+            // Add a refresh button to reload the page
+            Button(
+                onClick = { webView?.reload() },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text("Refresh Page")
+            }
+
+            AndroidView(
+                factory = { context ->
+                    WebView(context).apply {
+                        webChromeClient = object : WebChromeClient() {
+                            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                                super.onProgressChanged(view, newProgress)
+                                Timber.i("$TAG webChromeClient", "Loading progress: $newProgress%")
+                            }
+                        }
+
+                        webViewClient = object : WebViewClient() {
+                            override fun onPageFinished(view: WebView?, url: String?) {
+                                super.onPageFinished(view, url)
+                                Timber.i("$TAG webViewClient", "Page loaded: $url")
+                            }
+
+                            override fun onReceivedError(
+                                view: WebView?,
+                                errorCode: Int,
+                                description: String?,
+                                failingUrl: String?
+                            ) {
+                                super.onReceivedError(view, errorCode, description, failingUrl)
+                                Timber.e("$TAG WebViewError", "Error: $description")
+                            }
+                        }
+
+                        settings.apply {
+                            javaScriptEnabled = true
+                            domStorageEnabled = true
+                            javaScriptCanOpenWindowsAutomatically = true
+                        }
+
+                        WebView.setWebContentsDebuggingEnabled(true)
+
+                        // JavaScript Interface for communication
+                        addJavascriptInterface(
+                            JavascriptBridge { address ->
+                                onAddressSelected(address)
+                            },
+                            "Android"
+                        )
+
+                        // Load the desired URL
+                        loadUrl("https://dessert-time-44a86.web.app")
+                    }
+                },
+                update = { newWebView ->
+                    webView = newWebView
+                },
+                modifier = Modifier.weight(1f) // Take up remaining space
+            )
+        }
+    }
+}
+
+class JavascriptBridge(val onAddressSelected: (String) -> Unit) {
+    @JavascriptInterface
+    fun processDATA(address: String) {
+        onAddressSelected(address)
+    }
 }
 
 @Preview(showBackground = true)

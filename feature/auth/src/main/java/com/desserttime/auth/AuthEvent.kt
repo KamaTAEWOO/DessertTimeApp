@@ -45,22 +45,22 @@ sealed class AuthEvent : BaseEvent {
     ) : AuthEvent()
 
     data class RequestMemberPickCategory1Data(
-        val memberPickCategory1: String
+        val memberPickCategory1: Int
     ) : AuthEvent()
 
     data class RequestMemberPickCategory2Data(
-        val memberPickCategory2: String
+        val memberPickCategory2: Int
     ) : AuthEvent()
 
     data class RequestMemberPickCategory3Data(
-        val memberPickCategory3: String
+        val memberPickCategory3: Int
     ) : AuthEvent()
 
     data class RequestMemberPickCategory4Data(
-        val memberPickCategory4: String
+        val memberPickCategory4: Int
     ) : AuthEvent()
 
     data class RequestMemberPickCategory5Data(
-        val memberPickCategory5: String
+        val memberPickCategory5: Int
     ) : AuthEvent()
 }

@@ -13,9 +13,9 @@ data class AuthState(
     val secondaryCity: String = "",
     val thirdCity: String = "",
     val isAgreeAD: String = "",
-    val memberPickCategory1: String = "",
-    val memberPickCategory2: String = "",
-    val memberPickCategory3: String = "",
-    val memberPickCategory4: String = "",
-    val memberPickCategory5: String = ""
+    val memberPickCategory1: Int = 0,
+    val memberPickCategory2: Int = 0,
+    val memberPickCategory3: Int = 0,
+    val memberPickCategory4: Int = 0,
+    val memberPickCategory5: Int = 0 // 0은 선택 안 함.
 ) : BaseState

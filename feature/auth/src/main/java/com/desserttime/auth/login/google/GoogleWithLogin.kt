@@ -9,7 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.auth.model.UserProfile
+import com.desserttime.auth.model.MemberProfile
 import com.desserttime.core.BuildConfig
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -31,7 +31,7 @@ private const val GOOGLE_LOGIN_PROVIDER = "google"
 
 private lateinit var googleSignInClient: GoogleSignInClient
 private lateinit var launcher: ActivityResultLauncher<Intent>
-private var userProfile: UserProfile? = null
+private var memberProfile: MemberProfile? = null
 private var googleSignInAccount: GoogleSignInAccount? = null
 
 suspend fun googleLoginStart(): LoginResult = suspendCancellableCoroutine { continuation ->
@@ -78,7 +78,7 @@ fun GoogleLoginInit(
                 CoroutineScope(Dispatchers.Main).launch {
                     when (val loginResult = googleWithLogin()) {
                         is LoginResult.Success -> {
-                            Timber.i("GoogleSignIn Success: ${loginResult.user}")
+                            Timber.i("GoogleSignIn Success: ${loginResult.member}")
                         }
                         is LoginResult.Error -> {
                             Timber.i("GoogleSignIn Failed: ${loginResult.message}")
@@ -112,14 +112,16 @@ suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { conti
             Timber.i("signInWithCredential:success")
             val user = FirebaseAuth.getInstance().currentUser
 
-            userProfile = UserProfile(
+            Timber.i("user: ${user?.uid ?: ""}") // 로그인 시 토큰 대신 사용 RbHSlTdF8vYKjUYonN9HG6ntrr02
+
+            memberProfile = MemberProfile(
                 id = GOOGLE_LOGIN_PROVIDER,
                 name = user?.displayName ?: "",
                 email = user?.email ?: "",
-                token = account.idToken ?: ""
+                token = user?.uid ?: "" // 매일 같은 지 확인하기
             )
 
-            continuation.resume(LoginResult.Success(userProfile ?: UserProfile("", "", "", "")))
+            continuation.resume(LoginResult.Success(memberProfile ?: MemberProfile("", "", "", "")))
         } else {
             Timber.i("signInWithCredential:failure: ${task.exception}")
             continuation.resumeWithException(Exception("signInWithCredential:failure: ${task.exception?.message}"))

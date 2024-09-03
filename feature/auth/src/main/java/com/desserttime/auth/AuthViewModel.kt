@@ -7,8 +7,8 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
-import com.desserttime.domain.model.RequestUserSignUp
-import com.desserttime.domain.repository.UserInfoRepository
+import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -26,7 +26,7 @@ private const val TAG = "AuthViewModel::"
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val userInfoRepository: UserInfoRepository
+    private val memberInfoRepository: MemberInfoRepository
 ) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
@@ -80,19 +80,19 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun saveMemberNameData(memberName: String) {
+    private fun saveMemberNameData(memberName: String) {
         sendAction(AuthEvent.RequestMemberNameData(memberName))
     }
 
-    fun saveMemberEmailData(memberEmail: String) {
+    private fun saveMemberEmailData(memberEmail: String) {
         sendAction(AuthEvent.RequestMemberEmailData(memberEmail))
     }
 
-    fun saveSnsIdData(snsId: String) {
+    private fun saveSnsIdData(snsId: String) {
         sendAction(AuthEvent.RequestSnsIdData(snsId))
     }
 
-    fun saveSignInSnsData(signInSns: String) {
+    private fun saveSignInSnsData(signInSns: String) {
         sendAction(AuthEvent.RequestSignInSnsData(signInSns))
     }
 
@@ -120,23 +120,23 @@ class AuthViewModel @Inject constructor(
         sendAction(AuthEvent.RequestIsAgreeADData(isAgreeAD))
     }
 
-    fun saveMemberPickCategory1Data(memberPickCategory1: String) {
+    fun saveMemberPickCategory1Data(memberPickCategory1: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory1Data(memberPickCategory1))
     }
 
-    fun saveMemberPickCategory2Data(memberPickCategory2: String) {
+    fun saveMemberPickCategory2Data(memberPickCategory2: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory2Data(memberPickCategory2))
     }
 
-    fun saveMemberPickCategory3Data(memberPickCategory3: String) {
+    fun saveMemberPickCategory3Data(memberPickCategory3: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory3Data(memberPickCategory3))
     }
 
-    fun saveMemberPickCategory4Data(memberPickCategory4: String) {
+    fun saveMemberPickCategory4Data(memberPickCategory4: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory4Data(memberPickCategory4))
     }
 
-    fun saveMemberPickCategory5Data(memberPickCategory5: String) {
+    fun saveMemberPickCategory5Data(memberPickCategory5: Int) {
         sendAction(AuthEvent.RequestMemberPickCategory5Data(memberPickCategory5))
     }
 
@@ -163,7 +163,8 @@ class AuthViewModel @Inject constructor(
     fun loginWithLogic(
         method: LoginMethod,
         context: Context,
-        onNavigateToSignUpAgree: () -> Unit
+        onNavigateToSignUpAgree: () -> Unit,
+        onNavigateToHome: () -> Unit
     ) {
         viewModelScope.launch {
             val result = when (method) {
@@ -175,14 +176,21 @@ class AuthViewModel @Inject constructor(
             // 로그인 성공 시 회원가입 동의 화면으로 이동
             when (result) {
                 is LoginResult.Success -> {
-                    // User 정보를 저장
-                    saveMemberNameData(result.user.name)
-                    saveMemberEmailData(result.user.email)
-                    saveSnsIdData(result.user.token)
-                    saveSignInSnsData(result.user.id)
+                    // Member 정보를 저장
+                    saveMemberNameData(result.member.name)
+                    saveMemberEmailData(result.member.email)
+                    saveSnsIdData(result.member.token)
+                    saveSignInSnsData(result.member.id)
                     delay(500)
+
+                    val checkValidation = checkValidation(result.member.token)
                     printAllData()
-                    onNavigateToSignUpAgree()
+                    // onNavigateToSignUpAgree()
+                    if (checkValidation) {
+                        onNavigateToHome()
+                    } else {
+                        onNavigateToSignUpAgree()
+                    }
                 }
 
                 is LoginResult.Error -> {
@@ -199,7 +207,7 @@ class AuthViewModel @Inject constructor(
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
     fun requestUserSignUp() {
         val currentState = uiState.value
-        val requestUserSignUp = RequestUserSignUp(
+        val requestMemberSignUpData = RequestMemberSignUpData(
             memberName = currentState.memberName,
             memberEmail = currentState.memberEmail,
             snsId = currentState.snsId,
@@ -218,10 +226,21 @@ class AuthViewModel @Inject constructor(
         )
 
         // return 값 받아오기
-        userInfoRepository.requestUserSignUp(requestUserSignUp)
+        memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
                 Timber.i("$TAG requestUserSignUp: $it")
             }
             .launchIn(viewModelScope)
+    }
+
+    // Validation Check
+    private fun checkValidation(snsId: String): Boolean {
+        Timber.i("$TAG checkValidation: $snsId")
+        memberInfoRepository.requestMemberValidation(snsId)
+            .onEach {
+                Timber.i("$TAG checkValidation: $it")
+            }
+            .launchIn(viewModelScope)
+        return true
     }
 }

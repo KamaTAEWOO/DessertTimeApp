@@ -1,6 +1,6 @@
 import android.content.Context
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.auth.model.UserProfile
+import com.desserttime.auth.model.MemberProfile
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -19,7 +19,7 @@ suspend fun loginWithKakaoAccount(
         val token = loginWithKakaoAccountSuspend(context)
 
         // 로그인 성공 시 유저 정보를 가져옴
-        val userInfoResult = fetchKakaoUserInfo(token.accessToken)
+        val userInfoResult = fetchKakaoUserInfo()
 
         // 성공적으로 로그인 및 사용자 정보 가져왔을 경우
         userInfoResult
@@ -44,20 +44,21 @@ private suspend fun loginWithKakaoAccountSuspend(context: Context): OAuthToken {
     }
 }
 
-suspend fun fetchKakaoUserInfo(accessToken: String): LoginResult {
+suspend fun fetchKakaoUserInfo(): LoginResult {
     return suspendCancellableCoroutine { continuation ->
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Timber.i("$TAG Failed to get user info: ${error.message}")
                 continuation.resume(LoginResult.Error("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
-                val userProfile = UserProfile(
+                Timber.i("$TAG user.id: ${user.id}") // 로그인 시 토큰 대신 사용 3677513571
+                val memberProfile = MemberProfile(
                     id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
                     email = user.kakaoAccount?.email.orEmpty(),
-                    token = accessToken
+                    token = user.id.toString()
                 )
-                continuation.resume(LoginResult.Success(userProfile))
+                continuation.resume(LoginResult.Success(memberProfile))
             }
         }
     }

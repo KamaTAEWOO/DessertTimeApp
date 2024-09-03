@@ -84,7 +84,8 @@ fun LoginScreen(
                 authViewModel.loginWithLogic(
                     LoginMethod.KAKAO,
                     context,
-                    onNavigateToSignUpAgree
+                    onNavigateToSignUpAgree,
+                    onNavigateToHome
                 )
             },
             Turbo,
@@ -100,7 +101,8 @@ fun LoginScreen(
                 authViewModel.loginWithLogic(
                     LoginMethod.NAVER,
                     context,
-                    onNavigateToSignUpAgree
+                    onNavigateToSignUpAgree,
+                    onNavigateToHome
                 )
             },
             Malachite,
@@ -117,7 +119,8 @@ fun LoginScreen(
                 authViewModel.loginWithLogic(
                     LoginMethod.GOOGLE,
                     context,
-                    onNavigateToSignUpAgree
+                    onNavigateToSignUpAgree,
+                    onNavigateToHome
                 )
             },
             White,
