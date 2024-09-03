@@ -38,7 +38,6 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.theme.MainColor
-import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber

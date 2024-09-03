@@ -6,7 +6,7 @@ import com.desserttime.domain.model.ResponseMemberSignUp
 import kotlinx.coroutines.flow.Flow
 
 interface MemberInfoRepository {
-    fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData) : Flow<ResponseMemberSignUp>
+    fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData): Flow<ResponseMemberSignUp>
 
-    fun requestMemberValidation(snsId: String) : Flow<ResponseMemberData>
+    fun requestMemberValidation(snsId: String): Flow<ResponseMemberData>
 }

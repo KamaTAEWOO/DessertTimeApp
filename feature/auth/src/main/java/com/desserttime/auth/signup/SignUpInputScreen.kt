@@ -1,8 +1,6 @@
 package com.desserttime.auth.signup
 
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -25,10 +23,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -378,9 +373,12 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                         WebView.setWebContentsDebuggingEnabled(true)
 
                         // JavaScript Interface for communication
-                        addJavascriptInterface(JavascriptBridge { address ->
-                            onAddressSelected(address)
-                        }, "Android")
+                        addJavascriptInterface(
+                            JavascriptBridge { address ->
+                                onAddressSelected(address)
+                            },
+                            "Android"
+                        )
 
                         // Load the desired URL
                         loadUrl("https://dessert-time-44a86.web.app")

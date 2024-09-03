@@ -1,6 +1,5 @@
 package com.desserttime.data.repository
 
-import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.data.source.remote.MemberInfoRemoteSource
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.ResponseMemberData
@@ -17,5 +16,4 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestMemberValidation(snsId: String): Flow<ResponseMemberData> =
         memberInfoRemoteSource.requestMemberValidation(snsId)
-
 }
