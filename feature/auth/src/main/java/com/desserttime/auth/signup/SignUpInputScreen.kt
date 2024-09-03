@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -320,50 +321,52 @@ private fun saveSignUpInputData(
 @Composable
 fun AddressSearchView(onAddressSelected: (String) -> Unit) {
     var webView by remember { mutableStateOf<WebView?>(null) }
-
-    AndroidView(
-        factory = { context ->
-            WebView(context).apply {
-                webChromeClient = object : WebChromeClient() {
-                    override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                        super.onProgressChanged(view, newProgress)
-                        Timber.i("$TAG webChromeClient", "Loading progress: $newProgress%")
-                    }
-                }
-
-                webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
-                        Timber.i("$TAG webViewClient", "Page loaded: $url")
+    Box(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { context ->
+                WebView(context).apply {
+                    webChromeClient = object : WebChromeClient() {
+                        override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                            super.onProgressChanged(view, newProgress)
+                            Timber.i("$TAG webChromeClient", "Loading progress: $newProgress%")
+                        }
                     }
 
-                    override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
-                        super.onReceivedError(view, errorCode, description, failingUrl)
-                        Timber.e("$TAG WebViewError", "Error: $description")
+                    webViewClient = object : WebViewClient() {
+                        override fun onPageFinished(view: WebView?, url: String?) {
+                            super.onPageFinished(view, url)
+                            Timber.i("$TAG webViewClient", "Page loaded: $url")
+                        }
+
+                        override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
+                            super.onReceivedError(view, errorCode, description, failingUrl)
+                            Timber.e("$TAG WebViewError", "Error: $description")
+                        }
                     }
+
+                    settings.apply {
+                        javaScriptEnabled = true
+                        domStorageEnabled = true
+                        javaScriptCanOpenWindowsAutomatically = true
+                    }
+
+                    WebView.setWebContentsDebuggingEnabled(true)
+
+                    addJavascriptInterface(JavascriptBridge { address ->
+                        onAddressSelected(address)
+                        Timber.d("$TAG Address", address)
+                    }, "Android")
+
+                    // HTTPS 페이지 로드
+                    //loadUrl("https://postcode.pocketlesson.io")
+                    loadUrl("https://dessert-time-44a86.web.app")
                 }
-
-                settings.apply {
-                    javaScriptEnabled = true
-                    domStorageEnabled = true
-                    javaScriptCanOpenWindowsAutomatically = true
-                }
-
-                WebView.setWebContentsDebuggingEnabled(true)
-
-                addJavascriptInterface(JavascriptBridge { address ->
-                    onAddressSelected(address)
-                }, "Android")
-
-                // HTTPS 페이지 로드
-                //loadUrl("https://postcode.pocketlesson.io")
-                loadUrl("https://dessert-time-44a86.web.app")
+            },
+            update = { newWebView ->
+                webView = newWebView
             }
-        },
-        update = { newWebView ->
-            webView = newWebView
-        }
-    )
+        )
+    }
 }
 
 class JavascriptBridge(val callback: (String) -> Unit) {
@@ -371,6 +374,7 @@ class JavascriptBridge(val callback: (String) -> Unit) {
     @JavascriptInterface
     fun processDATA(data: String) {
         // Ensure that the callback is invoked on the main thread
+        Timber.d("$TAG processDATA", "Data: $data")
         Handler(Looper.getMainLooper()).post {
             callback(data)
         }
