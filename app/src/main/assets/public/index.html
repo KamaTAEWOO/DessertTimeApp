@@ -1,32 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Daum Postcode Service</title>
-  <style>
-    /* 주소 검색 결과가 나타나는 div에 대한 스타일 */
-    #postcodeLayer {
-        width: 100%; /* 너비 조정 */
-        height: 500px; /* 높이 조정 */
-        border: 1px solid #ddd;
-        margin-top: 10px;
-        display: block; /* 초기부터 보이도록 설정 */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Daum Postcode Service</title>
+    <style>
+        #postcodeLayer {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            margin-top: 50px; /* Make space for the fixed address display */
+            display: block;
+        }
+        #selectedAddress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
-<h2>주소 검색</h2>
+<div id="selectedAddress">선택된 주소가 여기에 표시됩니다.</div>
 <div id="postcodeLayer"></div>
 
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    // JavaScript에서 주소 값을 로그로 확인
   function initPostcode() {
       var element_layer = document.getElementById('postcodeLayer');
+      var addressDisplay = document.getElementById('selectedAddress');
 
       new daum.Postcode({
           oncomplete: function(data) {
-              var fullAddr = data.address;
-              Android.processDATA(fullAddr);
+              var fullAdder = data.address;
+
+              // 주소 값 로그 출력
+              console.log("선택된 주소:", fullAdder);
+
+              // Android 네이티브로 데이터 전달
+              if (typeof Android !== 'undefined' && Android.processDATA) {
+                  console.log("Sending address to Android:", fullAdder);
+                  Android.processDATA(fullAdder);
+              } else {
+                  console.warn("Android 객체가 정의되지 않았습니다.");
+              }
+
+              // 선택된 주소를 HTML 요소에 표시
+              addressDisplay.innerText = "선택된 주소: " + fullAddr;
+
               // 주소 선택 시 검색 결과 창 숨기기
               element_layer.style.display = 'none';
           },
@@ -39,7 +65,7 @@
   }
 
   // 페이지 로드 시 initPostcode 함수 호출
-  initPostcode();
+  window.onload = initPostcode;
 </script>
 </body>
 </html>
