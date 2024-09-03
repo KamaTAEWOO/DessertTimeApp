@@ -186,7 +186,7 @@ class AuthViewModel @Inject constructor(
                     val checkValidation = checkValidation(result.member.token)
                     printAllData()
                     // onNavigateToSignUpAgree()
-                    if(checkValidation) {
+                    if (checkValidation) {
                         onNavigateToHome()
                     } else {
                         onNavigateToSignUpAgree()
