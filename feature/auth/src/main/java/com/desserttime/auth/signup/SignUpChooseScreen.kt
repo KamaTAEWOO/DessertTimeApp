@@ -233,12 +233,14 @@ private fun saveSignUpChooseData(
     authViewModel: AuthViewModel,
     selectedItems: SnapshotStateList<Int>
 ) {
-    // 갯수 체크 후 데이터 저장
-    authViewModel.saveMemberPickCategory1Data(selectedItems[0] + 1)
-    authViewModel.saveMemberPickCategory2Data(selectedItems[1] + 1)
-    authViewModel.saveMemberPickCategory3Data(selectedItems[2] + 1)
-    authViewModel.saveMemberPickCategory4Data(selectedItems[3] + 1)
-    authViewModel.saveMemberPickCategory5Data(selectedItems[4] + 1)
+    // 갯수 체크 후 데이터 저장 -> 데이터가 없을 경우 0으로 저장
+    // selectedItems 배열의 크기를 체크한 후, 데이터 저장
+    authViewModel.saveMemberPickCategory1Data(if (selectedItems.size > 0) selectedItems[0] + 1 else 0)
+    authViewModel.saveMemberPickCategory2Data(if (selectedItems.size > 1) selectedItems[1] + 1 else 0)
+    authViewModel.saveMemberPickCategory3Data(if (selectedItems.size > 2) selectedItems[2] + 1 else 0)
+    authViewModel.saveMemberPickCategory4Data(if (selectedItems.size > 3) selectedItems[3] + 1 else 0)
+    authViewModel.saveMemberPickCategory5Data(if (selectedItems.size > 4) selectedItems[4] + 1 else 0)
+
     authViewModel.printAllData()
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp()
