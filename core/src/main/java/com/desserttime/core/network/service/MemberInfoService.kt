@@ -4,7 +4,9 @@ import com.desserttime.core.model.dto.ResponseMemberSignUpDto
 import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.domain.model.RequestMemberSignUpData
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface MemberInfoService {
     @POST("/member/signin")
@@ -12,8 +14,8 @@ interface MemberInfoService {
         @Body requestMemberSignUpData: RequestMemberSignUpData
     ): ResponseMemberSignUpDto
 
-    @POST("/member/validation")
+    @GET("/member/validation/{snsId}")
     suspend fun requestMemberValidation(
-        @Body snsId: String
+        @Path("snsId") snsId: String
     ): ResponseMemberValidationDto
 }
