@@ -46,6 +46,9 @@ logging-interceptor = "4.11.0"
 # logging
 timber = "5.0.1"
 
+# preference
+datastore = "1.0.0"
+
 # webview
 androidx-webkit = "1.5.0"
 
@@ -124,6 +127,7 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 
 # logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "androidx-webkit" }
 
 # compose

@@ -43,7 +43,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -69,6 +68,8 @@ import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
 
 @Composable
 fun MyInfoScreen() {
+    memberDataLoad()
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -111,8 +112,6 @@ fun MyInfoScreen() {
 
 @Composable
 fun OverlappingImages() {
-    // 상태를 사용하여 현재 이미지를 관리합니다
-    val context = LocalContext.current
     val currentImageUri = remember { mutableStateOf<Uri?>(null) }
     // 이미지 선택을 위한 ActivityResultLauncher 설정
     val imagePickerLauncher = rememberLauncherForActivityResult(
@@ -420,6 +419,11 @@ fun NicknameInputWithCheck(
             }
         }
     }
+}
+
+fun memberDataLoad() {
+    // MemberData load
+
 }
 
 @Preview(showBackground = true)
