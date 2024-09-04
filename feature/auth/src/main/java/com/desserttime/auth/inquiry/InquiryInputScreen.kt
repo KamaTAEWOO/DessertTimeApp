@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
 import com.desserttime.design.theme.Black30
@@ -39,12 +40,16 @@ import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
+import timber.log.Timber
+
+private const val TAG = "InquiryInputScreen::"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InquiryInputScreen(
-    onNavigateToInquiryInput: () -> Unit,
-    onBack: () -> Unit
+    onNavigateToInquiryComplete: () -> Unit,
+    onBack: () -> Unit,
+    authViewModel: AuthViewModel
 ) {
     Column(
         modifier = Modifier
@@ -142,7 +147,14 @@ fun InquiryInputScreen(
         ) {
             CommonUi.NextButton(
                 text = stringResource(R.string.txt_inquiry_content_send),
-                onClick = onNavigateToInquiryInput,
+                onClick = {
+                    requestSaveInqueryData(
+                        emailText.text,
+                        contentText,
+                        authViewModel,
+                        onNavigateToInquiryComplete
+                    )
+                },
                 background = MainColor,
                 textColor = Color.White,
                 enabled = true
@@ -151,11 +163,17 @@ fun InquiryInputScreen(
     }
 }
 
+// 보내기 버튼 클릭 시 호출
+fun requestSaveInqueryData(
+    emailText: String,
+    contentText: String,
+    authViewModel: AuthViewModel,
+    onNavigateToInquiryComplete: () -> Unit
+) {
+    Timber.d("$TAG requestSaveInqueryData: emailText = $emailText, contentText = $contentText")
+    authViewModel.requestSendInquiryData(emailText, contentText, onNavigateToInquiryComplete)
+}
+
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    InquiryInputScreen(
-        onNavigateToInquiryInput = {},
-        onBack = {}
-    )
-}
+fun GreetingPreview() {}

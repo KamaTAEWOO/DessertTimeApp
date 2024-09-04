@@ -1,7 +1,7 @@
 package com.desserttime.core.model.dto
 
-import com.desserttime.domain.model.CategoryMainInfoModel
-import com.desserttime.domain.model.CategorySubInfoModel
+import com.desserttime.domain.model.CategoryMainInfoData
+import com.desserttime.domain.model.CategorySubInfoData
 import com.google.gson.annotations.SerializedName
 
 data class ResponseCategoryDto(
@@ -14,10 +14,10 @@ data class ResponseCategoryMainInfo(
     @SerializedName("dessertName") val dessertName: String,
     @SerializedName("parentDCId") val parentDCId: Int,
     @SerializedName("sessionNum") val sessionNum: Int,
-    @SerializedName("secondCategory") val secondCategory: List<CategorySubInfoModel>?
+    @SerializedName("secondCategory") val secondCategory: List<CategorySubInfoData>?
 ) {
     // Model 변환 함수
-    fun toModel() = CategoryMainInfoModel(
+    fun toModel() = CategoryMainInfoData(
         dessertCategoryId = dessertCategoryId,
         dessertName = dessertName,
         parentDCId = parentDCId,

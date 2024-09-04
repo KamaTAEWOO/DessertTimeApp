@@ -7,6 +7,7 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -242,5 +243,15 @@ class AuthViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
         return true
+    }
+
+    // 문의하기
+    fun requestSendInquiryData(email: String, content: String, onNavigateToInquiryComplete: () -> Unit) {
+        memberInfoRepository.requestInquiry(RequestInquiryData(email, content))
+            .onEach {
+                Timber.i("$TAG requestInquiry: $it")
+                onNavigateToInquiryComplete()
+            }
+            .launchIn(viewModelScope)
     }
 }

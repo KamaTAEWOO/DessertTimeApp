@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-data class ResponseMemberSignUp(
+data class ResponseCommon(
     val success: Boolean = false,
     val timestamp: String = "",
     val statusCode: Int = 0,
