@@ -2,7 +2,6 @@ package com.desserttime.auth.inquiry
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,11 +22,17 @@ import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun InquiryCompleteScreen(
-    onNavigateToLogin: () -> Unit
+    onTimeout: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        delay(3000)
+        onTimeout()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,9 +65,7 @@ fun InquiryCompleteScreen(
                 text = stringResource(id = R.string.txt_next_page),
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Black60,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .clickable(onClick = onNavigateToLogin) // @@2 Test
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
     }

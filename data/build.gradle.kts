@@ -46,6 +46,9 @@ dependencies {
     // retrofit
     implementation(libs.bundles.retrofit)
 
+    // Timber
+    implementation(libs.timber)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

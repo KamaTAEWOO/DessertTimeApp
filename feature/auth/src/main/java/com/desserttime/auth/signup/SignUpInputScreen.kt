@@ -38,7 +38,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.desserttime.auth.AuthViewModel
-import com.desserttime.auth.model.Gender
 import com.desserttime.design.R
 import com.desserttime.design.theme.AthensGray
 import com.desserttime.design.theme.Black
@@ -54,6 +53,7 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.domain.model.Gender
 import timber.log.Timber
 
 private const val TAG = "SignUpInputScreen"
@@ -64,7 +64,7 @@ fun SignUpInputScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
-    val selectedGender = remember { mutableStateOf<Gender?>(Gender.MALE) }
+    val selectedGender = remember { mutableStateOf<Gender?>(Gender.OTHER) }
     var selectedBirth by remember { mutableStateOf("1997") }
     val selectedAddress = remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }

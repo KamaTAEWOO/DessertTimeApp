@@ -1,6 +1,6 @@
 import android.content.Context
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.auth.model.MemberProfile
+import com.desserttime.domain.model.MemberProfile
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.suspendCancellableCoroutine

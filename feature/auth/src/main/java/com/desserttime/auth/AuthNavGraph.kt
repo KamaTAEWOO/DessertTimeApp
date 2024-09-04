@@ -86,18 +86,19 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = AuthDestination.InquiryInput.route) {
             InquiryInputScreen(
-                onNavigateToInquiryInput = {
+                onNavigateToInquiryComplete = {
                     navHostController.navigate(AuthDestination.InquiryComplete.route)
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 
         composable(route = AuthDestination.InquiryComplete.route) {
             InquiryCompleteScreen(
-                onNavigateToLogin = {
+                onTimeout = {
                     navHostController.navigate(AuthDestination.Login.route) {
                         popUpTo(AuthDestination.InquiryComplete.route) {
                             inclusive = true

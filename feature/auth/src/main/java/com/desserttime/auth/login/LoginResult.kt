@@ -1,6 +1,6 @@
 package com.desserttime.auth.login
 
-import com.desserttime.auth.model.MemberProfile
+import com.desserttime.domain.model.MemberProfile
 
 sealed class LoginResult {
     data class None(val message: String) : LoginResult()
