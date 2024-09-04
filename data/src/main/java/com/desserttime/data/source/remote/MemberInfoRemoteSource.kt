@@ -1,7 +1,6 @@
 package com.desserttime.data.source.remote
 
 import com.desserttime.core.local.MemberDataStore
-import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.network.service.MemberInfoService
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
@@ -10,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import javax.inject.Inject
 
 private const val TAG = "MemberInfoRemoteSource::"

@@ -7,9 +7,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.desserttime.domain.model.MemberData
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import com.google.gson.Gson
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "member_data_store")
 

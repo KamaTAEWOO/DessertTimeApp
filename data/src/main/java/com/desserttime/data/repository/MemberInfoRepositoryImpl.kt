@@ -5,8 +5,8 @@ import com.desserttime.data.source.remote.MemberInfoRemoteSource
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseCommon
+import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.repository.MemberInfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

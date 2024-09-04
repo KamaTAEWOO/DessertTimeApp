@@ -81,7 +81,7 @@ private const val TAG = "MyInfoScreen::"
 fun MyInfoScreen() {
     val memberData = memberDataLoad()
 
-    if(memberData == null) {
+    if (memberData == null) {
         Timber.i("$TAG memberData is null")
         return
     }
@@ -208,10 +208,14 @@ fun NicknameInputWithCheck(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData?.birthYear.toString()) }
-    val selectedGender = remember { mutableStateOf<Gender?>(
-        if(memberData?.gender == "M") Gender.MALE
-        else if(memberData?.gender == "F") Gender.FEMALE
-        else Gender.OTHER)
+    val selectedGender = remember {
+        mutableStateOf<Gender?>(
+            when (memberData?.gender) {
+                "M" -> Gender.MALE
+                "F" -> Gender.FEMALE
+                else -> Gender.OTHER
+            }
+        )
     }
     val selectAddress = remember { mutableStateOf(memberData?.firstCity + " " + memberData?.secondaryCity + " " + memberData?.thirdCity) }
     val taste = remember { mutableStateOf(memberData?.memo) }
@@ -397,7 +401,7 @@ fun NicknameInputWithCheck(
             ) {
                 Text(
                     text = selectAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
-                    color = if(selectAddress.value.isEmpty()) Black30 else Black,
+                    color = if (selectAddress.value.isEmpty()) Black30 else Black,
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
 
@@ -460,7 +464,7 @@ fun memberDataLoad(): MemberData? {
     // MemberData 가져오기
     val memberData by myPageViewModel.memberData.collectAsState(initial = null)
 
-    if(memberData == null) {
+    if (memberData == null) {
         Timber.i("$TAG memberDataLoad is null")
     }
 

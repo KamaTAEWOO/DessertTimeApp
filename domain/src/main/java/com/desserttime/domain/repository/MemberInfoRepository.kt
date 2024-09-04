@@ -3,8 +3,8 @@ package com.desserttime.domain.repository
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseCommon
+import com.desserttime.domain.model.ResponseMemberData
 import kotlinx.coroutines.flow.Flow
 
 interface MemberInfoRepository {
