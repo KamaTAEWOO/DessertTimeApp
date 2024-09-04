@@ -9,6 +9,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("/Users/kamamerona/APK KEY/desserttime.jks")
+            storePassword = "123456"
+            keyAlias = "key0"
+            keyPassword = "123456"
+        }
+    }
     namespace = "com.desserttime.desserttimeapp"
 
     buildFeatures {
