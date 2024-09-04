@@ -46,12 +46,12 @@ suspend fun googleLoginStart(): LoginResult = suspendCancellableCoroutine { cont
             val loginResult = googleWithLogin()
             continuation.resume(loginResult)
         } catch (e: Exception) {
-            continuation.resumeWithException(Exception("GoogleSignIn Failed"))
+            continuation.resumeWithException(Exception("$TAG GoogleSignIn Failed"))
         }
     }
 
     continuation.invokeOnCancellation {
-        Timber.i("googleLoginStart: Coroutine canceled")
+        Timber.e("$TAG googleLoginStart: Coroutine canceled")
     }
 }
 
@@ -78,11 +78,11 @@ fun GoogleLoginInit(
                 CoroutineScope(Dispatchers.Main).launch {
                     when (val loginResult = googleWithLogin()) {
                         is LoginResult.Success -> {
-                            Timber.i("GoogleSignIn Success: ${loginResult.member}")
+                            Timber.i("$TAG GoogleSignIn Success: ${loginResult.member}")
                         }
                         is LoginResult.Error -> {
-                            Timber.i("GoogleSignIn Failed: ${loginResult.message}")
-                            Toast.makeText(context, "GoogleSign-In Failed", Toast.LENGTH_SHORT).show()
+                            Timber.e("$TAG GoogleSignIn Failed: ${loginResult.message}")
+                            Toast.makeText(context, "$TAG GoogleSign-In Failed", Toast.LENGTH_SHORT).show()
                         }
 
                         is LoginResult.None -> TODO()
@@ -99,20 +99,20 @@ fun GoogleLoginInit(
 suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { continuation ->
     val account = googleSignInAccount
     if (account == null) {
-        continuation.resumeWithException(Exception("GoogleSignInAccount is null"))
+        continuation.resumeWithException(Exception("$TAG GoogleSignInAccount is null"))
         return@suspendCancellableCoroutine
     }
 
     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-    Timber.i("firebaseAuthWithGoogle: ${account.idToken}")
+    Timber.i("$TAG firebaseAuthWithGoogle: ${account.idToken}")
 
     // Firebase Auth로 로그인
     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
         if (task.isSuccessful) {
-            Timber.i("signInWithCredential:success")
+            Timber.i("$TAG signInWithCredential:success")
             val user = FirebaseAuth.getInstance().currentUser
 
-            Timber.i("user: ${user?.uid ?: ""}") // 로그인 시 토큰 대신 사용 RbHSlTdF8vYKjUYonN9HG6ntrr02
+            Timber.i("$TAG user: ${user?.uid ?: ""}") // 로그인 시 토큰 대신 사용 RbHSlTdF8vYKjUYonN9HG6ntrr02
 
             memberProfile = MemberProfile(
                 id = GOOGLE_LOGIN_PROVIDER,
@@ -123,10 +123,10 @@ suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { conti
 
             continuation.resume(LoginResult.Success(memberProfile ?: MemberProfile("", "", "", "")))
         } else {
-            Timber.i("signInWithCredential:failure: ${task.exception}")
-            continuation.resumeWithException(Exception("signInWithCredential:failure: ${task.exception?.message}"))
+            Timber.e("$TAG signInWithCredential:failure: ${task.exception}")
+            continuation.resumeWithException(Exception("$TAG signInWithCredential:failure: ${task.exception?.message}"))
         }
     }.addOnCanceledListener {
-        continuation.resumeWithException(Exception("signInWithCredential: canceled"))
+        continuation.resumeWithException(Exception("$TAG signInWithCredential: canceled"))
     }
 }
