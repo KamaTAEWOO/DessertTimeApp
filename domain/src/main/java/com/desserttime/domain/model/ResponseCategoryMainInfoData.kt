@@ -1,14 +1,14 @@
 package com.desserttime.domain.model
 
-data class CategoryMainInfoData(
+data class ResponseCategoryMainInfoData(
     val dessertCategoryId: Int = 0,
     val dessertName: String = "",
     val parentDCId: Int = 0,
     val sessionNum: Int = 0,
-    val secondCategory: List<CategorySubInfoData>? = listOf()
+    val secondCategory: List<ResponseCategorySubInfoData>? = listOf()
 )
 
-data class CategorySubInfoData(
+data class ResponseCategorySubInfoData(
     val dessertCategoryId: Int = 0,
     val dessertName: String = "",
     val parentDCId: Int = 0,

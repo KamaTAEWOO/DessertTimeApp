@@ -1,8 +1,8 @@
 package com.desserttime.category
 
 import com.desserttime.core.base.BaseState
-import com.desserttime.domain.model.CategoryMainInfoData
+import com.desserttime.domain.model.ResponseCategoryMainInfoData
 
 data class CategoryState(
-    val allCategory: List<CategoryMainInfoData> = listOf()
+    val allCategory: List<ResponseCategoryMainInfoData> = listOf()
 ) : BaseState

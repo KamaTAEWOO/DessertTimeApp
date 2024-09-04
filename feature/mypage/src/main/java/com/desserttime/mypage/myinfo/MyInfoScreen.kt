@@ -33,6 +33,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,6 +51,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
@@ -56,6 +59,8 @@ import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
+import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.MineShaft
 import com.desserttime.design.theme.SilverChalice
 import com.desserttime.design.theme.Tundora
@@ -65,10 +70,21 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
+import com.desserttime.domain.model.Gender
+import com.desserttime.domain.model.MemberData
+import com.desserttime.mypage.MyPageViewModel
+import timber.log.Timber
+
+private const val TAG = "MyInfoScreen::"
 
 @Composable
 fun MyInfoScreen() {
-    memberDataLoad()
+    val memberData = memberDataLoad()
+
+    if(memberData == null) {
+        Timber.i("$TAG memberData is null")
+        return
+    }
 
     Scaffold(
         modifier = Modifier
@@ -103,7 +119,7 @@ fun MyInfoScreen() {
                         .padding(horizontal = 24.dp)
                 ) {
                     Spacer(modifier = Modifier.height(20.dp))
-                    Nickname()
+                    Nickname(memberData)
                 }
             }
         }
@@ -166,8 +182,8 @@ fun OverlappingImages() {
 }
 
 @Composable
-fun Nickname() {
-    var nickname by remember { mutableStateOf(TextFieldValue("")) }
+fun Nickname(memberData: MemberData?) {
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData?.memberName ?: "")) }
 
     Text(
         text = stringResource(id = R.string.txt_my_info_nickname),
@@ -176,6 +192,7 @@ fun Nickname() {
     )
     Spacer(modifier = Modifier.height(8.dp))
     NicknameInputWithCheck(
+        memberData,
         nickname,
         onNicknameChange = { nickname = it },
         onCheckDuplicate = { }
@@ -184,12 +201,20 @@ fun Nickname() {
 
 @Composable
 fun NicknameInputWithCheck(
+    memberData: MemberData?,
     nickname: TextFieldValue,
     onNicknameChange: (TextFieldValue) -> Unit,
     onCheckDuplicate: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedYear by remember { mutableStateOf("") }
+    var selectedYear by remember { mutableStateOf(memberData?.birthYear.toString()) }
+    val selectedGender = remember { mutableStateOf<Gender?>(
+        if(memberData?.gender == "M") Gender.MALE
+        else if(memberData?.gender == "F") Gender.FEMALE
+        else Gender.OTHER)
+    }
+    val selectAddress = remember { mutableStateOf(memberData?.firstCity + " " + memberData?.secondaryCity + " " + memberData?.thirdCity) }
+    val taste = remember { mutableStateOf(memberData?.memo) }
 
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -257,16 +282,18 @@ fun NicknameInputWithCheck(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(WildSand),
+                onClick = { selectedGender.value = Gender.MALE },
+                colors = ButtonDefaults.buttonColors(
+                    if (selectedGender.value == Gender.MALE) MainColor20 else WildSand
+                ),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight(),
-                shape = RoundedCornerShape(12.dp)
+                    .fillMaxHeight()
             ) {
                 Text(
                     text = stringResource(R.string.txt_sex_man),
-                    color = Tundora,
+                    color = if (selectedGender.value == Gender.MALE) MainColor else Tundora,
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
             }
@@ -274,16 +301,18 @@ fun NicknameInputWithCheck(
             Spacer(modifier = Modifier.width(8.dp))
 
             Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(WildSand),
+                onClick = { selectedGender.value = Gender.FEMALE },
+                colors = ButtonDefaults.buttonColors(
+                    if (selectedGender.value == Gender.FEMALE) MainColor20 else WildSand
+                ),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .weight(1f)
-                    .fillMaxHeight(),
-                shape = RoundedCornerShape(12.dp)
+                    .fillMaxHeight()
             ) {
                 Text(
                     text = stringResource(R.string.txt_sex_woman),
-                    color = Tundora,
+                    color = if (selectedGender.value == Gender.FEMALE) MainColor else Tundora,
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
             }
@@ -367,8 +396,8 @@ fun NicknameInputWithCheck(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.txt_address_hint),
-                    color = Black30,
+                    text = selectAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
+                    color = if(selectAddress.value.isEmpty()) Black30 else Black,
                     style = DessertTimeTheme.typography.textStyleRegular16
                 )
 
@@ -404,12 +433,14 @@ fun NicknameInputWithCheck(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = stringResource(R.string.txt_my_info_taste_hint),
-                    color = Black30,
-                    style = DessertTimeTheme.typography.textStyleRegular16
-                )
-
+                (if ((taste.value ?: "").isEmpty()) stringResource(R.string.txt_my_info_taste_hint) else taste.value)?.let {
+                    Text(
+                        text = it,
+                        color = Black30,
+                        style = DessertTimeTheme.typography.textStyleRegular16
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f)) // 이미지 왼쪽에 빈 공간 추가
                 Image(
                     painter = painterResource(R.drawable.ic_right_arrow),
                     contentDescription = stringResource(R.string.txt_my_info_taste_hint),
@@ -421,9 +452,27 @@ fun NicknameInputWithCheck(
     }
 }
 
-fun memberDataLoad() {
-    // MemberData load
+@Composable
+fun memberDataLoad(): MemberData? {
+    // ViewModel 가져오기
+    val myPageViewModel: MyPageViewModel = hiltViewModel()
 
+    // MemberData 가져오기
+    val memberData by myPageViewModel.memberData.collectAsState(initial = null)
+
+    if(memberData == null) {
+        Timber.i("$TAG memberDataLoad is null")
+    }
+
+    // Handle the MemberData when it's available
+    LaunchedEffect(memberData) {
+        memberData?.let {
+            Timber.i("$TAG memberDataLoad: $it")
+            // Perform other actions if necessary
+        }
+    }
+
+    return memberData
 }
 
 @Preview(showBackground = true)

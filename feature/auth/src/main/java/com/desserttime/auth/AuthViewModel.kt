@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.desserttime.auth.login.LoginResult
 import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
-import com.desserttime.auth.model.LoginMethod
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.domain.model.LoginMethod
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository

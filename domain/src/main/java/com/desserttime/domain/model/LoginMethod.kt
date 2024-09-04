@@ -1,4 +1,4 @@
-package com.desserttime.auth.model
+package com.desserttime.domain.model
 
 enum class LoginMethod {
     KAKAO,

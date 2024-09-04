@@ -1,6 +1,8 @@
 package com.desserttime.data.repository
 
+import com.desserttime.core.local.MemberDataStore
 import com.desserttime.data.source.remote.MemberInfoRemoteSource
+import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.ResponseMemberData
@@ -10,8 +12,10 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MemberInfoRepositoryImpl @Inject constructor(
-    private val memberInfoRemoteSource: MemberInfoRemoteSource
+    private val memberInfoRemoteSource: MemberInfoRemoteSource,
+    private val memberDataStore: MemberDataStore
 ) : MemberInfoRepository {
+
     override fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestMemberSignUp(requestMemberSignUpData)
 
@@ -20,4 +24,6 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestInquiry(requestInquiryData: RequestInquiryData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestInquiry(requestInquiryData)
+
+    override val memberData: Flow<MemberData> = memberDataStore.memberData
 }

@@ -13,4 +13,6 @@ interface MemberInfoRepository {
     fun requestMemberValidation(snsId: String): Flow<ResponseMemberData>
 
     fun requestInquiry(requestInquiryData: RequestInquiryData): Flow<ResponseCommon>
+
+    val memberData: Flow<MemberData> // 로컬 데이터 저장소에서 사용자 정보를 가져오는 Flow
 }

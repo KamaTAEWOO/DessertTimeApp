@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
-import com.desserttime.auth.model.LoginMethod
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -43,6 +42,7 @@ import com.desserttime.design.theme.OsloGray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.domain.model.LoginMethod
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -220,12 +220,4 @@ fun LoginTextAndLine() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
-//    LoginScreen(
-//        onNavigateToSignUpAgree = {},
-//        onNavigateToInquiryInput = {},
-//        onNavigateToHome = {},
-//        onBack = {},
-//        authViewModel = AuthViewModel()
-//    )
-}
+fun LoginScreenPreview() {}

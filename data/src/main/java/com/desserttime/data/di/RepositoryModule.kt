@@ -1,5 +1,6 @@
 package com.desserttime.data.di
 
+import com.desserttime.core.local.MemberDataStore
 import com.desserttime.data.repository.CategoryRepositoryImpl
 import com.desserttime.data.repository.MemberInfoRepositoryImpl
 import com.desserttime.domain.repository.CategoryRepository
