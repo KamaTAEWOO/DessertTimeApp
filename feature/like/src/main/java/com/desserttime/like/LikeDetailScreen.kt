@@ -41,7 +41,7 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora50
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.like.model.LikeData
+import com.desserttime.domain.model.LikeData
 
 @Composable
 fun LikeDetailScreen(
