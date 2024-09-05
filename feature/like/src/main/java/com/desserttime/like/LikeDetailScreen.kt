@@ -3,6 +3,7 @@ package com.desserttime.like
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,12 +17,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +35,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
@@ -42,11 +48,16 @@ import com.desserttime.design.theme.Tundora50
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.domain.model.LikeData
+import timber.log.Timber
+
+private const val TAG = "LikeDetailScreen::"
 
 @Composable
 fun LikeDetailScreen(
     onNavigateToLike: () -> Unit
 ) {
+    val likeData = likeItemData()
+
     Scaffold(
         modifier = Modifier.padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
@@ -66,15 +77,15 @@ fun LikeDetailScreen(
             ) {
                 // LikeDetailItem
                 LikeDetailItem(
-                    LikeData.icLikeProfile,
-                    stringResource(id = LikeData.nickName),
-                    stringResource(id = LikeData.date),
-                    LikeData.likeCount,
-                    LikeData.title,
-                    LikeData.score,
-                    LikeData.likePicture,
-                    stringResource(id = LikeData.content),
-                    LikeData.materialArr
+                    likeData.icLikeProfile,
+                    stringResource(id = likeData.nickName),
+                    stringResource(id = likeData.date),
+                    likeData.likeCount,
+                    likeData.title,
+                    likeData.score,
+                    likeData.likePicture,
+                    stringResource(id = likeData.content),
+                    likeData.materialArr
                 )
             }
         }
@@ -93,6 +104,8 @@ fun LikeDetailItem(
     content: String,
     materialArr: List<Int>
 ) {
+    val likeViewModel: LikeViewModel = hiltViewModel()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -182,7 +195,7 @@ fun LikeDetailItem(
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            ReportButton()
+            ReportButton(likeViewModel)
         }
     }
 }
@@ -216,16 +229,20 @@ fun MenuDetailPicture(likePicture: Int) {
 // 신고하기 버튼
 // 오른쪽 끝으로 정렬
 @Composable
-fun ReportButton() {
+fun ReportButton(likeViewModel: LikeViewModel) {
+    // val likeUiState by likeViewModel.uiState.collectAsStateWithLifecycle()
+
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(id = R.string.txt_like_report),
             style = DessertTimeTheme.typography.textStyleRegular12,
             color = Tundora50,
-            modifier = Modifier.align(Alignment.CenterEnd)
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .wrapContentWidth()
+                .clickable { likeViewModel.requestAccusationData() }
         )
     }
 }
