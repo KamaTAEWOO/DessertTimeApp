@@ -339,21 +339,19 @@ fun AccusationDialog(
                                 modifier = Modifier
                                     .weight(1f)
                                     .clickable {
-                                        selectedItems = if (selectedItems.contains(option)) {
-                                            selectedItems -  option // 선택된 항목 제거
-                                        } else {
-                                            selectedItems + option // 선택되지 않은 항목 추가
-                                        }
+                                        // 모든 항목 선택 해제
+                                        selectedItems = listOf(option)
                                     }
                                     .padding(8.dp)
                             ) {
                                 CustomRadioButton(
                                     selected = selectedItems.contains(option)
                                 ) { isChecked ->
+                                    // 체크박스 상태에 따라 항목 선택
                                     selectedItems = if (isChecked as Boolean) {
-                                        selectedItems + option // 체크박스 체크 시 항목 추가
+                                        listOf(option) // 체크된 항목만 선택
                                     } else {
-                                        selectedItems - option // 체크박스 해제 시 항목 제거
+                                        listOf() // 체크 해제 시 선택 항목 비우기
                                     }
                                 }
                                 Text(
