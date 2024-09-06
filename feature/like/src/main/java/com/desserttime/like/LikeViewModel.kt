@@ -2,6 +2,7 @@ package com.desserttime.like
 
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.domain.model.RequestSendAccusationData
 import com.desserttime.domain.repository.LikeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -32,6 +33,26 @@ class LikeViewModel @Inject constructor(
             .onEach {
                 Timber.i("$TAG requestAccusationData: $it")
                 sendAction(LikeEvent.RequestAccusationData(it.data))
+            }
+            .catch {
+                // Error 처리
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestSendAccusationData(selectedItems: List<String>) {
+        Timber.i("$TAG requestSendAccusationData: $selectedItems")
+        likeRepository.requestSendAccusation(
+            RequestSendAccusationData(
+                "ETC",
+                "Test",
+                1,
+                1,
+            )
+        )
+            .onEach {
+                Timber.i("$TAG requestSendAccusationData: $it")
             }
             .catch {
                 // Error 처리
