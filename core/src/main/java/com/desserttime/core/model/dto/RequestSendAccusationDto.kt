@@ -1,6 +1,6 @@
 package com.desserttime.core.model.dto
 
-data class RequestSendAccusationDto (
+data class RequestSendAccusationDto(
     val reason: String,
     val content: String,
     val memberId: Int,

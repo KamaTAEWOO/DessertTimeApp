@@ -239,27 +239,6 @@ fun MenuDetailPicture(likePicture: Int) {
     }
 }
 
-// 신고하기 버튼
-// 오른쪽 끝으로 정렬
-//@Composable
-//fun ReportButton(likeViewModel: LikeViewModel) {
-//    // val likeUiState by likeViewModel.uiState.collectAsStateWithLifecycle()
-//
-//    Box(
-//        modifier = Modifier.fillMaxWidth()
-//    ) {
-//        Text(
-//            text = stringResource(id = R.string.txt_like_report),
-//            style = DessertTimeTheme.typography.textStyleRegular12,
-//            color = Tundora50,
-//            modifier = Modifier
-//                .align(Alignment.CenterEnd)
-//                .wrapContentWidth()
-//                .clickable { likeViewModel.requestAccusationData() }
-//        )
-//    }
-//}
-
 @Composable
 fun AccusationButton(likeViewModel: LikeViewModel) {
     var showDialog by remember { mutableStateOf(false) }
@@ -314,10 +293,11 @@ fun AccusationDialog(
             shape = RoundedCornerShape(4.dp),
             color = Color.White
         ) {
-            Column(modifier = Modifier
-                .padding(24.dp)
+            Column(
+                modifier = Modifier.padding(24.dp)
             ) {
-                Text(text = stringResource(id = R.string.txt_accusation_title),
+                Text(
+                    text = stringResource(id = R.string.txt_accusation_title),
                     style = DessertTimeTheme.typography.textStyleRegular18,
                     color = Color.Black
                 )
@@ -398,7 +378,8 @@ fun AccusationDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text(text = stringResource(id = R.string.btn_accusation),
+                    Text(
+                        text = stringResource(id = R.string.btn_accusation),
                         style = DessertTimeTheme.typography.textStyleMedium18,
                         color = DustyGray,
                         modifier = Modifier.clickable { onConfirm(selectedItems) }

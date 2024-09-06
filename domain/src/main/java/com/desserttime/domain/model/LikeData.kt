@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-//object LikeData {
+// object LikeData {
 //    val icLikeProfile: Int = 0 //R.drawable.ic_like_profile
 //    val nickName: Int = 0 // R.string.txt_like_nickname
 //    val date: Int = 0 // R.string.txt_like_date
@@ -17,9 +17,9 @@ package com.desserttime.domain.model
 //        0, // R.string.txt_review_write_material_selection_2,
 //        0 // R.string.txt_review_write_material_selection_6
 //    )
-//}
+// }
 
-data class LikeData (
+data class LikeData(
     val icLikeProfile: Int,
     val nickName: Int,
     val date: Int,
@@ -30,5 +30,3 @@ data class LikeData (
     val content: Int,
     val materialArr: List<Int>
 )
-
-

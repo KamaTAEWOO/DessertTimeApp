@@ -48,7 +48,7 @@ class LikeViewModel @Inject constructor(
                 "ETC",
                 "Test",
                 1,
-                1,
+                1
             )
         )
             .onEach {
