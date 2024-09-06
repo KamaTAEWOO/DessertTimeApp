@@ -3,6 +3,7 @@ package com.desserttime.like
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,12 +17,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,22 +43,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
+import com.desserttime.design.theme.AltoAgree
+import com.desserttime.design.theme.AzureRadiance
+import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DustyGray
+import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora50
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.like.model.LikeData
+import com.desserttime.design.ui.common.CommonUi
+import androidx.compose.foundation.layout.Row as Ro
+
+private const val TAG = "LikeDetailScreen::"
 
 @Composable
 fun LikeDetailScreen(
     onNavigateToLike: () -> Unit
 ) {
+    val likeData = likeItemData()
+
     Scaffold(
         modifier = Modifier.padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
@@ -66,15 +90,15 @@ fun LikeDetailScreen(
             ) {
                 // LikeDetailItem
                 LikeDetailItem(
-                    LikeData.icLikeProfile,
-                    stringResource(id = LikeData.nickName),
-                    stringResource(id = LikeData.date),
-                    LikeData.likeCount,
-                    LikeData.title,
-                    LikeData.score,
-                    LikeData.likePicture,
-                    stringResource(id = LikeData.content),
-                    LikeData.materialArr
+                    likeData.icLikeProfile,
+                    stringResource(id = likeData.nickName),
+                    stringResource(id = likeData.date),
+                    likeData.likeCount,
+                    likeData.title,
+                    likeData.score,
+                    likeData.likePicture,
+                    stringResource(id = likeData.content),
+                    likeData.materialArr
                 )
             }
         }
@@ -93,12 +117,14 @@ fun LikeDetailItem(
     content: String,
     materialArr: List<Int>
 ) {
+    val likeViewModel: LikeViewModel = hiltViewModel()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Row(
+        Ro(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
@@ -182,7 +208,7 @@ fun LikeDetailItem(
                 modifier = Modifier.fillMaxWidth()
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            ReportButton()
+            AccusationButton(likeViewModel)
         }
     }
 }
@@ -213,19 +239,183 @@ fun MenuDetailPicture(likePicture: Int) {
     }
 }
 
-// 신고하기 버튼
-// 오른쪽 끝으로 정렬
 @Composable
-fun ReportButton() {
+fun AccusationButton(likeViewModel: LikeViewModel) {
+    var showDialog by remember { mutableStateOf(false) }
+    val likeUiState by likeViewModel.uiState.collectAsStateWithLifecycle()
+
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(id = R.string.txt_like_report),
             style = DessertTimeTheme.typography.textStyleRegular12,
             color = Tundora50,
-            modifier = Modifier.align(Alignment.CenterEnd)
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .wrapContentWidth()
+                .clickable {
+                    likeViewModel.requestAccusationData() // 서버 요청
+                    showDialog = true // 다이얼로그 표시
+                }
         )
+    }
+
+    if (showDialog) {
+        AccusationDialog(
+            likeUiState = likeUiState,
+            onDismiss = { showDialog = false },
+            onConfirm = { selectedItems ->
+                // 선택된 항목 처리
+                likeViewModel.requestSendAccusationData(selectedItems)
+                showDialog = false
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AccusationDialog(
+    likeUiState: LikeState,
+    onDismiss: () -> Unit,
+    onConfirm: (List<String>) -> Unit
+) {
+    // selectedItems를 명확하게 String 타입 리스트로 선언
+    var selectedItems by remember { mutableStateOf<List<String>>(emptyList()) }
+    var contentText by remember { mutableStateOf("") }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(4.dp),
+            color = Color.White
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.txt_accusation_title),
+                    style = DessertTimeTheme.typography.textStyleRegular18,
+                    color = Color.Black
+                )
+
+                Spacer(modifier = Modifier.height(17.dp))
+
+                CommonUi.Divide(Gallery)
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                val groupedAccusations = likeUiState.allAccusations.values.chunked(2)
+
+                groupedAccusations.forEach { rowOptions ->
+                    Ro(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        rowOptions.forEach { option ->
+                            Ro(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .clickable {
+                                        // 모든 항목 선택 해제
+                                        selectedItems = listOf(option)
+                                    }
+                                    .padding(8.dp)
+                            ) {
+                                CustomRadioButton(
+                                    selected = selectedItems.contains(option)
+                                ) { isChecked ->
+                                    // 체크박스 상태에 따라 항목 선택
+                                    selectedItems = if (isChecked as Boolean) {
+                                        listOf(option) // 체크된 항목만 선택
+                                    } else {
+                                        listOf() // 체크 해제 시 선택 항목 비우기
+                                    }
+                                }
+                                Text(
+                                    text = option,
+                                    style = DessertTimeTheme.typography.textStyleRegular14,
+                                    color = DustyGray,
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(22.dp))
+
+                OutlinedTextField(
+                    value = contentText,
+                    onValueChange = { newText -> contentText = newText },
+                    textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(138.dp),
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.txt_inquiry_content_hint),
+                            style = DessertTimeTheme.typography.textStyleRegular12,
+                            color = Black30
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = WildSand,
+                        focusedIndicatorColor = AzureRadiance,
+                        unfocusedIndicatorColor = WildSand
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp)
+                        .background(AltoAgree, RoundedCornerShape(8.dp)),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.btn_accusation),
+                        style = DessertTimeTheme.typography.textStyleMedium18,
+                        color = DustyGray,
+                        modifier = Modifier.clickable { onConfirm(selectedItems) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CustomRadioButton(
+    selected: Boolean,
+    onClick: (Any?) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .size(24.dp)
+            .clip(CircleShape)
+            .background(if (selected) MainColor else Color.Transparent)
+            .border(
+                width = 2.dp,
+                color = if (selected) MainColor else WildSand,
+                shape = CircleShape
+            )
+            .clickable(onClick = { onClick(!selected) }),
+        contentAlignment = Alignment.Center
+    ) {
+        if (selected) {
+            // 선택된 상태에서는 이미지 표시
+            Icon(
+                painter = painterResource(id = R.drawable.ic_check),
+                contentDescription = null,
+                tint = Color.White, // 이미지 색상
+                modifier = Modifier.size(12.dp)
+            )
+        }
     }
 }

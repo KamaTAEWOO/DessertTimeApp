@@ -48,7 +48,7 @@ import com.desserttime.design.theme.Mercury
 import com.desserttime.design.theme.Pippin
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.like.model.LikeData
+import com.desserttime.domain.model.LikeData
 
 @Composable
 fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
@@ -165,6 +165,8 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
 
 @Composable
 fun LikeList(onNavigateToLikeDetail: () -> Unit) {
+    val likeData = likeItemData()
+
     LazyColumn {
         items(10) {
             Box(
@@ -175,21 +177,39 @@ fun LikeList(onNavigateToLikeDetail: () -> Unit) {
                     .clip(RoundedCornerShape(12.dp))
             ) {
                 LikeItem(
-                    LikeData.icLikeProfile,
-                    stringResource(id = LikeData.nickName),
-                    stringResource(id = LikeData.date),
-                    LikeData.likeCount,
-                    LikeData.title,
-                    LikeData.score,
-                    LikeData.likePicture,
-                    stringResource(id = LikeData.content),
-                    LikeData.materialArr,
+                    likeData.icLikeProfile,
+                    stringResource(id = likeData.nickName),
+                    stringResource(id = likeData.date),
+                    likeData.likeCount,
+                    likeData.title,
+                    likeData.score,
+                    likeData.likePicture,
+                    stringResource(id = likeData.content),
+                    likeData.materialArr,
                     onNavigateToLikeDetail
                 )
             }
         }
     }
 }
+
+fun likeItemData(): LikeData = LikeData(
+    icLikeProfile = R.drawable.ic_like_profile,
+    nickName = R.string.txt_like_nickname,
+    date = R.string.txt_like_date,
+    likeCount = R.string.txt_like_count,
+    title = R.string.txt_like_title,
+    score = 4,
+    likePicture = R.drawable.ic_like_picture,
+    content = R.string.txt_like_content,
+    materialArr = listOf(
+        R.string.txt_review_write_material_selection_2,
+        R.string.txt_review_write_material_selection_6,
+        R.string.txt_review_write_material_selection_2,
+        R.string.txt_review_write_material_selection_6,
+        R.string.txt_review_write_material_selection_2
+    )
+)
 
 @Composable
 fun LikeItem(

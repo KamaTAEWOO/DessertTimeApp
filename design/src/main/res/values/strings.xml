@@ -181,6 +181,10 @@
     <string name="txt_my_info_taste">취향 (최대5가지)</string>
     <string name="txt_my_info_taste_hint">선택하지 않음</string>
 
+    <!--    Accusation-->
+    <string name="txt_accusation_title">신고사유</string>
+    <string name="btn_accusation">신고하기</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>
