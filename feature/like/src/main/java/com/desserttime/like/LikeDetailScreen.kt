@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -265,11 +266,12 @@ fun AccusationButton(likeViewModel: LikeViewModel) {
         AccusationDialog(
             likeUiState = likeUiState,
             onDismiss = { showDialog = false },
-            onConfirm = { selectedItems ->
+            onConfirm = { selectedItems, contentText ->
                 // 선택된 항목 처리
-                likeViewModel.requestSendAccusationData(selectedItems)
+                likeViewModel.requestSendAccusationData(selectedItems, contentText)
                 showDialog = false
-            }
+            },
+            initialSelectedItems = listOf("저작권 침해")
         )
     }
 }
@@ -279,10 +281,11 @@ fun AccusationButton(likeViewModel: LikeViewModel) {
 fun AccusationDialog(
     likeUiState: LikeState,
     onDismiss: () -> Unit,
-    onConfirm: (List<String>) -> Unit
+    onConfirm: (List<String>, String) -> Unit,
+    initialSelectedItems: List<String> = emptyList()
 ) {
     // selectedItems를 명확하게 String 타입 리스트로 선언
-    var selectedItems by remember { mutableStateOf<List<String>>(emptyList()) }
+    var selectedItems by remember { mutableStateOf(initialSelectedItems) }
     var contentText by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -382,7 +385,7 @@ fun AccusationDialog(
                         text = stringResource(id = R.string.btn_accusation),
                         style = DessertTimeTheme.typography.textStyleMedium18,
                         color = DustyGray,
-                        modifier = Modifier.clickable { onConfirm(selectedItems) }
+                        modifier = Modifier.clickable { onConfirm(selectedItems, contentText) }
                     )
                 }
             }

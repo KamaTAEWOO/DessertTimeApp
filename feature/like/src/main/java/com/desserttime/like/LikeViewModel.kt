@@ -41,14 +41,15 @@ class LikeViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun requestSendAccusationData(selectedItems: List<String>) {
-        Timber.i("$TAG requestSendAccusationData: $selectedItems")
+    fun requestSendAccusationData(selectedItems: List<String>, content: String) {
+        Timber.i("$TAG requestSendAccusationData: $selectedItems, $content")
+
         likeRepository.requestSendAccusation(
             RequestSendAccusationData(
-                "ETC",
-                "Test",
+                selectedItems[0].ifEmpty { "" },
+                if (selectedItems[0] == "기타(직접입력)") content else "",
                 1,
-                1
+                4
             )
         )
             .onEach {

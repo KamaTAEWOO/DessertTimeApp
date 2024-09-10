@@ -184,6 +184,7 @@
     <!--    Accusation-->
     <string name="txt_accusation_title">신고사유</string>
     <string name="btn_accusation">신고하기</string>
+    <string name="txt_accusation_description">기타(직접입력)</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>
