@@ -265,11 +265,12 @@ fun AccusationButton(likeViewModel: LikeViewModel) {
         AccusationDialog(
             likeUiState = likeUiState,
             onDismiss = { showDialog = false },
-            onConfirm = { selectedItems ->
+            onConfirm = { selectedItems, contentText ->
                 // 선택된 항목 처리
-                likeViewModel.requestSendAccusationData(selectedItems)
+                likeViewModel.requestSendAccusationData(selectedItems, contentText)
                 showDialog = false
-            }
+            },
+            initialSelectedItems = listOf("저작권 침해")
         )
     }
 }
@@ -279,10 +280,11 @@ fun AccusationButton(likeViewModel: LikeViewModel) {
 fun AccusationDialog(
     likeUiState: LikeState,
     onDismiss: () -> Unit,
-    onConfirm: (List<String>) -> Unit
+    onConfirm: (List<String>, String) -> Unit,
+    initialSelectedItems: List<String> = emptyList()
 ) {
     // selectedItems를 명확하게 String 타입 리스트로 선언
-    var selectedItems by remember { mutableStateOf<List<String>>(emptyList()) }
+    var selectedItems by remember { mutableStateOf(initialSelectedItems) }
     var contentText by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -374,15 +376,15 @@ fun AccusationDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp)
-                        .background(AltoAgree, RoundedCornerShape(8.dp)),
+                        .background(if (selectedItems.isNotEmpty()) MainColor else AltoAgree, RoundedCornerShape(8.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = stringResource(id = R.string.btn_accusation),
                         style = DessertTimeTheme.typography.textStyleMedium18,
-                        color = DustyGray,
-                        modifier = Modifier.clickable { onConfirm(selectedItems) }
+                        color = if (selectedItems.isNotEmpty()) Color.White else DustyGray,
+                        modifier = Modifier.clickable { onConfirm(selectedItems, contentText) }
                     )
                 }
             }
