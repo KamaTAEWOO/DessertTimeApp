@@ -1,8 +1,10 @@
 package com.desserttime.core.model.dto
 
+import com.google.gson.annotations.SerializedName
+
 data class RequestSendAccusationDto(
-    val reason: String,
-    val content: String,
-    val memberId: Int,
-    val reviewId: Int
+    @SerializedName("reason") val reason: String,
+    @SerializedName("content") val content: String,
+    @SerializedName("memberId") val memberId: Int,
+    @SerializedName("reviewId") val reviewId: Int
 )
