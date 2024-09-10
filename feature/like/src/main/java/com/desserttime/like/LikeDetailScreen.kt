@@ -377,14 +377,14 @@ fun AccusationDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp)
-                        .background(AltoAgree, RoundedCornerShape(8.dp)),
+                        .background(if (selectedItems.isNotEmpty()) MainColor else AltoAgree, RoundedCornerShape(8.dp)),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Text(
                         text = stringResource(id = R.string.btn_accusation),
                         style = DessertTimeTheme.typography.textStyleMedium18,
-                        color = DustyGray,
+                        color = if (selectedItems.isNotEmpty()) Color.White else DustyGray,
                         modifier = Modifier.clickable { onConfirm(selectedItems, contentText) }
                     )
                 }
