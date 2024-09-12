@@ -44,9 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto

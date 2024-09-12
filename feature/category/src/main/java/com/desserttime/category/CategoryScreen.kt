@@ -42,7 +42,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
@@ -286,8 +285,8 @@ fun CategorySubItem(
 @Composable
 fun CategorySubItemRound(
     categorySubName: String,
-    isSelected: Boolean,  // 클릭 상태를 외부에서 전달받음
-    onClick: (String) -> Unit  // 클릭 시 이벤트 처리
+    isSelected: Boolean,
+    onClick: (String) -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
