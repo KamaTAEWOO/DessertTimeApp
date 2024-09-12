@@ -154,7 +154,11 @@ fun CategoryMainItem(
 
         if (isExpanded) {
             Timber.i("$TAG categoryMainId: $categoryMainId")
-            CategorySubItem(categoryUiState, categoryMainId)
+            CategorySubItem(
+                categoryUiState,
+                categoryMainId,
+                onClick = { Timber.i("$TAG Clicked: $it") }
+            )
         }
     }
 }
@@ -219,8 +223,12 @@ fun CategoryMainItemText(
 @Composable
 fun CategorySubItem(
     categoryUiState: CategoryState,
-    categoryMainId: Int
+    categoryMainId: Int,
+    onClick: (String) -> Unit
 ) {
+    // 선택된 아이템의 이름을 저장하는 상태
+    var selectedItem by remember { mutableStateOf<String?>(null) }
+
     Divider(
         color = Alto,
         thickness = 1.dp,
@@ -238,7 +246,18 @@ fun CategorySubItem(
             categoryUiState.allCategory.forEach { rowItems ->
                 rowItems.secondCategory?.forEach { item ->
                     if (item.parentDCId == categoryMainId) {
-                        CategorySubItemRound(item.dessertName)
+                        val isSelected = selectedItem == item.dessertName
+
+                        CategorySubItemRound(
+                            item.dessertName,
+                            isSelected = isSelected,
+                            onClick = {
+                                if (!isSelected) {
+                                    selectedItem = item.dessertName
+                                    onClick(it)
+                                }
+                            }
+                        )
                     }
                 }
             }
@@ -259,20 +278,24 @@ fun CategorySubItem(
 
 @Composable
 fun CategorySubItemRound(
-    categorySubName: String
+    categorySubName: String,
+    isSelected: Boolean,  // 클릭 상태를 외부에서 전달받음
+    onClick: (String) -> Unit  // 클릭 시 이벤트 처리
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .padding(8.dp)
             .clip(RoundedCornerShape(50))
-            .background(Color.White)
+            // 클릭 상태에 따라 배경색 변경
+            .background(if (isSelected) MainColor else Color.White)
             .padding(horizontal = 12.dp, vertical = 8.dp)
+            .clickable(onClick = { onClick(categorySubName) })
     ) {
         Text(
             text = categorySubName,
             style = DessertTimeTheme.typography.textStyleRegular16,
-            color = TundoraCategory
+            color = if (isSelected) Color.White else TundoraCategory
         )
     }
 }
