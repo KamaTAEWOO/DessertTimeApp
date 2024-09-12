@@ -30,7 +30,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
@@ -55,14 +53,14 @@ import com.desserttime.design.theme.Pippin
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.domain.model.LikeData
-import timber.log.Timber
 
 private const val TAG = "SubCategoryReviewScreen::"
 
 @Composable
 fun SubCategoryReviewScreen(
     categoryViewModel: CategoryViewModel,
-    onNavigateToCategory: () -> Unit
+    onNavigateToCategory: () -> Unit,
+    onNavigateToSubCategoryReviewDetail: () -> Unit
 ) {
     val categoryUiState = categoryViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -114,8 +112,7 @@ fun SubCategoryReviewScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Like List
-                    LikeList()
+                    SubCategoryReviewList(onNavigateToSubCategoryReviewDetail)
                 }
             }
         }
@@ -182,8 +179,8 @@ fun SubCategoryReviewScreen(
 // }
 
 @Composable
-fun LikeList() {
-    val likeData = likeItemData()
+fun SubCategoryReviewList(onNavigateToSubCategoryReviewDetail: () -> Unit) {
+    val subCategoryReviewData = subCategoryReviewItemData()
 
     LazyColumn {
         items(10) {
@@ -194,23 +191,24 @@ fun LikeList() {
                     .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
                     .clip(RoundedCornerShape(12.dp))
             ) {
-                LikeItem(
-                    likeData.icLikeProfile,
-                    stringResource(id = likeData.nickName),
-                    stringResource(id = likeData.date),
-                    likeData.likeCount,
-                    likeData.title,
-                    likeData.score,
-                    likeData.likePicture,
-                    stringResource(id = likeData.content),
-                    likeData.materialArr
+                SubCategoryReviewItem(
+                    subCategoryReviewData.icLikeProfile,
+                    stringResource(id = subCategoryReviewData.nickName),
+                    stringResource(id = subCategoryReviewData.date),
+                    subCategoryReviewData.likeCount,
+                    subCategoryReviewData.title,
+                    subCategoryReviewData.score,
+                    subCategoryReviewData.likePicture,
+                    stringResource(id = subCategoryReviewData.content),
+                    subCategoryReviewData.materialArr,
+                    onNavigateToSubCategoryReviewDetail
                 )
             }
         }
     }
 }
 
-fun likeItemData(): LikeData = LikeData(
+fun subCategoryReviewItemData(): LikeData = LikeData(
     icLikeProfile = R.drawable.ic_like_profile,
     nickName = R.string.txt_like_nickname,
     date = R.string.txt_like_date,
@@ -229,7 +227,7 @@ fun likeItemData(): LikeData = LikeData(
 )
 
 @Composable
-fun LikeItem(
+fun SubCategoryReviewItem(
     icLikeProfile: Int,
     nickName: String,
     date: String,
@@ -238,14 +236,15 @@ fun LikeItem(
     score: Int,
     likePicture: Int,
     content: String,
-    materialArr: List<Int>
+    materialArr: List<Int>,
+    onNavigateToSubCategoryReviewDetail: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
-            .clickable { }
+            .clickable { onNavigateToSubCategoryReviewDetail() }
     ) {
         Row(
             modifier = Modifier

@@ -12,6 +12,7 @@ import com.desserttime.auth.signup.SignUpChooseScreen
 import com.desserttime.auth.signup.SignUpCompleteScreen
 import com.desserttime.auth.signup.SignUpInputScreen
 import com.desserttime.category.CategoryViewModel
+import com.desserttime.category.SubCategoryReviewDetailScreen
 import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.controler.MainControl
 import com.desserttime.core.navigation.NavGraphLabel
@@ -134,16 +135,28 @@ fun NavGraphBuilder.authNavGraph(
                     navHostController.navigate(MainDestination.ReviewWrite.route)
                 },
                 onNavigationToSubReview = {
-                    navHostController.navigate(MainDestination.SubCategory.route)
+                    navHostController.navigate(MainDestination.SubCategoryReview.route)
                 },
                 categoryViewModel = categoryViewModel
             )
         }
 
-        composable(route = MainDestination.SubCategory.route) {
+        composable(route = MainDestination.SubCategoryReview.route) {
             SubCategoryReviewScreen(
                 categoryViewModel = categoryViewModel,
                 onNavigateToCategory = {
+                    navHostController.popBackStack()
+                },
+                onNavigateToSubCategoryReviewDetail = {
+                    navHostController.navigate(MainDestination.SubCategoryReviewDetail.route)
+                }
+            )
+        }
+
+        composable(route = MainDestination.SubCategoryReviewDetail.route) {
+            SubCategoryReviewDetailScreen(
+                categoryViewModel = categoryViewModel,
+                onNavigateToSubCategoryReview = {
                     navHostController.popBackStack()
                 }
             )
