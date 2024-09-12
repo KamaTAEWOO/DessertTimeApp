@@ -15,6 +15,10 @@ sealed class MainDestination : Destination {
         override val route = NavRouteLabel.CATEGORY
     }
 
+    object SubCategory : MainDestination() {
+        override val route = NavRouteLabel.SUB_CATEGORY
+    }
+
     object MyPage : MainDestination() {
         override val route = NavRouteLabel.MY_PAGE
     }

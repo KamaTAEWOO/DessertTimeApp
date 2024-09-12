@@ -36,4 +36,7 @@ object NavRouteLabel {
 
     // review
     const val REVIEW_WRITE = "review_write"
+
+    // category
+    const val SUB_CATEGORY = "sub_category"
 }
