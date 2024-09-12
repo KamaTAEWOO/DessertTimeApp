@@ -29,6 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
+import com.desserttime.category.CategoryViewModel
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
@@ -44,7 +45,9 @@ fun MainControl(
     onNavigateToLikeDetail: () -> Unit,
     onNavigateToSetting: () -> Unit,
     onNavigateToMyInfo: () -> Unit,
-    onNavigateToReviewWrite: () -> Unit
+    onNavigateToReviewWrite: () -> Unit,
+    onNavigationToSubReview: () -> Unit,
+    categoryViewModel: CategoryViewModel
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -57,7 +60,7 @@ fun MainControl(
             Modifier.padding(innerPadding)
         ) {
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
-            composable(MainDestination.Category.route) { CategoryScreen() }
+            composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
             composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }
             composable(MainDestination.Review.route) { ReviewScreen(onNavigateToReviewWrite) }

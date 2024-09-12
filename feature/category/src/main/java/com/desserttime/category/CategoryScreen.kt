@@ -57,7 +57,8 @@ private const val TAG: String = "CategoryScreen::"
 
 @Composable
 fun CategoryScreen(
-    categoryViewModel: CategoryViewModel = hiltViewModel()
+    categoryViewModel: CategoryViewModel,
+    onNavigationToSubReview: () -> Unit
 ) {
     val categoryUiState by categoryViewModel.uiState.collectAsStateWithLifecycle()
     var expandedItemId by remember { mutableStateOf<Int?>(null) }
@@ -96,7 +97,8 @@ fun CategoryScreen(
                     isExpanded = expandedItemId == category.dessertCategoryId,
                     onExpandToggle = {
                         expandedItemId = if (expandedItemId == category.dessertCategoryId) null else category.dessertCategoryId
-                    }
+                    },
+                    onNavigationToSubReview
                 )
             }
         }
@@ -109,7 +111,8 @@ fun CategoryMainItem(
     categoryMainId: Int,
     categoryMainName: String,
     isExpanded: Boolean,
-    onExpandToggle: () -> Unit
+    onExpandToggle: () -> Unit,
+    onNavigationToSubReview: () -> Unit
 ) {
     Divider(
         color = Alto,
@@ -157,7 +160,11 @@ fun CategoryMainItem(
             CategorySubItem(
                 categoryUiState,
                 categoryMainId,
-                onClick = { Timber.i("$TAG Clicked: $it") }
+                onClick = {
+                    Timber.i("$TAG Clicked: $it")
+                    categoryUiState.subCategory = it
+                    onNavigationToSubReview()
+                }
             )
         }
     }
@@ -302,6 +309,4 @@ fun CategorySubItemRound(
 
 @Preview(showBackground = true)
 @Composable
-fun CategoryScreenPreview() {
-    CategoryScreen()
-}
+fun CategoryScreenPreview() {}

@@ -1,5 +1,6 @@
 package com.desserttime.auth
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -10,6 +11,8 @@ import com.desserttime.auth.signup.SignUpAgreeScreen
 import com.desserttime.auth.signup.SignUpChooseScreen
 import com.desserttime.auth.signup.SignUpCompleteScreen
 import com.desserttime.auth.signup.SignUpInputScreen
+import com.desserttime.category.CategoryViewModel
+import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.controler.MainControl
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
@@ -23,7 +26,8 @@ import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    categoryViewModel: CategoryViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -128,6 +132,19 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onNavigateToReviewWrite = {
                     navHostController.navigate(MainDestination.ReviewWrite.route)
+                },
+                onNavigationToSubReview = {
+                    navHostController.navigate(MainDestination.SubCategory.route)
+                },
+                categoryViewModel = categoryViewModel
+            )
+        }
+
+        composable(route = MainDestination.SubCategory.route) {
+            SubCategoryReviewScreen(
+                categoryViewModel = categoryViewModel,
+                onNavigateToCategory = {
+                    navHostController.popBackStack()
                 }
             )
         }

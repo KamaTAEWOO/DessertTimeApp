@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.authNavGraph
 import com.desserttime.auth.login.LoginScreen
+import com.desserttime.category.CategoryViewModel
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
@@ -22,6 +23,7 @@ fun AppNavHost(
     navHostController: NavHostController = rememberNavController()
 ) {
     val authViewModel: AuthViewModel = hiltViewModel()
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
 
     NavHost(
         navController = navHostController,
@@ -60,7 +62,8 @@ fun AppNavHost(
 
         authNavGraph(
             navHostController = navHostController,
-            authViewModel = authViewModel
+            authViewModel = authViewModel,
+            categoryViewModel = categoryViewModel
         )
     }
 }

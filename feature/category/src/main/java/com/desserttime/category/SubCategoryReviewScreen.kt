@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -27,6 +30,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +42,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black60
@@ -49,13 +55,25 @@ import com.desserttime.design.theme.Pippin
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.domain.model.LikeData
+import timber.log.Timber
+
+private const val TAG = "SubCategoryReviewScreen::"
 
 @Composable
-fun SubReviewScreen(subItem: String) {
+fun SubCategoryReviewScreen(
+    categoryViewModel: CategoryViewModel,
+    onNavigateToCategory: () -> Unit
+) {
+    val categoryUiState = categoryViewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
             AppBarUi.AppBar(
-                subItem,
+                { onNavigateToCategory() },
+                categoryUiState.value.subCategory,
                 {},
                 {}
             )
@@ -406,6 +424,6 @@ fun MaterialItemRound(
 
 @Preview(showBackground = true)
 @Composable
-fun SubReviewScreenPreview() {
-    SubReviewScreen("")
+fun SubCategoryReviewScreenPreview() {
+    // SubCategoryReviewScreen({})
 }
