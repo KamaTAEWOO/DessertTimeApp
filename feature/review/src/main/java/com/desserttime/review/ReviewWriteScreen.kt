@@ -64,6 +64,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
@@ -81,6 +82,7 @@ import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.DustyGray
 import com.desserttime.design.theme.GrayChateau
 import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
@@ -219,8 +221,14 @@ fun ReviewWriteScreen(
                     ) {
                         OutlinedTextField(
                             value = inputReviewBehind,
-                            onValueChange = { newText -> inputReviewBehind = newText },
-                            textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                            onValueChange = { newText ->
+                                if (newText.length <= 40) {
+                                    inputReviewBehind = newText
+                                }
+                            },
+                            textStyle = DessertTimeTheme.typography.textStyleRegular12.copy(
+                                textAlign = TextAlign.Start
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(108.dp)
@@ -229,7 +237,8 @@ fun ReviewWriteScreen(
                                 Text(
                                     text = stringResource(id = R.string.txt_inquiry_content_hint),
                                     style = DessertTimeTheme.typography.textStyleRegular12,
-                                    color = Black30
+                                    color = Black30,
+                                    textAlign = TextAlign.Start
                                 )
                             },
                             colors = TextFieldDefaults.textFieldColors(
@@ -249,7 +258,7 @@ fun ReviewWriteScreen(
                             ) {
                                 Text(
                                     text = buildAnnotatedString {
-                                        withStyle(style = SpanStyle(color = MainColor)) {
+                                        withStyle(style = SpanStyle(color = if (inputReviewBehind.length == 40) TundoraCategory else MainColor)) {
                                             append("${inputReviewBehind.length}")
                                         }
                                         append(" / ")
@@ -516,12 +525,18 @@ fun MaterialItemList(items: List<String>) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items.forEach { material ->
+                    var isClicked by remember { mutableStateOf(false) }
+
                     MaterialItemRound(
                         categorySubName = material,
                         modifier = Modifier
                             .padding(end = 8.dp, bottom = 8.dp)
                             .clip(RoundedCornerShape(50))
-                            .background(WildSand)
+                            .background(if (isClicked) MainColor20 else WildSand)
+                            .clickable {
+                                isClicked = !isClicked
+                            },
+                        textColor = if (isClicked) MainColor else DoveGray
                     )
                 }
             }
@@ -532,7 +547,8 @@ fun MaterialItemList(items: List<String>) {
 @Composable
 fun MaterialItemRound(
     categorySubName: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = DoveGray
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -541,7 +557,7 @@ fun MaterialItemRound(
         Text(
             text = categorySubName,
             style = DessertTimeTheme.typography.textStyleMedium14,
-            color = DoveGray,
+            color = textColor,
             modifier = Modifier
                 .wrapContentWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
