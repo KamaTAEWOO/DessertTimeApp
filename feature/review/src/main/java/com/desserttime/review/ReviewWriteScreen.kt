@@ -556,7 +556,7 @@ fun MaterialItemList(
                             .clip(RoundedCornerShape(50))
                             .background(if (isClicked) MainColor20 else WildSand)
                             .clickable {
-                                if(material == "기타") {
+                                if (material == "기타") {
                                     selectedItems.clear()
                                     reviewUiState.storeMaterialList = emptyList()
                                 }
