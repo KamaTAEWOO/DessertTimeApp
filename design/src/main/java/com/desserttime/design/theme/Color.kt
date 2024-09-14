@@ -49,5 +49,6 @@ val Abbey = Color(0xFF54575C)
 val SilverChalice = Color(0xFFB0B0B0)
 val GrayChateau = Color(0xFFA3A9AB)
 val ShipGray = Color(0xFF49454F)
+val MineShaftPicture = Color(0xFF333333)
 
 // Dark

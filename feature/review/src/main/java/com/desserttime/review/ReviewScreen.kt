@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
@@ -56,6 +57,7 @@ import timber.log.Timber
 
 @Composable
 fun ReviewScreen(
+    reviewViewModel: ReviewViewModel,
     onNavigateToReviewWrite: () -> Unit
 ) {
     Column(
@@ -143,7 +145,8 @@ fun ReviewScreen(
                     .fillMaxSize()
                     .background(WildSand)
                     .padding(horizontal = 12.dp),
-                onNavigateToReviewWrite = onNavigateToReviewWrite
+                onNavigateToReviewWrite = onNavigateToReviewWrite,
+                reviewViewModel = reviewViewModel
             )
             // Floating button positioned at the bottom
             Box(
@@ -177,13 +180,17 @@ fun ReviewScreen(
 @Composable
 fun ReviewItemView(
     modifier: Modifier = Modifier,
-    onNavigateToReviewWrite: () -> Unit
+    onNavigateToReviewWrite: () -> Unit,
+    reviewViewModel: ReviewViewModel
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(10) {
-            ReviewItem(onNavigateToReviewWrite)
+            ReviewItem(
+                reviewViewModel,
+                onNavigateToReviewWrite
+            )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -196,10 +203,14 @@ fun ReviewItemView(
 
 @Composable
 fun ReviewItem(
+    reviewViewModel: ReviewViewModel,
     onNavigateToReviewWrite: () -> Unit
 ) {
+    val reviewUiState by reviewViewModel.uiState.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
     var buttonOffset by remember { mutableStateOf(Offset.Zero) }
+    val storeName by remember { mutableStateOf("스타벅스") }
+    val storeMenu by remember { mutableStateOf("아메리카노") }
 
     Row(
         modifier = Modifier
@@ -213,13 +224,13 @@ fun ReviewItem(
         ) {
             // Text
             Text(
-                text = stringResource(id = R.string.txt_review_test_id),
+                text = storeName,
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Black60
             )
             // Text
             Text(
-                text = stringResource(id = R.string.txt_review_test_title),
+                text = storeMenu,
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = TundoraCategory,
                 modifier = Modifier.padding(top = 4.dp, bottom = 17.dp)
@@ -242,7 +253,14 @@ fun ReviewItem(
                     painter = painterResource(id = R.drawable.ic_review_write),
                     contentDescription = stringResource(id = R.string.img_review_write_description),
                     tint = Color.Gray,
-                    modifier = Modifier.clickable { onNavigateToReviewWrite() }
+                    modifier = Modifier.clickable {
+                        sendReviewData(
+                            reviewUiState,
+                            storeName,
+                            storeMenu,
+                            onNavigateToReviewWrite
+                        )
+                    }
                 )
                 // Image -> 클릭 시 삭제하기 팝업창 Image 위에나 아래에 떠야함.
                 IconButton(
@@ -323,8 +341,18 @@ fun ReviewItemDeletePopup(
     }
 }
 
+// 리뷰 버튼 눌렀을 때 호출되는 함수
+fun sendReviewData(
+    reviewUiState: ReviewState,
+    storeName: String,
+    storeMenu: String,
+    onNavigateToReviewWrite: () -> Unit
+) {
+    reviewUiState.storeName = storeName
+    reviewUiState.storeMenu = storeMenu
+    onNavigateToReviewWrite()
+}
+
 @Preview(showBackground = true)
 @Composable
-fun ReviewScreenPreview() {
-    ReviewScreen {}
-}
+fun ReviewScreenPreview() {}

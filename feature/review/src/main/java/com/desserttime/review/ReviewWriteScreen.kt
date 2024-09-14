@@ -40,6 +40,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -47,6 +49,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,10 +67,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
@@ -81,19 +86,28 @@ import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.DustyGray
 import com.desserttime.design.theme.GrayChateau
 import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.MainColor20
+import com.desserttime.design.theme.MineShaftPicture
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
 
+private const val TAG = "ReviewWriteScreen::"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun ReviewWriteScreen(
+    reviewViewModel: ReviewViewModel,
     onNavigateToReview: () -> Boolean
 ) {
     val scrollState = rememberScrollState()
+    val reviewUiState by reviewViewModel.uiState.collectAsStateWithLifecycle()
+    val storeName = reviewUiState.storeName
+    val storeMenu = reviewUiState.storeMenu
+    Timber.i("$TAG storeName: $storeName, storeMenu: $storeMenu")
 
     Scaffold(
         modifier = Modifier
@@ -125,8 +139,8 @@ fun ReviewWriteScreen(
                         .background(Color.White)
                         .verticalScroll(scrollState) // Add vertical scrolling
                 ) {
-                    var inputStoreName by remember { mutableStateOf(TextFieldValue("")) }
-                    var inputMenuName by remember { mutableStateOf(TextFieldValue("")) }
+                    var inputStoreName by remember { mutableStateOf(TextFieldValue(storeName)) }
+                    var inputMenuName by remember { mutableStateOf(TextFieldValue(storeMenu)) }
                     var inputCategoryName by remember { mutableStateOf("") }
                     var inputMaterialName by remember { mutableStateOf("") }
                     var inputScore by remember { mutableStateOf("") }
@@ -189,7 +203,10 @@ fun ReviewWriteScreen(
                             .padding(start = 16.dp)
                     )
                     Box(modifier = Modifier.padding(top = 8.dp))
-                    MaterialItemList(materialArr)
+                    MaterialItemList(
+                        reviewUiState,
+                        materialArr
+                    )
                     // 점수
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     Text(
@@ -219,8 +236,15 @@ fun ReviewWriteScreen(
                     ) {
                         OutlinedTextField(
                             value = inputReviewBehind,
-                            onValueChange = { newText -> inputReviewBehind = newText },
-                            textStyle = DessertTimeTheme.typography.textStyleRegular16,
+                            onValueChange = { newText ->
+                                if (newText.length <= 40) {
+                                    inputReviewBehind = newText
+                                    reviewUiState.storeContent = newText
+                                }
+                            },
+                            textStyle = DessertTimeTheme.typography.textStyleRegular12.copy(
+                                textAlign = TextAlign.Start
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(108.dp)
@@ -229,7 +253,8 @@ fun ReviewWriteScreen(
                                 Text(
                                     text = stringResource(id = R.string.txt_inquiry_content_hint),
                                     style = DessertTimeTheme.typography.textStyleRegular12,
-                                    color = Black30
+                                    color = Black30,
+                                    textAlign = TextAlign.Start
                                 )
                             },
                             colors = TextFieldDefaults.textFieldColors(
@@ -249,7 +274,7 @@ fun ReviewWriteScreen(
                             ) {
                                 Text(
                                     text = buildAnnotatedString {
-                                        withStyle(style = SpanStyle(color = MainColor)) {
+                                        withStyle(style = SpanStyle(color = if (inputReviewBehind.length == 40) TundoraCategory else MainColor)) {
                                             append("${inputReviewBehind.length}")
                                         }
                                         append(" / ")
@@ -500,7 +525,12 @@ fun DropdownExample() {
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MaterialItemList(items: List<String>) {
+fun MaterialItemList(
+    reviewUiState: ReviewState,
+    items: List<String>
+) {
+    val selectedItems = remember { mutableStateListOf<String>() }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -516,12 +546,34 @@ fun MaterialItemList(items: List<String>) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items.forEach { material ->
+                    // Check if the current material is selected
+                    val isClicked = selectedItems.contains(material)
+
                     MaterialItemRound(
                         categorySubName = material,
                         modifier = Modifier
                             .padding(end = 8.dp, bottom = 8.dp)
                             .clip(RoundedCornerShape(50))
-                            .background(WildSand)
+                            .background(if (isClicked) MainColor20 else WildSand)
+                            .clickable {
+                                if (material == "기타") {
+                                    selectedItems.clear()
+                                    reviewUiState.storeMaterialList = emptyList()
+                                }
+
+                                // Update the selected items list
+                                if (isClicked) {
+                                    selectedItems.remove(material)
+                                } else {
+                                    selectedItems.add(material)
+                                }
+
+                                // Update the reviewUiState
+                                reviewUiState.storeMaterialList = selectedItems.toList()
+
+                                Timber.i("$TAG storeMaterialList: ${reviewUiState.storeMaterialList}")
+                            },
+                        textColor = if (isClicked) MainColor else DoveGray
                     )
                 }
             }
@@ -532,7 +584,8 @@ fun MaterialItemList(items: List<String>) {
 @Composable
 fun MaterialItemRound(
     categorySubName: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = DoveGray
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -541,7 +594,7 @@ fun MaterialItemRound(
         Text(
             text = categorySubName,
             style = DessertTimeTheme.typography.textStyleMedium14,
-            color = DoveGray,
+            color = textColor,
             modifier = Modifier
                 .wrapContentWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
@@ -552,6 +605,7 @@ fun MaterialItemRound(
 @Composable
 fun ScoreCheck() {
     val starStates = remember { mutableStateListOf(false, false, false, false) }
+    val count = remember { mutableIntStateOf(0) }
 
     Row(
         modifier = Modifier
@@ -571,17 +625,26 @@ fun ScoreCheck() {
                 modifier = Modifier
                     .padding(end = 4.dp)
                     .clickable {
+                        // Update star states and count
                         for (i in 0..index) {
                             starStates[i] = true
                         }
                         for (i in index + 1 until starStates.size) {
                             starStates[i] = false
                         }
+                        count.value = index + 1
                     }
             )
         }
+        // TODO : 추후 변경 예정
         Text(
-            text = stringResource(id = R.string.txt_review_write_content),
+            text = when (count.value) {
+                0 -> "평가없음"
+                1 -> "1점"
+                2 -> "2점"
+                3 -> "3점"
+                else -> "4점"
+            },
             style = DessertTimeTheme.typography.textStyleMedium14,
             color = GrayChateau,
             modifier = Modifier
@@ -602,8 +665,7 @@ fun MenuPicture() {
         contract = ActivityResultContracts.GetMultipleContents()
     ) { uris ->
         // 4개 이하의 이미지 선택만 허용
-        if (uris.size <= 4) {
-            selectedImages.clear()
+        if (uris.size + selectedImages.size <= 4) {
             selectedImages.addAll(uris)
         } else {
             Toast.makeText(context, "You can only select up to 4 images.", Toast.LENGTH_SHORT).show()
@@ -620,58 +682,98 @@ fun MenuPicture() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        // 이미지가 선택되지 않은 경우
-        if (selectedImages.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .size(76.dp)
-                    .background(WildSand)
-                    .border(1.dp, Alto, RoundedCornerShape(9.dp))
-                    .clip(RoundedCornerShape(9.dp))
-                    .padding(top = 15.dp, start = 26.dp)
-                    .clickable {
-                        imagePickerLauncher.launch("image/*")
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
+        ) {
+            items(selectedImages) { uri ->
+                Box(
+                    modifier = Modifier
+                        .size(76.dp) // 이미지 크기 조정
+                        .border(1.dp, Alto, RoundedCornerShape(9.dp))
+                        .clip(RoundedCornerShape(9.dp))
+                ) {
+                    AsyncImage(
+                        model = uri,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                imagePickerLauncher.launch("image/*")
+                            }
+                    )
+
+                    // 첫 번째 이미지를 "대표사진"으로 표시
+                    if (uri == selectedImages.first()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(22.dp)
+                                .background(MineShaftPicture, RoundedCornerShape(0.dp))
+                                .align(Alignment.BottomCenter),
+                            contentAlignment = Alignment.BottomCenter
+                        ) {
+                            Text(
+                                text = "대표사진",
+                                color = Color.White,
+                                style = DessertTimeTheme.typography.textStyleMedium12,
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp)
+                            )
+                        }
                     }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_camera),
-                    contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
-                    modifier = Modifier
-                        .size(24.dp)
-                )
-                Text(
-                    text = stringResource(id = R.string.txt_review_write_menu_image_count),
-                    style = DessertTimeTheme.typography.textStyleMedium12,
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                        .padding(top = 4.dp)
-                )
+
+                    // X 버튼을 오른쪽 상단에 표시
+                    IconButton(
+                        onClick = {
+                            // 선택된 이미지를 삭제하는 로직
+                            selectedImages.remove(uri)
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd) // 오른쪽 상단에 배치
+                            .wrapContentSize()
+                            .offset(x = (10).dp, y = (-12).dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_cancel),
+                            contentDescription = stringResource(id = R.string.txt_cancel)
+                        )
+                    }
+                }
             }
-        } else {
-            // 이미지가 선택된 경우 LazyRow를 보여줍니다
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
-            ) {
-                items(selectedImages) { uri ->
+
+            if (selectedImages.size < 4) {
+                item {
                     Box(
                         modifier = Modifier
-                            .size(76.dp) // 이미지 크기 조정
+                            .size(76.dp)
+                            .background(WildSand)
+                            .border(1.dp, Alto, RoundedCornerShape(9.dp))
                             .clip(RoundedCornerShape(9.dp))
-                    ) {
-                        AsyncImage(
-                            model = uri,
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable {
+                            .padding(top = 15.dp, start = 26.dp)
+                            .clickable {
+                                if (selectedImages.size < 4) {
                                     imagePickerLauncher.launch("image/*")
                                 }
+                            }
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_camera),
+                            contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                        Text(
+                            text = "(${selectedImages.size}/4)",
+                            style = DessertTimeTheme.typography.textStyleMedium12,
+                            color = Color.Gray,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.Center)
+                                .padding(top = 4.dp)
                         )
                     }
                 }
@@ -682,8 +784,4 @@ fun MenuPicture() {
 
 @Preview(showBackground = true)
 @Composable
-fun WriteReviewScreenPreview() {
-    ReviewWriteScreen(
-        onNavigateToReview = { false }
-    )
-}
+fun WriteReviewScreenPreview() {}
