@@ -573,7 +573,9 @@ fun MaterialItemRound(
 
 @Composable
 fun ScoreCheck() {
+    // Using mutableStateListOf for star states and mutableStateOf for count
     val starStates = remember { mutableStateListOf(false, false, false, false) }
+    val count = remember { mutableStateOf(0) }
 
     Row(
         modifier = Modifier
@@ -593,17 +595,26 @@ fun ScoreCheck() {
                 modifier = Modifier
                     .padding(end = 4.dp)
                     .clickable {
+                        // Update star states and count
                         for (i in 0..index) {
                             starStates[i] = true
                         }
                         for (i in index + 1 until starStates.size) {
                             starStates[i] = false
                         }
+                        count.value = index + 1
                     }
             )
         }
+        // TODO : 추후 변경 예정
         Text(
-            text = stringResource(id = R.string.txt_review_write_content),
+            text = when (count.value) {
+                0 -> "평가없음"
+                1 -> "1점"
+                2 -> "2점"
+                3 -> "3점"
+                else -> "4점"
+            },
             style = DessertTimeTheme.typography.textStyleMedium14,
             color = GrayChateau,
             modifier = Modifier
