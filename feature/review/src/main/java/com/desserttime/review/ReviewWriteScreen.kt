@@ -36,10 +36,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -53,6 +57,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -83,6 +88,7 @@ import com.desserttime.design.theme.DustyGray
 import com.desserttime.design.theme.GrayChateau
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.MainColor20
+import com.desserttime.design.theme.MineShaftPicture
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
@@ -677,6 +683,7 @@ fun MenuPicture() {
                     Box(
                         modifier = Modifier
                             .size(76.dp) // 이미지 크기 조정
+                            .border(1.dp, Alto, RoundedCornerShape(9.dp))
                             .clip(RoundedCornerShape(9.dp))
                     ) {
                         AsyncImage(
@@ -689,6 +696,43 @@ fun MenuPicture() {
                                     imagePickerLauncher.launch("image/*")
                                 }
                         )
+
+                        // 첫 번째 이미지를 "대표사진"으로 표시
+                        if (uri == selectedImages.first()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(22.dp)
+                                    .background(MineShaftPicture, RoundedCornerShape(0.dp))
+                                    .align(Alignment.BottomCenter), // Semi-transparent background
+                                contentAlignment = Alignment.BottomCenter // Align content to the bottom center
+                            ) {
+                                Text(
+                                    text = "대표사진",
+                                    color = Color.White,
+                                    style = DessertTimeTheme.typography.textStyleMedium12,
+                                    modifier = Modifier
+                                        .padding(bottom = 4.dp) // Add padding below the text if needed
+                                )
+                            }
+                        }
+
+                        // X 버튼을 오른쪽 상단에 표시
+                        IconButton(
+                            onClick = {
+                                // 선택된 이미지를 삭제하는 로직
+                                selectedImages.remove(uri)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopEnd) // 오른쪽 상단에 배치
+                                .wrapContentSize()
+                                .offset(x = (10).dp, y = (-12).dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_cancel),
+                                contentDescription = stringResource(id = R.string.txt_cancel)
+                            )
+                        }
                     }
                 }
             }
