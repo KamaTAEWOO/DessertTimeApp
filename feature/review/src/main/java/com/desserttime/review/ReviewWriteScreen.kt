@@ -49,6 +49,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -202,7 +203,10 @@ fun ReviewWriteScreen(
                             .padding(start = 16.dp)
                     )
                     Box(modifier = Modifier.padding(top = 8.dp))
-                    MaterialItemList(materialArr)
+                    MaterialItemList(
+                        reviewUiState,
+                        materialArr
+                    )
                     // 점수
                     Spacer(modifier = Modifier.padding(top = 12.dp))
                     Text(
@@ -235,6 +239,7 @@ fun ReviewWriteScreen(
                             onValueChange = { newText ->
                                 if (newText.length <= 40) {
                                     inputReviewBehind = newText
+                                    reviewUiState.storeContent = newText
                                 }
                             },
                             textStyle = DessertTimeTheme.typography.textStyleRegular12.copy(
@@ -520,7 +525,12 @@ fun DropdownExample() {
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MaterialItemList(items: List<String>) {
+fun MaterialItemList(
+    reviewUiState: ReviewState,
+    items: List<String>
+) {
+    val selectedItems = remember { mutableStateListOf<String>() }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -536,7 +546,8 @@ fun MaterialItemList(items: List<String>) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items.forEach { material ->
-                    var isClicked by remember { mutableStateOf(false) }
+                    // Check if the current material is selected
+                    val isClicked = selectedItems.contains(material)
 
                     MaterialItemRound(
                         categorySubName = material,
@@ -545,7 +556,22 @@ fun MaterialItemList(items: List<String>) {
                             .clip(RoundedCornerShape(50))
                             .background(if (isClicked) MainColor20 else WildSand)
                             .clickable {
-                                isClicked = !isClicked
+                                if(material == "기타") {
+                                    selectedItems.clear()
+                                    reviewUiState.storeMaterialList = emptyList()
+                                }
+
+                                // Update the selected items list
+                                if (isClicked) {
+                                    selectedItems.remove(material)
+                                } else {
+                                    selectedItems.add(material)
+                                }
+
+                                // Update the reviewUiState
+                                reviewUiState.storeMaterialList = selectedItems.toList()
+
+                                Timber.i("$TAG storeMaterialList: ${reviewUiState.storeMaterialList}")
                             },
                         textColor = if (isClicked) MainColor else DoveGray
                     )
@@ -578,9 +604,8 @@ fun MaterialItemRound(
 
 @Composable
 fun ScoreCheck() {
-    // Using mutableStateListOf for star states and mutableStateOf for count
     val starStates = remember { mutableStateListOf(false, false, false, false) }
-    val count = remember { mutableStateOf(0) }
+    val count = remember { mutableIntStateOf(0) }
 
     Row(
         modifier = Modifier
