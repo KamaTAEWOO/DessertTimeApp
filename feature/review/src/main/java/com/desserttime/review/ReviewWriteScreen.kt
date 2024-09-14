@@ -624,8 +624,7 @@ fun MenuPicture() {
         contract = ActivityResultContracts.GetMultipleContents()
     ) { uris ->
         // 4개 이하의 이미지 선택만 허용
-        if (uris.size <= 4) {
-            selectedImages.clear()
+        if (uris.size + selectedImages.size <= 4) {
             selectedImages.addAll(uris)
         } else {
             Toast.makeText(context, "You can only select up to 4 images.", Toast.LENGTH_SHORT).show()
@@ -642,97 +641,99 @@ fun MenuPicture() {
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
-        // 이미지가 선택되지 않은 경우
-        if (selectedImages.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .size(76.dp)
-                    .background(WildSand)
-                    .border(1.dp, Alto, RoundedCornerShape(9.dp))
-                    .clip(RoundedCornerShape(9.dp))
-                    .padding(top = 15.dp, start = 26.dp)
-                    .clickable {
-                        imagePickerLauncher.launch("image/*")
-                    }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_camera),
-                    contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
+        ) {
+            items(selectedImages) { uri ->
+                Box(
                     modifier = Modifier
-                        .size(24.dp)
-                )
-                Text(
-                    text = stringResource(id = R.string.txt_review_write_menu_image_count),
-                    style = DessertTimeTheme.typography.textStyleMedium12,
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
-                        .padding(top = 4.dp)
-                )
-            }
-        } else {
-            // 이미지가 선택된 경우 LazyRow를 보여줍니다
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
-            ) {
-                items(selectedImages) { uri ->
-                    Box(
+                        .size(76.dp) // 이미지 크기 조정
+                        .border(1.dp, Alto, RoundedCornerShape(9.dp))
+                        .clip(RoundedCornerShape(9.dp))
+                ) {
+                    AsyncImage(
+                        model = uri,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
-                            .size(76.dp) // 이미지 크기 조정
-                            .border(1.dp, Alto, RoundedCornerShape(9.dp))
-                            .clip(RoundedCornerShape(9.dp))
-                    ) {
-                        AsyncImage(
-                            model = uri,
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable {
-                                    imagePickerLauncher.launch("image/*")
-                                }
-                        )
-
-                        // 첫 번째 이미지를 "대표사진"으로 표시
-                        if (uri == selectedImages.first()) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(22.dp)
-                                    .background(MineShaftPicture, RoundedCornerShape(0.dp))
-                                    .align(Alignment.BottomCenter), // Semi-transparent background
-                                contentAlignment = Alignment.BottomCenter // Align content to the bottom center
-                            ) {
-                                Text(
-                                    text = "대표사진",
-                                    color = Color.White,
-                                    style = DessertTimeTheme.typography.textStyleMedium12,
-                                    modifier = Modifier
-                                        .padding(bottom = 4.dp) // Add padding below the text if needed
-                                )
+                            .fillMaxSize()
+                            .clickable {
+                                imagePickerLauncher.launch("image/*")
                             }
-                        }
+                    )
 
-                        // X 버튼을 오른쪽 상단에 표시
-                        IconButton(
-                            onClick = {
-                                // 선택된 이미지를 삭제하는 로직
-                                selectedImages.remove(uri)
-                            },
+                    // 첫 번째 이미지를 "대표사진"으로 표시
+                    if (uri == selectedImages.first()) {
+                        Box(
                             modifier = Modifier
-                                .align(Alignment.TopEnd) // 오른쪽 상단에 배치
-                                .wrapContentSize()
-                                .offset(x = (10).dp, y = (-12).dp)
+                                .fillMaxWidth()
+                                .height(22.dp)
+                                .background(MineShaftPicture, RoundedCornerShape(0.dp))
+                                .align(Alignment.BottomCenter),
+                            contentAlignment = Alignment.BottomCenter
                         ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_cancel),
-                                contentDescription = stringResource(id = R.string.txt_cancel)
+                            Text(
+                                text = "대표사진",
+                                color = Color.White,
+                                style = DessertTimeTheme.typography.textStyleMedium12,
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp)
                             )
                         }
+                    }
+
+                    // X 버튼을 오른쪽 상단에 표시
+                    IconButton(
+                        onClick = {
+                            // 선택된 이미지를 삭제하는 로직
+                            selectedImages.remove(uri)
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd) // 오른쪽 상단에 배치
+                            .wrapContentSize()
+                            .offset(x = (10).dp, y = (-12).dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_cancel),
+                            contentDescription = stringResource(id = R.string.txt_cancel)
+                        )
+                    }
+                }
+            }
+
+            if (selectedImages.size < 4) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .size(76.dp)
+                            .background(WildSand)
+                            .border(1.dp, Alto, RoundedCornerShape(9.dp))
+                            .clip(RoundedCornerShape(9.dp))
+                            .padding(top = 15.dp, start = 26.dp)
+                            .clickable {
+                                if (selectedImages.size < 4) {
+                                    imagePickerLauncher.launch("image/*")
+                                }
+                            }
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_camera),
+                            contentDescription = stringResource(id = R.string.img_review_write_menu_image_description),
+                            modifier = Modifier
+                                .size(24.dp)
+                        )
+                        Text(
+                            text = "(${selectedImages.size}/4)",
+                            style = DessertTimeTheme.typography.textStyleMedium12,
+                            color = Color.Gray,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.Center)
+                                .padding(top = 4.dp)
+                        )
                     }
                 }
             }
