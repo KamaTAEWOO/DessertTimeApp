@@ -17,6 +17,7 @@ import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.core.navigation.destination.RootDestination
 import com.desserttime.desserttimeapp.splash.SplashScreen
+import com.desserttime.review.ReviewViewModel
 
 @Composable
 fun AppNavHost(
@@ -24,6 +25,7 @@ fun AppNavHost(
 ) {
     val authViewModel: AuthViewModel = hiltViewModel()
     val categoryViewModel: CategoryViewModel = hiltViewModel()
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
 
     NavHost(
         navController = navHostController,
@@ -63,7 +65,8 @@ fun AppNavHost(
         authNavGraph(
             navHostController = navHostController,
             authViewModel = authViewModel,
-            categoryViewModel = categoryViewModel
+            categoryViewModel = categoryViewModel,
+            reviewViewModel = reviewViewModel
         )
     }
 }

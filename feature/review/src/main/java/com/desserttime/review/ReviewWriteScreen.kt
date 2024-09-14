@@ -74,6 +74,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
@@ -95,13 +96,20 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
 
+private const val TAG = "ReviewWriteScreen::"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun ReviewWriteScreen(
+    reviewViewModel: ReviewViewModel,
     onNavigateToReview: () -> Boolean
 ) {
     val scrollState = rememberScrollState()
+    val reviewUiState by reviewViewModel.uiState.collectAsStateWithLifecycle()
+    val storeName = reviewUiState.storeName
+    val storeMenu = reviewUiState.storeMenu
+    Timber.i("$TAG storeName: $storeName, storeMenu: $storeMenu")
 
     Scaffold(
         modifier = Modifier
@@ -133,8 +141,8 @@ fun ReviewWriteScreen(
                         .background(Color.White)
                         .verticalScroll(scrollState) // Add vertical scrolling
                 ) {
-                    var inputStoreName by remember { mutableStateOf(TextFieldValue("")) }
-                    var inputMenuName by remember { mutableStateOf(TextFieldValue("")) }
+                    var inputStoreName by remember { mutableStateOf(TextFieldValue(storeName)) }
+                    var inputMenuName by remember { mutableStateOf(TextFieldValue(storeMenu)) }
                     var inputCategoryName by remember { mutableStateOf("") }
                     var inputMaterialName by remember { mutableStateOf("") }
                     var inputScore by remember { mutableStateOf("") }
@@ -754,8 +762,4 @@ fun MenuPicture() {
 
 @Preview(showBackground = true)
 @Composable
-fun WriteReviewScreenPreview() {
-    ReviewWriteScreen(
-        onNavigateToReview = { false }
-    )
-}
+fun WriteReviewScreenPreview() {}

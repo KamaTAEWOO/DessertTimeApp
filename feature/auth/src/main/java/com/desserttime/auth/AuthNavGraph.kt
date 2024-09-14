@@ -22,12 +22,14 @@ import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
 import com.desserttime.mypage.withdrawal.WithdrawalScreen
+import com.desserttime.review.ReviewViewModel
 import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
     authViewModel: AuthViewModel,
-    categoryViewModel: CategoryViewModel
+    categoryViewModel: CategoryViewModel,
+    reviewViewModel: ReviewViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -136,7 +138,8 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigationToSubReview = {
                     navHostController.navigate(MainDestination.SubCategoryReview.route)
                 },
-                categoryViewModel = categoryViewModel
+                categoryViewModel = categoryViewModel,
+                reviewViewModel = reviewViewModel
             )
         }
 
@@ -163,6 +166,7 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.ReviewWrite.route) {
             ReviewWriteScreen(
+                reviewViewModel = reviewViewModel,
                 onNavigateToReview = {
                     navHostController.popBackStack()
                 }

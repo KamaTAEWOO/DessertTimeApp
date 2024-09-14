@@ -34,6 +34,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:category"))
+    implementation(project(":feature:review"))
 
     // logging
     implementation(libs.timber)
