@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.desserttime.alarm.AlarmScreen
 import com.desserttime.auth.inquiry.InquiryCompleteScreen
 import com.desserttime.auth.inquiry.InquiryInputScreen
 import com.desserttime.auth.signup.SignUpAgreeScreen
@@ -116,6 +117,9 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.Home.route) {
             MainControl(
+                onNavigateToAlarm = {
+                    navHostController.navigate(MainDestination.Alarm.route)
+                },
                 onNavigateToLogin = {
                     navHostController.navigate(AuthDestination.Login.route) {
                         popUpTo(AuthDestination.InquiryComplete.route) {
@@ -141,6 +145,10 @@ fun NavGraphBuilder.authNavGraph(
                 categoryViewModel = categoryViewModel,
                 reviewViewModel = reviewViewModel
             )
+        }
+
+        composable(route = MainDestination.Alarm.route) {
+            AlarmScreen()
         }
 
         composable(route = MainDestination.SubCategoryReview.route) {

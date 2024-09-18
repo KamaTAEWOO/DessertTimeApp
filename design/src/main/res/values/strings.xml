@@ -186,6 +186,13 @@
     <string name="btn_accusation">신고하기</string>
     <string name="txt_accusation_description">기타(직접입력)</string>
 
+    <!--    Alarm-->
+    <string name="txt_alarm_title">알림</string>
+    <string name="txt_alarm_not_description">아직 받은 알림이 없어요!</string>
+    <string name="txt_alarm_content_title">TMAP 이용약관 개정 안내 (23.12.31), (23.09.04)</string>
+    <string name="txt_alarm_content_sub_title">안녕하세요. TMAP입니다.\n\nTMAP을 이용해 주시는 고객 여러분께 감사</string>
+    <string name="txt_alarm_content_date">2023.06.01</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>

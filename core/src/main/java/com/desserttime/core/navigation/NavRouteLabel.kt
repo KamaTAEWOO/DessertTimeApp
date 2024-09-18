@@ -24,6 +24,7 @@ object NavRouteLabel {
     const val LIKE = "like"
     const val MY_PAGE = "my_page"
     const val REVIEW = "writing_review"
+    const val ALARM = "alarm"
 
     // like
     const val LIKE_DETAIL = "like_detail"
