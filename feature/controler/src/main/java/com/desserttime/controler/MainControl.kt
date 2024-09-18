@@ -42,6 +42,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainControl(
+    onNavigateToAlarm: () -> Unit,
     onNavigateToLogin: () -> Unit,
     onNavigateToLikeDetail: () -> Unit,
     onNavigateToSetting: () -> Unit,
@@ -61,7 +62,7 @@ fun MainControl(
             startDestination = MainDestination.Home.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin) }
+            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm) }
             composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
             composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }

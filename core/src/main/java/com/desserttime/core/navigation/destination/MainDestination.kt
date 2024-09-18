@@ -7,6 +7,10 @@ sealed class MainDestination : Destination {
         override val route = NavRouteLabel.MAIN
     }
 
+    object Alarm : MainDestination() {
+        override val route = NavRouteLabel.ALARM
+    }
+
     object Home : MainDestination() {
         override val route = NavRouteLabel.HOME
     }
