@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,6 +24,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -40,7 +43,6 @@ import androidx.compose.ui.window.Popup
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.WildSand
-import timber.log.Timber
 import java.util.Calendar
 
 object CommonUi {
@@ -171,8 +173,7 @@ object CommonUi {
         onDismiss: () -> Unit
     ) {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val birthYears = (1950..currentYear).toList()
-        // LazyColumn의 스크롤 상태를 추적하기 위한 상태
+        val birthYears = (1930..currentYear).toList()
         val listState = rememberLazyListState()
 
         if (expanded) {
@@ -190,12 +191,31 @@ object CommonUi {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     LaunchedEffect(selectedYear) {
-                        // 선택된 연도로 스크롤 이동
                         val selectedIndex = birthYears.indexOf(selectedYear.toIntOrNull())
                         if (selectedIndex != -1) {
-                            listState.animateScrollToItem(selectedIndex)
+                            // 선택된 항목을 중앙보다 더 아래로 스크롤
+                            val scrollOffset = -250 // 원하는 만큼의 오프셋을 설정해 선택 항목을 아래로 내림
+                            listState.animateScrollToItem(selectedIndex, scrollOffset)
                         }
-                        Timber.i("selectedIndex: $selectedIndex")
+                    }
+
+                    // 화면 중앙에 있는 항목의 인덱스 계산
+                    val centerIndex by remember {
+                        derivedStateOf {
+                            val firstVisibleIndex = listState.firstVisibleItemIndex
+                            val viewportHeight = listState.layoutInfo.viewportEndOffset
+                            val visibleItems = listState.layoutInfo.visibleItemsInfo
+                            if (visibleItems.isNotEmpty()) {
+                                val firstItemOffset = visibleItems.first().offset
+                                val lastItemOffset = visibleItems.last().offset + visibleItems.last().size
+                                val centerOffset = (viewportHeight / 2)
+                                visibleItems.indexOfFirst {
+                                    (it.offset <= centerOffset && it.offset + it.size >= centerOffset)
+                                } + firstVisibleIndex
+                            } else {
+                                -1 // 리스트가 비어있을 때 처리
+                            }
+                        }
                     }
 
                     LazyColumn(
@@ -206,28 +226,33 @@ object CommonUi {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        items(birthYears) { year ->
+                        itemsIndexed(birthYears) { index, year ->
                             val isSelected = (year.toString() == selectedYear)
+                            val isCenter = index == centerIndex // 중앙에 위치한 항목인지 여부
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 8.dp)
                                     .background(
-                                        color = if (isSelected) WildSand else Color.Transparent,
+                                        color = if (isCenter) WildSand else Color.Transparent,
                                         shape = RoundedCornerShape(8.dp)
                                     )
                                     .clickable {
-                                        onYearSelected(year.toString())
-                                        onDismiss()
+                                        onYearSelected(year.toString()) // 선택된 연도 업데이트
+                                        onDismiss() // 팝업 닫기
                                     }
                             ) {
                                 Text(
                                     text = year.toString(),
-                                    color = if (isSelected) Color.Black else Color.Gray,
+                                    color = when {
+                                        isCenter -> Color.Black // 중앙에 있는 항목은 항상 진하게
+                                        isSelected -> Color.Gray // 선택된 항목은 Gray로 되돌림
+                                        else -> Color.Gray // 나머지는 기본 회색
+                                    },
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(8.dp),
-                                    style = if (isSelected) DessertTimeTheme.typography.textStyleBold18 else DessertTimeTheme.typography.textStyleRegular16,
+                                    style = if (isCenter) DessertTimeTheme.typography.textStyleBold18 else DessertTimeTheme.typography.textStyleRegular16,
                                     textAlign = TextAlign.Center
                                 )
                             }
