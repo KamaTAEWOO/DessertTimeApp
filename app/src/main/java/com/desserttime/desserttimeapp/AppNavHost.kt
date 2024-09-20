@@ -18,7 +18,7 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.core.navigation.destination.RootDestination
 import com.desserttime.desserttimeapp.splash.SplashScreen
 import com.desserttime.review.ReviewViewModel
-//
+
 @Composable
 fun AppNavHost(
     navHostController: NavHostController = rememberNavController()
