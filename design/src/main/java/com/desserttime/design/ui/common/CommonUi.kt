@@ -172,7 +172,6 @@ object CommonUi {
     ) {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val birthYears = (1950..currentYear).toList()
-        // LazyColumn의 스크롤 상태를 추적하기 위한 상태
         val listState = rememberLazyListState()
 
         if (expanded) {
@@ -190,12 +189,12 @@ object CommonUi {
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     LaunchedEffect(selectedYear) {
-                        // 선택된 연도로 스크롤 이동
                         val selectedIndex = birthYears.indexOf(selectedYear.toIntOrNull())
                         if (selectedIndex != -1) {
-                            listState.animateScrollToItem(selectedIndex)
+                            // 선택된 항목을 중앙보다 더 아래로 스크롤
+                            val scrollOffset = -250 // 원하는 만큼의 오프셋을 설정해 선택 항목을 아래로 내림
+                            listState.animateScrollToItem(selectedIndex, scrollOffset)
                         }
-                        Timber.i("selectedIndex: $selectedIndex")
                     }
 
                     LazyColumn(
