@@ -74,192 +74,194 @@ fun SignUpInputScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(start = 16.dp, end = 16.dp),
+            .padding(vertical = 16.dp, horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 10.dp)
-        ) {
-            Spacer(Modifier.padding(top = 66.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(5.dp) // Adjust height to ensure visibility
-                    .border(
-                        1.dp,
-                        AthensGray,
-                        RoundedCornerShape(10.dp)
-                    ) // Use Color.Gray if Athens_Gray is not defined
+        if (!showAddressSearch) {
+            Column(
+                modifier = Modifier.padding(horizontal = 10.dp)
             ) {
+                Spacer(Modifier.padding(top = 66.dp))
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(
+                        .fillMaxWidth()
+                        .height(5.dp) // Adjust height to ensure visibility
+                        .border(
+                            1.dp,
                             AthensGray,
                             RoundedCornerShape(10.dp)
                         ) // Use Color.Gray if Athens_Gray is not defined
-                )
-                Box(
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(
+                                AthensGray,
+                                RoundedCornerShape(10.dp)
+                            ) // Use Color.Gray if Athens_Gray is not defined
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f) // Width is 50% of the parent
+                            .fillMaxHeight() // Full height
+                            .background(
+                                Flamingo,
+                                RoundedCornerShape(10.dp)
+                            ) // Use Color.Red if Flamingo is not defined
+                    )
+                }
+                Spacer(Modifier.padding(top = 28.dp))
+                Text(
+                    text = stringResource(id = R.string.txt_add_input),
+                    style = DessertTimeTheme.typography.textStyleBold26,
+                    color = Color.Black,
                     modifier = Modifier
-                        .fillMaxWidth(0.5f) // Width is 50% of the parent
-                        .fillMaxHeight() // Full height
-                        .background(
-                            Flamingo,
-                            RoundedCornerShape(10.dp)
-                        ) // Use Color.Red if Flamingo is not defined
+                        .align(Alignment.Start)
                 )
-            }
-            Spacer(Modifier.padding(top = 28.dp))
-            Text(
-                text = stringResource(id = R.string.txt_add_input),
-                style = DessertTimeTheme.typography.textStyleBold26,
-                color = Color.Black,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
-            Spacer(Modifier.padding(top = 6.dp))
-            Text(
-                text = stringResource(id = R.string.txt_add_description),
-                style = DessertTimeTheme.typography.textStyleRegular16,
-                color = Black60,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
-            Spacer(Modifier.padding(top = 36.dp))
-            Text(
-                text = stringResource(id = R.string.txt_sex),
-                style = DessertTimeTheme.typography.textStyleRegular16,
-                color = MineShaft,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
-            Spacer(Modifier.padding(top = 8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    // 남성 버튼
-                    Button(
-                        onClick = { selectedGender.value = Gender.MALE },
-                        colors = ButtonDefaults.buttonColors(
-                            if (selectedGender.value == Gender.MALE) MainColor20 else WildSand
-                        ),
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_sex_man),
-                            color = if (selectedGender.value == Gender.MALE) MainColor else Tundora,
-                            style = DessertTimeTheme.typography.textStyleRegular16
-                        )
-                    }
+                Spacer(Modifier.padding(top = 6.dp))
+                Text(
+                    text = stringResource(id = R.string.txt_add_description),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = Black60,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                )
+                Spacer(Modifier.padding(top = 36.dp))
+                Text(
+                    text = stringResource(id = R.string.txt_sex),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = MineShaft,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                )
+                Spacer(Modifier.padding(top = 8.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        // 남성 버튼
+                        Button(
+                            onClick = { selectedGender.value = Gender.MALE },
+                            colors = ButtonDefaults.buttonColors(
+                                if (selectedGender.value == Gender.MALE) MainColor20 else WildSand
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_sex_man),
+                                color = if (selectedGender.value == Gender.MALE) MainColor else Tundora,
+                                style = DessertTimeTheme.typography.textStyleRegular16
+                            )
+                        }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
 
-                    // 여성 버튼
-                    Button(
-                        onClick = { selectedGender.value = Gender.FEMALE },
-                        colors = ButtonDefaults.buttonColors(
-                            if (selectedGender.value == Gender.FEMALE) MainColor20 else WildSand
-                        ),
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_sex_woman),
-                            color = if (selectedGender.value == Gender.FEMALE) MainColor else Tundora,
-                            style = DessertTimeTheme.typography.textStyleRegular16
-                        )
+                        // 여성 버튼
+                        Button(
+                            onClick = { selectedGender.value = Gender.FEMALE },
+                            colors = ButtonDefaults.buttonColors(
+                                if (selectedGender.value == Gender.FEMALE) MainColor20 else WildSand
+                            ),
+                            shape = RoundedCornerShape(12.dp),
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_sex_woman),
+                                color = if (selectedGender.value == Gender.FEMALE) MainColor else Tundora,
+                                style = DessertTimeTheme.typography.textStyleRegular16
+                            )
+                        }
                     }
                 }
-            }
-            Spacer(Modifier.padding(top = 20.dp))
-            Text(
-                text = stringResource(id = R.string.txt_birth),
-                style = DessertTimeTheme.typography.textStyleRegular16,
-                color = MineShaft,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
-            Spacer(Modifier.padding(top = 8.dp))
-            Button(
-                onClick = { expanded = true }, // 버튼 클릭 시 DropdownMenu를 표시
-                colors = ButtonDefaults.buttonColors(White),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .border(1.dp, Gallery, RoundedCornerShape(12.dp))
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Spacer(Modifier.padding(top = 20.dp))
+                Text(
+                    text = stringResource(id = R.string.txt_birth),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = MineShaft,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                )
+                Spacer(Modifier.padding(top = 8.dp))
+                Button(
+                    onClick = { expanded = true }, // 버튼 클릭 시 DropdownMenu를 표시
+                    colors = ButtonDefaults.buttonColors(White),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .border(1.dp, Gallery, RoundedCornerShape(12.dp))
                 ) {
-                    Text(
-                        text = selectedBirth.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
-                        color = if (selectedBirth.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
-                        style = DessertTimeTheme.typography.textStyleRegular16
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = selectedBirth.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                            color = if (selectedBirth.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
+                            style = DessertTimeTheme.typography.textStyleRegular16
+                        )
 
-                    Image(
-                        painter = painterResource(R.drawable.ic_calendar),
-                        contentDescription = stringResource(R.string.txt_birth_description),
-                        modifier = Modifier.size(24.dp)
-                    )
+                        Image(
+                            painter = painterResource(R.drawable.ic_calendar),
+                            contentDescription = stringResource(R.string.txt_birth_description),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
                 }
-            }
 
-            // DropdownMenu 표시
-            CommonUi.BirthYearDropdown(
-                expanded = expanded,
-                onYearSelected = { year ->
-                    selectedBirth = year // 선택된 연도 설정
-                    expanded = false // DropdownMenu 닫기
-                },
-                selectedYear = selectedBirth,
-                onDismiss = {
-                    expanded = false // DropdownMenu를 닫기 위한 콜백
-                }
-            )
-            Spacer(Modifier.padding(top = 20.dp))
-            Text(
-                text = stringResource(id = R.string.txt_address),
-                style = DessertTimeTheme.typography.textStyleRegular16,
-                color = MineShaft,
-                modifier = Modifier
-                    .align(Alignment.Start)
-            )
-            Spacer(Modifier.padding(top = 8.dp))
-            Button(
-                onClick = { showAddressSearch = true },
-                colors = ButtonDefaults.buttonColors(White),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .border(1.dp, Gallery, RoundedCornerShape(12.dp))
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween // 텍스트와 이미지를 양 끝에 배치
+                // DropdownMenu 표시
+                CommonUi.BirthYearDropdown(
+                    expanded = expanded,
+                    onYearSelected = { year ->
+                        selectedBirth = year // 선택된 연도 설정
+                        expanded = false // DropdownMenu 닫기
+                    },
+                    selectedYear = selectedBirth,
+                    onDismiss = {
+                        expanded = false // DropdownMenu를 닫기 위한 콜백
+                    }
+                )
+                Spacer(Modifier.padding(top = 20.dp))
+                Text(
+                    text = stringResource(id = R.string.txt_address),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = MineShaft,
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                )
+                Spacer(Modifier.padding(top = 8.dp))
+                Button(
+                    onClick = { showAddressSearch = true },
+                    colors = ButtonDefaults.buttonColors(White),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .border(1.dp, Gallery, RoundedCornerShape(12.dp))
                 ) {
-                    Text(
-                        text = selectedAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
-                        color = Black30,
-                        style = DessertTimeTheme.typography.textStyleRegular16
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.ic_search), // 이미지 리소스를 사용
-                        contentDescription = stringResource(R.string.txt_address_description),
-                        modifier = Modifier.size(24.dp) // 이미지 크기 조정
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween // 텍스트와 이미지를 양 끝에 배치
+                    ) {
+                        Text(
+                            text = selectedAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
+                            color = Black30,
+                            style = DessertTimeTheme.typography.textStyleRegular16
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.ic_search), // 이미지 리소스를 사용
+                            contentDescription = stringResource(R.string.txt_address_description),
+                            modifier = Modifier.size(24.dp) // 이미지 크기 조정
+                        )
+                    }
                 }
             }
         }
@@ -270,28 +272,30 @@ fun SignUpInputScreen(
                 Timber.d("$TAG Address $address")
             })
         }
-        Spacer(Modifier.padding(top = 188.dp))
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 58.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            CommonUi.NextButton(
-                text = stringResource(R.string.txt_next),
-                onClick = {
-                    saveSignUpInputData(
-                        authViewModel,
-                        onNavigateToSignUpChoose,
-                        selectedGender.value,
-                        selectedBirth,
-                        selectedAddress.value
-                    )
-                },
-                background = MainColor20,
-                textColor = MainColor,
-                enabled = true
-            )
+        if (!showAddressSearch) {
+            Spacer(Modifier.padding(top = 188.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 58.dp),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                CommonUi.NextButton(
+                    text = stringResource(R.string.txt_next),
+                    onClick = {
+                        saveSignUpInputData(
+                            authViewModel,
+                            onNavigateToSignUpChoose,
+                            selectedGender.value,
+                            selectedBirth,
+                            selectedAddress.value
+                        )
+                    },
+                    background = MainColor20,
+                    textColor = MainColor,
+                    enabled = true
+                )
+            }
         }
     }
 }
