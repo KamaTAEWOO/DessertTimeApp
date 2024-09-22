@@ -1,5 +1,10 @@
 package com.desserttime.review
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,8 +39,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -55,11 +62,24 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import timber.log.Timber
 
+private const val TAG = "ReviewScreen::"
+
 @Composable
 fun ReviewScreen(
     reviewViewModel: ReviewViewModel,
     onNavigateToReviewWrite: () -> Unit
 ) {
+    // 카메라 실행을 위한 launcher
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // 카메라에서 이미지 캡처 후 결과 처리
+        val bitmap = result.data?.extras?.get("data") as? Bitmap
+        if (bitmap != null) {
+            Timber.i("$TAG imageBitmap: $bitmap")
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -156,7 +176,12 @@ fun ReviewScreen(
                     .zIndex(1f)
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        // 카메라 앱 호출을 위한 Intent 생성
+                        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        // 카메라 인텐트 실행
+                        cameraLauncher.launch(cameraIntent)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MainColor,
                         contentColor = Color.White
