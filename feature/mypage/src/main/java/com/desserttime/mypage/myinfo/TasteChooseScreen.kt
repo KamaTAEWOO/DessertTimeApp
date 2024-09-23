@@ -4,22 +4,26 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -30,93 +34,117 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.AthensGray
+import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
-import com.desserttime.design.theme.DoveGray
-import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.MineShaft
 import com.desserttime.design.theme.Silver
+import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.mypage.MyPageState
+import com.desserttime.mypage.MyPageViewModel
 import timber.log.Timber
 
 private const val TAG = "TasteChooseScreen::"
 
 @Composable
-fun SignUpChooseScreen(
+fun TasteChooseScreen(
+    onNavigateToMyInfo: () -> Unit,
     onBack: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
-    val selectedItems = remember { mutableStateListOf<Int>() }
+    val selectedItems = remember { mutableStateListOf<String>() }
+
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(WindowInsets.systemBars.asPaddingValues()),
+        topBar = {
+            AppBarUi.AppBar(
+                onBackClick = { onBack() },
+                title = stringResource(id = R.string.txt_my_info_taste_title)
+            )
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                        top = paddingValues.calculateTopPadding(),
+                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                        bottom = 0.dp // Remove the bottom padding
+                    )
+                    .background(Color.White)
+            ) {
+                // content
+                TasteChooseContent(
+                    myPageViewModel = myPageViewModel,
+                    onNavigateToMyInfo = onNavigateToMyInfo,
+                    selectedItems = selectedItems
+                )
+            }
+
+        }
+    )
+}
+
+@Composable
+fun TasteChooseContent(
+    myPageViewModel: MyPageViewModel,
+    onNavigateToMyInfo: () -> Unit,
+    selectedItems: SnapshotStateList<String>
+) {
+    // ViewModel에 memberData?.memo에 저장
+    val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
             .background(Color.White)
             .padding(start = 26.dp, end = 26.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
-        Spacer(Modifier.padding(top = 66.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(5.dp) // Adjust height to ensure visibility
-                .border(
-                    1.dp,
-                    AthensGray,
-                    RoundedCornerShape(10.dp)
-                )
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Flamingo,
-                        RoundedCornerShape(10.dp)
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f) // Width is 50% of the parent
-                    .fillMaxHeight() // Full height
-                    .background(
-                        Flamingo,
-                        RoundedCornerShape(10.dp)
-                    ) // Use Color.Red if Flamingo is not defined
-            )
-        }
-        Spacer(Modifier.padding(top = 28.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = stringResource(id = R.string.txt_choose_interest),
+            text = stringResource(id = R.string.txt_my_info_taste_add_choose),
             style = DessertTimeTheme.typography.textStyleBold26,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
+            color = Color.Black
         )
-        Spacer(Modifier.padding(top = 6.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = stringResource(id = R.string.txt_choose_interest_hint),
+            text = stringResource(id = R.string.txt_my_info_taste_description),
             style = DessertTimeTheme.typography.textStyleRegular16,
-            color = DoveGray,
-            modifier = Modifier
-                .fillMaxWidth()
+            color = Black60
         )
+        Spacer(modifier = Modifier.height(22.dp))
+        Text(
+            text = stringResource(id = R.string.txt_my_info_taste),
+            style = DessertTimeTheme.typography.textStyleRegular16,
+            color = MineShaft
+        )
+        Spacer(modifier = Modifier.height(20.dp))
     }
     // 취향 리스트
     Column {
-        Spacer(Modifier.padding(top = 184.dp))
         ViewSelectTasteData(selectedItems)
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 58.dp, start = 16.dp, end = 16.dp),
+            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
         verticalArrangement = Arrangement.Bottom
     ) {
         CommonUi.NextButton(
-            text = stringResource(R.string.txt_next),
+            text = stringResource(R.string.txt_choose_complete),
             onClick = {
                 saveMyInputChooseData(
+                    myPageUiState,
+                    onNavigateToMyInfo,
                     selectedItems
                 )
             },
@@ -128,7 +156,7 @@ fun SignUpChooseScreen(
 }
 
 @Composable
-private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
+private fun ViewSelectTasteData(selectedItems: SnapshotStateList<String>) {
     val items = listOf(
         R.drawable.ic_fish_shaped_bun_off to stringResource(id = R.string.txt_fish_shaped_bun),
         R.drawable.ic_baked_confectionery_off to stringResource(id = R.string.txt_baked_confectionery),
@@ -155,18 +183,17 @@ private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
 @Composable
 fun SelectTasteRecyclerView(
     items: List<Pair<Int, String>>,
-    selectedItems: SnapshotStateList<Int>
+    selectedItems: SnapshotStateList<String>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
         modifier = Modifier
-            .fillMaxSize()
             .padding(start = 15.dp, end = 15.dp)
     ) {
         items(items.size) { index ->
             val item = items[index]
+            val isSelected = selectedItems.contains(item.second) // Check using String
 
-            val isSelected = selectedItems.contains(index)
             GridItem(
                 imageRes = item.first,
                 text = item.second,
@@ -174,11 +201,11 @@ fun SelectTasteRecyclerView(
                 onClick = {
                     if (isSelected) {
                         // 선택된 아이템 해제
-                        selectedItems.remove(index)
+                        selectedItems.remove(item.second) // Remove by String
                     } else {
                         // 최대 5개까지만 추가 가능
                         if (selectedItems.size < 5) {
-                            selectedItems.add(index)
+                            selectedItems.add(item.second) // Add String
                         } else {
                             Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
@@ -223,6 +250,16 @@ fun GridItem(imageRes: Int, text: String, isSelected: Boolean, onClick: () -> Un
 }
 
 private fun saveMyInputChooseData(
-    selectedItems: SnapshotStateList<Int>
+    myPageUiState: MyPageState,
+    onNavigateToMyInfo: () -> Unit,
+    selectedItems: SnapshotStateList<String>
 ) {
+    Timber.i("$TAG 선택된 아이템: $selectedItems")
+
+    // Join selectedItems into a comma-separated string
+    val selectedItemsString = selectedItems.joinToString(", ") { it.toString() }
+
+    myPageUiState.taste = selectedItemsString
+
+    onNavigateToMyInfo()
 }

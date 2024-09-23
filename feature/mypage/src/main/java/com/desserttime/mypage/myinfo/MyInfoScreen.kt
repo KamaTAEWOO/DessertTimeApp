@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
@@ -84,7 +85,14 @@ import timber.log.Timber
 private const val TAG = "MyInfoScreen::"
 
 @Composable
-fun MyInfoScreen() {
+fun MyInfoScreen(
+    onNavigateToTasteChoose: () -> Unit,
+    onBack: () -> Unit,
+    myPageViewModel: MyPageViewModel
+) {
+    // ViewModel에 memberData?.memo에 저장
+    val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
+
     val memberData = memberDataLoad()
 
     if (memberData == null) {
@@ -105,8 +113,8 @@ fun MyInfoScreen() {
             }
         )
     }
-    val selectAddress = remember { mutableStateOf(memberData?.firstCity + " " + memberData?.secondaryCity + " " + memberData?.thirdCity) }
-    val taste = remember { mutableStateOf(memberData?.memo) }
+    val selectAddress = remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
+    val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
 
     Scaffold(
         modifier = Modifier
@@ -114,7 +122,7 @@ fun MyInfoScreen() {
             .padding(WindowInsets.systemBars.asPaddingValues()),
         topBar = {
             AppBarUi.AppBar(
-                onBackClick = { },
+                onBackClick = { onBack() },
                 title = stringResource(id = R.string.txt_my_info_title),
                 onSaveClick = { },
                 color = Black30
@@ -357,7 +365,7 @@ fun MyInfoScreen() {
                             Spacer(modifier = Modifier.height(8.dp))
 
                             Button(
-                                onClick = { },
+                                onClick = { onNavigateToTasteChoose() },
                                 colors = ButtonDefaults.buttonColors(White),
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -369,13 +377,11 @@ fun MyInfoScreen() {
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
-                                    (if ((taste.value ?: "").isEmpty()) stringResource(R.string.txt_my_info_taste_hint) else taste.value)?.let {
-                                        Text(
-                                            text = it,
-                                            color = Black30,
-                                            style = DessertTimeTheme.typography.textStyleRegular16
-                                        )
-                                    }
+                                    Text(
+                                        text = (taste.value.ifEmpty { stringResource(R.string.txt_my_info_taste_hint) }),
+                                        color = if (taste.value.isEmpty()) Black30 else Black,
+                                        style = DessertTimeTheme.typography.textStyleRegular16
+                                    )
                                     Spacer(modifier = Modifier.weight(1f)) // 이미지 왼쪽에 빈 공간 추가
                                     Image(
                                         painter = painterResource(R.drawable.ic_right_arrow),
@@ -555,8 +561,3 @@ class JavascriptBridge(val onAddressSelected: (String) -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MyInfoScreenPreview() {
-    MyInfoScreen()
-}
