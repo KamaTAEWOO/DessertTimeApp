@@ -53,6 +53,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -100,13 +101,13 @@ fun MyInfoScreen(
         return
     }
 
-    var nickname by remember { mutableStateOf(TextFieldValue(memberData?.memberName ?: "")) }
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData.memberName ?: "")) }
     var expanded by remember { mutableStateOf(false) }
-    var selectedYear by remember { mutableStateOf(memberData?.birthYear.toString()) }
+    var selectedYear by remember { mutableStateOf(memberData.birthYear.toString()) }
     var showAddressSearch by remember { mutableStateOf(false) }
     val selectedGender = remember {
         mutableStateOf<Gender?>(
-            when (memberData?.gender) {
+            when (memberData.gender) {
                 "M" -> Gender.MALE
                 "F" -> Gender.FEMALE
                 else -> Gender.OTHER
@@ -373,16 +374,18 @@ fun MyInfoScreen(
                                     .border(1.dp, Gallery, RoundedCornerShape(12.dp))
                             ) {
                                 Row(
-                                    modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceBetween
+                                    modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text(
                                         text = (taste.value.ifEmpty { stringResource(R.string.txt_my_info_taste_hint) }),
                                         color = if (taste.value.isEmpty()) Black30 else Black,
-                                        style = DessertTimeTheme.typography.textStyleRegular16
+                                        style = DessertTimeTheme.typography.textStyleRegular16,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.weight(1f) // 텍스트가 가능한 한 많은 공간을 차지하도록 설정
                                     )
-                                    Spacer(modifier = Modifier.weight(1f)) // 이미지 왼쪽에 빈 공간 추가
+                                    Spacer(modifier = Modifier.width(8.dp)) // 이미지 왼쪽에 빈 공간 추가
                                     Image(
                                         painter = painterResource(R.drawable.ic_right_arrow),
                                         contentDescription = stringResource(R.string.txt_my_info_taste_hint),
