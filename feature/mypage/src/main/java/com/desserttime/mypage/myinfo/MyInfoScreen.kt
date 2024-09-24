@@ -180,8 +180,8 @@ fun MyInfoScreen(
                                     placeholderStyle = DessertTimeTheme.typography.textStyleMedium16,
                                     containerColor = Color.Transparent,
                                     cursorColor = Color.Black,
-                                    focusedIndicatorColor = AzureRadiance,
-                                    unfocusedIndicatorColor = Color.Transparent,
+                                    focusedIndicatorColor = Color.White,
+                                    unfocusedIndicatorColor = Color.White,
                                     textStyle = DessertTimeTheme.typography.textStyleMedium16,
                                     underlineThickness = 1.dp,
                                     paddingVertical = 0.dp,
@@ -195,13 +195,13 @@ fun MyInfoScreen(
                                     modifier = Modifier
                                         .size(82.dp, 40.dp)
                                         .align(Alignment.CenterVertically),
-                                    colors = ButtonDefaults.buttonColors(WildSand),
+                                    colors = ButtonDefaults.buttonColors(if (nickname.text.isEmpty()) WildSand else MainColor),
                                     shape = RoundedCornerShape(6.dp),
                                     contentPadding = PaddingValues(0.dp)
                                 ) {
                                     Text(
                                         text = stringResource(id = R.string.txt_my_info_nickname_check),
-                                        color = Tundora60,
+                                        color = if (nickname.text.isEmpty()) Tundora60 else Color.White,
                                         style = DessertTimeTheme.typography.textStyleMedium14,
                                         modifier = Modifier.padding(horizontal = 8.dp)
                                     )
