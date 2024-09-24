@@ -103,7 +103,7 @@ fun MyInfoScreen(
 
     var nickname by remember { mutableStateOf(TextFieldValue(memberData.memberName ?: "")) }
     var expanded by remember { mutableStateOf(false) }
-    var selectedYear by remember { mutableStateOf(memberData.birthYear.toString()) }
+    var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
     val selectedGender = remember {
         mutableStateOf<Gender?>(
@@ -116,6 +116,7 @@ fun MyInfoScreen(
     }
     val selectAddress = remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
     val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
+    var nicknameDoubleCheck by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier
@@ -208,7 +209,24 @@ fun MyInfoScreen(
                                 }
                             }
 
-                            Spacer(modifier = Modifier.height(20.dp))
+                            // 이미 존재하는 닉네임입니다.
+                            if (nicknameDoubleCheck) {
+                                Spacer(modifier = Modifier.height(4.dp))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(), // 가로로 꽉 차게 설정
+                                    horizontalArrangement = Arrangement.End // 오른쪽 끝으로 정렬
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.txt_my_info_nickname_error),
+                                        style = DessertTimeTheme.typography.textStyleRegular14,
+                                        color = MainColor
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(5.dp))
+                            } else {
+                                Spacer(modifier = Modifier.height(20.dp))
+                            }
 
                             // Gender Selection
                             Text(
@@ -306,7 +324,7 @@ fun MyInfoScreen(
                             BirthYearDropdown(
                                 expanded = expanded,
                                 onYearSelected = { year ->
-                                    selectedYear = year // 선택된 연도 설정
+                                    selectedYear = year + "년" // 선택된 연도 설정
                                     expanded = false // DropdownMenu 닫기
                                 },
                                 selectedYear = selectedYear,
