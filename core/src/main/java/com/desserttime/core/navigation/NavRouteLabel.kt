@@ -35,6 +35,7 @@ object NavRouteLabel {
     const val WITHDRAWAL_COMPLETE = "withdrawal_complete"
     const val MY_INFO = "my_info"
     const val TASTE_CHOOSE = "taste_choose"
+    const val WHEAT = "wheat"
 
     // review
     const val REVIEW_WRITE = "review_write"

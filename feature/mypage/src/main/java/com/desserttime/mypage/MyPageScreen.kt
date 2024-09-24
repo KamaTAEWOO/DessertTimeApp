@@ -46,7 +46,8 @@ import com.desserttime.design.ui.common.AppBarUi
 fun MyPageScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToSetting: () -> Unit,
-    onNavigateToMyInfo: () -> Unit
+    onNavigateToMyInfo: () -> Unit,
+    onNavigateToWheat: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -70,7 +71,8 @@ fun MyPageScreen(
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
                 ProfileSection(
-                    onNavigateToMyInfo
+                    onNavigateToMyInfo,
+                    onNavigateToWheat
                 )
             }
         }
@@ -79,7 +81,8 @@ fun MyPageScreen(
 
 @Composable
 fun ProfileSection(
-    onNavigateToMyInfo: () -> Unit
+    onNavigateToMyInfo: () -> Unit,
+    onNavigateToWheat: () -> Unit
 ) {
     // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
@@ -89,7 +92,7 @@ fun ProfileSection(
     Spacer(modifier = Modifier.height(20.dp))
     MyBehind()
     Spacer(modifier = Modifier.height(4.dp))
-    MyMileage()
+    MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
     NoticeSection()
 }
@@ -263,7 +266,9 @@ fun MyBehind() {
 }
 
 @Composable
-fun MyMileage() {
+fun MyMileage(
+    onNavigateToWheat: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -279,7 +284,8 @@ fun MyMileage() {
                     1.dp,
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
-                ) // Ensure border color is defined
+                )
+                .clickable { onNavigateToWheat() }
         ) {
             Column(
                 modifier = Modifier
@@ -453,5 +459,5 @@ fun NoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen({}, {}, {})
+    MyPageScreen({}, {}, {}, {})
 }

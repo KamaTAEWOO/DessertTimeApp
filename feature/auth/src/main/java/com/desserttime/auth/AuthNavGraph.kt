@@ -23,6 +23,7 @@ import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
 import com.desserttime.mypage.setting.SettingScreen
+import com.desserttime.mypage.wheat.WheatScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
 import com.desserttime.mypage.withdrawal.WithdrawalScreen
 import com.desserttime.review.ReviewViewModel
@@ -146,7 +147,10 @@ fun NavGraphBuilder.authNavGraph(
                     navHostController.navigate(MainDestination.SubCategoryReview.route)
                 },
                 categoryViewModel = categoryViewModel,
-                reviewViewModel = reviewViewModel
+                reviewViewModel = reviewViewModel,
+                onNavigateToWheat = {
+                    navHostController.navigate(MainDestination.Wheat.route)
+                }
             )
         }
 
@@ -267,6 +271,10 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 myPageViewModel = myPageViewModel
             )
+        }
+
+        composable(route = MainDestination.Wheat.route) {
+            WheatScreen()
         }
     }
 }
