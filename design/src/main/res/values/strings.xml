@@ -180,6 +180,9 @@
     <string name="txt_save">저장</string>
     <string name="txt_my_info_taste">취향 (최대5가지)</string>
     <string name="txt_my_info_taste_hint">선택하지 않음</string>
+    <string name="txt_my_info_taste_title">취향</string>
+    <string name="txt_my_info_taste_add_choose">추가 정보 선택</string>
+    <string name="txt_my_info_taste_description">입력하신 정보에 따라 후기를 추천해 드려요.</string>
 
     <!--    Accusation-->
     <string name="txt_accusation_title">신고사유</string>
@@ -200,5 +203,6 @@
     <string name="txt_cancel">취소</string>
     <string name="txt_search_description">검색</string>
     <string name="txt_bell_description">벨</string>
+    <string name="txt_choose_complete">선택 완료</string>
 
 </resources>

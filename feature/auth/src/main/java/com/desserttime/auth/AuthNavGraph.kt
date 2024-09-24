@@ -19,7 +19,9 @@ import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.like.LikeDetailScreen
+import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
+import com.desserttime.mypage.myinfo.TasteChooseScreen
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
 import com.desserttime.mypage.withdrawal.WithdrawalScreen
@@ -30,7 +32,8 @@ fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
     authViewModel: AuthViewModel,
     categoryViewModel: CategoryViewModel,
-    reviewViewModel: ReviewViewModel
+    reviewViewModel: ReviewViewModel,
+    myPageViewModel: MyPageViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -243,7 +246,27 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.MyInfo.route) {
-            MyInfoScreen()
+            MyInfoScreen(
+                onNavigateToTasteChoose = {
+                    navHostController.navigate(MainDestination.TasteChoose.route)
+                },
+                onBack = {
+                    navHostController.popBackStack()
+                },
+                myPageViewModel = myPageViewModel
+            )
+        }
+
+        composable(route = MainDestination.TasteChoose.route) {
+            TasteChooseScreen(
+                onNavigateToMyInfo = {
+                    navHostController.navigate(MainDestination.MyInfo.route)
+                },
+                onBack = {
+                    navHostController.popBackStack()
+                },
+                myPageViewModel = myPageViewModel
+            )
         }
     }
 }
