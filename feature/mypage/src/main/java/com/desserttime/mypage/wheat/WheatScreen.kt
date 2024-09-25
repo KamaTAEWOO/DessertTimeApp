@@ -60,10 +60,10 @@ fun WheatScreen() {
 
 @Composable
 fun WheatContent() {
-    // main wheat content
+    // main wheat content - 현재 보유한 wheat 정보
 }
 
 @Composable
 fun WheatDetailContent() {
-    // detail wheat content
+    // detail wheat content - wheat 사용 내역
 }
