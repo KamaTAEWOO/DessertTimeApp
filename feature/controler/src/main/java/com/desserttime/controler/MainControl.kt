@@ -50,7 +50,8 @@ fun MainControl(
     onNavigateToReviewWrite: () -> Unit,
     onNavigationToSubReview: () -> Unit,
     categoryViewModel: CategoryViewModel,
-    reviewViewModel: ReviewViewModel
+    reviewViewModel: ReviewViewModel,
+    onNavigateToWheat: () -> Unit
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -65,7 +66,7 @@ fun MainControl(
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm) }
             composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
-            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo) }
+            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo, onNavigateToWheat) }
             composable(MainDestination.Review.route) { ReviewScreen(reviewViewModel, onNavigateToReviewWrite) }
         }
     }

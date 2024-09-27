@@ -66,4 +66,8 @@ sealed class MainDestination : Destination {
     object TasteChoose : MainDestination() {
         override val route = NavRouteLabel.TASTE_CHOOSE
     }
+
+    object Wheat : MainDestination() {
+        override val route = NavRouteLabel.WHEAT
+    }
 }

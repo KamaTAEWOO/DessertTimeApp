@@ -196,6 +196,20 @@
     <string name="txt_alarm_content_sub_title">안녕하세요. TMAP입니다.\n\nTMAP을 이용해 주시는 고객 여러분께 감사</string>
     <string name="txt_alarm_content_date">2023.06.01</string>
 
+    <!--    Wheat-->
+    <string name="txt_wheat_storeroom">곳간</string>
+    <string name="txt_wheat_month_fill">이달에 채운 밀</string>
+    <string name="txt_wheat_month_fill_count">350</string>
+    <string name="txt_wheat_detail">상세 내역</string>
+    <string name="txt_wheat_price">밀</string>
+    <string name="txt_wheat_detail_behind">후기작성</string>
+    <string name="txt_wheat_detail_test1">바질치즈 스콘</string>
+    <string name="txt_wheat_detail_test2">초코</string>
+    <string name="txt_wheat_detail_test3">약과</string>
+    <string name="txt_wheat_detail_test4">소금마카롱</string>
+    <string name="txt_wheat_detail_test5">소금빵</string>
+    <string name="txt_wheat_detail_save">적립</string>
+
     <!--    common-->
     <string name="txt_previous">이전</string>
     <string name="txt_next">다음</string>
