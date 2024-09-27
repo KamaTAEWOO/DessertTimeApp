@@ -182,7 +182,7 @@ fun WheatDetailContent() {
             color = TundoraCategory,
             style = DessertTimeTheme.typography.textStyleMedium16,
             textAlign = TextAlign.Start,
-            modifier = Modifier.padding(start = 24.dp, top = 16.dp)
+            modifier = Modifier.padding(start = 24.dp)
         )
 
         // Scrollable list of wheat detail items

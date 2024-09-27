@@ -5,4 +5,3 @@ data class WheatDetailData(
     val price: Int,
     val date: String
 )
-
