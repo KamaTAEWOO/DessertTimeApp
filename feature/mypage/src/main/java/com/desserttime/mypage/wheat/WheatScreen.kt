@@ -2,6 +2,7 @@ package com.desserttime.mypage.wheat
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,12 +10,14 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,9 +34,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
+import com.desserttime.design.theme.MaiTai
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.domain.model.WheatDetailData
 
 @Composable
 fun WheatScreen() {
@@ -164,4 +169,99 @@ fun WheatContent() {
 @Composable
 fun WheatDetailContent() {
     // detail wheat content - wheat 사용 내역
+    val wheatDetailData = loadData()
+    // wheat 사용 내역
+    Text(
+        text = stringResource(id = R.string.txt_wheat_detail),
+        color = TundoraCategory,
+        style = DessertTimeTheme.typography.textStyleMedium16,
+        textAlign = TextAlign.Start,
+        modifier = Modifier.padding(start = 24.dp)
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
+    ) {
+        // list of wheat detail
+        wheatDetailData.forEach { wheatDetailData ->
+            WheatDetailItem(wheatDetailData)
+        }
+    }
+}
+
+@Composable
+fun WheatDetailItem(wheatDetailData: WheatDetailData) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(73.dp)
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .padding(horizontal = 28.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .weight(1f)
+                .padding(vertical = 16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row {
+                    Text(
+                        text = wheatDetailData.name,
+                        style = DessertTimeTheme.typography.textStyleBold16,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.width(4.dp)) // Optional space between texts
+                    Text(
+                        text = stringResource(R.string.txt_wheat_detail_behind),
+                        style = DessertTimeTheme.typography.textStyleRegular16,
+                        color = Color.Black
+                    )
+                }
+                Text(
+                    text = wheatDetailData.price.toString() + stringResource(R.string.txt_wheat_price),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = MaiTai
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = wheatDetailData.date,
+                    style = DessertTimeTheme.typography.textStyleRegular10,
+                    color = TundoraCategory
+                )
+                Text(
+                    text = stringResource(R.string.txt_wheat_detail_save),
+                    style = DessertTimeTheme.typography.textStyleRegular10,
+                    color = TundoraCategory
+                )
+            }
+        }
+    }
+}
+
+fun loadData(): List<WheatDetailData> {
+    // WheatDetailData 리스트로 담기
+    val wheatDetailDataList = listOf(
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
+        WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19")
+    )
+    return wheatDetailDataList
 }
