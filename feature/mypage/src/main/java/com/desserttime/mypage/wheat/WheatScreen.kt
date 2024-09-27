@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -168,24 +169,32 @@ fun WheatContent() {
 
 @Composable
 fun WheatDetailContent() {
-    // detail wheat content - wheat 사용 내역
+    // Load wheat detail data
     val wheatDetailData = loadData()
-    // wheat 사용 내역
-    Text(
-        text = stringResource(id = R.string.txt_wheat_detail),
-        color = TundoraCategory,
-        style = DessertTimeTheme.typography.textStyleMedium16,
-        textAlign = TextAlign.Start,
-        modifier = Modifier.padding(start = 24.dp)
-    )
+
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
+            .fillMaxSize()
     ) {
-        // list of wheat detail
-        wheatDetailData.forEach { wheatDetailData ->
-            WheatDetailItem(wheatDetailData)
+        // Header text: wheat 사용 내역
+        Text(
+            text = stringResource(id = R.string.txt_wheat_detail),
+            color = TundoraCategory,
+            style = DessertTimeTheme.typography.textStyleMedium16,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.padding(start = 24.dp, top = 16.dp)
+        )
+
+        // Scrollable list of wheat detail items
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp, start = 20.dp, end = 20.dp)
+        ) {
+            items(wheatDetailData.size) { item ->
+                WheatDetailItem(wheatDetailData = wheatDetailData[item])
+                Spacer(modifier = Modifier.height(8.dp)) // Adds space between items
+            }
         }
     }
 }
@@ -205,6 +214,7 @@ fun WheatDetailItem(wheatDetailData: WheatDetailData) {
                 .weight(1f)
                 .padding(vertical = 16.dp)
         ) {
+            // First row: item name and price
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -215,7 +225,7 @@ fun WheatDetailItem(wheatDetailData: WheatDetailData) {
                         style = DessertTimeTheme.typography.textStyleBold16,
                         color = Color.Black
                     )
-                    Spacer(modifier = Modifier.width(4.dp)) // Optional space between texts
+                    Spacer(modifier = Modifier.width(4.dp))
                     Text(
                         text = stringResource(R.string.txt_wheat_detail_behind),
                         style = DessertTimeTheme.typography.textStyleRegular16,
@@ -223,11 +233,13 @@ fun WheatDetailItem(wheatDetailData: WheatDetailData) {
                     )
                 }
                 Text(
-                    text = wheatDetailData.price.toString() + stringResource(R.string.txt_wheat_price),
+                    text = "${wheatDetailData.price}${stringResource(R.string.txt_wheat_price)}",
                     style = DessertTimeTheme.typography.textStyleRegular16,
                     color = MaiTai
                 )
             }
+
+            // Second row: date and save text
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
