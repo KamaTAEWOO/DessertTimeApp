@@ -154,7 +154,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onNavigateToNoticeAndEvent = {
                     navHostController.navigate(MainDestination.NoticeAndEvent.route)
-                }
+                },
+                myPageViewModel = myPageViewModel
             )
         }
 
@@ -282,7 +283,9 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.NoticeAndEvent.route) {
-            NoticeAndEvent()
+            NoticeAndEvent(
+                myPageViewModel = myPageViewModel
+            )
         }
     }
 }
