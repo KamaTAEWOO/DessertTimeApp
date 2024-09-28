@@ -22,6 +22,7 @@ import com.desserttime.like.LikeDetailScreen
 import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
+import com.desserttime.mypage.notice.NoticeAndEvent
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.wheat.WheatScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
@@ -150,7 +151,11 @@ fun NavGraphBuilder.authNavGraph(
                 reviewViewModel = reviewViewModel,
                 onNavigateToWheat = {
                     navHostController.navigate(MainDestination.Wheat.route)
-                }
+                },
+                onNavigateToNoticeAndEvent = {
+                    navHostController.navigate(MainDestination.NoticeAndEvent.route)
+                },
+                myPageViewModel = myPageViewModel
             )
         }
 
@@ -275,6 +280,12 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.Wheat.route) {
             WheatScreen()
+        }
+
+        composable(route = MainDestination.NoticeAndEvent.route) {
+            NoticeAndEvent(
+                myPageViewModel = myPageViewModel
+            )
         }
     }
 }

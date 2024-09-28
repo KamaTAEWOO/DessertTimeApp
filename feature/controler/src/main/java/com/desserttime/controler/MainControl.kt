@@ -36,6 +36,7 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
+import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.review.ReviewScreen
 import com.desserttime.review.ReviewViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -51,7 +52,9 @@ fun MainControl(
     onNavigationToSubReview: () -> Unit,
     categoryViewModel: CategoryViewModel,
     reviewViewModel: ReviewViewModel,
-    onNavigateToWheat: () -> Unit
+    onNavigateToWheat: () -> Unit,
+    onNavigateToNoticeAndEvent: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -66,7 +69,7 @@ fun MainControl(
             composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm) }
             composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
-            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo, onNavigateToWheat) }
+            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo, onNavigateToWheat, onNavigateToNoticeAndEvent, myPageViewModel) }
             composable(MainDestination.Review.route) { ReviewScreen(reviewViewModel, onNavigateToReviewWrite) }
         }
     }

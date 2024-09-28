@@ -23,6 +23,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -47,8 +49,12 @@ fun MyPageScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToSetting: () -> Unit,
     onNavigateToMyInfo: () -> Unit,
-    onNavigateToWheat: () -> Unit
+    onNavigateToWheat: () -> Unit,
+    onNavigateToNoticeAndEvent: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
+    val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -72,7 +78,9 @@ fun MyPageScreen(
                 Spacer(modifier = Modifier.height(12.dp))
                 ProfileSection(
                     onNavigateToMyInfo,
-                    onNavigateToWheat
+                    onNavigateToWheat,
+                    onNavigateToNoticeAndEvent,
+                    myPageUiState
                 )
             }
         }
@@ -82,7 +90,9 @@ fun MyPageScreen(
 @Composable
 fun ProfileSection(
     onNavigateToMyInfo: () -> Unit,
-    onNavigateToWheat: () -> Unit
+    onNavigateToWheat: () -> Unit,
+    onNavigateToNoticeAndEvent: () -> Unit,
+    myPageUiState: MyPageState
 ) {
     // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
@@ -94,7 +104,7 @@ fun ProfileSection(
     Spacer(modifier = Modifier.height(4.dp))
     MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
-    NoticeSection()
+    NoticeSection(onNavigateToNoticeAndEvent, myPageUiState)
 }
 
 // login 안 한 상태
@@ -365,7 +375,10 @@ fun LoginButton() {
 }
 
 @Composable
-fun NoticeSection() {
+fun NoticeSection(
+    onNavigateToNoticeAndEvent: () -> Unit,
+    myPageUiState: MyPageState
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -385,7 +398,11 @@ fun NoticeSection() {
                     .padding(
                         vertical = 15.dp,
                         horizontal = 20.dp
-                    ) // Adjust padding for better spacing
+                    )
+                    .clickable {
+                        onNavigateToNoticeAndEvent()
+                        myPageUiState.isNoticeAndEvent = true
+                    }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_notice),
@@ -411,7 +428,11 @@ fun NoticeSection() {
                     .padding(
                         vertical = 15.dp,
                         horizontal = 20.dp
-                    ) // Adjust padding for better spacing
+                    )
+                    .clickable {
+                        onNavigateToNoticeAndEvent()
+                        myPageUiState.isNoticeAndEvent = false
+                    }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_event),
@@ -422,6 +443,33 @@ fun NoticeSection() {
                 Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
                 Text(
                     text = stringResource(id = R.string.txt_mypage_event),
+                    color = Tundora,
+                    style = DessertTimeTheme.typography.textStyleMedium14
+                )
+            }
+            Divider(
+                color = Gallery,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        vertical = 15.dp,
+                        horizontal = 20.dp
+                    )
+                    .clickable { }
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_question),
+                    contentDescription = stringResource(id = R.string.txt_mypage_question),
+                    modifier = Modifier
+                        .size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
+                Text(
+                    text = stringResource(id = R.string.txt_mypage_question),
                     color = Tundora,
                     style = DessertTimeTheme.typography.textStyleMedium14
                 )
@@ -459,5 +507,5 @@ fun NoticeSection() {
 @Preview(showBackground = true)
 @Composable
 fun MyPageScreenPreview() {
-    MyPageScreen({}, {}, {}, {})
+    // MyPageScreen({}, {}, {}, {}, {}, myPageViewModel)
 }
