@@ -24,6 +24,7 @@ import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
 import com.desserttime.mypage.notice.NoticeAndEvent
 import com.desserttime.mypage.question.QuestionScreen
+import com.desserttime.mypage.review.MyReviewScreen
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.wheat.WheatScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
@@ -162,6 +163,9 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onNavigationInquiryInput = {
                     navHostController.navigate(AuthDestination.InquiryInput.route)
+                },
+                onNavigateToMyReview = {
+                    navHostController.navigate(MainDestination.MyReview.route)
                 }
             )
         }
@@ -297,6 +301,10 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.Question.route) {
             QuestionScreen()
+        }
+
+        composable(route = MainDestination.MyReview.route) {
+            MyReviewScreen()
         }
     }
 }

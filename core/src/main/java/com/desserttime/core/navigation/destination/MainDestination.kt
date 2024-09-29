@@ -78,4 +78,8 @@ sealed class MainDestination : Destination {
     object Question : MainDestination() {
         override val route = NavRouteLabel.QUESTION
     }
+
+    object MyReview : MainDestination() {
+        override val route = NavRouteLabel.MY_REVIEW
+    }
 }
