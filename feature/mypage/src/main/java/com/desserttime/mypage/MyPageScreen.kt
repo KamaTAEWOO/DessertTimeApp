@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,7 +43,6 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.domain.model.ContentDateData
 
 @Composable
 fun MyPageScreen(

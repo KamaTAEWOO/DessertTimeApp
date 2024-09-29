@@ -226,6 +226,7 @@
     <string name="txt_next">다음</string>
     <string name="txt_complete">완료</string>
     <string name="txt_cancel">취소</string>
+    <string name="txt_arrow_down">펼치기</string>
     <string name="txt_search_description">검색</string>
     <string name="txt_bell_description">벨</string>
     <string name="txt_choose_complete">선택 완료</string>
