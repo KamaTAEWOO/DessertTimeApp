@@ -37,6 +37,7 @@ object NavRouteLabel {
     const val TASTE_CHOOSE = "taste_choose"
     const val WHEAT = "wheat"
     const val NOTICE_AND_EVENT = "notice_and_event"
+    const val QUESTION = "question"
 
     // review
     const val REVIEW_WRITE = "review_write"

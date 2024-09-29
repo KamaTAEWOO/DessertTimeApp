@@ -74,4 +74,8 @@ sealed class MainDestination : Destination {
     object NoticeAndEvent : MainDestination() {
         override val route = NavRouteLabel.NOTICE_AND_EVENT
     }
+
+    object Question : MainDestination() {
+        override val route = NavRouteLabel.QUESTION
+    }
 }

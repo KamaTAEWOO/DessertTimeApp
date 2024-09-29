@@ -51,7 +51,9 @@ fun MyPageScreen(
     onNavigateToMyInfo: () -> Unit,
     onNavigateToWheat: () -> Unit,
     onNavigateToNoticeAndEvent: () -> Unit,
-    myPageViewModel: MyPageViewModel
+    myPageViewModel: MyPageViewModel,
+    onNavigateToQuestion: () -> Unit,
+    onNavigationInquiryInput: () -> Unit
 ) {
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -80,7 +82,9 @@ fun MyPageScreen(
                     onNavigateToMyInfo,
                     onNavigateToWheat,
                     onNavigateToNoticeAndEvent,
-                    myPageUiState
+                    myPageUiState,
+                    onNavigateToQuestion,
+                    onNavigationInquiryInput
                 )
             }
         }
@@ -92,7 +96,9 @@ fun ProfileSection(
     onNavigateToMyInfo: () -> Unit,
     onNavigateToWheat: () -> Unit,
     onNavigateToNoticeAndEvent: () -> Unit,
-    myPageUiState: MyPageState
+    myPageUiState: MyPageState,
+    onNavigateToQuestion: () -> Unit,
+    onNavigationInquiryInput: () -> Unit
 ) {
     // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
@@ -104,7 +110,7 @@ fun ProfileSection(
     Spacer(modifier = Modifier.height(4.dp))
     MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
-    NoticeSection(onNavigateToNoticeAndEvent, myPageUiState)
+    NoticeSection(onNavigateToNoticeAndEvent, myPageUiState, onNavigateToQuestion, onNavigationInquiryInput)
 }
 
 // login 안 한 상태
@@ -377,7 +383,9 @@ fun LoginButton() {
 @Composable
 fun NoticeSection(
     onNavigateToNoticeAndEvent: () -> Unit,
-    myPageUiState: MyPageState
+    myPageUiState: MyPageState,
+    onNavigateToQuestion: () -> Unit,
+    onNavigationInquiryInput: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -459,7 +467,7 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable { }
+                    .clickable { onNavigateToQuestion() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_question),
@@ -485,7 +493,8 @@ fun NoticeSection(
                     .padding(
                         vertical = 15.dp,
                         horizontal = 20.dp
-                    ) // Adjust padding for better spacing
+                    )
+                    .clickable { onNavigationInquiryInput() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_inquire),
