@@ -40,7 +40,7 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.domain.model.NoticeAndEventData
+import com.desserttime.domain.model.ContentDateData
 import com.desserttime.mypage.MyPageViewModel
 
 @Composable
@@ -212,18 +212,18 @@ fun NoticeAndEventItem(
     }
 }
 
-fun noticeData(): List<NoticeAndEventData> {
-    val noticeAndEventDataList = listOf(
-        NoticeAndEventData(content = "버전 업데이트", date = "2024.04.19"),
-        NoticeAndEventData(content = "버전 업데이트", date = "2024.04.19")
+fun noticeData(): List<ContentDateData> {
+    val contentDateDataLists = listOf(
+        ContentDateData(content = "버전 업데이트", date = "2024.04.19"),
+        ContentDateData(content = "버전 업데이트", date = "2024.04.19")
     )
-    return noticeAndEventDataList
+    return contentDateDataLists
 }
 
-fun eventData(): List<NoticeAndEventData> {
-    val noticeAndEventDataList = listOf(
-        NoticeAndEventData(content = "출석체크하고 곳간 채우기!", date = "2024.04.19"),
-        NoticeAndEventData(content = "출석체크하고 곳간 채우기!", date = "2024.04.19")
+fun eventData(): List<ContentDateData> {
+    val contentDateDataLists = listOf(
+        ContentDateData(content = "출석체크하고 곳간 채우기!", date = "2024.04.19"),
+        ContentDateData(content = "출석체크하고 곳간 채우기!", date = "2024.04.19")
     )
-    return noticeAndEventDataList
+    return contentDateDataLists
 }

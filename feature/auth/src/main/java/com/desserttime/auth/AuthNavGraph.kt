@@ -23,6 +23,7 @@ import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
 import com.desserttime.mypage.notice.NoticeAndEvent
+import com.desserttime.mypage.question.QuestionScreen
 import com.desserttime.mypage.setting.SettingScreen
 import com.desserttime.mypage.wheat.WheatScreen
 import com.desserttime.mypage.withdrawal.WithdrawalCompleteScreen
@@ -155,7 +156,13 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToNoticeAndEvent = {
                     navHostController.navigate(MainDestination.NoticeAndEvent.route)
                 },
-                myPageViewModel = myPageViewModel
+                myPageViewModel = myPageViewModel,
+                onNavigateToQuestion = {
+                    navHostController.navigate(MainDestination.Question.route)
+                },
+                onNavigationInquiryInput = {
+                    navHostController.navigate(AuthDestination.InquiryInput.route)
+                }
             )
         }
 
@@ -286,6 +293,10 @@ fun NavGraphBuilder.authNavGraph(
             NoticeAndEvent(
                 myPageViewModel = myPageViewModel
             )
+        }
+
+        composable(route = MainDestination.Question.route) {
+            QuestionScreen()
         }
     }
 }

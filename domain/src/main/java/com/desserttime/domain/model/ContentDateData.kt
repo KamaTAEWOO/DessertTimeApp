@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-data class NoticeAndEventData(
+data class ContentDateData(
     val content: String,
     val date: String
 )
