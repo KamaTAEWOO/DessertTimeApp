@@ -51,5 +51,7 @@ val GrayChateau = Color(0xFFA3A9AB)
 val ShipGray = Color(0xFF49454F)
 val MineShaftPicture = Color(0xFF333333)
 val MaiTai = Color(0xFFB7720A)
+val Salem = Color(0xFF048C44)
+val Salem20 = Color(0x33048C44)
 
 // Dark

@@ -223,6 +223,8 @@
 
     <!--    MyPage - MyReview-->
     <string name="txt_my_review_title">내 후기</string>
+    <string name="txt_my_review_title_image">내 후기 아이템 이미지</string>
+    <string name="txt_my_review_resister">등록</string>
 
     <!--    common-->
     <string name="txt_previous">이전</string>
