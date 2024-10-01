@@ -53,7 +53,8 @@ fun MyPageScreen(
     onNavigateToNoticeAndEvent: () -> Unit,
     myPageViewModel: MyPageViewModel,
     onNavigateToQuestion: () -> Unit,
-    onNavigationInquiryInput: () -> Unit
+    onNavigationInquiryInput: () -> Unit,
+    onNavigateToMyReview: () -> Unit
 ) {
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -84,7 +85,8 @@ fun MyPageScreen(
                     onNavigateToNoticeAndEvent,
                     myPageUiState,
                     onNavigateToQuestion,
-                    onNavigationInquiryInput
+                    onNavigationInquiryInput,
+                    onNavigateToMyReview
                 )
             }
         }
@@ -98,7 +100,8 @@ fun ProfileSection(
     onNavigateToNoticeAndEvent: () -> Unit,
     myPageUiState: MyPageState,
     onNavigateToQuestion: () -> Unit,
-    onNavigationInquiryInput: () -> Unit
+    onNavigationInquiryInput: () -> Unit,
+    onNavigateToMyReview: () -> Unit
 ) {
     // NotLoginProfileSection( onNavigateToLogin() )
     // Spacer(modifier = Modifier.height(40.dp))
@@ -106,7 +109,7 @@ fun ProfileSection(
 
     LoginProfileSection(onNavigateToMyInfo)
     Spacer(modifier = Modifier.height(20.dp))
-    MyBehind()
+    MyReviewData(onNavigateToMyReview)
     Spacer(modifier = Modifier.height(4.dp))
     MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
@@ -217,7 +220,7 @@ fun ModifyMyInfo(onNavigateToMyInfo: () -> Unit) {
 }
 
 @Composable
-fun MyBehind() {
+fun MyReviewData(onNavigateToMyReview: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -233,7 +236,8 @@ fun MyBehind() {
                     1.dp,
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
-                ) // Ensure border color is defined
+                )
+                .clickable { onNavigateToMyReview() }
         ) {
             Column(
                 modifier = Modifier
