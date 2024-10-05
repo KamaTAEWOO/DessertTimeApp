@@ -151,9 +151,10 @@
     <!--    myPage Setting-->
     <string name="txt_mypage_setting_title">설정</string>
     <string name="txt_mypage_setting_logout">로그아웃</string>
-    <string name="txt_mypage_setting_push">알림설정</string>
-    <string name="txt_mypage_setting_terms_of_use">이용약관</string>
-    <string name="txt_mypage_setting_privacy_policy">개인정보처리방침</string>
+    <string name="txt_mypage_setting_push">앱 알림 설정</string>
+    <string name="txt_mypage_setting_ad">이벤트 혜택 및 광고성 정보 수신</string>
+    <string name="txt_mypage_setting_terms_of_use">서비스 이용약관</string>
+    <string name="txt_mypage_setting_privacy_policy">개인정보 처리방침</string>
     <string name="txt_mypage_setting_withdrawal1">디저트타임을 탈퇴하려면</string>
     <string name="txt_mypage_setting_withdrawal2">여기</string>
     <string name="txt_mypage_setting_withdrawal3">를 눌러주세요. </string>
