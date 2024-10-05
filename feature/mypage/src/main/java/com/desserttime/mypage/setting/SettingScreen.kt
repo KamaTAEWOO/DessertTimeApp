@@ -100,6 +100,7 @@ fun SettingContent() {
     ) {
         Spacer(modifier = Modifier.height(8.dp))
         AlarmPush()
+        AdvertisePush()
         TermsOfService()
         PrivacyPolicy()
     }
@@ -163,6 +164,38 @@ fun AlarmPush() {
         ) {
             Text(
                 text = stringResource(id = R.string.txt_mypage_setting_push),
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                color = Color.Black,
+                modifier = Modifier.weight(1f)
+            )
+            CustomSwitch(
+                isChecked = isPushEnabled,
+                onCheckedChange = { isChecked ->
+                    isPushEnabled = isChecked // 상태 업데이트
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun AdvertisePush() {
+    var isPushEnabled by remember { mutableStateOf(false) }
+
+    CommonUi.Divide(Gallery)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(top = 14.dp, bottom = 14.dp, start = 16.dp, end = 8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 정렬
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.txt_mypage_setting_ad),
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Color.Black,
                 modifier = Modifier.weight(1f)
