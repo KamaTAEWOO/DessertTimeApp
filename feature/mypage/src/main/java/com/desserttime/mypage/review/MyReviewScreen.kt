@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black50
@@ -58,6 +59,7 @@ import com.desserttime.design.theme.Salem
 import com.desserttime.design.theme.Salem20
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonPopup
 import timber.log.Timber
 
 @Composable
@@ -229,17 +231,21 @@ fun MyReviewItem(index: Int) {
 
 @Composable
 fun ReviewItemDeletePopup(
-    anchorPosition: Offset, // Position of the button
+    anchorPosition: Offset, // 버튼의 위치
     onDeleteConfirm: () -> Unit, // 삭제 확인 시 호출되는 콜백 함수
     onDismiss: () -> Unit // 팝업 닫기 시 호출되는 콜백 함수
 ) {
+    // 팝업창의 표시 여부를 위한 상태
+    var showDialog by remember { mutableStateOf(false) }
+
     Timber.i("anchorPosition: $anchorPosition, x: ${anchorPosition.x}, y: ${anchorPosition.y}")
 
+    // 팝업 트리거 버튼
     Popup(
         alignment = Alignment.TopStart,
         offset = IntOffset(
-            x = -140, // Align the popup with the button
-            y = 230 // Adjust as needed based on the item's position
+            x = -140, // 팝업창을 버튼에 맞추기 위한 offset
+            y = 230 // 항목의 위치에 따라 조정
         ),
         onDismissRequest = onDismiss
     ) {
@@ -254,7 +260,7 @@ fun ReviewItemDeletePopup(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(onClick = { onDeleteConfirm() }) {
+                TextButton(onClick = { showDialog = true }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
@@ -274,6 +280,26 @@ fun ReviewItemDeletePopup(
                     }
                 }
             }
+        }
+    }
+
+    // showDialog가 true일 때 화면 중앙에 CommonPopup을 Dialog로 표시
+    if (showDialog) {
+        Dialog(onDismissRequest = { showDialog = false }) {
+            CommonPopup(
+                title = stringResource(R.string.txt_review_delete_popup_title),
+                onConfirm = {
+                    showDialog = false
+                    onDeleteConfirm() // 삭제 확인 콜백 호출
+                },
+                onDismiss = {
+                    showDialog = false
+                    onDismiss() // 팝업 닫기 콜백 호출
+                },
+                onPopupDismiss = {
+                    showDialog = false
+                }
+            )
         }
     }
 }

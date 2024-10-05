@@ -91,6 +91,7 @@
     <string name="txt_review_test_title">초코 치즈 스콘</string>
     <string name="img_review_write_description">리뷰 작성</string>
     <string name="txt_review_delete">삭제하기</string>
+    <string name="txt_review_delete_popup_title">작성 가능 후기를\n정말 삭제하시겠습니까?</string>
     <string name="txt_review_new_receipt">새로운 영수증 등록하기</string>
     <string name="txt_review_write_store_name">매장명</string>
     <string name="txt_review_write_store_name_hint">매장명을 입력해주세요</string>
