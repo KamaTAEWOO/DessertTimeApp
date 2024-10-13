@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-enum class Gender {
+enum class GenderData {
     MALE,
     FEMALE,
     OTHER

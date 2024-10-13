@@ -42,7 +42,7 @@ import com.desserttime.design.theme.OsloGray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
-import com.desserttime.domain.model.LoginMethod
+import com.desserttime.domain.model.LoginMethodData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -82,7 +82,7 @@ fun LoginScreen(
             stringResource(id = R.string.txt_login_kakao),
             {
                 authViewModel.loginWithLogic(
-                    LoginMethod.KAKAO,
+                    LoginMethodData.KAKAO,
                     context,
                     onNavigateToSignUpAgree,
                     onNavigateToHome
@@ -99,7 +99,7 @@ fun LoginScreen(
             stringResource(id = R.string.txt_login_naver),
             {
                 authViewModel.loginWithLogic(
-                    LoginMethod.NAVER,
+                    LoginMethodData.NAVER,
                     context,
                     onNavigateToSignUpAgree,
                     onNavigateToHome
@@ -117,7 +117,7 @@ fun LoginScreen(
             stringResource(id = R.string.txt_login_google),
             {
                 authViewModel.loginWithLogic(
-                    LoginMethod.GOOGLE,
+                    LoginMethodData.GOOGLE,
                     context,
                     onNavigateToSignUpAgree,
                     onNavigateToHome

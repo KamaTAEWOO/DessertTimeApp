@@ -61,6 +61,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
 import com.desserttime.design.R
+import com.desserttime.design.theme.AzureRadiance
 import com.desserttime.design.theme.Black
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
@@ -76,9 +77,11 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
-import com.desserttime.domain.model.Gender
+import com.desserttime.domain.model.GenderData
 import com.desserttime.domain.model.MemberData
+import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.mypage.MyPageViewModel
+import com.desserttime.mypage.globalMyPageUiState
 import timber.log.Timber
 
 private const val TAG = "MyInfoScreen::"
@@ -103,18 +106,17 @@ fun MyInfoScreen(
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
-    val selectedGender = remember {
-        mutableStateOf<Gender?>(
+    val selectedGenderData = remember {
+        mutableStateOf<GenderData?>(
             when (memberData.gender) {
-                "M" -> Gender.MALE
-                "F" -> Gender.FEMALE
-                else -> Gender.OTHER
+                "M" -> GenderData.MALE
+                "F" -> GenderData.FEMALE
+                else -> GenderData.OTHER
             }
         )
     }
     val selectAddress = remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
     val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
-    var nicknameDoubleCheck by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier
@@ -190,7 +192,7 @@ fun MyInfoScreen(
                                 )
 
                                 Button(
-                                    onClick = { },
+                                    onClick = { nicknameDoubleCheck(myPageViewModel, nickname.text) },
                                     modifier = Modifier
                                         .size(82.dp, 40.dp)
                                         .align(Alignment.CenterVertically),
@@ -208,22 +210,43 @@ fun MyInfoScreen(
                             }
 
                             // 이미 존재하는 닉네임입니다.
-                            if (nicknameDoubleCheck) {
-                                Spacer(modifier = Modifier.height(4.dp))
+                            when (globalMyPageUiState.isNickNameUsable) {
+                                NickNameDoubleCheckData.UNUSABLE -> {
+                                    Timber.i("$TAG NickNameDoubleCheckData.UNUSABLE")
+                                    Spacer(modifier = Modifier.height(4.dp))
 
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(), // 가로로 꽉 차게 설정
-                                    horizontalArrangement = Arrangement.End // 오른쪽 끝으로 정렬
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.txt_my_info_nickname_error),
-                                        style = DessertTimeTheme.typography.textStyleRegular14,
-                                        color = MainColor
-                                    )
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(), // 가로로 꽉 차게 설정
+                                        horizontalArrangement = Arrangement.End // 오른쪽 끝으로 정렬
+                                    ) {
+                                        Text(
+                                            text = stringResource(id = R.string.txt_my_info_nickname_error),
+                                            style = DessertTimeTheme.typography.textStyleRegular14,
+                                            color = MainColor
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(5.dp))
                                 }
-                                Spacer(modifier = Modifier.height(5.dp))
-                            } else {
-                                Spacer(modifier = Modifier.height(20.dp))
+                                NickNameDoubleCheckData.USABLE -> {
+                                    Timber.i("$TAG NickNameDoubleCheckData.USABLE")
+                                    Spacer(modifier = Modifier.height(4.dp))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(), // 가로로 꽉 차게 설정
+                                        horizontalArrangement = Arrangement.End // 오른쪽 끝으로 정렬
+                                    ) {
+                                        Text(
+                                            text = stringResource(id = R.string.txt_my_info_nickname_access),
+                                            style = DessertTimeTheme.typography.textStyleRegular14,
+                                            color = AzureRadiance
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(5.dp))
+                                }
+                                else -> {
+                                    Timber.i("$TAG NickNameDoubleCheckData.NONE")
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                }
                             }
 
                             // Gender Selection
@@ -243,9 +266,9 @@ fun MyInfoScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Button(
-                                    onClick = { selectedGender.value = Gender.MALE },
+                                    onClick = { selectedGenderData.value = GenderData.MALE },
                                     colors = ButtonDefaults.buttonColors(
-                                        if (selectedGender.value == Gender.MALE) MainColor20 else WildSand
+                                        if (selectedGenderData.value == GenderData.MALE) MainColor20 else WildSand
                                     ),
                                     shape = RoundedCornerShape(12.dp),
                                     modifier = Modifier
@@ -254,7 +277,7 @@ fun MyInfoScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.txt_sex_man),
-                                        color = if (selectedGender.value == Gender.MALE) MainColor else Tundora,
+                                        color = if (selectedGenderData.value == GenderData.MALE) MainColor else Tundora,
                                         style = DessertTimeTheme.typography.textStyleRegular16
                                     )
                                 }
@@ -262,9 +285,9 @@ fun MyInfoScreen(
                                 Spacer(modifier = Modifier.width(8.dp))
 
                                 Button(
-                                    onClick = { selectedGender.value = Gender.FEMALE },
+                                    onClick = { selectedGenderData.value = GenderData.FEMALE },
                                     colors = ButtonDefaults.buttonColors(
-                                        if (selectedGender.value == Gender.FEMALE) MainColor20 else WildSand
+                                        if (selectedGenderData.value == GenderData.FEMALE) MainColor20 else WildSand
                                     ),
                                     shape = RoundedCornerShape(12.dp),
                                     modifier = Modifier
@@ -273,7 +296,7 @@ fun MyInfoScreen(
                                 ) {
                                     Text(
                                         text = stringResource(R.string.txt_sex_woman),
-                                        color = if (selectedGender.value == Gender.FEMALE) MainColor else Tundora,
+                                        color = if (selectedGenderData.value == GenderData.FEMALE) MainColor else Tundora,
                                         style = DessertTimeTheme.typography.textStyleRegular16
                                     )
                                 }
@@ -496,7 +519,6 @@ fun memberDataLoad(): MemberData? {
     LaunchedEffect(memberData) {
         memberData?.let {
             Timber.i("$TAG memberDataLoad: $it")
-            // Perform other actions if necessary
         }
     }
 
@@ -571,6 +593,11 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
             )
         }
     }
+}
+
+private fun nicknameDoubleCheck(myPageViewModel: MyPageViewModel, nickname: String) {
+    // Check if the nickname is already in use
+    myPageViewModel.requestMyPageNicknameDoubleCheck(nickname)
 }
 
 class JavascriptBridge(val onAddressSelected: (String) -> Unit) {

@@ -47,7 +47,7 @@ import com.desserttime.design.ui.common.AppBarUi
 import timber.log.Timber
 
 private const val TAG = "MyPageScreen::"
-private var globalMyPageUiState: MyPageState = MyPageState()
+var globalMyPageUiState: MyPageState = MyPageState()
 
 @Composable
 fun MyPageScreen(

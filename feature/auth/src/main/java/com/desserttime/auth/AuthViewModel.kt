@@ -6,7 +6,7 @@ import com.desserttime.auth.login.LoginResult
 import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.core.base.BaseViewModel
-import com.desserttime.domain.model.LoginMethod
+import com.desserttime.domain.model.LoginMethodData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
@@ -162,16 +162,16 @@ class AuthViewModel @Inject constructor(
     }
 
     fun loginWithLogic(
-        method: LoginMethod,
+        method: LoginMethodData,
         context: Context,
         onNavigateToSignUpAgree: () -> Unit,
         onNavigateToHome: () -> Unit
     ) {
         viewModelScope.launch {
             val result = when (method) {
-                LoginMethod.KAKAO -> loginWithKakaoAccount(context)
-                LoginMethod.NAVER -> naverWithLogin(context)
-                LoginMethod.GOOGLE -> googleLoginStart()
+                LoginMethodData.KAKAO -> loginWithKakaoAccount(context)
+                LoginMethodData.NAVER -> naverWithLogin(context)
+                LoginMethodData.GOOGLE -> googleLoginStart()
             }
 
             // 로그인 성공 시 회원가입 동의 화면으로 이동

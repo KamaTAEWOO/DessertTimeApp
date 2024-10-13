@@ -2,7 +2,7 @@ package com.desserttime.auth.login.naver
 
 import android.content.Context
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.domain.model.MemberProfile
+import com.desserttime.domain.model.MemberProfileData
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import kotlinx.coroutines.Dispatchers
@@ -71,7 +71,7 @@ suspend fun fetchNaverUserInfo(): LoginResult {
                     Timber.i("$TAG id: $id") // 로그인 시 토큰 대신 사용 7ImgfubjaYVScQZf-N-gES7YwmZeQhPP8E2wMrHxINU
 
                     LoginResult.Success(
-                        MemberProfile(
+                        MemberProfileData(
                             id = NAVER_LOGIN_PROVIDER,
                             name = name,
                             email = email,
