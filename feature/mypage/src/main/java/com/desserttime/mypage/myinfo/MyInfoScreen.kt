@@ -81,7 +81,6 @@ import com.desserttime.domain.model.GenderData
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.mypage.MyPageViewModel
-import com.desserttime.mypage.globalMyPageUiState
 import timber.log.Timber
 
 private const val TAG = "MyInfoScreen::"
@@ -170,7 +169,14 @@ fun MyInfoScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(56.dp)
-                                    .border(1.dp, Gallery, RoundedCornerShape(12.dp))
+                                    .border(
+                                        1.dp,
+                                        when (myPageUiState.isNickNameUsable) {
+                                            NickNameDoubleCheckData.UNUSABLE -> MainColor
+                                            NickNameDoubleCheckData.USABLE -> AzureRadiance
+                                            else -> Gallery
+                                        },
+                                        RoundedCornerShape(12.dp))
                                     .padding(end = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
@@ -210,7 +216,7 @@ fun MyInfoScreen(
                             }
 
                             // 이미 존재하는 닉네임입니다.
-                            when (globalMyPageUiState.isNickNameUsable) {
+                            when (myPageUiState.isNickNameUsable) {
                                 NickNameDoubleCheckData.UNUSABLE -> {
                                     Timber.i("$TAG NickNameDoubleCheckData.UNUSABLE")
                                     Spacer(modifier = Modifier.height(4.dp))
