@@ -36,7 +36,7 @@ interface MemberInfoService {
 
     @GET("/member/my-page/nickname/{nickname}")
     suspend fun requestNicknameDoubleCheck(
-        @Path("nickname") nickname: String,  // URL 경로에 있는 nickname
-        @Query("nickName") nickName: String  // 쿼리 파라미터로 전달되는 nickName
+        @Path("nickname") nickname: String, // URL 경로에 있는 nickname
+        @Query("nickName") nickName: String // 쿼리 파라미터로 전달되는 nickName
     ): ResponseMyPageNicknameDoubleCheckDto
 }

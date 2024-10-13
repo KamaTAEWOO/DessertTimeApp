@@ -19,4 +19,3 @@ data class ResponseMyPageNicknameDoubleCheckDto(
         data = data
     )
 }
-

@@ -176,7 +176,8 @@ fun MyInfoScreen(
                                             NickNameDoubleCheckData.USABLE -> AzureRadiance
                                             else -> Gallery
                                         },
-                                        RoundedCornerShape(12.dp))
+                                        RoundedCornerShape(12.dp)
+                                    )
                                     .padding(end = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
