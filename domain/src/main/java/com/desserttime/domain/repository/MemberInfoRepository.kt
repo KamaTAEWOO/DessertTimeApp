@@ -5,6 +5,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.ResponseCommon
 import com.desserttime.domain.model.ResponseMemberData
+import com.desserttime.domain.model.ResponseMyPageMemberData
 import kotlinx.coroutines.flow.Flow
 
 interface MemberInfoRepository {
@@ -15,4 +16,6 @@ interface MemberInfoRepository {
     fun requestInquiry(requestInquiryData: RequestInquiryData): Flow<ResponseCommon>
 
     val memberData: Flow<MemberData> // 로컬 데이터 저장소에서 사용자 정보를 가져오는 Flow
+
+    fun requestMemberData(): Flow<ResponseMyPageMemberData> // 사용자 정보 요청
 }

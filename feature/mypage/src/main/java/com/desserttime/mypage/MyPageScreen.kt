@@ -23,6 +23,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,10 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import timber.log.Timber
+
+private const val TAG = "MyPageScreen::"
+private var globalMyPageUiState: MyPageState = MyPageState()
 
 @Composable
 fun MyPageScreen(
@@ -57,6 +62,13 @@ fun MyPageScreen(
     onNavigateToMyReview: () -> Unit
 ) {
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
+    globalMyPageUiState = myPageUiState
+
+    LaunchedEffect(myPageViewModel) {
+        myPageViewModel.requestMyPageMemberData()
+    }
+
+    Timber.i("$TAG myPageUiState: ${globalMyPageUiState.myPageMemberData.nickName}, ${globalMyPageUiState.myPageMemberData.usersReviewCount}, ${globalMyPageUiState.myPageMemberData.usersTotalPoint}")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -163,7 +175,7 @@ fun LoginProfileSection(onNavigateToMyInfo: () -> Unit) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         CenteredTextBox(
-            text = stringResource(id = R.string.txt_mypage_nickname),
+            text = globalMyPageUiState.myPageMemberData.nickName,
             textStyle = DessertTimeTheme.typography.textStyleBold24,
             textColor = Color.Black
         )
@@ -267,7 +279,7 @@ fun MyReviewData(onNavigateToMyReview: () -> Unit) {
                             horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
                         ) {
                             Text(
-                                text = stringResource(id = R.string.txt_mypage_behind_count),
+                                text = globalMyPageUiState.myPageMemberData.usersReviewCount.toString(),
                                 color = Color.Black,
                                 style = DessertTimeTheme.typography.textStyleMedium16
                             )
@@ -335,7 +347,7 @@ fun MyMileage(
                             horizontalArrangement = Arrangement.spacedBy(4.dp) // Add space between the Text and Image
                         ) {
                             Text(
-                                text = stringResource(id = R.string.txt_mypage_mileage_count),
+                                text = globalMyPageUiState.myPageMemberData.usersTotalPoint.toString(),
                                 color = Color.Black,
                                 style = DessertTimeTheme.typography.textStyleMedium16
                             )
