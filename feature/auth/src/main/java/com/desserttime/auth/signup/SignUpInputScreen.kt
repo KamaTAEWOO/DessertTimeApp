@@ -53,7 +53,7 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.White
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
-import com.desserttime.domain.model.Gender
+import com.desserttime.domain.model.GenderData
 import timber.log.Timber
 
 private const val TAG = "SignUpInputScreen"
@@ -64,7 +64,7 @@ fun SignUpInputScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
-    val selectedGender = remember { mutableStateOf<Gender?>(Gender.OTHER) }
+    val selectedGenderData = remember { mutableStateOf<GenderData?>(GenderData.OTHER) }
     var selectedBirth by remember { mutableStateOf("1997") }
     val selectedAddress = remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
@@ -144,9 +144,9 @@ fun SignUpInputScreen(
                     Row(modifier = Modifier.fillMaxWidth()) {
                         // 남성 버튼
                         Button(
-                            onClick = { selectedGender.value = Gender.MALE },
+                            onClick = { selectedGenderData.value = GenderData.MALE },
                             colors = ButtonDefaults.buttonColors(
-                                if (selectedGender.value == Gender.MALE) MainColor20 else WildSand
+                                if (selectedGenderData.value == GenderData.MALE) MainColor20 else WildSand
                             ),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier
@@ -155,7 +155,7 @@ fun SignUpInputScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.txt_sex_man),
-                                color = if (selectedGender.value == Gender.MALE) MainColor else Tundora,
+                                color = if (selectedGenderData.value == GenderData.MALE) MainColor else Tundora,
                                 style = DessertTimeTheme.typography.textStyleRegular16
                             )
                         }
@@ -164,9 +164,9 @@ fun SignUpInputScreen(
 
                         // 여성 버튼
                         Button(
-                            onClick = { selectedGender.value = Gender.FEMALE },
+                            onClick = { selectedGenderData.value = GenderData.FEMALE },
                             colors = ButtonDefaults.buttonColors(
-                                if (selectedGender.value == Gender.FEMALE) MainColor20 else WildSand
+                                if (selectedGenderData.value == GenderData.FEMALE) MainColor20 else WildSand
                             ),
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier
@@ -175,7 +175,7 @@ fun SignUpInputScreen(
                         ) {
                             Text(
                                 text = stringResource(R.string.txt_sex_woman),
-                                color = if (selectedGender.value == Gender.FEMALE) MainColor else Tundora,
+                                color = if (selectedGenderData.value == GenderData.FEMALE) MainColor else Tundora,
                                 style = DessertTimeTheme.typography.textStyleRegular16
                             )
                         }
@@ -286,7 +286,7 @@ fun SignUpInputScreen(
                         saveSignUpInputData(
                             authViewModel,
                             onNavigateToSignUpChoose,
-                            selectedGender.value,
+                            selectedGenderData.value,
                             selectedBirth,
                             selectedAddress.value
                         )
@@ -303,11 +303,11 @@ fun SignUpInputScreen(
 private fun saveSignUpInputData(
     authViewModel: AuthViewModel,
     onNavigateToSignUpChoose: () -> Unit,
-    sex: Gender?,
+    sex: GenderData?,
     birth: String,
     address: String
 ) {
-    authViewModel.saveMemberGenderData(if (sex == Gender.MALE) "M" else "F")
+    authViewModel.saveMemberGenderData(if (sex == GenderData.MALE) "M" else "F")
     authViewModel.saveBirthYearData(birth.toInt())
     // address는 띄워쓰기에 따라 3개로 나누어 저장
     // 주소를 공백으로 분리

@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import com.desserttime.auth.login.LoginResult
 import com.desserttime.core.BuildConfig
-import com.desserttime.domain.model.MemberProfile
+import com.desserttime.domain.model.MemberProfileData
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,7 +31,7 @@ private const val GOOGLE_LOGIN_PROVIDER = "google"
 
 private lateinit var googleSignInClient: GoogleSignInClient
 private lateinit var launcher: ActivityResultLauncher<Intent>
-private var memberProfile: MemberProfile? = null
+private var memberProfileData: MemberProfileData? = null
 private var googleSignInAccount: GoogleSignInAccount? = null
 
 suspend fun googleLoginStart(): LoginResult = suspendCancellableCoroutine { continuation ->
@@ -114,14 +114,14 @@ suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { conti
 
             Timber.i("$TAG user: ${user?.uid ?: ""}") // 로그인 시 토큰 대신 사용 RbHSlTdF8vYKjUYonN9HG6ntrr02
 
-            memberProfile = MemberProfile(
+            memberProfileData = MemberProfileData(
                 id = GOOGLE_LOGIN_PROVIDER,
                 name = user?.displayName ?: "",
                 email = user?.email ?: "",
                 token = user?.uid ?: "" // 매일 같은 지 확인하기
             )
 
-            continuation.resume(LoginResult.Success(memberProfile ?: MemberProfile("", "", "", "")))
+            continuation.resume(LoginResult.Success(memberProfileData ?: MemberProfileData("", "", "", "")))
         } else {
             Timber.e("$TAG signInWithCredential:failure: ${task.exception}")
             continuation.resumeWithException(Exception("$TAG signInWithCredential:failure: ${task.exception?.message}"))

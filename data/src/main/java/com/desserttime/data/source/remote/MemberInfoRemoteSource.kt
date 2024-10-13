@@ -34,4 +34,11 @@ class MemberInfoRemoteSource @Inject constructor(
     fun requestInquiry(requestInquiryData: RequestInquiryData) = flow {
         emit(memberInfoService.requestInquiry(requestInquiryData).toModel())
     }
+
+    fun requestMemberData() = flow {
+        emit(memberInfoService.requestMemberData("1").toModel())
+    }
+    fun requestNicknameDoubleCheck(nickname: String) = flow {
+        emit(memberInfoService.requestNicknameDoubleCheck("nickname", nickname).toModel())
+    }
 }
