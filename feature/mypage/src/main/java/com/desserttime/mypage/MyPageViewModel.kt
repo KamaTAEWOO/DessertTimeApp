@@ -3,7 +3,6 @@ package com.desserttime.mypage
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
-import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

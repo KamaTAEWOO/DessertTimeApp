@@ -29,5 +29,4 @@ class MemberInfoRepositoryImpl @Inject constructor(
     override val memberData: Flow<MemberData> = memberDataStore.memberData
 
     override fun requestMemberData(): Flow<ResponseMyPageMemberData> = memberInfoRemoteSource.requestMemberData()
-
 }

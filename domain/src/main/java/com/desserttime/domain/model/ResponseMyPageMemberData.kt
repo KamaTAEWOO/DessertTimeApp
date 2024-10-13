@@ -13,4 +13,3 @@ data class MyPageMemberData(
     val usersReviewCount: Int,
     val usersTotalPoint: Int
 )
-

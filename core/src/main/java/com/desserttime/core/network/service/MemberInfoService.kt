@@ -5,7 +5,6 @@ import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
-import com.desserttime.domain.model.ResponseMyPageMemberData
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
