@@ -3,6 +3,7 @@ package com.desserttime.domain.repository
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
 import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
@@ -21,4 +22,6 @@ interface MemberInfoRepository {
     fun requestMemberData(): Flow<ResponseMyPageMemberData> // 사용자 정보 요청
 
     fun requestNicknameDoubleCheck(nickname: String): Flow<ResponseNicknameDoubleCheckData> // 닉네임 중복 확인 요청
+
+    fun requestMyPageMemberSaveData(requestMyPageMemberSaveData: RequestMyPageMemberSaveData): Flow<ResponseCommon> // 마이페이지 사용자 정보 저장 요청
 }

@@ -4,6 +4,7 @@ import com.desserttime.core.local.MemberDataStore
 import com.desserttime.core.network.service.MemberInfoService
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseMemberData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -41,4 +42,19 @@ class MemberInfoRemoteSource @Inject constructor(
     fun requestNicknameDoubleCheck(nickname: String) = flow {
         emit(memberInfoService.requestNicknameDoubleCheck("nickname", nickname).toModel())
     }
+
+    fun requestMyPageMemberSaveData(requestMyPageMemberSaveData: RequestMyPageMemberSaveData) =
+        flow {
+            emit(
+                memberInfoService.requestMyPageMemberSaveData(
+                    requestMyPageMemberSaveData.memberId,
+                    requestMyPageMemberSaveData.birth,
+                    requestMyPageMemberSaveData.gender,
+                    requestMyPageMemberSaveData.firstCity,
+                    requestMyPageMemberSaveData.secondCity,
+                    requestMyPageMemberSaveData.thirdCity,
+                    requestMyPageMemberSaveData.nickName
+                ).toModel()
+            )
+        }
 }

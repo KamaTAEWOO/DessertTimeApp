@@ -39,6 +39,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,10 +81,20 @@ import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
 import com.desserttime.domain.model.GenderData
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
+import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.mypage.MyPageViewModel
 import timber.log.Timber
 
 private const val TAG = "MyInfoScreen::"
+
+private var gBirthYear = ""
+private var gGender = ""
+private var gFirstCity = ""
+private var gSecondCity = ""
+private var gThirdCity = ""
+private var gTaste = ""
+private var gNickname = ""
+private var gBackupMemberData: MemberData? = null
 
 @Composable
 fun MyInfoScreen(
@@ -101,7 +112,7 @@ fun MyInfoScreen(
         return
     }
 
-    var nickname by remember { mutableStateOf(TextFieldValue(memberData.memberName ?: "")) }
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName)) }
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
@@ -116,6 +127,7 @@ fun MyInfoScreen(
     }
     val selectAddress = remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
     val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
+    val changeSaveColor = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier
@@ -125,8 +137,8 @@ fun MyInfoScreen(
             AppBarUi.AppBar(
                 onBackClick = { onBack() },
                 title = stringResource(id = R.string.txt_my_info_title),
-                onSaveClick = { },
-                color = Black30
+                onSaveClick = { saveData(myPageViewModel) },
+                color = if (changeSaveColor.value) AzureRadiance else Black30
             )
         },
         content = { paddingValues ->
@@ -453,6 +465,10 @@ fun MyInfoScreen(
             }
         }
     )
+
+    Timber.i("$TAG Data: $nickname, $selectedYear, $selectedGenderData, $selectAddress, $taste")
+    val changeButtonColor = inputData(nickname, selectedYear, selectedGenderData, selectAddress, taste)
+    changeSaveColor.value = changeButtonColor
 }
 
 @Composable
@@ -528,6 +544,8 @@ fun memberDataLoad(): MemberData? {
             Timber.i("$TAG memberDataLoad: $it")
         }
     }
+
+    gBackupMemberData = memberData
 
     return memberData
 }
@@ -605,6 +623,113 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
 private fun nicknameDoubleCheck(myPageViewModel: MyPageViewModel, nickname: String) {
     // Check if the nickname is already in use
     myPageViewModel.requestMyPageNicknameDoubleCheck(nickname)
+}
+
+private fun inputData(
+    nickname: TextFieldValue,
+    selectedYear: String,
+    selectedGenderData: MutableState<GenderData?>,
+    selectAddress: MutableState<String>,
+    taste: MutableState<String>
+): Boolean {
+    // gBackupMemberData가 null이면 return
+    if (gBackupMemberData == null) {
+        Timber.i("$TAG gBackupMemberData is null")
+        return false
+    }
+
+    // 닉네임 비교
+    if (gBackupMemberData?.nickName == nickname.text) {
+        Timber.i("$TAG gBackupMemberData?.nickName == nickname.text 같음")
+    } else {
+        Timber.i("$TAG gBackupMemberData?.nickName == nickname.text 다름")
+    }
+
+    // 출생년도 비교
+    val currentYear = selectedYear.substring(0, selectedYear.length - 1).toInt()
+    if (gBackupMemberData?.birthYear == currentYear) {
+        Timber.i("$TAG 출생년도 같음")
+    } else {
+        Timber.i("$TAG 출생년도 다름")
+    }
+
+    // 성별 비교
+    var currentGender = selectedGenderData.value?.name
+    currentGender = when (currentGender) {
+        "MALE" -> "M"
+        "FALEMA" -> "F"
+        else -> "O"
+    }
+
+    if (gBackupMemberData?.gender == currentGender) {
+        Timber.i("$TAG 성별 같음")
+    } else {
+        Timber.i("$TAG 성별 다름")
+    }
+
+    // 주소 비교 (첫 번째, 두 번째, 세 번째 주소)
+    val addressParts = selectAddress.value.split(" ")
+    val currentFirstCity = addressParts.getOrNull(0) ?: ""
+    val currentSecondCity = addressParts.getOrNull(1) ?: ""
+    val currentThirdCity = addressParts.getOrNull(2) ?: ""
+
+    if (gBackupMemberData?.firstCity == currentFirstCity &&
+        gBackupMemberData?.secondaryCity == currentSecondCity &&
+        gBackupMemberData?.thirdCity == currentThirdCity
+    ) {
+        Timber.i("$TAG 주소 같음")
+    } else {
+        Timber.i("$TAG 주소 다름")
+    }
+
+    // 취향 비교
+//    if (gBackupMemberData?.taste == taste.value) {
+//        Timber.i("$TAG 취향 같음")
+//    } else {
+//        Timber.i("$TAG 취향 다름")
+//    }
+
+    // 여기서 버튼 색상 업데이트 (데이터가 다를 경우)
+    val isDataChanged = gBackupMemberData?.let { backup ->
+        backup.nickName != nickname.text || backup.birthYear != currentYear || backup.gender != currentGender || backup.firstCity != currentFirstCity || backup.secondaryCity != currentSecondCity || backup.thirdCity != currentThirdCity
+    } ?: false
+
+    // id
+    // 출생년도
+    gBirthYear = selectedYear.substring(0, selectedYear.length - 1)
+    // 성별
+    gGender = when (selectedGenderData.value) {
+        GenderData.MALE -> "M"
+        GenderData.FEMALE -> "F"
+        else -> "O"
+    }
+    // 첫 주소
+    gFirstCity = currentFirstCity
+    // 두번째 주소
+    gSecondCity = currentSecondCity
+    // 세번째 주소
+    gThirdCity = currentThirdCity
+    // 닉네임
+    gNickname = nickname.text
+    // 취향
+    gTaste = taste.value
+
+    return isDataChanged
+}
+
+private fun saveData(myPageViewModel: MyPageViewModel) {
+    // Save the data to the server
+    Timber.i("$TAG saveData: $gBirthYear, $gGender, $gFirstCity, $gSecondCity, $gThirdCity, $gNickname, $gTaste")
+    val memberSaveData = RequestMyPageMemberSaveData(
+        memberId = "1",
+        birth = gBirthYear,
+        gender = gGender,
+        firstCity = gFirstCity,
+        secondCity = gSecondCity,
+        thirdCity = gThirdCity,
+        nickName = gNickname
+    )
+    myPageViewModel.requestMyPageMemberSaveData(memberSaveData)
 }
 
 class JavascriptBridge(val onAddressSelected: (String) -> Unit) {

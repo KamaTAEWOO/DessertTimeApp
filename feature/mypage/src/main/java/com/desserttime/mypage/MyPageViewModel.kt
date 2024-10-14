@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
+import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -58,6 +59,17 @@ class MyPageViewModel @Inject constructor(
                 } else {
                     sendAction(MyPageEvent.RequestMyPageNicknameDoubleCheck(NickNameDoubleCheckData.UNUSABLE))
                 }
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestMyPageMemberSaveData(memberSaveData: RequestMyPageMemberSaveData) {
+        memberInfoRepository.requestMyPageMemberSaveData(memberSaveData)
+            .onEach {
+                Timber.i("$TAG requestMyPageMemberSaveData: $it")
             }
             .catch {
                 Timber.e("$TAG $it")
