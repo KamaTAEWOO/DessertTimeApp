@@ -182,11 +182,13 @@ fun MyInfoScreen(
                                     .fillMaxWidth()
                                     .height(56.dp)
                                     .border(
-                                        1.dp, when (myPageUiState.isNickNameUsable) {
+                                        1.dp,
+                                        when (myPageUiState.isNickNameUsable) {
                                             NickNameDoubleCheckData.UNUSABLE -> MainColor
                                             NickNameDoubleCheckData.USABLE -> AzureRadiance
                                             else -> Gallery
-                                        }, RoundedCornerShape(12.dp)
+                                        },
+                                        RoundedCornerShape(12.dp)
                                     )
                                     .padding(end = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -629,7 +631,7 @@ private fun inputData(
     selectedGenderData: MutableState<GenderData?>,
     selectAddress: MutableState<String>,
     taste: MutableState<String>
-) : Boolean {
+): Boolean {
     // gBackupMemberData가 null이면 return
     if (gBackupMemberData == null) {
         Timber.i("$TAG gBackupMemberData is null")
@@ -673,7 +675,8 @@ private fun inputData(
 
     if (gBackupMemberData?.firstCity == currentFirstCity &&
         gBackupMemberData?.secondaryCity == currentSecondCity &&
-        gBackupMemberData?.thirdCity == currentThirdCity) {
+        gBackupMemberData?.thirdCity == currentThirdCity
+    ) {
         Timber.i("$TAG 주소 같음")
     } else {
         Timber.i("$TAG 주소 다름")
