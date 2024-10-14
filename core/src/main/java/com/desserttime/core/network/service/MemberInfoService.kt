@@ -8,6 +8,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -39,4 +40,15 @@ interface MemberInfoService {
         @Path("nickname") nickname: String, // URL 경로에 있는 nickname
         @Query("nickName") nickName: String // 쿼리 파라미터로 전달되는 nickName
     ): ResponseMyPageNicknameDoubleCheckDto
+
+    @PATCH("/member/my-page")
+    suspend fun requestMyPageMemberSaveData(
+        @Query("memberId") requestMyPageMemberSaveData: String,
+        @Query("birthYear") birth: String,
+        @Query("gender") gender: String,
+        @Query("firstCity") firstCity: String,
+        @Query("secondaryCity") secondCity: String,
+        @Query("thirdCity") thirdCity: String,
+        @Query("nickName") nickName: String
+    ): ResponseCommonDto
 }
