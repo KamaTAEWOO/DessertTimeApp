@@ -8,5 +8,7 @@ data class MyPageState(
     var taste: String = "",
     var isNoticeAndEvent: Boolean = false,
     var myPageMemberData: MyPageMemberData = MyPageMemberData("", 0, 0),
-    var isNickNameUsable: NickNameDoubleCheckData = NickNameDoubleCheckData.NONE
+    var isNickNameUsable: NickNameDoubleCheckData = NickNameDoubleCheckData.NONE,
+    var isAgreeAD: String = "",
+    var isAgreeAlarm: String = ""
 ) : BaseState

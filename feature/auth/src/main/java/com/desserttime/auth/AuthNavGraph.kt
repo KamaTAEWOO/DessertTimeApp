@@ -230,7 +230,8 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                }
+                },
+                myPageViewModel = myPageViewModel
             )
         }
 

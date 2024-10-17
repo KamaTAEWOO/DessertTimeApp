@@ -57,4 +57,8 @@ class MemberInfoRemoteSource @Inject constructor(
                 ).toModel()
             )
         }
+
+    fun requestSettingLoadData(memberId: String) = flow {
+        emit(memberInfoService.requestSettingLoadData(memberId).toModel())
+    }
 }
