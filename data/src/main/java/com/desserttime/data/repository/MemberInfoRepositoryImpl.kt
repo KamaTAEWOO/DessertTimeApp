@@ -10,6 +10,7 @@ import com.desserttime.domain.model.ResponseCommon
 import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
+import com.desserttime.domain.model.ResponseSettingLoadData
 import com.desserttime.domain.repository.MemberInfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -37,4 +38,13 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestMyPageMemberSaveData(requestMyPageMemberSaveData: RequestMyPageMemberSaveData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestMyPageMemberSaveData(requestMyPageMemberSaveData)
+
+    override fun requestSettingLoadData(memberId: String): Flow<ResponseSettingLoadData> =
+        memberInfoRemoteSource.requestSettingLoadData(memberId)
+
+    override fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean): Flow<ResponseCommon> =
+        memberInfoRemoteSource.requestSettingAlarm(memberId, isAgreeAlarm)
+
+    override fun requestSettingAD(memberId: String, isAgreeAD: Boolean): Flow<ResponseCommon> =
+        memberInfoRemoteSource.requestSettingAD(memberId, isAgreeAD)
 }

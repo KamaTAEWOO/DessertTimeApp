@@ -38,9 +38,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
@@ -49,13 +49,24 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.mypage.MyPageState
+import com.desserttime.mypage.MyPageViewModel
+import timber.log.Timber
+
+private const val TAG = "SettingScreen::"
 
 @Composable
 fun SettingScreen(
     onNavigateToHome: () -> Unit,
     onNavigateToWithdrawal: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
+    val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
+
+    // setting load data
+    myPageViewModel.requestSettingLoadData("1")
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -78,7 +89,7 @@ fun SettingScreen(
                     )
                     .background(WildSand)
             ) {
-                SettingContent()
+                SettingContent(myPageUiState, myPageViewModel)
             }
         },
         bottomBar = {
@@ -91,7 +102,10 @@ fun SettingScreen(
 }
 
 @Composable
-fun SettingContent() {
+fun SettingContent(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -99,10 +113,10 @@ fun SettingContent() {
             .padding(horizontal = 20.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        AlarmPush()
-        AdvertisePush()
-        TermsOfService()
-        PrivacyPolicy()
+        AlarmPush(myPageUiState, myPageViewModel)
+        AdvertisePush(myPageUiState, myPageViewModel)
+        TermsOfService(myPageUiState)
+        PrivacyPolicy(myPageUiState)
     }
 }
 
@@ -147,8 +161,19 @@ fun CustomSwitch(
 }
 
 @Composable
-fun AlarmPush() {
-    var isPushEnabled by remember { mutableStateOf(false) }
+fun AlarmPush(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
+    // myPageUiState.isAgreeAlarm이 비었을 경우 return
+    if (myPageUiState.isAgreeAlarm.isEmpty()) {
+        Timber.i("$TAG isAgreeAlarm is empty")
+        return
+    }
+
+    Timber.i("isAgreeAlarm: ${myPageUiState.isAgreeAlarm}")
+
+    var isPushEnabled by remember { mutableStateOf(myPageUiState.isAgreeAlarm.toBoolean()) }
 
     CommonUi.Divide(Gallery)
     Column(
@@ -175,12 +200,25 @@ fun AlarmPush() {
                 }
             )
         }
+
+        Timber.i("isPushEnabled: $isPushEnabled")
+        myPageViewModel.requestSettingAlarm("1", isPushEnabled)
     }
 }
 
 @Composable
-fun AdvertisePush() {
-    var isPushEnabled by remember { mutableStateOf(false) }
+fun AdvertisePush(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
+    if (myPageUiState.isAgreeAD.isEmpty()) {
+        Timber.i("$TAG isAgreeAD is empty")
+        return
+    }
+
+    Timber.i("isAgreeAD: ${myPageUiState.isAgreeAD}")
+
+    var isPushEnabled by remember { mutableStateOf(myPageUiState.isAgreeAD.toBoolean()) }
 
     CommonUi.Divide(Gallery)
     Column(
@@ -208,10 +246,12 @@ fun AdvertisePush() {
             )
         }
     }
+    Timber.i("isPushEnabled: $isPushEnabled")
+    myPageViewModel.requestSettingAD("1", isPushEnabled)
 }
 
 @Composable
-fun TermsOfService() {
+fun TermsOfService(myPageUiState: MyPageState) {
     CommonUi.Divide(Gallery)
     Column(
         modifier = Modifier
@@ -241,7 +281,7 @@ fun TermsOfService() {
 }
 
 @Composable
-fun PrivacyPolicy() {
+fun PrivacyPolicy(myPageUiState: MyPageState) {
     CommonUi.Divide(Gallery)
     Column(
         modifier = Modifier
@@ -318,10 +358,4 @@ fun SettingBottomContent(
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewSettingContent() {
-    SettingScreen({}, {}, {})
 }

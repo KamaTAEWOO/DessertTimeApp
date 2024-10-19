@@ -57,4 +57,16 @@ class MemberInfoRemoteSource @Inject constructor(
                 ).toModel()
             )
         }
+
+    fun requestSettingLoadData(memberId: String) = flow {
+        emit(memberInfoService.requestSettingLoadData(memberId).toModel())
+    }
+
+    fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean) = flow {
+        emit(memberInfoService.requestSettingAlarm(memberId, isAgreeAlarm).toModel())
+    }
+
+    fun requestSettingAD(memberId: String, isAgreeAD: Boolean) = flow {
+        emit(memberInfoService.requestSettingAD(memberId, isAgreeAD).toModel())
+    }
 }

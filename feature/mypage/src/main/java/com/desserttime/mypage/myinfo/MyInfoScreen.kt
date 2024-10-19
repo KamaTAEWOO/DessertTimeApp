@@ -58,7 +58,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
 import com.desserttime.design.R
@@ -105,7 +104,7 @@ fun MyInfoScreen(
     // ViewModel에 memberData?.memo에 저장
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
 
-    val memberData = memberDataLoad()
+    val memberData = memberDataLoad(myPageViewModel)
 
     if (memberData == null) {
         Timber.i("$TAG memberData is null")
@@ -527,10 +526,7 @@ fun OverlappingImages() {
 }
 
 @Composable
-fun memberDataLoad(): MemberData? {
-    // ViewModel 가져오기
-    val myPageViewModel: MyPageViewModel = hiltViewModel()
-
+fun memberDataLoad(myPageViewModel: MyPageViewModel): MemberData? {
     // MemberData 가져오기
     val memberData by myPageViewModel.memberData.collectAsState(initial = null)
 

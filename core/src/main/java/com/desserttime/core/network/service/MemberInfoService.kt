@@ -4,6 +4,7 @@ import com.desserttime.core.model.dto.ResponseCommonDto
 import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
+import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import retrofit2.http.Body
@@ -50,5 +51,22 @@ interface MemberInfoService {
         @Query("secondaryCity") secondCity: String,
         @Query("thirdCity") thirdCity: String,
         @Query("nickName") nickName: String
+    ): ResponseCommonDto
+
+    @GET("/member/my-page/config/{memberId}")
+    suspend fun requestSettingLoadData(
+        @Path("memberId") memberId: String
+    ): ResponseSettingLoadDataDto
+
+    @PATCH("/member/my-page/alarm/{memberId}")
+    suspend fun requestSettingAlarm(
+        @Query("memberId") memberId: String,
+        @Query("alarmStatus") isAgreeAlarm: Boolean
+    ): ResponseCommonDto
+
+    @PATCH("/member/my-page/ad/{memberId}")
+    suspend fun requestSettingAD(
+        @Query("memberId") memberId: String,
+        @Query("adStatus") isAgreeAD: Boolean
     ): ResponseCommonDto
 }

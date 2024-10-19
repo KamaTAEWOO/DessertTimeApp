@@ -35,6 +35,10 @@ class MyPageViewModel @Inject constructor(
             is MyPageEvent.RequestMyPageNicknameDoubleCheck -> {
                 currentState.copy(isNickNameUsable = event.isNickNameUsable)
             }
+
+            is MyPageEvent.RequestMyPageSettingLoadData -> {
+                currentState.copy(isAgreeAD = event.isAgreeAD, isAgreeAlarm = event.isAgreeAlarm)
+            }
             else -> currentState
         }
 
@@ -70,6 +74,40 @@ class MyPageViewModel @Inject constructor(
         memberInfoRepository.requestMyPageMemberSaveData(memberSaveData)
             .onEach {
                 Timber.i("$TAG requestMyPageMemberSaveData: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestSettingLoadData(memberId: String) {
+        memberInfoRepository.requestSettingLoadData(memberId)
+            .onEach {
+                Timber.i("$TAG requestSettingLoadData: $it")
+                sendAction(MyPageEvent.RequestMyPageSettingLoadData(it.data.isAgreeAD, it.data.isAgreeAlarm))
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean) {
+        memberInfoRepository.requestSettingAlarm(memberId, isAgreeAlarm)
+            .onEach {
+                Timber.i("$TAG requestSettingAlarm: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestSettingAD(memberId: String, isAgreeAD: Boolean) {
+        memberInfoRepository.requestSettingAD(memberId, isAgreeAD)
+            .onEach {
+                Timber.i("$TAG requestSettingAD: $it")
             }
             .catch {
                 Timber.e("$TAG $it")

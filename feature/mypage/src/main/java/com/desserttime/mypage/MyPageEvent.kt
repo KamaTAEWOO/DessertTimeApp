@@ -13,4 +13,9 @@ sealed class MyPageEvent : BaseEvent {
     data class RequestMyPageNicknameDoubleCheck(
         val isNickNameUsable: NickNameDoubleCheckData
     ) : MyPageEvent()
+
+    data class RequestMyPageSettingLoadData(
+        val isAgreeAD: String,
+        val isAgreeAlarm: String
+    ) : MyPageEvent()
 }
