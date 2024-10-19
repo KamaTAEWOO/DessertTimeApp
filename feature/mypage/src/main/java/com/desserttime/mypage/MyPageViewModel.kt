@@ -92,4 +92,26 @@ class MyPageViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean) {
+        memberInfoRepository.requestSettingAlarm(memberId, isAgreeAlarm)
+            .onEach {
+                Timber.i("$TAG requestSettingAlarm: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestSettingAD(memberId: String, isAgreeAD: Boolean) {
+        memberInfoRepository.requestSettingAD(memberId, isAgreeAD)
+            .onEach {
+                Timber.i("$TAG requestSettingAD: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
 }

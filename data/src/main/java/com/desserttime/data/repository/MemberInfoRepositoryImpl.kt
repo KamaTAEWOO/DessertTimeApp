@@ -41,4 +41,10 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestSettingLoadData(memberId: String): Flow<ResponseSettingLoadData> =
         memberInfoRemoteSource.requestSettingLoadData(memberId)
+
+    override fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean): Flow<ResponseCommon> =
+        memberInfoRemoteSource.requestSettingAlarm(memberId, isAgreeAlarm)
+
+    override fun requestSettingAD(memberId: String, isAgreeAD: Boolean): Flow<ResponseCommon> =
+        memberInfoRemoteSource.requestSettingAD(memberId, isAgreeAD)
 }

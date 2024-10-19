@@ -27,4 +27,8 @@ interface MemberInfoRepository {
     fun requestMyPageMemberSaveData(requestMyPageMemberSaveData: RequestMyPageMemberSaveData): Flow<ResponseCommon> // 마이페이지 사용자 정보 저장 요청
 
     fun requestSettingLoadData(memberId: String): Flow<ResponseSettingLoadData> // 설정 화면 데이터 요청
+
+    fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean): Flow<ResponseCommon> // 알림 설정 요청
+
+    fun requestSettingAD(memberId: String, isAgreeAD: Boolean): Flow<ResponseCommon> // 광고 설정 요청
 }

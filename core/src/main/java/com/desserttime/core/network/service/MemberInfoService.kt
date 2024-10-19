@@ -57,4 +57,16 @@ interface MemberInfoService {
     suspend fun requestSettingLoadData(
         @Path("memberId") memberId: String
     ): ResponseSettingLoadDataDto
+
+    @PATCH("/member/my-page/alarm/{memberId}")
+    suspend fun requestSettingAlarm(
+        @Query("memberId") memberId: String,
+        @Query("alarmStatus") isAgreeAlarm: Boolean
+    ): ResponseCommonDto
+
+    @PATCH("/member/my-page/ad/{memberId}")
+    suspend fun requestSettingAD(
+        @Query("memberId") memberId: String,
+        @Query("adStatus") isAgreeAD: Boolean
+    ): ResponseCommonDto
 }

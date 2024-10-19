@@ -89,7 +89,7 @@ fun SettingScreen(
                     )
                     .background(WildSand)
             ) {
-                SettingContent(myPageUiState)
+                SettingContent(myPageUiState, myPageViewModel)
             }
         },
         bottomBar = {
@@ -102,7 +102,10 @@ fun SettingScreen(
 }
 
 @Composable
-fun SettingContent(myPageUiState: MyPageState) {
+fun SettingContent(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,8 +113,8 @@ fun SettingContent(myPageUiState: MyPageState) {
             .padding(horizontal = 20.dp)
     ) {
         Spacer(modifier = Modifier.height(8.dp))
-        AlarmPush(myPageUiState)
-        AdvertisePush(myPageUiState)
+        AlarmPush(myPageUiState, myPageViewModel)
+        AdvertisePush(myPageUiState, myPageViewModel)
         TermsOfService(myPageUiState)
         PrivacyPolicy(myPageUiState)
     }
@@ -158,7 +161,10 @@ fun CustomSwitch(
 }
 
 @Composable
-fun AlarmPush(myPageUiState: MyPageState) {
+fun AlarmPush(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
     // myPageUiState.isAgreeAlarm이 비었을 경우 return
     if (myPageUiState.isAgreeAlarm.isEmpty()) {
         Timber.i("$TAG isAgreeAlarm is empty")
@@ -194,11 +200,17 @@ fun AlarmPush(myPageUiState: MyPageState) {
                 }
             )
         }
+
+        Timber.i("isPushEnabled: $isPushEnabled")
+        myPageViewModel.requestSettingAlarm("1", isPushEnabled)
     }
 }
 
 @Composable
-fun AdvertisePush(myPageUiState: MyPageState) {
+fun AdvertisePush(
+    myPageUiState: MyPageState,
+    myPageViewModel: MyPageViewModel
+) {
     if (myPageUiState.isAgreeAD.isEmpty()) {
         Timber.i("$TAG isAgreeAD is empty")
         return
@@ -234,6 +246,8 @@ fun AdvertisePush(myPageUiState: MyPageState) {
             )
         }
     }
+    Timber.i("isPushEnabled: $isPushEnabled")
+    myPageViewModel.requestSettingAD("1", isPushEnabled)
 }
 
 @Composable
