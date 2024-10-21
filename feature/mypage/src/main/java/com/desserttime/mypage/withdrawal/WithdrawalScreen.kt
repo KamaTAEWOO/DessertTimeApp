@@ -258,6 +258,14 @@ fun withdrawalComplete(
     onNavigateToWithdrawalComplete: () -> Unit,
     myPageViewModel: MyPageViewModel
 ) {
+    if (withdrawalEtcData.isEmpty()) {
+        withdrawalEtcData = "X"
+    }
+
+    if (withdrawalReason.isEmpty()) {
+        withdrawalReason = "X"
+    }
+
     myPageViewModel.viewModelScope.launch {
         myPageViewModel.requestWithdrawalMember(
             withdrawalReason,
@@ -266,4 +274,3 @@ fun withdrawalComplete(
         onNavigateToWithdrawalComplete()
     }
 }
-

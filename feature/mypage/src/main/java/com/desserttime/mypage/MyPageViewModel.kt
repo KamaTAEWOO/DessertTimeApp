@@ -10,6 +10,7 @@ import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -120,18 +121,22 @@ class MyPageViewModel @Inject constructor(
         withdrawalReason: String,
         withdrawalEtcData: String
     ) {
-        _memberData.collect { member ->
-            val memberId = member.memberId
-            Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
+        // Use first() to get only the latest member data
+        val member = _memberData.first() // Change this if you expect multiple emissions and want to handle them differently
+        val memberId = member.memberId
+        Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
 
-            memberInfoRepository.requestWithdrawalMember(WithdrawalData(memberId.toString(), withdrawalReason, withdrawalEtcData))
-                .onEach {
-                    Timber.i("$TAG requestWithdrawalMember response: $it")
-                }
-                .catch { error ->
-                    Timber.e("$TAG Error: $error")
-                }
-                .launchIn(viewModelScope)
-        }
+        // Call the repository to request withdrawal
+        memberInfoRepository.requestWithdrawalMember(
+            WithdrawalData(memberId, withdrawalReason, withdrawalEtcData)
+        )
+            .onEach {
+                Timber.i("$TAG requestWithdrawalMember response: $it")
+            }
+            .catch { error ->
+                Timber.e("$TAG Error: $error")
+            }
+            .launchIn(viewModelScope)
     }
+
 }

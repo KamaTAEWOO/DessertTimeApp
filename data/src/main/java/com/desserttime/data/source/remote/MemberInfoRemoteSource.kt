@@ -72,7 +72,7 @@ class MemberInfoRemoteSource @Inject constructor(
         emit(memberInfoService.requestSettingAD(memberId, isAgreeAD).toModel())
     }
 
-    fun requestWithdrawalMember(withdrawalData: WithdrawalData): Flow<ResponseCommon> = flow {
+    fun requestWithdrawalMember(withdrawalData: WithdrawalData) = flow {
         emit(memberInfoService.requestWithdrawalMember(withdrawalData).toModel())
     }
 }
