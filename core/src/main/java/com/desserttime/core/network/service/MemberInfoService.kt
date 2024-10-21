@@ -7,7 +7,9 @@ import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
 import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.model.WithdrawalData
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -68,5 +70,10 @@ interface MemberInfoService {
     suspend fun requestSettingAD(
         @Query("memberId") memberId: String,
         @Query("adStatus") isAgreeAD: Boolean
+    ): ResponseCommonDto
+
+    @DELETE("/member/my-page/deletion")
+    suspend fun requestWithdrawalMember(
+        @Body withdrawalData: WithdrawalData
     ): ResponseCommonDto
 }

@@ -250,7 +250,8 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = true
                         }
                     }
-                }
+                },
+                myPageViewModel
             )
         }
 

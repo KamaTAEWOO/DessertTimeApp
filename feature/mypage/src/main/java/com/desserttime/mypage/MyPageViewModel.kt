@@ -5,6 +5,7 @@ import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
+import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -113,5 +114,24 @@ class MyPageViewModel @Inject constructor(
                 Timber.e("$TAG $it")
             }
             .launchIn(viewModelScope)
+    }
+
+    suspend fun requestWithdrawalMember(
+        withdrawalReason: String,
+        withdrawalEtcData: String
+    ) {
+        _memberData.collect { member ->
+            val memberId = member.memberId
+            Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
+
+            memberInfoRepository.requestWithdrawalMember(WithdrawalData(memberId.toString(), withdrawalReason, withdrawalEtcData))
+                .onEach {
+                    Timber.i("$TAG requestWithdrawalMember response: $it")
+                }
+                .catch { error ->
+                    Timber.e("$TAG Error: $error")
+                }
+                .launchIn(viewModelScope)
+        }
     }
 }
