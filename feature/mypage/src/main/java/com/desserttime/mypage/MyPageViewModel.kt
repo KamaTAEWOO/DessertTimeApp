@@ -5,10 +5,12 @@ import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
+import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -39,6 +41,11 @@ class MyPageViewModel @Inject constructor(
             is MyPageEvent.RequestMyPageSettingLoadData -> {
                 currentState.copy(isAgreeAD = event.isAgreeAD, isAgreeAlarm = event.isAgreeAlarm)
             }
+
+            is MyPageEvent.RequestMyPageNoticeData -> {
+                currentState.copy(noticeArrayData = event.noticeArrayData)
+            }
+
             else -> currentState
         }
 
@@ -108,6 +115,40 @@ class MyPageViewModel @Inject constructor(
         memberInfoRepository.requestSettingAD(memberId, isAgreeAD)
             .onEach {
                 Timber.i("$TAG requestSettingAD: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    suspend fun requestWithdrawalMember(
+        withdrawalReason: String,
+        withdrawalEtcData: String
+    ) {
+        val member = _memberData.first()
+        val memberId = member.memberId
+        Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
+
+        // Call the repository to request withdrawal
+        memberInfoRepository.requestWithdrawalMember(
+            WithdrawalData(memberId, withdrawalReason, withdrawalEtcData)
+        )
+            .onEach {
+                Timber.i("$TAG requestWithdrawalMember response: $it")
+            }
+            .catch { error ->
+                Timber.e("$TAG Error: $error")
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun requestMyPageNoticeData(myPageNoticeData: Boolean) {
+        memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
+            .onEach {
+                Timber.i("$TAG requestMyPageNoticeData: $it")
+                it.data?.let { it1 -> MyPageEvent.RequestMyPageNoticeData(it1) }
+                    ?.let { it2 -> sendAction(it2) }
             }
             .catch {
                 Timber.e("$TAG $it")

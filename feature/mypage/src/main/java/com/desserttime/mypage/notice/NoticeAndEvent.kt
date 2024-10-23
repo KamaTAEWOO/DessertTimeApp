@@ -41,6 +41,8 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.domain.model.ContentDescriptionData
+import com.desserttime.domain.model.NoticeData
+import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
 
 @Composable
@@ -140,16 +142,16 @@ fun NoticeAndEventContent(myPageViewModel: MyPageViewModel) {
 
         // 여기에 다른 콘텐츠 추가
         if (isNoticeSelected) {
-            NoticeContent()
+            NoticeContent(myPageViewModel, myPageUiState)
         } else {
-            EventContent()
+            EventContent(myPageViewModel, myPageUiState)
         }
     }
 }
 
 @Composable
-fun NoticeContent() {
-    val noticeData = noticeData()
+fun NoticeContent(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState) {
+    val noticeData = noticeData(myPageViewModel, myPageUiState)
 
     LazyColumn(
         modifier = Modifier
@@ -157,15 +159,15 @@ fun NoticeContent() {
             .padding(horizontal = 20.dp)
     ) {
         items(noticeData.size) { item ->
-            NoticeAndEventItem(noticeData[item].content, noticeData[item].description)
+            NoticeAndEventItem(noticeData[item].title, noticeData[item].createdDate)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
 @Composable
-fun EventContent() {
-    val eventData = eventData()
+fun EventContent(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState) {
+    val eventData = eventData(myPageViewModel, myPageUiState)
 
     LazyColumn(
         modifier = Modifier
@@ -212,15 +214,20 @@ fun NoticeAndEventItem(
     }
 }
 
-fun noticeData(): List<ContentDescriptionData> {
-    val contentDescriptionDataLists = listOf(
-        ContentDescriptionData(content = "버전 업데이트", description = "2024.04.19"),
-        ContentDescriptionData(content = "버전 업데이트", description = "2024.04.19")
-    )
-    return contentDescriptionDataLists
+fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<NoticeData> {
+    val myPageNoticeData: Boolean = true
+    myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+
+    val noticeArrayData = myPageUiState.noticeArrayData.toMutableList()
+
+    if (noticeArrayData.isNotEmpty()) {
+        noticeArrayData.removeAt(0)
+    }
+
+    return noticeArrayData
 }
 
-fun eventData(): List<ContentDescriptionData> {
+fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {
     val contentDescriptionDataLists = listOf(
         ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19"),
         ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19")

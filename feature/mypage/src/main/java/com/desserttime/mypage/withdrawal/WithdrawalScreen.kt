@@ -35,9 +35,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.AzureRadiance
@@ -49,11 +49,17 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.mypage.MyPageViewModel
+import kotlinx.coroutines.launch
+
+private var withdrawalReason: String = ""
+private var withdrawalEtcData: String = ""
 
 @Composable
 fun WithdrawalScreen(
     onNavigateToWithdrawalComplete: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
     Scaffold(
         modifier = Modifier
@@ -83,7 +89,8 @@ fun WithdrawalScreen(
         bottomBar = {
             WithdrawalBottomScreen(
                 onNavigateToWithdrawalComplete,
-                onBack
+                onBack,
+                myPageViewModel
             )
         }
     )
@@ -156,13 +163,15 @@ fun WithdrawalReason() {
                 unfocusedIndicatorColor = Black30
             )
         )
+        withdrawalEtcData = contentText
     }
 }
 
 @Composable
 fun WithdrawalBottomScreen(
     onNavigateToWithdrawalComplete: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
     Column(
         modifier = Modifier
@@ -175,7 +184,12 @@ fun WithdrawalBottomScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { onNavigateToWithdrawalComplete() },
+                onClick = {
+                    withdrawalComplete(
+                        onNavigateToWithdrawalComplete,
+                        myPageViewModel
+                    )
+                },
                 colors = ButtonDefaults.buttonColors(WildSand),
                 modifier = Modifier
                     .weight(1f)
@@ -234,13 +248,29 @@ fun AllWithdrawalRadioButtonGroup() {
                         .padding(start = 8.dp)
                         .wrapContentSize()
                 )
+                withdrawalReason = selectedOption
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewWithdrawalScreen() {
-    WithdrawalScreen({}, {})
+fun withdrawalComplete(
+    onNavigateToWithdrawalComplete: () -> Unit,
+    myPageViewModel: MyPageViewModel
+) {
+    if (withdrawalEtcData.isEmpty()) {
+        withdrawalEtcData = "X"
+    }
+
+    if (withdrawalReason.isEmpty()) {
+        withdrawalReason = "X"
+    }
+
+    myPageViewModel.viewModelScope.launch {
+        myPageViewModel.requestWithdrawalMember(
+            withdrawalReason,
+            withdrawalEtcData
+        )
+        onNavigateToWithdrawalComplete()
+    }
 }

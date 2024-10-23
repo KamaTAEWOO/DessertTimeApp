@@ -4,10 +4,13 @@ import com.desserttime.core.model.dto.ResponseCommonDto
 import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
+import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
 import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.model.WithdrawalData
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -69,4 +72,14 @@ interface MemberInfoService {
         @Query("memberId") memberId: String,
         @Query("adStatus") isAgreeAD: Boolean
     ): ResponseCommonDto
+
+    @DELETE("/member/my-page/deletion")
+    suspend fun requestWithdrawalMember(
+        @Body withdrawalData: WithdrawalData
+    ): ResponseCommonDto
+
+    @GET("/member/my-page/notice/list/{isNotice}")
+    suspend fun requestMyPageNoticeData(
+        @Query("isNotice") myPageNoticeData: Boolean
+    ): ResponseMyPageNoticeDto
 }

@@ -6,6 +6,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseMemberData
+import com.desserttime.domain.model.WithdrawalData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
@@ -16,6 +17,7 @@ private const val TAG = "MemberInfoRemoteSource::"
 
 class MemberInfoRemoteSource @Inject constructor(
     private val memberInfoService: MemberInfoService,
+
     private val memberDataStore: MemberDataStore
 ) {
     fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData) = flow {
@@ -68,5 +70,13 @@ class MemberInfoRemoteSource @Inject constructor(
 
     fun requestSettingAD(memberId: String, isAgreeAD: Boolean) = flow {
         emit(memberInfoService.requestSettingAD(memberId, isAgreeAD).toModel())
+    }
+
+    fun requestWithdrawalMember(withdrawalData: WithdrawalData) = flow {
+        emit(memberInfoService.requestWithdrawalMember(withdrawalData).toModel())
+    }
+
+    fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {
+        emit(memberInfoService.requestMyPageNoticeData(myPageNoticeData).toModel())
     }
 }
