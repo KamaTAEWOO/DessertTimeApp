@@ -227,19 +227,6 @@ fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): Mu
     return noticeArrayData
 }
 
-//fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {
-//
-//    val myPageNoticeData: Boolean = true
-//    myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
-//
-//    // myPageUiState.noticeArrayData 데이터 하나씩 빼기
-//    val contentDescriptionDataLists = listOf(
-//        ContentDescriptionData(content = "버전 업데이트", description = "2024.04.19"),
-//        ContentDescriptionData(content = "버전 업데이트", description = "2024.04.19")
-//    )
-//    return contentDescriptionDataLists
-//}
-
 fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {
     val contentDescriptionDataLists = listOf(
         ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19"),

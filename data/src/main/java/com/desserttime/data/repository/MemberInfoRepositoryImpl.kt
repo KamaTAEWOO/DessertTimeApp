@@ -61,5 +61,4 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestMyPageNoticeData(myPageNoticeData: Boolean): Flow<ResponseMyPageNoticeData> =
         memberInfoRemoteSource.requestMyPageNoticeData(myPageNoticeData)
-
 }
