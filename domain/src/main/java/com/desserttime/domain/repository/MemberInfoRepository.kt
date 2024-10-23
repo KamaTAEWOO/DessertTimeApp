@@ -7,6 +7,7 @@ import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
 import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
 import com.desserttime.domain.model.ResponseSettingLoadData
 import com.desserttime.domain.model.WithdrawalData
@@ -34,4 +35,6 @@ interface MemberInfoRepository {
     fun requestSettingAD(memberId: String, isAgreeAD: Boolean): Flow<ResponseCommon> // 광고 설정 요청
 
     fun requestWithdrawalMember(withdrawalData: WithdrawalData): Flow<ResponseCommon> // 회원 탈퇴 요청
+
+    fun requestMyPageNoticeData(myPageNoticeData: Boolean): Flow<ResponseMyPageNoticeData> // 마이페이지 공지사항 요청
 }

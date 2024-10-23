@@ -4,6 +4,7 @@ import com.desserttime.core.model.dto.ResponseCommonDto
 import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
+import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
 import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
@@ -76,4 +77,9 @@ interface MemberInfoService {
     suspend fun requestWithdrawalMember(
         @Body withdrawalData: WithdrawalData
     ): ResponseCommonDto
+
+    @GET("/member/my-page/notice/list/{isNotice}")
+    suspend fun requestMyPageNoticeData(
+        @Query("isNotice") myPageNoticeData: Boolean
+    ): ResponseMyPageNoticeDto
 }

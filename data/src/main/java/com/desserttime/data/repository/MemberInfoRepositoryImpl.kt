@@ -9,6 +9,7 @@ import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
 import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
 import com.desserttime.domain.model.ResponseSettingLoadData
 import com.desserttime.domain.model.WithdrawalData
@@ -57,4 +58,8 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override fun requestWithdrawalMember(withdrawalData: WithdrawalData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestWithdrawalMember(withdrawalData)
+
+    override fun requestMyPageNoticeData(myPageNoticeData: Boolean): Flow<ResponseMyPageNoticeData> =
+        memberInfoRemoteSource.requestMyPageNoticeData(myPageNoticeData)
+
 }

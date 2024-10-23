@@ -41,6 +41,11 @@ class MyPageViewModel @Inject constructor(
             is MyPageEvent.RequestMyPageSettingLoadData -> {
                 currentState.copy(isAgreeAD = event.isAgreeAD, isAgreeAlarm = event.isAgreeAlarm)
             }
+
+            is MyPageEvent.RequestMyPageNoticeData -> {
+                currentState.copy(noticeArrayData = event.noticeArrayData)
+            }
+
             else -> currentState
         }
 
@@ -121,8 +126,7 @@ class MyPageViewModel @Inject constructor(
         withdrawalReason: String,
         withdrawalEtcData: String
     ) {
-        // Use first() to get only the latest member data
-        val member = _memberData.first() // Change this if you expect multiple emissions and want to handle them differently
+        val member = _memberData.first()
         val memberId = member.memberId
         Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
 
@@ -139,4 +143,16 @@ class MyPageViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun requestMyPageNoticeData(myPageNoticeData: Boolean) {
+        memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
+            .onEach {
+                Timber.i("$TAG requestMyPageNoticeData: $it")
+                it.data?.let { it1 -> MyPageEvent.RequestMyPageNoticeData(it1) }
+                    ?.let { it2 -> sendAction(it2) }
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
 }

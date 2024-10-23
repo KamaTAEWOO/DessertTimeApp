@@ -75,4 +75,8 @@ class MemberInfoRemoteSource @Inject constructor(
     fun requestWithdrawalMember(withdrawalData: WithdrawalData) = flow {
         emit(memberInfoService.requestWithdrawalMember(withdrawalData).toModel())
     }
+
+    fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {
+        emit(memberInfoService.requestMyPageNoticeData(myPageNoticeData).toModel())
+    }
 }
