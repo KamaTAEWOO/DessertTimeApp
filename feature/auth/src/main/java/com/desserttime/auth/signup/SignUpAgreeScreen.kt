@@ -171,7 +171,7 @@ fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(end = 35.dp),
+                        .padding(end = 25.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(

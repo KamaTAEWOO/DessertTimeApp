@@ -12,6 +12,7 @@ import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -184,7 +185,7 @@ class AuthViewModel @Inject constructor(
                     saveSignInSnsData(result.member.id)
                     delay(500)
 
-                    val checkValidation = checkValidation(result.member.token)
+                    val checkValidation = checkValidation(result.member.token, onNavigateToSignUpAgree)
                     printAllData()
                     // onNavigateToSignUpAgree()
                     if (checkValidation) {
@@ -235,11 +236,19 @@ class AuthViewModel @Inject constructor(
     }
 
     // Validation Check
-    private fun checkValidation(snsId: String): Boolean {
+    private fun checkValidation(
+        snsId: String,
+        onNavigateToSignUpAgree: () -> Unit
+    ): Boolean {
         Timber.i("$TAG checkValidation: $snsId")
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach {
                 Timber.i("$TAG checkValidation: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+                // Sign Up 화면으로 이동
+                onNavigateToSignUpAgree()
             }
             .launchIn(viewModelScope)
         return true
