@@ -65,7 +65,7 @@ fun SignUpInputScreen(
     authViewModel: AuthViewModel
 ) {
     val selectedGenderData = remember { mutableStateOf<GenderData?>(GenderData.OTHER) }
-    var selectedBirth by remember { mutableStateOf("1997") }
+    var selectedBirth by remember { mutableStateOf("") }
     val selectedAddress = remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     var showAddressSearch by remember { mutableStateOf(false) }
@@ -204,7 +204,8 @@ fun SignUpInputScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = selectedBirth + "년".ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                            text = selectedBirth + if (selectedBirth.isNotEmpty()) "년" else ""
+                                .ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
                             color = if (selectedBirth.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
                             style = DessertTimeTheme.typography.textStyleRegular16
                         )
