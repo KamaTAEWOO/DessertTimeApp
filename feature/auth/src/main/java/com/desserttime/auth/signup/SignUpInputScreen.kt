@@ -204,7 +204,7 @@ fun SignUpInputScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = selectedBirth.ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
+                            text = selectedBirth + "년".ifEmpty { stringResource(R.string.txt_birth_hint) }, // 조건에 따라 hint 또는 선택된 연도 표시
                             color = if (selectedBirth.isEmpty()) Black30 else Black, // 힌트일 때와 선택된 값일 때 색상 다르게
                             style = DessertTimeTheme.typography.textStyleRegular16
                         )
@@ -253,7 +253,7 @@ fun SignUpInputScreen(
                     ) {
                         Text(
                             text = selectedAddress.value.ifEmpty { stringResource(R.string.txt_address_hint) },
-                            color = Black30,
+                            color = if (selectedAddress.value.isEmpty()) Black30 else Black,
                             style = DessertTimeTheme.typography.textStyleRegular16
                         )
                         Image(
@@ -291,8 +291,8 @@ fun SignUpInputScreen(
                             selectedAddress.value
                         )
                     },
-                    background = MainColor20,
-                    textColor = MainColor,
+                    background = if(selectedBirth.isEmpty() && selectedAddress.value.isEmpty()) MainColor20 else MainColor,
+                    textColor = if(selectedBirth.isEmpty() && selectedAddress.value.isEmpty()) MainColor else Color.White,
                     enabled = true
                 )
             }
