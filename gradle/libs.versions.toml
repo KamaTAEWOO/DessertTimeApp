@@ -52,6 +52,9 @@ datastore = "1.0.0"
 # webview
 androidx-webkit = "1.5.0"
 
+# glide
+glide = "4.12.0"
+
 # compose
 androidx-activity-compose = "1.5.1"
 androidx-compose-bom = "2023.10.01"
@@ -127,8 +130,12 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 
 # logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "androidx-webkit" }
+
+# glide
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 # compose
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splashscreen" }
