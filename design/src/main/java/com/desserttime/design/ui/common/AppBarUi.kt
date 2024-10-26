@@ -34,6 +34,8 @@ object AppBarUi {
     // AppBar - 매개변수(로고, 돋보기, 벨)
     @Composable
     fun AppBar(
+        memberId: Int,
+        memberNickName: String,
         onSearchClick: () -> Unit = {},
         onBellClick: () -> Unit = {}
     ) {
@@ -46,15 +48,24 @@ object AppBarUi {
             verticalAlignment = Alignment.CenterVertically, // Align items vertically centered
             horizontalArrangement = Arrangement.SpaceBetween // Space items evenly with space between
         ) {
-            // 로고 이미지
-            Image(
-                painter = painterResource(id = R.drawable.ic_appbar_logo),
-                contentDescription = stringResource(id = R.string.img_login_logo),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(height = 28.dp, width = 216.dp)
-                    .padding(2.dp)
-            )
+            if (memberId == -1) {
+                // 로고 이미지
+                Image(
+                    painter = painterResource(id = R.drawable.ic_appbar_logo),
+                    contentDescription = stringResource(id = R.string.img_login_logo),
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(height = 28.dp, width = 216.dp)
+                        .padding(2.dp)
+                )
+            } else {
+                // 닉네임 텍스트
+                Text(
+                    text = memberNickName,
+                    style = DessertTimeTheme.typography.textStyleBold20,
+                    color = Color.Black
+                )
+            }
 
             Row {
                 // 검색 이미지
