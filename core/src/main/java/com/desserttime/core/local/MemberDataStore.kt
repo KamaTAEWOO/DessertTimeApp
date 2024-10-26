@@ -34,4 +34,10 @@ class MemberDataStore(context: Context) {
             val json = preferences[DATA_KEY] ?: "{}"
             Gson().fromJson(json, MemberData::class.java) // JSON 문자열을 MemberData 객체로 변환
         }
+
+    suspend fun clearMemberData() {
+        dataStore.edit { preferences ->
+            preferences.remove(DATA_KEY)
+        }
+    }
 }

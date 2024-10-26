@@ -10,10 +10,10 @@
 
     <!--    SignUpAgreeScreen-->
     <string name="txt_title_dessert_time">디저트타임에\n오신걸 환영합니다!</string>
-    <string name="txt_all_agree">전체동의 (선택 동의 포함)</string>
-    <string name="txt_all_agree_detail1">(필수) 홈페이지 이용약관</string>
-    <string name="txt_all_agree_detail2">(필수) 개인정보 제공 활용</string>
-    <string name="txt_all_agree_detail3">(선택) 마케팅 및 광고 활용</string>
+    <string name="txt_all_agree">전체동의</string>
+    <string name="txt_all_agree_detail1">(필수) 서비스 이용약관 동의</string>
+    <string name="txt_all_agree_detail2">(필수) 개인정보 수집/이용 동의</string>
+    <string name="txt_all_agree_detail3">(선택) 이벤트 혜택 및 광고성 정보 수신 동의</string>
 
     <!--    SignUpInputScreen-->
     <string name="txt_add_input">추가 정보 입력</string>

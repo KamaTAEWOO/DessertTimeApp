@@ -8,7 +8,6 @@ import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
 import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
-import com.desserttime.domain.model.WithdrawalData
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -75,7 +74,9 @@ interface MemberInfoService {
 
     @DELETE("/member/my-page/deletion")
     suspend fun requestWithdrawalMember(
-        @Body withdrawalData: WithdrawalData
+        @Query("memberId") memberId: Int,
+        @Query("reasonForLeaving") reasonForLeaving: String,
+        @Query("context") context: String
     ): ResponseCommonDto
 
     @GET("/member/my-page/notice/list/{isNotice}")

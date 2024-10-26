@@ -34,6 +34,7 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
+import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeScreen
 import com.desserttime.mypage.MyPageScreen
 import com.desserttime.mypage.MyPageViewModel
@@ -57,7 +58,8 @@ fun MainControl(
     myPageViewModel: MyPageViewModel,
     onNavigateToQuestion: () -> Unit,
     onNavigationInquiryInput: () -> Unit,
-    onNavigateToMyReview: () -> Unit
+    onNavigateToMyReview: () -> Unit,
+    homeViewModel: HomeViewModel
 ) {
     SetStatusBarColor(color = Color.White) // navigation bar color
     val navController = rememberNavController()
@@ -69,7 +71,7 @@ fun MainControl(
             startDestination = MainDestination.Home.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm) }
+            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm, homeViewModel) }
             composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
             composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail) }
             composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo, onNavigateToWheat, onNavigateToNoticeAndEvent, myPageViewModel, onNavigateToQuestion, onNavigationInquiryInput, onNavigateToMyReview) }

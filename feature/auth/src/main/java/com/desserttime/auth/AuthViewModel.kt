@@ -1,6 +1,8 @@
 package com.desserttime.auth
 
 import android.content.Context
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.auth.login.LoginResult
 import com.desserttime.auth.login.google.googleLoginStart
@@ -12,10 +14,12 @@ import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +35,16 @@ class AuthViewModel @Inject constructor(
 ) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> get() = _isLoading
+
+    private val _snsId = mutableStateOf("")
+    val snsId: State<String> get() = _snsId
+
+    fun setLoading(loading: Boolean) {
+        _isLoading.value = loading
+    }
+
     override fun reduceState(currentState: AuthState, event: AuthEvent): AuthState {
         return when (event) {
             is AuthEvent.RequestMemberNameData -> {
@@ -167,6 +181,8 @@ class AuthViewModel @Inject constructor(
         onNavigateToSignUpAgree: () -> Unit,
         onNavigateToHome: () -> Unit
     ) {
+        setLoading(true)
+
         viewModelScope.launch {
             val result = when (method) {
                 LoginMethodData.KAKAO -> loginWithKakaoAccount(context)
@@ -184,29 +200,26 @@ class AuthViewModel @Inject constructor(
                     saveSignInSnsData(result.member.id)
                     delay(500)
 
-                    val checkValidation = checkValidation(result.member.token)
+                    checkValidation(result.member.token, onNavigateToSignUpAgree, onNavigateToHome)
                     printAllData()
-                    // onNavigateToSignUpAgree()
-                    if (checkValidation) {
-                        onNavigateToHome()
-                    } else {
-                        onNavigateToSignUpAgree()
-                    }
+                    setLoading(false)
                 }
 
                 is LoginResult.Error -> {
                     Timber.e(result.message)
+                    setLoading(false)
                 }
 
                 else -> {
                     Timber.e("Unknown error occurred during Kakao login")
+                    setLoading(false)
                 }
             }
         }
     }
 
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
-    fun requestUserSignUp() {
+    fun requestUserSignUp(onNavigateToSignUpComplete: () -> Unit) {
         val currentState = uiState.value
         val requestMemberSignUpData = RequestMemberSignUpData(
             memberName = currentState.memberName,
@@ -230,18 +243,61 @@ class AuthViewModel @Inject constructor(
         memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
                 Timber.i("$TAG requestUserSignUp: $it")
+                _snsId.value = currentState.snsId
+                Timber.i("$TAG requestUserSignUp: ${_snsId.value}")
+                onNavigateToSignUpComplete()
+            }
+            .catch { exception ->
+                if (exception is HttpException) {
+                    val errorBody = exception.response()?.errorBody()?.string()
+                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
+                } else {
+                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
+                }
+                // 에러 발생 시 로그
+                Timber.e("$TAG requestUserSignUp error=$exception")
             }
             .launchIn(viewModelScope)
     }
 
-    // Validation Check
-    private fun checkValidation(snsId: String): Boolean {
-        Timber.i("$TAG checkValidation: $snsId")
+    fun checkValidation(
+        snsId: String,
+        onNavigateToSignUpAgree: () -> Unit = {},
+        onNavigateToHome: () -> Unit = {}
+    ): Boolean {
+        Timber.i("$TAG checkValidation: snsId=$snsId")
+
+        if (snsId.isEmpty()) {
+            onNavigateToSignUpAgree()
+            return false
+        }
+
         memberInfoRepository.requestMemberValidation(snsId)
-            .onEach {
-                Timber.i("$TAG checkValidation: $it")
+            .onEach { response ->
+                Timber.i("$TAG checkValidation: response=$response")
+                if (response.statusCode == 200) {
+                    response.data?.memberId?.let { memberId ->
+                        Timber.i("$TAG checkValidation: memberId=$memberId")
+                        onNavigateToHome()
+                    } ?: run {
+                        Timber.e("$TAG checkValidation: Member ID is null in response data.")
+                        onNavigateToSignUpAgree()
+                    }
+                } else {
+                    Timber.w("$TAG checkValidation: Unsuccessful response")
+                }
+            }
+            .catch { exception ->
+                if (exception is HttpException) {
+                    val errorBody = exception.response()?.errorBody()?.string()
+                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
+                } else {
+                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
+                }
+                onNavigateToSignUpAgree()
             }
             .launchIn(viewModelScope)
+
         return true
     }
 

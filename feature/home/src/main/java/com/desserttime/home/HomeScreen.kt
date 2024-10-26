@@ -17,6 +17,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,23 +28,56 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.CornflowerBlue
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.domain.model.MemberData
+import com.desserttime.home.HomeViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
+
+private const val TAG = "HomeScreen"
 
 @Composable
 fun HomeScreen(
     onNavigateToLogin: () -> Unit,
-    onNavigateToAlarm: () -> Unit
+    onNavigateToAlarm: () -> Unit,
+    homeViewModel: HomeViewModel
 ) {
+    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    val memberData by homeViewModel.memberData.collectAsState(
+        initial = MemberData(
+            0, "", "", "",
+            "", "", -1, "", false,
+            isUsable = false,
+            createdDate = "",
+            updateDate = "",
+            lastAccessDate = "",
+            memo = "",
+            type = "",
+            firstCity = "",
+            secondaryCity = "",
+            thirdCity = "",
+            isAgreeAD = false,
+            isAgreeAlarm = false
+        )
+    )
+
+    // homeViewModel.checkValidation(memberData.snsId ?: "")
+
+    Timber.i("$TAG memberData: $memberData")
+
+    val memberId: Int = memberData.memberId ?: 0
+    val nickName: String = memberData.nickName ?: ""
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -51,8 +86,10 @@ fun HomeScreen(
         item {
             // AppBar
             AppBarUi.AppBar(
+                memberId,
+                nickName,
                 {},
-                onNavigateToAlarm
+                if (memberId == 0) onNavigateToLogin else onNavigateToAlarm
             )
         }
 
@@ -260,5 +297,5 @@ fun ReviewHome(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen({}, {})
+    // HomeScreen({}, {})
 }

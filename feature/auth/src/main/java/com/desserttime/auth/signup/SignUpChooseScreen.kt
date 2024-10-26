@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -38,6 +40,7 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.Flamingo
 import com.desserttime.design.theme.MainColor
+import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
@@ -51,6 +54,7 @@ fun SignUpChooseScreen(
     authViewModel: AuthViewModel
 ) {
     val selectedItems = remember { mutableStateListOf<Int>() }
+    val selectedItemCount = remember { mutableIntStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -108,7 +112,7 @@ fun SignUpChooseScreen(
     // 취향 리스트
     Column {
         Spacer(Modifier.padding(top = 184.dp))
-        ViewSelectTasteData(selectedItems)
+        ViewSelectTasteData(selectedItems, selectedItemCount)
     }
     Column(
         modifier = Modifier
@@ -125,15 +129,18 @@ fun SignUpChooseScreen(
                     selectedItems
                 )
             },
-            background = MainColor,
-            textColor = Color.White,
+            background = if (selectedItemCount.intValue != 0) MainColor else MainColor20,
+            textColor = if (selectedItemCount.intValue != 0) Color.White else MainColor,
             enabled = true
         )
     }
 }
 
 @Composable
-private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
+private fun ViewSelectTasteData(
+    selectedItems: SnapshotStateList<Int>,
+    selectedItemCount: MutableIntState
+) {
     val items = listOf(
         R.drawable.ic_fish_shaped_bun_off to stringResource(id = R.string.txt_fish_shaped_bun),
         R.drawable.ic_baked_confectionery_off to stringResource(id = R.string.txt_baked_confectionery),
@@ -154,13 +161,18 @@ private fun ViewSelectTasteData(selectedItems: SnapshotStateList<Int>) {
         R.drawable.ic_pudding_off to stringResource(id = R.string.txt_pudding)
     )
 
-    SelectTasteRecyclerView(items = items, selectedItems = selectedItems)
+    SelectTasteRecyclerView(
+        items = items,
+        selectedItems = selectedItems,
+        selectedItemCount = selectedItemCount
+    )
 }
 
 @Composable
 fun SelectTasteRecyclerView(
     items: List<Pair<Int, String>>,
-    selectedItems: SnapshotStateList<Int>
+    selectedItems: SnapshotStateList<Int>,
+    selectedItemCount: MutableIntState
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(4),
@@ -188,6 +200,7 @@ fun SelectTasteRecyclerView(
                             Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
                     }
+                    selectedItemCount.intValue = selectedItems.size
                 }
             )
         }
@@ -242,6 +255,5 @@ private fun saveSignUpChooseData(
 
     authViewModel.printAllData()
     // 서버로 데이터 보내기
-    authViewModel.requestUserSignUp()
-    onNavigateToSignUpComplete()
+    authViewModel.requestUserSignUp(onNavigateToSignUpComplete)
 }
