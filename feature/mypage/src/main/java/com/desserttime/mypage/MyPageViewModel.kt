@@ -24,7 +24,7 @@ class MyPageViewModel @Inject constructor(
 ) : BaseViewModel<MyPageState, MyPageEvent>(
     initialState = MyPageState()
 ) {
-
+    // 로컬 데이터 저장소에서 사용자 정보를 가져오는 Flow
     private val _memberData: Flow<MemberData> = memberInfoRepository.memberData
     val memberData: Flow<MemberData> = _memberData
 

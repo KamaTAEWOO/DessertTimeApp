@@ -7,11 +7,13 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.LoginMethodData
+import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -232,6 +234,9 @@ class AuthViewModel @Inject constructor(
             .onEach {
                 Timber.i("$TAG requestUserSignUp: $it")
             }
+            .catch {
+                Timber.e("$TAG requestUserSignUp $it")
+            }
             .launchIn(viewModelScope)
     }
 
@@ -244,11 +249,12 @@ class AuthViewModel @Inject constructor(
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach {
                 Timber.i("$TAG checkValidation: $it")
+                Timber.i("$TAG checkValidation: ${it.data.memberId}")
             }
             .catch {
-                Timber.e("$TAG $it")
+                Timber.e("$TAG requestUserSignUp $it")
                 // Sign Up 화면으로 이동
-                onNavigateToSignUpAgree()
+                // onNavigateToSignUpAgree()
             }
             .launchIn(viewModelScope)
         return true
