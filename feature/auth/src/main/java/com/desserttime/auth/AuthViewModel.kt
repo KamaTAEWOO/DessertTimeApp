@@ -38,6 +38,9 @@ class AuthViewModel @Inject constructor(
     private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> get() = _isLoading
 
+    private val _snsId = mutableStateOf("")
+    val snsId: State<String> get() = _snsId
+
     fun setLoading(loading: Boolean) {
         _isLoading.value = loading
     }
@@ -216,7 +219,7 @@ class AuthViewModel @Inject constructor(
     }
 
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
-    fun requestUserSignUp() {
+    fun requestUserSignUp(onNavigateToSignUpComplete: () -> Unit) {
         val currentState = uiState.value
         val requestMemberSignUpData = RequestMemberSignUpData(
             memberName = currentState.memberName,
@@ -240,17 +243,27 @@ class AuthViewModel @Inject constructor(
         memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
                 Timber.i("$TAG requestUserSignUp: $it")
+                _snsId.value = currentState.snsId
+                Timber.i("$TAG requestUserSignUp: ${_snsId.value}")
+                onNavigateToSignUpComplete()
             }
-            .catch {
-                Timber.e("$TAG requestUserSignUp $it")
+            .catch { exception ->
+                if (exception is HttpException) {
+                    val errorBody = exception.response()?.errorBody()?.string()
+                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
+                } else {
+                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
+                }
+                // 에러 발생 시 로그
+                Timber.e("$TAG requestUserSignUp error=$exception")
             }
             .launchIn(viewModelScope)
     }
 
-    private fun checkValidation(
+    fun checkValidation(
         snsId: String,
-        onNavigateToSignUpAgree: () -> Unit,
-        onNavigateToHome: () -> Unit
+        onNavigateToSignUpAgree: () -> Unit = {},
+        onNavigateToHome: () -> Unit = {}
     ): Boolean {
         Timber.i("$TAG checkValidation: snsId=$snsId")
 
@@ -262,7 +275,7 @@ class AuthViewModel @Inject constructor(
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach { response ->
                 Timber.i("$TAG checkValidation: response=$response")
-                if (response.success) {
+                if (response.statusCode == 200) {
                     response.data?.memberId?.let { memberId ->
                         Timber.i("$TAG checkValidation: memberId=$memberId")
                         onNavigateToHome()
@@ -272,7 +285,6 @@ class AuthViewModel @Inject constructor(
                     }
                 } else {
                     Timber.w("$TAG checkValidation: Unsuccessful response")
-                    onNavigateToSignUpAgree()
                 }
             }
             .catch { exception ->

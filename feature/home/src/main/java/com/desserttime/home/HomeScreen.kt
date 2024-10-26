@@ -71,7 +71,7 @@ fun HomeScreen(
         )
     )
 
-    homeViewModel.checkValidation(memberData.snsId ?: "")
+    // homeViewModel.checkValidation(memberData.snsId ?: "")
 
     Timber.i("$TAG memberData: $memberData")
 

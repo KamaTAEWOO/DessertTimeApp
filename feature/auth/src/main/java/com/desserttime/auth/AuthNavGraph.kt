@@ -96,7 +96,8 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = false
                         }
                     }
-                }
+                },
+                authViewModel = authViewModel
             )
         }
 

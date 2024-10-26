@@ -255,6 +255,5 @@ private fun saveSignUpChooseData(
 
     authViewModel.printAllData()
     // 서버로 데이터 보내기
-    authViewModel.requestUserSignUp()
-    onNavigateToSignUpComplete()
+    authViewModel.requestUserSignUp(onNavigateToSignUpComplete)
 }
