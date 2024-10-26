@@ -48,7 +48,7 @@ object AppBarUi {
             verticalAlignment = Alignment.CenterVertically, // Align items vertically centered
             horizontalArrangement = Arrangement.SpaceBetween // Space items evenly with space between
         ) {
-            if (memberId == -1) {
+            if (memberId == 0) {
                 // 로고 이미지
                 Image(
                     painter = painterResource(id = R.drawable.ic_appbar_logo),

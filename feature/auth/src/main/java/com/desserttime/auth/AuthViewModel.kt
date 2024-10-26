@@ -9,18 +9,17 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.LoginMethodData
-import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
+import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -198,14 +197,8 @@ class AuthViewModel @Inject constructor(
                     saveSignInSnsData(result.member.id)
                     delay(500)
 
-                    val checkValidation = checkValidation(result.member.token, onNavigateToSignUpAgree)
+                    checkValidation(result.member.token, onNavigateToSignUpAgree, onNavigateToHome)
                     printAllData()
-                    // onNavigateToSignUpAgree()
-                    if (checkValidation) {
-                        onNavigateToHome()
-                    } else {
-                        onNavigateToSignUpAgree()
-                    }
                     setLoading(false)
                 }
 
@@ -254,23 +247,45 @@ class AuthViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    // Validation Check
     private fun checkValidation(
         snsId: String,
-        onNavigateToSignUpAgree: () -> Unit
+        onNavigateToSignUpAgree: () -> Unit,
+        onNavigateToHome: () -> Unit
     ): Boolean {
-        Timber.i("$TAG checkValidation: $snsId")
+        Timber.i("$TAG checkValidation: snsId=$snsId")
+
+        if (snsId.isEmpty()) {
+            onNavigateToSignUpAgree()
+            return false
+        }
+
         memberInfoRepository.requestMemberValidation(snsId)
-            .onEach {
-                Timber.i("$TAG checkValidation: $it")
-                Timber.i("$TAG checkValidation: ${it.data.memberId}")
+            .onEach { response ->
+                Timber.i("$TAG checkValidation: response=$response")
+                if (response.success) {
+                    response.data?.memberId?.let { memberId ->
+                        Timber.i("$TAG checkValidation: memberId=$memberId")
+                        onNavigateToHome()
+                    } ?: run {
+                        Timber.e("$TAG checkValidation: Member ID is null in response data.")
+                        onNavigateToSignUpAgree()
+                    }
+                } else {
+                    Timber.w("$TAG checkValidation: Unsuccessful response")
+                    onNavigateToSignUpAgree()
+                }
             }
-            .catch {
-                Timber.e("$TAG requestUserSignUp $it")
-                // Sign Up 화면으로 이동
-                // onNavigateToSignUpAgree()
+            .catch { exception ->
+                if (exception is HttpException) {
+                    val errorBody = exception.response()?.errorBody()?.string()
+                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
+                } else {
+                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
+                }
+                onNavigateToSignUpAgree()
             }
             .launchIn(viewModelScope)
+
         return true
     }
 

@@ -78,6 +78,10 @@ class MemberInfoRemoteSource @Inject constructor(
             withdrawalData.reasonForLeaving,
             withdrawalData.context
         ).toModel())
+    }.onEach {
+        runBlocking {
+            memberDataStore.clearMemberData()
+        }
     }
 
     fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {

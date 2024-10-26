@@ -55,7 +55,7 @@ fun HomeScreen(
     val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val memberData by homeViewModel.memberData.collectAsState(
         initial = MemberData(
-            -1, "", "", "",
+            0, "", "", "",
             "", "", -1, "", false,
             isUsable = false,
             createdDate = "",
@@ -71,7 +71,12 @@ fun HomeScreen(
         )
     )
 
+    homeViewModel.checkValidation(memberData.snsId ?: "")
+
     Timber.i("$TAG memberData: $memberData")
+
+    val memberId: Int = memberData.memberId ?: 0
+    val nickName: String = memberData.nickName ?: ""
 
     LazyColumn(
         modifier = Modifier
@@ -81,10 +86,10 @@ fun HomeScreen(
         item {
             // AppBar
             AppBarUi.AppBar(
-                memberData.memberId,
-                memberData.nickName,
+                memberId,
+                nickName,
                 {},
-                if (memberData.memberId == -1) onNavigateToLogin else onNavigateToAlarm
+                if (memberId == 0) onNavigateToLogin else onNavigateToAlarm
             )
         }
 
