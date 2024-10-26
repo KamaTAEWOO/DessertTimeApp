@@ -292,8 +292,8 @@ fun SignUpInputScreen(
                             selectedAddress.value
                         )
                     },
-                    background = if(selectedBirth.isEmpty() && selectedAddress.value.isEmpty()) MainColor20 else MainColor,
-                    textColor = if(selectedBirth.isEmpty() && selectedAddress.value.isEmpty()) MainColor else Color.White,
+                    background = if(selectedBirth.isEmpty() || selectedAddress.value.isEmpty()) MainColor20 else MainColor,
+                    textColor = if(selectedBirth.isEmpty() || selectedAddress.value.isEmpty()) MainColor else Color.White,
                     enabled = true
                 )
             }
