@@ -1,6 +1,8 @@
 package com.desserttime.auth
 
 import android.content.Context
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.auth.login.LoginResult
 import com.desserttime.auth.login.google.googleLoginStart
@@ -34,6 +36,13 @@ class AuthViewModel @Inject constructor(
 ) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> get() = _isLoading
+
+    fun setLoading(loading: Boolean) {
+        _isLoading.value = loading
+    }
+
     override fun reduceState(currentState: AuthState, event: AuthEvent): AuthState {
         return when (event) {
             is AuthEvent.RequestMemberNameData -> {
@@ -170,6 +179,8 @@ class AuthViewModel @Inject constructor(
         onNavigateToSignUpAgree: () -> Unit,
         onNavigateToHome: () -> Unit
     ) {
+        setLoading(true)
+
         viewModelScope.launch {
             val result = when (method) {
                 LoginMethodData.KAKAO -> loginWithKakaoAccount(context)
@@ -195,14 +206,17 @@ class AuthViewModel @Inject constructor(
                     } else {
                         onNavigateToSignUpAgree()
                     }
+                    setLoading(false)
                 }
 
                 is LoginResult.Error -> {
                     Timber.e(result.message)
+                    setLoading(false)
                 }
 
                 else -> {
                     Timber.e("Unknown error occurred during Kakao login")
+                    setLoading(false)
                 }
             }
         }

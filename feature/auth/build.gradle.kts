@@ -63,9 +63,6 @@ dependencies {
     // webview
     implementation(libs.androidx.webkit)
 
-    // glide
-    implementation(libs.glide)
-
     implementation(libs.coroutine.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.activity.ktx)

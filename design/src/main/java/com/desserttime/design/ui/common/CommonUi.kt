@@ -1,5 +1,7 @@
 package com.desserttime.design.ui.common
 
+import android.annotation.SuppressLint
+import android.widget.ImageView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -44,7 +47,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Popup
+import com.bumptech.glide.Glide
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
@@ -265,6 +270,35 @@ object CommonUi {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @SuppressLint("RememberReturnType")
+    @Composable
+    fun LoadingGifScreen(gifResId: Int, showIndicator: Boolean = true) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Transparent), // Box의 전체 배경을 투명하게 설정
+            contentAlignment = Alignment.Center
+        ) {
+            // AndroidView를 사용하여 중앙에 GIF 표시 (showIndicator가 true일 때만 표시)
+            if (showIndicator) {
+                AndroidView(
+                    factory = { context ->
+                        ImageView(context).apply {
+                            // ImageView 자체의 배경도 투명하게 설정
+                            setBackgroundColor(android.graphics.Color.TRANSPARENT)
+                            // Glide를 사용하여 GIF 로드
+                            Glide.with(context)
+                                .asGif() // GIF로 로드
+                                .load(gifResId) // 리소스 ID를 사용
+                                .into(this) // ImageView에 로드
+                        }
+                    },
+                    modifier = Modifier.size(200.dp, 100.dp)
+                )
             }
         }
     }

@@ -1,7 +1,5 @@
 package com.desserttime.auth.login
 
-import android.annotation.SuppressLint
-import android.widget.ImageView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,12 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +29,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import com.bumptech.glide.Glide
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
 import com.desserttime.design.R
@@ -62,100 +55,113 @@ fun LoginScreen(
     authViewModel: AuthViewModel
 ) {
     val context = LocalContext.current
+    val isLoading by authViewModel.isLoading
 
-    // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(Color.White)
     ) {
-        // LoadingGifScreen(R.drawable.loading, true)
-        Spacer(Modifier.padding(top = 127.dp))
-        // 로그인 화면 상단 로고 이미지
-        Image(
-            painter = painterResource(id = R.drawable.ic_login_logo),
-            contentDescription = "img_login_logo",
-            modifier = Modifier.size(171.dp, 64.6.dp),
-            contentScale = ContentScale.FillBounds
-        )
-        Spacer(Modifier.padding(top = 45.4.dp))
-        LoginTextAndLine()
-
-        Spacer(Modifier.padding(top = 32.dp))
-        // 카카오 버튼
-        LoginButton(
-            stringResource(id = R.string.txt_login_kakao),
-            {
-                authViewModel.loginWithLogic(
-                    LoginMethodData.KAKAO,
-                    context,
-                    onNavigateToSignUpAgree,
-                    onNavigateToHome
-                )
-            },
-            Turbo,
-            Black,
-            R.drawable.ic_kakao_logo,
-            Turbo
-        )
-        Spacer(Modifier.padding(top = 12.dp))
-        // 네이버 버튼
-        LoginButton(
-            stringResource(id = R.string.txt_login_naver),
-            {
-                authViewModel.loginWithLogic(
-                    LoginMethodData.NAVER,
-                    context,
-                    onNavigateToSignUpAgree,
-                    onNavigateToHome
-                )
-            },
-            Malachite,
-            White,
-            R.drawable.ic_naver_logo,
-            Malachite
-        )
-        Spacer(Modifier.padding(top = 12.dp))
-        GoogleLoginInit(context)
-        // 구글 버튼
-        LoginButton(
-            stringResource(id = R.string.txt_login_google),
-            {
-                authViewModel.loginWithLogic(
-                    LoginMethodData.GOOGLE,
-                    context,
-                    onNavigateToSignUpAgree,
-                    onNavigateToHome
-                )
-            },
-            White,
-            Black54,
-            R.drawable.ic_google_logo,
-            Alto
-        )
-        Spacer(Modifier.padding(top = 28.dp))
-        CommonUi.GrayLine(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .padding(start = 30.dp, end = 30.dp)
-                .background(Gallery)
-        )
-        Spacer(Modifier.padding(top = 48.dp))
-        // 문의하기 버튼으로 변경
-        Button(
-            onClick = onNavigateToInquiryInput,
-            colors = ButtonDefaults.buttonColors(White)
+                .fillMaxSize()
+                .background(Color.White),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = stringResource(R.string.txt_login_question),
-                style = DessertTimeTheme.typography.textStyleRegular16,
-                color = Emperor
+            Spacer(Modifier.padding(top = 127.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_login_logo),
+                contentDescription = "img_login_logo",
+                modifier = Modifier.size(171.dp, 64.6.dp),
+                contentScale = ContentScale.FillBounds
             )
+            Spacer(Modifier.padding(top = 45.4.dp))
+            LoginTextAndLine()
+
+            Spacer(Modifier.padding(top = 32.dp))
+            LoginButton(
+                stringResource(id = R.string.txt_login_kakao),
+                {
+                    authViewModel.loginWithLogic(
+                        LoginMethodData.KAKAO,
+                        context,
+                        onNavigateToSignUpAgree,
+                        onNavigateToHome
+                    )
+                },
+                Turbo,
+                Black,
+                R.drawable.ic_kakao_logo,
+                Turbo
+            )
+            Spacer(Modifier.padding(top = 12.dp))
+            LoginButton(
+                stringResource(id = R.string.txt_login_naver),
+                {
+                    authViewModel.loginWithLogic(
+                        LoginMethodData.NAVER,
+                        context,
+                        onNavigateToSignUpAgree,
+                        onNavigateToHome
+                    )
+                },
+                Malachite,
+                White,
+                R.drawable.ic_naver_logo,
+                Malachite
+            )
+            Spacer(Modifier.padding(top = 12.dp))
+            GoogleLoginInit(context)
+            LoginButton(
+                stringResource(id = R.string.txt_login_google),
+                {
+                    authViewModel.loginWithLogic(
+                        LoginMethodData.GOOGLE,
+                        context,
+                        onNavigateToSignUpAgree,
+                        onNavigateToHome
+                    )
+                },
+                White,
+                Black54,
+                R.drawable.ic_google_logo,
+                Alto
+            )
+            Spacer(Modifier.padding(top = 28.dp))
+            CommonUi.GrayLine(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .padding(start = 30.dp, end = 30.dp)
+                    .background(Gallery)
+            )
+            Spacer(Modifier.padding(top = 48.dp))
+            Button(
+                onClick = onNavigateToInquiryInput,
+                colors = ButtonDefaults.buttonColors(White)
+            ) {
+                Text(
+                    text = stringResource(R.string.txt_login_question),
+                    style = DessertTimeTheme.typography.textStyleRegular16,
+                    color = Emperor
+                )
+            }
+        }
+
+        // Show loading screen with transparent overlay and centered GIF
+        if (isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.1f))
+                    .align(Alignment.Center),
+                contentAlignment = Alignment.Center
+            ) {
+                CommonUi.LoadingGifScreen(R.drawable.loading, true)
+            }
         }
     }
 }
@@ -224,28 +230,6 @@ fun LoginTextAndLine() {
                 .size(108.dp, 1.dp)
                 .background(Gallery)
         )
-    }
-}
-
-@SuppressLint("RememberReturnType")
-@Composable
-fun LoadingGifScreen(gifResId: Int, showIndicator: Boolean = true) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        // AndroidView를 사용하여 ImageView 생성 (showIndicator가 true일 때만 표시)
-        if (showIndicator) {
-            AndroidView(
-                factory = { context ->
-                    ImageView(context).apply {
-                        // Glide를 사용하여 GIF 로드
-                        Glide.with(context)
-                            .asGif() // GIF로 로드
-                            .load(gifResId) // 리소스 ID를 직접 사용
-                            .into(this) // ImageView에 로드
-                    }
-                },
-                modifier = Modifier.fillMaxSize()
-            )
-        }
     }
 }
 
