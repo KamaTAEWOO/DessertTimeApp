@@ -297,5 +297,5 @@ fun ReviewHome(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    //HomeScreen({}, {})
+    // HomeScreen({}, {})
 }

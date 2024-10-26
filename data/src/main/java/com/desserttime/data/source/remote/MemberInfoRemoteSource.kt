@@ -73,11 +73,13 @@ class MemberInfoRemoteSource @Inject constructor(
     }
 
     fun requestWithdrawalMember(withdrawalData: WithdrawalData) = flow {
-        emit(memberInfoService.requestWithdrawalMember(
-            withdrawalData.memberId,
-            withdrawalData.reasonForLeaving,
-            withdrawalData.context
-        ).toModel())
+        emit(
+            memberInfoService.requestWithdrawalMember(
+                withdrawalData.memberId,
+                withdrawalData.reasonForLeaving,
+                withdrawalData.context
+            ).toModel()
+        )
     }.onEach {
         runBlocking {
             memberDataStore.clearMemberData()
