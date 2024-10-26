@@ -73,7 +73,11 @@ class MemberInfoRemoteSource @Inject constructor(
     }
 
     fun requestWithdrawalMember(withdrawalData: WithdrawalData) = flow {
-        emit(memberInfoService.requestWithdrawalMember(withdrawalData).toModel())
+        emit(memberInfoService.requestWithdrawalMember(
+            withdrawalData.memberId,
+            withdrawalData.reasonForLeaving,
+            withdrawalData.context
+        ).toModel())
     }
 
     fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {
