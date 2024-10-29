@@ -237,5 +237,6 @@
     <string name="txt_search_description">검색</string>
     <string name="txt_bell_description">벨</string>
     <string name="txt_choose_complete">선택 완료</string>
+    <string name="txt_error">에러가 발생했습니다.</string>
 
 </resources>
