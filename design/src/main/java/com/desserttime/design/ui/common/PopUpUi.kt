@@ -233,7 +233,7 @@ object PopUpUi {
                 // Image
                 Image(
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_page_error),
-                    contentDescription = stringResource(id = R.string.txt_error),
+                    contentDescription = stringResource(id = R.string.txt_error)
                 )
                 // Text
                 Text(
