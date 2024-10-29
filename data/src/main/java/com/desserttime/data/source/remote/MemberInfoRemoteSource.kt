@@ -89,4 +89,12 @@ class MemberInfoRemoteSource @Inject constructor(
     fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {
         emit(memberInfoService.requestMyPageNoticeData(myPageNoticeData).toModel())
     }
+
+    fun requestLogout() = flow {
+        emit(true)
+    }.onEach {
+        runBlocking {
+            memberDataStore.clearMemberData()
+        }
+    }
 }

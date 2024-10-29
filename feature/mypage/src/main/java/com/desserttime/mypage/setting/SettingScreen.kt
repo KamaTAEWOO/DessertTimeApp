@@ -95,7 +95,8 @@ fun SettingScreen(
         bottomBar = {
             SettingBottomContent(
                 onNavigateToHome,
-                onNavigateToWithdrawal
+                onNavigateToWithdrawal,
+                myPageViewModel
             )
         }
     )
@@ -315,7 +316,8 @@ fun PrivacyPolicy(myPageUiState: MyPageState) {
 @Composable
 fun SettingBottomContent(
     onNavigateToHome: () -> Unit,
-    onNavigateToWithdrawal: () -> Unit
+    onNavigateToWithdrawal: () -> Unit,
+    myPageViewModel: MyPageViewModel
 ) {
     Column(
         modifier = Modifier
@@ -326,7 +328,7 @@ fun SettingBottomContent(
     ) {
         CommonUi.NextButton(
             text = stringResource(R.string.txt_mypage_setting_logout),
-            onClick = onNavigateToHome,
+            onClick = { logout(onNavigateToHome, myPageViewModel) },
             background = MainColor, // 버튼 배경색
             textColor = Color.White,
             enabled = true
@@ -358,4 +360,13 @@ fun SettingBottomContent(
             )
         }
     }
+}
+
+private fun logout(
+    onNavigateToHome: () -> Unit,
+    myPageViewModel: MyPageViewModel
+) {
+    myPageViewModel.requestLogout()
+    // 홈으로 이동
+    onNavigateToHome()
 }
