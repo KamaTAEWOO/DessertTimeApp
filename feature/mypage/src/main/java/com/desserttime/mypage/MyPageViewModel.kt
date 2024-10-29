@@ -155,4 +155,15 @@ class MyPageViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    fun requestLogout() {
+        memberInfoRepository.requestLogout()
+            .onEach {
+                Timber.i("$TAG requestLogout: $it")
+            }
+            .catch {
+                Timber.e("$TAG $it")
+            }
+            .launchIn(viewModelScope)
+    }
 }

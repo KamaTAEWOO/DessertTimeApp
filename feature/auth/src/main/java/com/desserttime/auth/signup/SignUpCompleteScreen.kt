@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +37,15 @@ fun SignUpCompleteScreen(
 ) {
     // validation check
     authViewModel.checkValidation(authViewModel.snsId.value)
+    var count by remember { mutableIntStateOf(3) }
+
+    LaunchedEffect(Unit) {
+        repeat(3) {
+            count = 3 - it
+            delay(1000L)
+        }
+        onTimeout()
+    }
 
     LaunchedEffect(Unit) {
         delay(3000)
@@ -76,7 +89,7 @@ fun SignUpCompleteScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             Text(
-                text = stringResource(id = R.string.txt_next_page),
+                text = count.toString() + stringResource(id = R.string.txt_next_page),
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Black60,
                 modifier = Modifier.align(Alignment.CenterHorizontally)

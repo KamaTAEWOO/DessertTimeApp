@@ -274,7 +274,7 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = false
                         }
                     }
-                },
+                }
             )
         }
 
