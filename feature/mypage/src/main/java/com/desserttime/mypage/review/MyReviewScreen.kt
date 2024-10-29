@@ -59,7 +59,7 @@ import com.desserttime.design.theme.Salem
 import com.desserttime.design.theme.Salem20
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.design.ui.common.CommonPopup
+import com.desserttime.design.ui.common.PopUpUi.CommonPopup
 import timber.log.Timber
 
 @Composable
