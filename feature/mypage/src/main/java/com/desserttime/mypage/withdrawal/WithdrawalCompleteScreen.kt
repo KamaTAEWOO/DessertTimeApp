@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,11 +23,18 @@ import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
+import kotlinx.coroutines.delay
 
 @Composable
 fun WithdrawalCompleteScreen(
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onTimeout: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        delay(3000)
+        onTimeout()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,5 +85,5 @@ fun WithdrawalCompleteScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewInquiryCompleteScreen() {
-    WithdrawalCompleteScreen({})
+    WithdrawalCompleteScreen({}, {})
 }
