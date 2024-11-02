@@ -1,15 +1,10 @@
 package com.desserttime.home
 
-import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 import javax.inject.Inject
 
 private const val TAG = "HomeViewModel::"
@@ -26,22 +21,5 @@ class HomeViewModel @Inject constructor(
 
     override fun reduceState(currentState: HomeState, event: HomeEvent): HomeState {
         TODO("Not yet implemented")
-    }
-
-    // Validation Check
-    fun checkValidation(snsId: String): Boolean {
-        Timber.i("$TAG checkValidation: $snsId")
-        memberInfoRepository.requestMemberValidation(snsId)
-            .onEach {
-                Timber.i("$TAG checkValidation: $it")
-                Timber.i("$TAG checkValidation: ${it.data.memberId}")
-            }
-            .catch {
-                Timber.e("$TAG requestUserSignUp $it")
-                // Sign Up 화면으로 이동
-                // onNavigateToSignUpAgree()
-            }
-            .launchIn(viewModelScope)
-        return true
     }
 }

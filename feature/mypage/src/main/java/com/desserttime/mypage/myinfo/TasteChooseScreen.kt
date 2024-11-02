@@ -58,6 +58,7 @@ fun TasteChooseScreen(
     onBack: () -> Unit,
     myPageViewModel: MyPageViewModel
 ) {
+    val isLoading by myPageViewModel.isLoading
     val selectedItems = remember { mutableStateListOf<String>() }
 
     Scaffold(
@@ -91,6 +92,10 @@ fun TasteChooseScreen(
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

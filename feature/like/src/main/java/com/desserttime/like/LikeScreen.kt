@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +36,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.desserttime.design.R
@@ -48,10 +48,16 @@ import com.desserttime.design.theme.Mercury
 import com.desserttime.design.theme.Pippin
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.LikeData
 
 @Composable
-fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
+fun LikeScreen(
+    onNavigateToLikeDetail: () -> Unit,
+    likeViewModel: LikeViewModel
+) {
+    val isLoading by likeViewModel.isLoading
+
     Scaffold(
         topBar = {
             AppBarUi.AppBar(
@@ -102,6 +108,10 @@ fun LikeScreen(onNavigateToLikeDetail: () -> Unit) {
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 // @OptIn(ExperimentalMaterial3Api::class)
@@ -404,10 +414,4 @@ fun MaterialItemRound(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LikeScreenPreview() {
-    LikeScreen(onNavigateToLikeDetail = {})
 }

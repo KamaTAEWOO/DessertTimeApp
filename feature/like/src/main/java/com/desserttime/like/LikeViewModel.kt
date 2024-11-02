@@ -1,5 +1,7 @@
 package com.desserttime.like
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.RequestSendAccusationData
@@ -7,6 +9,7 @@ import com.desserttime.domain.repository.LikeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,6 +22,13 @@ class LikeViewModel @Inject constructor(
 ) : BaseViewModel<LikeState, LikeEvent>(
     initialState = LikeState()
 ) {
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> get() = _isLoading
+
+    private fun setLoading(loading: Boolean) {
+        _isLoading.value = loading
+    }
+
     override fun reduceState(currentState: LikeState, event: LikeEvent): LikeState =
         when (event) {
             is LikeEvent.RequestAccusationData -> {
@@ -29,6 +39,8 @@ class LikeViewModel @Inject constructor(
 
     // accusation data 받아오기
     fun requestAccusationData() {
+        setLoading(true)
+
         likeRepository.requestAllAccusations()
             .onEach {
                 Timber.i("$TAG requestAccusationData: $it")
@@ -38,11 +50,16 @@ class LikeViewModel @Inject constructor(
                 // Error 처리
                 Timber.e("$TAG $it")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
     fun requestSendAccusationData(selectedItems: List<String>, content: String) {
         Timber.i("$TAG requestSendAccusationData: $selectedItems, $content")
+
+        setLoading(true)
 
         likeRepository.requestSendAccusation(
             RequestSendAccusationData(
@@ -58,6 +75,9 @@ class LikeViewModel @Inject constructor(
             .catch {
                 // Error 처리
                 Timber.e("$TAG $it")
+            }
+            .onCompletion {
+                setLoading(false)
             }
             .launchIn(viewModelScope)
     }

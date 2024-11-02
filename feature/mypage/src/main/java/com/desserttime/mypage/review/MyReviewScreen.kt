@@ -59,11 +59,17 @@ import com.desserttime.design.theme.Salem
 import com.desserttime.design.theme.Salem20
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.design.ui.common.PopUpUi.CommonPopup
+import com.desserttime.mypage.MyPageViewModel
 import timber.log.Timber
 
 @Composable
-fun MyReviewScreen() {
+fun MyReviewScreen(
+    myPageViewModel: MyPageViewModel
+) {
+    val isLoading by myPageViewModel.isLoading
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -92,6 +98,10 @@ fun MyReviewScreen() {
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

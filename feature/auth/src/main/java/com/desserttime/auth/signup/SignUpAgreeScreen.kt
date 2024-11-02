@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +55,8 @@ fun SignUpAgreeScreen(
     onBack: () -> Unit,
     authViewModel: AuthViewModel
 ) {
+    val isLoading by authViewModel.isLoading
+
     // SystemUiController를 사용하여 상태 바 색상 설정
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(Color.White)
@@ -98,6 +101,10 @@ fun SignUpAgreeScreen(
                 enabled = buttonColor.value
             )
         }
+    }
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
     }
 }
 

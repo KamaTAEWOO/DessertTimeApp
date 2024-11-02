@@ -50,6 +50,7 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
 
 private const val TAG: String = "CategoryScreen::"
@@ -59,6 +60,7 @@ fun CategoryScreen(
     categoryViewModel: CategoryViewModel,
     onNavigationToSubReview: () -> Unit
 ) {
+    val isLoading by categoryViewModel.isLoading
     val categoryUiState by categoryViewModel.uiState.collectAsStateWithLifecycle()
     var expandedItemId by remember { mutableStateOf<Int?>(null) }
 
@@ -101,6 +103,10 @@ fun CategoryScreen(
                 )
             }
         }
+    }
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
     }
 }
 
