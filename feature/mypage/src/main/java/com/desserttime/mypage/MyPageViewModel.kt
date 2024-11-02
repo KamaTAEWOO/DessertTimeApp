@@ -27,11 +27,6 @@ class MyPageViewModel @Inject constructor(
 ) : BaseViewModel<MyPageState, MyPageEvent>(
     initialState = MyPageState()
 ) {
-    // alarm
-    var isAgreeAlarm = false
-    // ad
-    var isAgreeAD = false
-
     private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> get() = _isLoading
 

@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,8 +45,6 @@ import com.desserttime.domain.model.ContentDescriptionData
 import com.desserttime.domain.model.NoticeData
 import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
-import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Composable
 fun NoticeAndEvent(
