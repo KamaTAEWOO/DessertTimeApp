@@ -1,5 +1,7 @@
 package com.desserttime.mypage
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,9 +27,23 @@ class MyPageViewModel @Inject constructor(
 ) : BaseViewModel<MyPageState, MyPageEvent>(
     initialState = MyPageState()
 ) {
+    // alarm
+    var isAgreeAlarm = false
+    // ad
+    var isAgreeAD = false
+
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> get() = _isLoading
+
+    private fun setLoading(loading: Boolean) {
+        _isLoading.value = loading
+    }
+
     // 로컬 데이터 저장소에서 사용자 정보를 가져오는 Flow
     private val _memberData: Flow<MemberData> = memberInfoRepository.memberData
     val memberData: Flow<MemberData> = _memberData
+
+    private var hasLoaded = false
 
     override fun reduceState(currentState: MyPageState, event: MyPageEvent): MyPageState =
         when (event) {
@@ -50,6 +67,8 @@ class MyPageViewModel @Inject constructor(
         }
 
     fun requestMyPageMemberData() {
+        setLoading(true)
+
         memberInfoRepository.requestMemberData()
             .onEach {
                 Timber.i("$TAG requestMyPageMemberData: $it")
@@ -58,10 +77,15 @@ class MyPageViewModel @Inject constructor(
             .catch {
                 Timber.e("$TAG $it")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
     fun requestMyPageNicknameDoubleCheck(nickname: String) {
+        setLoading(true)
+
         memberInfoRepository.requestNicknameDoubleCheck(nickname)
             .onEach {
                 Timber.i("$TAG requestMyPageNicknameDoubleCheck: $it")
@@ -74,16 +98,24 @@ class MyPageViewModel @Inject constructor(
             .catch {
                 Timber.e("$TAG $it")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
     fun requestMyPageMemberSaveData(memberSaveData: RequestMyPageMemberSaveData) {
+        setLoading(true)
+
         memberInfoRepository.requestMyPageMemberSaveData(memberSaveData)
             .onEach {
                 Timber.i("$TAG requestMyPageMemberSaveData: $it")
             }
             .catch {
                 Timber.e("$TAG $it")
+            }
+            .onCompletion {
+                setLoading(false)
             }
             .launchIn(viewModelScope)
     }
@@ -130,7 +162,8 @@ class MyPageViewModel @Inject constructor(
         val memberId = member.memberId
         Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
 
-        // Call the repository to request withdrawal
+        setLoading(true)
+
         memberInfoRepository.requestWithdrawalMember(
             WithdrawalData(memberId, withdrawalReason, withdrawalEtcData)
         )
@@ -140,10 +173,15 @@ class MyPageViewModel @Inject constructor(
             .catch { error ->
                 Timber.e("$TAG Error: $error")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
     fun requestMyPageNoticeData(myPageNoticeData: Boolean) {
+        setLoading(true)
+
         memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
             .onEach {
                 Timber.i("$TAG requestMyPageNoticeData: $it")
@@ -153,16 +191,23 @@ class MyPageViewModel @Inject constructor(
             .catch {
                 Timber.e("$TAG $it")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
     fun requestLogout() {
+        setLoading(true)
         memberInfoRepository.requestLogout()
             .onEach {
                 Timber.i("$TAG requestLogout: $it")
             }
             .catch {
                 Timber.e("$TAG $it")
+            }
+            .onCompletion {
+                setLoading(false)
             }
             .launchIn(viewModelScope)
     }

@@ -306,7 +306,9 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.Wheat.route) {
-            WheatScreen()
+            WheatScreen(
+                myPageViewModel = myPageViewModel
+            )
         }
 
         composable(route = MainDestination.NoticeAndEvent.route) {
@@ -316,11 +318,15 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.Question.route) {
-            QuestionScreen()
+            QuestionScreen(
+                myPageViewModel = myPageViewModel
+            )
         }
 
         composable(route = MainDestination.MyReview.route) {
-            MyReviewScreen()
+            MyReviewScreen(
+                myPageViewModel = myPageViewModel
+            )
         }
     }
 }

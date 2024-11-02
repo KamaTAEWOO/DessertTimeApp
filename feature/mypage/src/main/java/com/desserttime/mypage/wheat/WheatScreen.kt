@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,10 +40,16 @@ import com.desserttime.design.theme.MaiTai
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.WheatDetailData
+import com.desserttime.mypage.MyPageViewModel
 
 @Composable
-fun WheatScreen() {
+fun WheatScreen(
+    myPageViewModel: MyPageViewModel
+) {
+    val isLoading by myPageViewModel.isLoading
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -76,6 +83,10 @@ fun WheatScreen() {
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

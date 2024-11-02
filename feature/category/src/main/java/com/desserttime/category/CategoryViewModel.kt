@@ -27,6 +27,7 @@ class CategoryViewModel @Inject constructor(
     private fun setLoading(loading: Boolean) {
         _isLoading.value = loading
     }
+
     override fun reduceState(currentState: CategoryState, event: CategoryEvent): CategoryState =
         when (event) {
             is CategoryEvent.RequestCategoryData -> {

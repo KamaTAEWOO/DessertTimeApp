@@ -44,6 +44,7 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
 
 private const val TAG = "MyPageScreen::"
@@ -61,6 +62,7 @@ fun MyPageScreen(
     onNavigationInquiryInput: () -> Unit,
     onNavigateToMyReview: () -> Unit
 ) {
+    val isLoading by myPageViewModel.isLoading
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
     globalMyPageUiState = myPageUiState
 
@@ -103,6 +105,10 @@ fun MyPageScreen(
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

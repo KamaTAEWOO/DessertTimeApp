@@ -61,6 +61,8 @@ fun WithdrawalScreen(
     onBack: () -> Unit,
     myPageViewModel: MyPageViewModel
 ) {
+    val isLoading by myPageViewModel.isLoading
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -94,6 +96,10 @@ fun WithdrawalScreen(
             )
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

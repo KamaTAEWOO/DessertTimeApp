@@ -38,10 +38,16 @@ import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.ContentDescriptionData
+import com.desserttime.mypage.MyPageViewModel
 
 @Composable
-fun QuestionScreen() {
+fun QuestionScreen(
+    myPageViewModel: MyPageViewModel
+) {
+    val isLoading by myPageViewModel.isLoading
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -69,6 +75,10 @@ fun QuestionScreen() {
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable

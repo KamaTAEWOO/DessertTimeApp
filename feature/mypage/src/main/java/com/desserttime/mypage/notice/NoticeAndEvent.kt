@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,15 +41,20 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.ContentDescriptionData
 import com.desserttime.domain.model.NoticeData
 import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
+import kotlinx.coroutines.delay
+import timber.log.Timber
 
 @Composable
 fun NoticeAndEvent(
     myPageViewModel: MyPageViewModel
 ) {
+    val isLoading by myPageViewModel.isLoading
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -75,6 +81,10 @@ fun NoticeAndEvent(
             }
         }
     )
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable
@@ -216,7 +226,9 @@ fun NoticeAndEventItem(
 
 fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<NoticeData> {
     val myPageNoticeData: Boolean = true
-    myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+    if (myPageUiState.noticeArrayData.isEmpty()) {
+        myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+    }
 
     val noticeArrayData = myPageUiState.noticeArrayData.toMutableList()
 

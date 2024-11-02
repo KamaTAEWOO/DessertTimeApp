@@ -101,6 +101,7 @@ fun MyInfoScreen(
     onBack: () -> Unit,
     myPageViewModel: MyPageViewModel
 ) {
+    val isLoading by myPageViewModel.isLoading
     // ViewModel에 memberData?.memo에 저장
     val myPageUiState by myPageViewModel.uiState.collectAsStateWithLifecycle()
 
@@ -468,6 +469,10 @@ fun MyInfoScreen(
     Timber.i("$TAG Data: $nickname, $selectedYear, $selectedGenderData, $selectAddress, $taste")
     val changeButtonColor = inputData(nickname, selectedYear, selectedGenderData, selectAddress, taste)
     changeSaveColor.value = changeButtonColor
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
 }
 
 @Composable
