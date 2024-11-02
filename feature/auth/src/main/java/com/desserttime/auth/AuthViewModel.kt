@@ -192,7 +192,7 @@ class AuthViewModel @Inject constructor(
 
             // 로그인 성공 시 회원가입 동의 화면으로 이동
             when (result) {
-                is LoginResult.Success -> {
+                is LoginResult.SUCCESS -> {
                     // Member 정보를 저장
                     saveMemberNameData(result.member.name)
                     saveMemberEmailData(result.member.email)
@@ -205,14 +205,18 @@ class AuthViewModel @Inject constructor(
                     setLoading(false)
                 }
 
-                is LoginResult.Error -> {
+                is LoginResult.ERROR -> {
                     Timber.e(result.message)
                     setLoading(false)
                 }
 
-                else -> {
-                    Timber.e("Unknown error occurred during Kakao login")
+                is LoginResult.LOADING -> {
+                    Timber.e("$TAG LoginResult.LOADING")
                     setLoading(false)
+                }
+
+                else -> {
+                    Timber.e("$TAG Unknown error occurred during login")
                 }
             }
         }

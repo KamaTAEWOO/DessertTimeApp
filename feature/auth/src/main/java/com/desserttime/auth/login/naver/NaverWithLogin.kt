@@ -34,7 +34,7 @@ suspend fun naverWithLogin(context: Context): LoginResult = withContext(Dispatch
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
                 Timber.i("$TAG errorCode:$errorCode, errorDesc:$errorDescription")
-                continuation.resume(LoginResult.Error("Login failed: $message"))
+                continuation.resume(LoginResult.ERROR("Login failed: $message"))
             }
 
             override fun onError(errorCode: Int, message: String) {
@@ -70,7 +70,7 @@ suspend fun fetchNaverUserInfo(): LoginResult {
 
                     Timber.i("$TAG id: $id") // 로그인 시 토큰 대신 사용 7ImgfubjaYVScQZf-N-gES7YwmZeQhPP8E2wMrHxINU
 
-                    LoginResult.Success(
+                    LoginResult.SUCCESS(
                         MemberProfileData(
                             id = NAVER_LOGIN_PROVIDER,
                             name = name,
@@ -80,15 +80,15 @@ suspend fun fetchNaverUserInfo(): LoginResult {
                     )
                 } else {
                     // 실패 시 에러 반환
-                    LoginResult.Error("Failed to fetch user info: ${response.message}")
+                    LoginResult.ERROR("Failed to fetch user info: ${response.message}")
                 }
             } catch (e: Exception) {
                 // 예외 발생 시 실패 반환
-                LoginResult.Error("Failed to fetch user info: ${e.message}")
+                LoginResult.ERROR("Failed to fetch user info: ${e.message}")
             }
         }
     } else {
         // 액세스 토큰이 null인 경우 실패 처리
-        LoginResult.Error("Failed to fetch user info: Access token is null")
+        LoginResult.ERROR("Failed to fetch user info: Access token is null")
     }
 }

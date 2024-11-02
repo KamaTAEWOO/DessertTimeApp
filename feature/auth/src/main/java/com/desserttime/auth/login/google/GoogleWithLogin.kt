@@ -77,15 +77,15 @@ fun GoogleLoginInit(
                 googleSignInAccount = task.getResult(Exception::class.java)
                 CoroutineScope(Dispatchers.Main).launch {
                     when (val loginResult = googleWithLogin()) {
-                        is LoginResult.Success -> {
+                        is LoginResult.SUCCESS -> {
                             Timber.i("$TAG GoogleSignIn Success: ${loginResult.member}")
                         }
-                        is LoginResult.Error -> {
+                        is LoginResult.ERROR -> {
                             Timber.e("$TAG GoogleSignIn Failed: ${loginResult.message}")
                             Toast.makeText(context, "$TAG GoogleSign-In Failed", Toast.LENGTH_SHORT).show()
                         }
 
-                        is LoginResult.None -> TODO()
+                        is LoginResult.LOADING -> TODO()
                     }
                 }
             } catch (e: Exception) {
@@ -121,7 +121,7 @@ suspend fun googleWithLogin(): LoginResult = suspendCancellableCoroutine { conti
                 token = user?.uid ?: "" // 매일 같은 지 확인하기
             )
 
-            continuation.resume(LoginResult.Success(memberProfileData ?: MemberProfileData("", "", "", "")))
+            continuation.resume(LoginResult.SUCCESS(memberProfileData ?: MemberProfileData("", "", "", "")))
         } else {
             Timber.e("$TAG signInWithCredential:failure: ${task.exception}")
             continuation.resumeWithException(Exception("$TAG signInWithCredential:failure: ${task.exception?.message}"))

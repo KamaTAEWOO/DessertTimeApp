@@ -26,7 +26,7 @@ suspend fun loginWithKakaoAccount(
     } catch (e: Exception) {
         // 로그인 실패 시
         Timber.i("$TAG Login failed: ${e.message}")
-        LoginResult.Error("Kakao Account login failed: ${e.message}")
+        LoginResult.ERROR("Kakao Account login failed: ${e.message}")
     }
 }
 
@@ -49,7 +49,7 @@ suspend fun fetchKakaoUserInfo(): LoginResult {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Timber.i("$TAG Failed to get user info: ${error.message}")
-                continuation.resume(LoginResult.Error("Failed to fetch user info: ${error.message}"))
+                continuation.resume(LoginResult.ERROR("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
                 Timber.i("$TAG user.id: ${user.id}") // 로그인 시 토큰 대신 사용 3677513571
                 val memberProfileData = MemberProfileData(
@@ -58,7 +58,7 @@ suspend fun fetchKakaoUserInfo(): LoginResult {
                     email = user.kakaoAccount?.email.orEmpty(),
                     token = user.id.toString()
                 )
-                continuation.resume(LoginResult.Success(memberProfileData))
+                continuation.resume(LoginResult.SUCCESS(memberProfileData))
             }
         }
     }
