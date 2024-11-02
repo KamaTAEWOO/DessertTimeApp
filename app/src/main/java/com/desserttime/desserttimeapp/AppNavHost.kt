@@ -18,6 +18,7 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.core.navigation.destination.RootDestination
 import com.desserttime.desserttimeapp.splash.SplashScreen
 import com.desserttime.home.HomeViewModel
+import com.desserttime.like.LikeViewModel
 import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.review.ReviewViewModel
 
@@ -30,6 +31,7 @@ fun AppNavHost(
     val reviewViewModel: ReviewViewModel = hiltViewModel()
     val myPageViewModel: MyPageViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val likeViewModel: LikeViewModel = hiltViewModel()
 
     NavHost(
         navController = navHostController,
@@ -72,7 +74,8 @@ fun AppNavHost(
             categoryViewModel = categoryViewModel,
             reviewViewModel = reviewViewModel,
             myPageViewModel = myPageViewModel,
-            homeViewModel = homeViewModel
+            homeViewModel = homeViewModel,
+            likeViewModel = likeViewModel
         )
     }
 }

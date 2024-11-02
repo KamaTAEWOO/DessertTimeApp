@@ -27,21 +27,4 @@ class HomeViewModel @Inject constructor(
     override fun reduceState(currentState: HomeState, event: HomeEvent): HomeState {
         TODO("Not yet implemented")
     }
-
-    // Validation Check
-    fun checkValidation(snsId: String): Boolean {
-        Timber.i("$TAG checkValidation: $snsId")
-        memberInfoRepository.requestMemberValidation(snsId)
-            .onEach {
-                Timber.i("$TAG checkValidation: $it")
-                Timber.i("$TAG checkValidation: ${it.data.memberId}")
-            }
-            .catch {
-                Timber.e("$TAG requestUserSignUp $it")
-                // Sign Up 화면으로 이동
-                // onNavigateToSignUpAgree()
-            }
-            .launchIn(viewModelScope)
-        return true
-    }
 }

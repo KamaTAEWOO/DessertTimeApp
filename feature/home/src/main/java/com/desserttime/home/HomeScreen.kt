@@ -71,8 +71,6 @@ fun HomeScreen(
         )
     )
 
-    // homeViewModel.checkValidation(memberData.snsId ?: "")
-
     Timber.i("$TAG memberData: $memberData")
 
     val memberId: Int = memberData.memberId ?: 0

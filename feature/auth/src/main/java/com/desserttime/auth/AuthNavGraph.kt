@@ -20,6 +20,7 @@ import com.desserttime.core.navigation.destination.AuthDestination
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeDetailScreen
+import com.desserttime.like.LikeViewModel
 import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
@@ -39,7 +40,8 @@ fun NavGraphBuilder.authNavGraph(
     categoryViewModel: CategoryViewModel,
     reviewViewModel: ReviewViewModel,
     myPageViewModel: MyPageViewModel,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    likeViewModel: LikeViewModel
 ) {
     navigation(
         startDestination = AuthDestination.Login.route,
@@ -170,7 +172,8 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToMyReview = {
                     navHostController.navigate(MainDestination.MyReview.route)
                 },
-                homeViewModel = homeViewModel
+                homeViewModel = homeViewModel,
+                likeViewModel = likeViewModel
             )
         }
 

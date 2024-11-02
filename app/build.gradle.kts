@@ -37,6 +37,7 @@ dependencies {
     implementation(project(":feature:review"))
     implementation(project(":feature:mypage"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:like"))
 
     // logging
     implementation(libs.timber)
