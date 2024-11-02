@@ -150,19 +150,10 @@ fun LoginScreen(
                 )
             }
         }
+    }
 
-        // Show loading screen with transparent overlay and centered GIF
-        if (isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.1f))
-                    .align(Alignment.Center),
-                contentAlignment = Alignment.Center
-            ) {
-                CommonUi.LoadingGifScreen(R.drawable.loading, true)
-            }
-        }
+    if (isLoading) {
+        CommonUi.LoadingScreen()
     }
 }
 

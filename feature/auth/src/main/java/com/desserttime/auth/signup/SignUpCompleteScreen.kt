@@ -47,11 +47,6 @@ fun SignUpCompleteScreen(
         onTimeout()
     }
 
-    LaunchedEffect(Unit) {
-        delay(3000)
-        onTimeout()
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

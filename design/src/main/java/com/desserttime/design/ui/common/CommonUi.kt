@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Popup
 import com.bumptech.glide.Glide
+import com.desserttime.design.R
 import com.desserttime.design.theme.Black30
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.WildSand
@@ -264,6 +265,20 @@ object CommonUi {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun LoadingScreen(isLoading: Boolean = true) {
+        if (isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                LoadingGifScreen(R.drawable.loading, true)
             }
         }
     }

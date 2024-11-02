@@ -16,7 +16,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
 import retrofit2.HttpException
@@ -41,7 +43,7 @@ class AuthViewModel @Inject constructor(
     private val _snsId = mutableStateOf("")
     val snsId: State<String> get() = _snsId
 
-    fun setLoading(loading: Boolean) {
+    private fun setLoading(loading: Boolean) {
         _isLoading.value = loading
     }
 
@@ -202,21 +204,14 @@ class AuthViewModel @Inject constructor(
 
                     checkValidation(result.member.token, onNavigateToSignUpAgree, onNavigateToHome)
                     printAllData()
-                    setLoading(false)
                 }
 
                 is LoginResult.ERROR -> {
                     Timber.e(result.message)
-                    setLoading(false)
                 }
 
                 is LoginResult.LOADING -> {
                     Timber.e("$TAG LoginResult.LOADING")
-                    setLoading(false)
-                }
-
-                else -> {
-                    Timber.e("$TAG Unknown error occurred during login")
                 }
             }
         }
@@ -243,6 +238,8 @@ class AuthViewModel @Inject constructor(
             memberPickCategory5 = currentState.memberPickCategory5
         )
 
+        setLoading(true)
+
         // return 값 받아오기
         memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
@@ -261,6 +258,9 @@ class AuthViewModel @Inject constructor(
                 // 에러 발생 시 로그
                 Timber.e("$TAG requestUserSignUp error=$exception")
             }
+            .onCompletion {
+                setLoading(false)
+            }
             .launchIn(viewModelScope)
     }
 
@@ -275,6 +275,8 @@ class AuthViewModel @Inject constructor(
             onNavigateToSignUpAgree()
             return false
         }
+
+        setLoading(true) // Set loading true at the start
 
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach { response ->
@@ -300,6 +302,9 @@ class AuthViewModel @Inject constructor(
                 }
                 onNavigateToSignUpAgree()
             }
+            .onCompletion {
+                setLoading(false) // Set loading false here, in completion
+            }
             .launchIn(viewModelScope)
 
         return true
@@ -307,10 +312,15 @@ class AuthViewModel @Inject constructor(
 
     // 문의하기
     fun requestSendInquiryData(email: String, content: String, onNavigateToInquiryComplete: () -> Unit) {
+        setLoading(true)
+
         memberInfoRepository.requestInquiry(RequestInquiryData(email, content))
             .onEach {
                 Timber.i("$TAG requestInquiry: $it")
                 onNavigateToInquiryComplete()
+            }
+            .onCompletion {
+                setLoading(false)
             }
             .launchIn(viewModelScope)
     }
