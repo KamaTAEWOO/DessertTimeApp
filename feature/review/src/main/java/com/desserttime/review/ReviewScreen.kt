@@ -206,13 +206,24 @@ fun ReviewItemView(
     onNavigateToReviewWrite: () -> Unit,
     reviewViewModel: ReviewViewModel
 ) {
+    var reviewItems by remember { mutableStateOf((1..10).toList()) } // Sample data
+
     LazyColumn(
         modifier = modifier
     ) {
-        items(10) {
+        items(reviewItems.size) { index ->
             ReviewItem(
-                reviewViewModel,
-                onNavigateToReviewWrite
+                reviewViewModel = reviewViewModel,
+                onNavigateToReviewWrite = onNavigateToReviewWrite,
+                index = index,
+                onDelete = { itemIndex ->
+                    // Remove the item at the specific index
+                    Timber.i("$TAG Delete review item at index $itemIndex")
+                    reviewItems = reviewItems.toMutableList().apply {
+                        removeAt(itemIndex)
+                    }
+                    itemDelete(itemIndex)
+                }
             )
             Box(
                 modifier = Modifier
@@ -227,7 +238,9 @@ fun ReviewItemView(
 @Composable
 fun ReviewItem(
     reviewViewModel: ReviewViewModel,
-    onNavigateToReviewWrite: () -> Unit
+    onNavigateToReviewWrite: () -> Unit,
+    index: Int, // Pass the item's index
+    onDelete: (Int) -> Unit // Pass the index back when deleting
 ) {
     val reviewUiState by reviewViewModel.uiState.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
@@ -245,15 +258,13 @@ fun ReviewItem(
             modifier = Modifier
                 .padding(start = 28.dp, top = 17.dp)
         ) {
-            // Text
             Text(
-                text = storeName,
+                text = "$storeName $index",
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = Black60
             )
-            // Text
             Text(
-                text = storeMenu,
+                text = "$storeMenu $index",
                 style = DessertTimeTheme.typography.textStyleRegular16,
                 color = TundoraCategory,
                 modifier = Modifier.padding(top = 4.dp, bottom = 17.dp)
@@ -285,7 +296,6 @@ fun ReviewItem(
                         )
                     }
                 )
-                // Image -> 클릭 시 삭제하기 팝업창 Image 위에나 아래에 떠야함.
                 IconButton(
                     onClick = { showDialog = true }
                 ) {
@@ -295,16 +305,16 @@ fun ReviewItem(
                     )
                 }
 
-                // 팝업이 표시될 때
+                // Show popup if dialog is true
                 if (showDialog) {
                     ReviewItemDeletePopup(
                         anchorPosition = buttonOffset,
                         onDeleteConfirm = {
-                            // 삭제 확인 로직을 여기에 추가
-                            showDialog = false // 팝업 닫기
+                            onDelete(index) // Call delete with the index
+                            showDialog = false // Close the popup
                         },
                         onDismiss = {
-                            showDialog = false // 팝업 닫기
+                            showDialog = false // Close the popup
                         }
                     )
                 }
@@ -374,6 +384,11 @@ fun sendReviewData(
     reviewUiState.storeName = storeName
     reviewUiState.storeMenu = storeMenu
     onNavigateToReviewWrite()
+}
+
+// 리뷰 삭제 버튼 눌렀을 때 호출되는 함수
+fun itemDelete(itemIndex: Int) {
+    // 리뷰 번호를 이용해서 item 삭제
 }
 
 @Preview(showBackground = true)
