@@ -221,6 +221,7 @@ fun ReviewItemView(
                     reviewItems = reviewItems.toMutableList().apply {
                         removeAt(itemIndex)
                     }
+                    itemDelete(itemIndex)
                 }
             )
             Box(
@@ -385,8 +386,8 @@ fun sendReviewData(
 }
 
 // 리뷰 삭제 버튼 눌렀을 때 호출되는 함수
-fun itemDelete() {
-    // 리뷰 삭제 처리
+fun itemDelete(itemIndex: Int) {
+    // 리뷰 번호를 이용해서 item 삭제
 }
 
 @Preview(showBackground = true)
