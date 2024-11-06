@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +25,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -100,7 +103,9 @@ fun MyPageScreen(
                     myPageUiState,
                     onNavigateToQuestion,
                     onNavigationInquiryInput,
-                    onNavigateToMyReview
+                    onNavigateToMyReview,
+                    myPageViewModel,
+                    onNavigateToLogin
                 )
             }
         }
@@ -119,24 +124,39 @@ fun ProfileSection(
     myPageUiState: MyPageState,
     onNavigateToQuestion: () -> Unit,
     onNavigationInquiryInput: () -> Unit,
-    onNavigateToMyReview: () -> Unit
+    onNavigateToMyReview: () -> Unit,
+    myPageViewModel: MyPageViewModel,
+    onNavigateToLogin: () -> Unit
 ) {
-    // NotLoginProfileSection( onNavigateToLogin() )
-    // Spacer(modifier = Modifier.height(40.dp))
-    // NoticeSection()
+    // 로그인 유무에 따른 분기 처리
+    val memberData by myPageViewModel.memberData.collectAsState(initial = null)
 
-    LoginProfileSection(onNavigateToMyInfo)
+    if (memberData == null) {
+        Timber.e("$TAG memberData is null")
+        return
+    }
+
+    if (memberData!!.memberId == 0) { // null 체크하겠지만, 혹시 모름..
+        NotLoginProfileSection(onNavigateToLogin)
+    } else {
+        LoginProfileSection(onNavigateToMyInfo)
+    }
     Spacer(modifier = Modifier.height(20.dp))
     MyReviewData(onNavigateToMyReview)
     Spacer(modifier = Modifier.height(4.dp))
     MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
-    NoticeSection(onNavigateToNoticeAndEvent, myPageUiState, onNavigateToQuestion, onNavigationInquiryInput)
+    NoticeSection(
+        onNavigateToNoticeAndEvent,
+        myPageUiState,
+        onNavigateToQuestion,
+        onNavigationInquiryInput
+    )
 }
 
 // login 안 한 상태
 @Composable
-fun NotLoginProfileSection() {
+fun NotLoginProfileSection(onNavigateToLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -158,7 +178,7 @@ fun NotLoginProfileSection() {
             textColor = Color.Gray
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoginButton()
+        LoginButton(onNavigateToLogin)
     }
 }
 
@@ -224,7 +244,10 @@ fun ModifyMyInfo(onNavigateToMyInfo: () -> Unit) {
                 .background(Color.White)
                 .border(1.dp, Color.White, RoundedCornerShape(50))
                 .padding(horizontal = 14.dp, vertical = 8.dp)
-                .clickable { onNavigateToMyInfo() },
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToMyInfo() },
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -255,7 +278,10 @@ fun MyReviewData(onNavigateToMyReview: () -> Unit) {
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .clickable { onNavigateToMyReview() }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToMyReview() }
         ) {
             Column(
                 modifier = Modifier
@@ -323,7 +349,10 @@ fun MyMileage(
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .clickable { onNavigateToWheat() }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToWheat() }
         ) {
             Column(
                 modifier = Modifier
@@ -378,11 +407,15 @@ fun MyMileage(
 }
 
 @Composable
-fun LoginButton() {
+fun LoginButton(onNavigateToLogin: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp),
+            .height(40.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onNavigateToLogin() },
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -429,7 +462,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         onNavigateToNoticeAndEvent()
                         myPageUiState.isNoticeAndEvent = true
                     }
@@ -459,7 +495,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         onNavigateToNoticeAndEvent()
                         myPageUiState.isNoticeAndEvent = false
                     }
@@ -489,7 +528,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable { onNavigateToQuestion() }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onNavigateToQuestion() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_question),
@@ -516,7 +558,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable { onNavigationInquiryInput() }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onNavigationInquiryInput() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_inquire),

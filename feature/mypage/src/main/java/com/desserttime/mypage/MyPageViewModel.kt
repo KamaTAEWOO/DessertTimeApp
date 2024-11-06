@@ -38,8 +38,6 @@ class MyPageViewModel @Inject constructor(
     private val _memberData: Flow<MemberData> = memberInfoRepository.memberData
     val memberData: Flow<MemberData> = _memberData
 
-    private var hasLoaded = false
-
     override fun reduceState(currentState: MyPageState, event: MyPageEvent): MyPageState =
         when (event) {
             is MyPageEvent.RequestMyPageMemberData -> {
