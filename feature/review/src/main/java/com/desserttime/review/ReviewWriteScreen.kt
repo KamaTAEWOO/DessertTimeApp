@@ -9,6 +9,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -35,6 +36,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -311,9 +313,9 @@ fun ReviewWriteScreen(
                         CommonUi.NextButton(
                             text = stringResource(R.string.txt_review_write_complete),
                             onClick = {},
-                            background = if (inputReviewBehind.length >= 40) MainColor else AltoAgree,
-                            textColor = if (inputReviewBehind.length >= 40) Color.White else DustyGray,
-                            enabled = inputReviewBehind.length >= 40
+                            background = if (inputReviewBehind.length >= 10) MainColor else AltoAgree,
+                            textColor = if (inputReviewBehind.length >= 10) Color.White else DustyGray,
+                            enabled = inputReviewBehind.length >= 10
                         )
                     }
                     Spacer(modifier = Modifier.padding(top = 20.dp))
@@ -362,7 +364,17 @@ fun EditTextBox(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownExample() {
-    val suggestions = listOf("Android", "Android", "Android", "Android", "Android", "Android", "Compose", "Kotlin", "Jetpack")
+    val suggestions = listOf(
+        "Android",
+        "Android",
+        "Android",
+        "Android",
+        "Android",
+        "Android",
+        "Compose",
+        "Kotlin",
+        "Jetpack"
+    )
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<String?>(null) }
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
@@ -469,11 +481,17 @@ fun DropdownExample() {
                                         // 일치하는 부분을 빨간색으로 강조
                                         val annotatedString = buildAnnotatedString {
                                             val inputText = textFieldValue.text
-                                            val startIndex = suggestion.indexOf(inputText, ignoreCase = true)
+                                            val startIndex =
+                                                suggestion.indexOf(inputText, ignoreCase = true)
                                             if (startIndex >= 0) {
                                                 append(suggestion.substring(0, startIndex))
                                                 withStyle(style = SpanStyle(color = Color.Red)) {
-                                                    append(suggestion.substring(startIndex, startIndex + inputText.length))
+                                                    append(
+                                                        suggestion.substring(
+                                                            startIndex,
+                                                            startIndex + inputText.length
+                                                        )
+                                                    )
                                                 }
                                                 append(suggestion.substring(startIndex + inputText.length))
                                             } else {
@@ -624,8 +642,10 @@ fun ScoreCheck() {
                 contentDescription = stringResource(id = R.string.img_review_write_score_description),
                 modifier = Modifier
                     .padding(end = 4.dp)
-                    .clickable {
-                        // Update star states and count
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         for (i in 0..index) {
                             starStates[i] = true
                         }
@@ -659,16 +679,24 @@ fun ScoreCheck() {
 fun MenuPicture() {
     val context = LocalContext.current
     val selectedImages = remember { mutableStateListOf<Uri>() }
+    var replaceIndex by remember { mutableStateOf(-1) }
 
     // ActivityResultLauncher를 사용하여 이미지 선택을 처리합니다.
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
     ) { uris ->
-        // 4개 이하의 이미지 선택만 허용
-        if (uris.size + selectedImages.size <= 4) {
-            selectedImages.addAll(uris)
+        // 만약 replaceIndex가 -1이 아니라면 이미지를 교체하는 로직을 수행합니다.
+        if (replaceIndex != -1) {
+            selectedImages[replaceIndex] = uris[0]
+            replaceIndex = -1
         } else {
-            Toast.makeText(context, "You can only select up to 4 images.", Toast.LENGTH_SHORT).show()
+            // 4개 이하의 이미지 선택만 허용
+            if (uris.size + selectedImages.size <= 4) {
+                selectedImages.addAll(uris)
+            } else {
+                Toast.makeText(context, "You can only select up to 4 images.", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
@@ -688,7 +716,9 @@ fun MenuPicture() {
                 .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp) // 이미지 간격 설정
         ) {
-            items(selectedImages) { uri ->
+            itemsIndexed(selectedImages) { index, uri ->
+
+                Timber.i("$TAG uri: $uri, $index")
                 Box(
                     modifier = Modifier
                         .size(76.dp) // 이미지 크기 조정
@@ -702,12 +732,14 @@ fun MenuPicture() {
                         modifier = Modifier
                             .fillMaxSize()
                             .clickable {
+                                Timber.i("$TAG Clicked image $index, uri: $uri")
+                                replaceIndex = index
                                 imagePickerLauncher.launch("image/*")
                             }
                     )
 
                     // 첫 번째 이미지를 "대표사진"으로 표시
-                    if (uri == selectedImages.first()) {
+                    if (index == 0) {
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -784,4 +816,5 @@ fun MenuPicture() {
 
 @Preview(showBackground = true)
 @Composable
-fun WriteReviewScreenPreview() {}
+fun WriteReviewScreenPreview() {
+}

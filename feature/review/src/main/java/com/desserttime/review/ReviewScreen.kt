@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -287,7 +288,10 @@ fun ReviewItem(
                     painter = painterResource(id = R.drawable.ic_review_write),
                     contentDescription = stringResource(id = R.string.img_review_write_description),
                     tint = Color.Gray,
-                    modifier = Modifier.clickable {
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         sendReviewData(
                             reviewUiState,
                             storeName,
