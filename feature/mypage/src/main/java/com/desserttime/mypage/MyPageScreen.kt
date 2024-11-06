@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -131,7 +133,12 @@ fun ProfileSection(
     Spacer(modifier = Modifier.height(4.dp))
     MyMileage(onNavigateToWheat)
     Spacer(modifier = Modifier.height(20.dp))
-    NoticeSection(onNavigateToNoticeAndEvent, myPageUiState, onNavigateToQuestion, onNavigationInquiryInput)
+    NoticeSection(
+        onNavigateToNoticeAndEvent,
+        myPageUiState,
+        onNavigateToQuestion,
+        onNavigationInquiryInput
+    )
 }
 
 // login 안 한 상태
@@ -224,7 +231,10 @@ fun ModifyMyInfo(onNavigateToMyInfo: () -> Unit) {
                 .background(Color.White)
                 .border(1.dp, Color.White, RoundedCornerShape(50))
                 .padding(horizontal = 14.dp, vertical = 8.dp)
-                .clickable { onNavigateToMyInfo() },
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToMyInfo() },
             contentAlignment = Alignment.Center
         ) {
             Text(
@@ -255,7 +265,10 @@ fun MyReviewData(onNavigateToMyReview: () -> Unit) {
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .clickable { onNavigateToMyReview() }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToMyReview() }
         ) {
             Column(
                 modifier = Modifier
@@ -323,7 +336,10 @@ fun MyMileage(
                     Color.White,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .clickable { onNavigateToWheat() }
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onNavigateToWheat() }
         ) {
             Column(
                 modifier = Modifier
@@ -429,7 +445,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         onNavigateToNoticeAndEvent()
                         myPageUiState.isNoticeAndEvent = true
                     }
@@ -459,7 +478,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable {
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         onNavigateToNoticeAndEvent()
                         myPageUiState.isNoticeAndEvent = false
                     }
@@ -489,7 +511,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable { onNavigateToQuestion() }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onNavigateToQuestion() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_question),
@@ -516,7 +541,10 @@ fun NoticeSection(
                         vertical = 15.dp,
                         horizontal = 20.dp
                     )
-                    .clickable { onNavigationInquiryInput() }
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) { onNavigationInquiryInput() }
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_inquire),
