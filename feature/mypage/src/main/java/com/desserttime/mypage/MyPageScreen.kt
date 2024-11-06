@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -102,7 +103,9 @@ fun MyPageScreen(
                     myPageUiState,
                     onNavigateToQuestion,
                     onNavigationInquiryInput,
-                    onNavigateToMyReview
+                    onNavigateToMyReview,
+                    myPageViewModel,
+                    onNavigateToLogin
                 )
             }
         }
@@ -121,13 +124,23 @@ fun ProfileSection(
     myPageUiState: MyPageState,
     onNavigateToQuestion: () -> Unit,
     onNavigationInquiryInput: () -> Unit,
-    onNavigateToMyReview: () -> Unit
+    onNavigateToMyReview: () -> Unit,
+    myPageViewModel: MyPageViewModel,
+    onNavigateToLogin: () -> Unit
 ) {
-    // NotLoginProfileSection( onNavigateToLogin() )
-    // Spacer(modifier = Modifier.height(40.dp))
-    // NoticeSection()
+    // 로그인 유무에 따른 분기 처리
+    val memberData by myPageViewModel.memberData.collectAsState(initial = null)
 
-    LoginProfileSection(onNavigateToMyInfo)
+    if (memberData == null) {
+        Timber.e("$TAG memberData is null")
+        return
+    }
+
+    if (memberData!!.memberId == 0) { // null 체크하겠지만, 혹시 모름..
+        NotLoginProfileSection(onNavigateToLogin)
+    } else {
+        LoginProfileSection(onNavigateToMyInfo)
+    }
     Spacer(modifier = Modifier.height(20.dp))
     MyReviewData(onNavigateToMyReview)
     Spacer(modifier = Modifier.height(4.dp))
@@ -143,7 +156,7 @@ fun ProfileSection(
 
 // login 안 한 상태
 @Composable
-fun NotLoginProfileSection() {
+fun NotLoginProfileSection(onNavigateToLogin: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,7 +178,7 @@ fun NotLoginProfileSection() {
             textColor = Color.Gray
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoginButton()
+        LoginButton(onNavigateToLogin)
     }
 }
 
@@ -394,11 +407,15 @@ fun MyMileage(
 }
 
 @Composable
-fun LoginButton() {
+fun LoginButton(onNavigateToLogin: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp),
+            .height(40.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onNavigateToLogin() },
         contentAlignment = Alignment.Center
     ) {
         Box(
