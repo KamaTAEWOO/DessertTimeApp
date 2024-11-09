@@ -816,4 +816,3 @@ fun saveReviewWriteData(reviewViewModel: ReviewViewModel) {
     Timber.i("$TAG Save review data")
     reviewViewModel.saveReviewWriteData()
 }
-

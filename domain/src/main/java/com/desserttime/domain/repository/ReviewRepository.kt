@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface ReviewRepository {
 
     // save review
-    fun saveReviewWriteData(reviewWriteData: ReviewWriteData) : Flow<ResponseCommon>
+    fun saveReviewWriteData(reviewWriteData: ReviewWriteData): Flow<ResponseCommon>
 }
