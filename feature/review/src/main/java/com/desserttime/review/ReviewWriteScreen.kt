@@ -35,7 +35,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -71,7 +70,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -147,14 +145,14 @@ fun ReviewWriteScreen(
                     var inputMaterialName by remember { mutableStateOf("") }
                     var inputScore by remember { mutableStateOf("") }
                     var inputReviewBehind by remember { mutableStateOf("") }
-                    val materialArr = listOf(
-                        stringResource(id = R.string.txt_review_write_material_selection_1),
-                        stringResource(id = R.string.txt_review_write_material_selection_2),
-                        stringResource(id = R.string.txt_review_write_material_selection_3),
-                        stringResource(id = R.string.txt_review_write_material_selection_4),
-                        stringResource(id = R.string.txt_review_write_material_selection_5),
-                        stringResource(id = R.string.txt_review_write_material_selection_6),
-                        stringResource(id = R.string.txt_review_write_material_selection_7)
+                    val materialMap = mapOf(
+                        1 to stringResource(id = R.string.txt_review_write_material_selection_1),
+                        2 to stringResource(id = R.string.txt_review_write_material_selection_2),
+                        3 to stringResource(id = R.string.txt_review_write_material_selection_3),
+                        4 to stringResource(id = R.string.txt_review_write_material_selection_4),
+                        5 to stringResource(id = R.string.txt_review_write_material_selection_5),
+                        6 to stringResource(id = R.string.txt_review_write_material_selection_6),
+                        7 to stringResource(id = R.string.txt_review_write_material_selection_7)
                     )
 
                     Box(modifier = Modifier.padding(top = 20.dp))
@@ -207,7 +205,7 @@ fun ReviewWriteScreen(
                     Box(modifier = Modifier.padding(top = 8.dp))
                     MaterialItemList(
                         reviewUiState,
-                        materialArr
+                        materialMap
                     )
                     // 점수
                     Spacer(modifier = Modifier.padding(top = 12.dp))
@@ -220,7 +218,7 @@ fun ReviewWriteScreen(
                             .padding(start = 16.dp)
                     )
                     Box(modifier = Modifier.padding(top = 8.dp))
-                    ScoreCheck()
+                    ScoreCheck(reviewUiState)
                     // 후기 작성
                     Spacer(modifier = Modifier.padding(top = 20.dp))
                     Text(
@@ -312,10 +310,10 @@ fun ReviewWriteScreen(
                     ) {
                         CommonUi.NextButton(
                             text = stringResource(R.string.txt_review_write_complete),
-                            onClick = {},
-                            background = if (inputReviewBehind.length >= 10) MainColor else AltoAgree,
-                            textColor = if (inputReviewBehind.length >= 10) Color.White else DustyGray,
-                            enabled = inputReviewBehind.length >= 10
+                            onClick = { saveReviewWriteData(reviewViewModel) },
+                            background = if (inputReviewBehind.length >= 2) MainColor else AltoAgree,
+                            textColor = if (inputReviewBehind.length >= 2) Color.White else DustyGray,
+                            enabled = inputReviewBehind.length >= 2
                         )
                     }
                     Spacer(modifier = Modifier.padding(top = 20.dp))
@@ -545,9 +543,9 @@ fun DropdownExample() {
 @Composable
 fun MaterialItemList(
     reviewUiState: ReviewState,
-    items: List<String>
+    items: Map<Int, String>
 ) {
-    val selectedItems = remember { mutableStateListOf<String>() }
+    val selectedItems = remember { mutableStateListOf<Int>() } // 번호를 저장하는 리스트
 
     Column(
         modifier = Modifier
@@ -563,30 +561,29 @@ fun MaterialItemList(
             FlowRow(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items.forEach { material ->
-                    // Check if the current material is selected
-                    val isClicked = selectedItems.contains(material)
+                items.forEach { (materialNumber, materialName) ->
+                    val isClicked = selectedItems.contains(materialNumber) // 번호로 선택 여부 확인
 
                     MaterialItemRound(
-                        categorySubName = material,
+                        categorySubName = materialName,
                         modifier = Modifier
                             .padding(end = 8.dp, bottom = 8.dp)
                             .clip(RoundedCornerShape(50))
                             .background(if (isClicked) MainColor20 else WildSand)
                             .clickable {
-                                if (material == "기타") {
+                                if (materialName == "기타") {
                                     selectedItems.clear()
                                     reviewUiState.storeMaterialList = emptyList()
                                 }
 
-                                // Update the selected items list
+                                // 선택된 항목 업데이트
                                 if (isClicked) {
-                                    selectedItems.remove(material)
+                                    selectedItems.remove(materialNumber)
                                 } else {
-                                    selectedItems.add(material)
+                                    selectedItems.add(materialNumber)
                                 }
 
-                                // Update the reviewUiState
+                                // reviewUiState 업데이트
                                 reviewUiState.storeMaterialList = selectedItems.toList()
 
                                 Timber.i("$TAG storeMaterialList: ${reviewUiState.storeMaterialList}")
@@ -621,7 +618,7 @@ fun MaterialItemRound(
 }
 
 @Composable
-fun ScoreCheck() {
+fun ScoreCheck(reviewUiState: ReviewState) {
     val starStates = remember { mutableStateListOf(false, false, false, false) }
     val count = remember { mutableIntStateOf(0) }
 
@@ -658,7 +655,7 @@ fun ScoreCheck() {
         }
         // TODO : 추후 변경 예정
         Text(
-            text = when (count.value) {
+            text = when (count.intValue) {
                 0 -> "평가없음"
                 1 -> "1점"
                 2 -> "2점"
@@ -671,6 +668,7 @@ fun ScoreCheck() {
                 .align(Alignment.CenterVertically)
                 .padding(start = 8.dp)
         )
+        reviewUiState.storeScore = count.intValue
     }
 }
 
@@ -814,7 +812,8 @@ fun MenuPicture() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun WriteReviewScreenPreview() {
+fun saveReviewWriteData(reviewViewModel: ReviewViewModel) {
+    Timber.i("$TAG Save review data")
+    reviewViewModel.saveReviewWriteData()
 }
+
