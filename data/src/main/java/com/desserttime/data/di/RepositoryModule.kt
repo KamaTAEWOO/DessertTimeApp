@@ -3,9 +3,11 @@ package com.desserttime.data.di
 import com.desserttime.data.repository.CategoryRepositoryImpl
 import com.desserttime.data.repository.LikeRepositoryImpl
 import com.desserttime.data.repository.MemberInfoRepositoryImpl
+import com.desserttime.data.repository.ReviewRepositoryImpl
 import com.desserttime.domain.repository.CategoryRepository
 import com.desserttime.domain.repository.LikeRepository
 import com.desserttime.domain.repository.MemberInfoRepository
+import com.desserttime.domain.repository.ReviewRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -33,4 +35,10 @@ interface RepositoryModule {
     fun bindLikeRepository(
         likeRepositoryImpl: LikeRepositoryImpl
     ): LikeRepository
+
+    @Binds
+    @Singleton
+    fun bindReviewRepository(
+        reviewRepositoryImpl: ReviewRepositoryImpl
+    ): ReviewRepository
 }

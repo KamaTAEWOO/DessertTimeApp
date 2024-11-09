@@ -4,6 +4,7 @@ import com.desserttime.core.network.qualifier.LoggingRetrofit
 import com.desserttime.core.network.service.CategoryService
 import com.desserttime.core.network.service.LikeService
 import com.desserttime.core.network.service.MemberInfoService
+import com.desserttime.core.network.service.ReviewService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +34,10 @@ object ServiceModule {
     fun provideLikeService(
         @LoggingRetrofit retrofit: Retrofit
     ): LikeService = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideReviewService(
+        @LoggingRetrofit retrofit: Retrofit
+    ): ReviewService = retrofit.create()
 }
