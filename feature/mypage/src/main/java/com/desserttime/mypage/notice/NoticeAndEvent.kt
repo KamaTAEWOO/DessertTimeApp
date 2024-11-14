@@ -231,6 +231,11 @@ fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): Mu
 }
 
 fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {
+//    val myPageNoticeData: String = "EVENT"
+//    if (myPageUiState.noticeArrayData.isEmpty()) {
+//        myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+//    }
+
     val contentDescriptionDataLists = listOf(
         ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19"),
         ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19")
