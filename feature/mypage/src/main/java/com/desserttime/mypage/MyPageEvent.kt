@@ -3,7 +3,7 @@ package com.desserttime.mypage
 import com.desserttime.core.base.BaseEvent
 import com.desserttime.domain.model.MyPageMemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
-import com.desserttime.domain.model.NoticeData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 
 sealed class MyPageEvent : BaseEvent {
 
@@ -21,6 +21,6 @@ sealed class MyPageEvent : BaseEvent {
     ) : MyPageEvent()
 
     data class RequestMyPageNoticeData(
-        val noticeArrayData: List<NoticeData>
+        val noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice>
     ) : MyPageEvent()
 }

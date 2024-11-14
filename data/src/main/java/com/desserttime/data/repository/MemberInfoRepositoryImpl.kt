@@ -59,7 +59,7 @@ class MemberInfoRepositoryImpl @Inject constructor(
     override fun requestWithdrawalMember(withdrawalData: WithdrawalData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestWithdrawalMember(withdrawalData)
 
-    override fun requestMyPageNoticeData(myPageNoticeData: Boolean): Flow<ResponseMyPageNoticeData> =
+    override fun requestMyPageNoticeData(myPageNoticeData: String): Flow<ResponseMyPageNoticeData> =
         memberInfoRemoteSource.requestMyPageNoticeData(myPageNoticeData)
 
     override fun requestLogout(): Flow<Boolean> =

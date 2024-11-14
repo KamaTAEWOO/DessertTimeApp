@@ -42,7 +42,7 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.ContentDescriptionData
-import com.desserttime.domain.model.NoticeData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
 
@@ -221,19 +221,13 @@ fun NoticeAndEventItem(
     }
 }
 
-fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<NoticeData> {
-    val myPageNoticeData: Boolean = true
+fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<ResponseMyPageNoticeData.NoticeData.Notice> {
+    val myPageNoticeData: String = "NOTICE"
     if (myPageUiState.noticeArrayData.isEmpty()) {
         myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
     }
 
-    val noticeArrayData = myPageUiState.noticeArrayData.toMutableList()
-
-    if (noticeArrayData.isNotEmpty()) {
-        noticeArrayData.removeAt(0)
-    }
-
-    return noticeArrayData
+    return myPageUiState.noticeArrayData.toMutableList()
 }
 
 fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {

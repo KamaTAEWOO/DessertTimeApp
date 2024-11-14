@@ -79,8 +79,8 @@ interface MemberInfoService {
         @Query("context") context: String
     ): ResponseCommonDto
 
-    @GET("/member/my-page/notice/list/{isNotice}")
+    @GET("/member/my-page/notice/list/{noticeType}")
     suspend fun requestMyPageNoticeData(
-        @Query("isNotice") myPageNoticeData: Boolean
+        @Query("noticeType") myPageNoticeData: String
     ): ResponseMyPageNoticeDto
 }

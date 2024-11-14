@@ -36,7 +36,7 @@ interface MemberInfoRepository {
 
     fun requestWithdrawalMember(withdrawalData: WithdrawalData): Flow<ResponseCommon> // 회원 탈퇴 요청
 
-    fun requestMyPageNoticeData(myPageNoticeData: Boolean): Flow<ResponseMyPageNoticeData> // 마이페이지 공지사항 요청
+    fun requestMyPageNoticeData(myPageNoticeData: String): Flow<ResponseMyPageNoticeData> // 마이페이지 공지사항 요청
 
     fun requestLogout(): Flow<Boolean>
 }

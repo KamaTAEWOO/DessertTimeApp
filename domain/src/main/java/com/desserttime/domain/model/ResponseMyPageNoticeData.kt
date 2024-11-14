@@ -2,14 +2,20 @@ package com.desserttime.domain.model
 
 data class ResponseMyPageNoticeData(
     val success: Boolean,
-    val timestamp: String, // ISO-8601 문자열 형태로 받아서 처리
+    val timestamp: String,
     val statusCode: Int,
     val message: String,
-    val data: List<NoticeData>? = listOf()
-)
-
-data class NoticeData(
-    val noticeId: Int,
-    val title: String,
-    val createdDate: String
-)
+    val data: NoticeData
+) {
+    data class NoticeData(
+        val items: List<Notice>,
+        val hasNextPage: Boolean,
+        val nextCursor: String?
+    ) {
+        data class Notice(
+            val noticeId: Int,
+            val title: String,
+            val createdDate: String
+        )
+    }
+}

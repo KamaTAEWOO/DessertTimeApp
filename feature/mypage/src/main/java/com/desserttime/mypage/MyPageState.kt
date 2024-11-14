@@ -3,7 +3,7 @@ package com.desserttime.mypage
 import com.desserttime.core.base.BaseState
 import com.desserttime.domain.model.MyPageMemberData
 import com.desserttime.domain.model.NickNameDoubleCheckData
-import com.desserttime.domain.model.NoticeData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 
 data class MyPageState(
     var taste: String = "",
@@ -12,5 +12,5 @@ data class MyPageState(
     var isNickNameUsable: NickNameDoubleCheckData = NickNameDoubleCheckData.NONE,
     var isAgreeAD: String = "",
     var isAgreeAlarm: String = "",
-    var noticeArrayData: List<NoticeData> = emptyList()
+    var noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList()
 ) : BaseState

@@ -172,14 +172,15 @@ class MyPageViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun requestMyPageNoticeData(myPageNoticeData: Boolean) {
+    fun requestMyPageNoticeData(myPageNoticeData: String) {
         setLoading(true)
 
         memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
             .onEach {
                 Timber.i("$TAG requestMyPageNoticeData: $it")
-                it.data?.let { it1 -> MyPageEvent.RequestMyPageNoticeData(it1) }
-                    ?.let { it2 -> sendAction(it2) }
+//                it.data.items let { it1 -> MyPageEvent.RequestMyPageNoticeData(it1) }
+//                    ?.let { it2 -> sendAction(it2) }
+                sendAction(MyPageEvent.RequestMyPageNoticeData(it.data.items))
             }
             .catch {
                 Timber.e("$TAG $it")

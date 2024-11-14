@@ -6,6 +6,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseMemberData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.WithdrawalData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -86,7 +87,7 @@ class MemberInfoRemoteSource @Inject constructor(
         }
     }
 
-    fun requestMyPageNoticeData(myPageNoticeData: Boolean) = flow {
+    fun requestMyPageNoticeData(myPageNoticeData: String): Flow<ResponseMyPageNoticeData> = flow {
         emit(memberInfoService.requestMyPageNoticeData(myPageNoticeData).toModel())
     }
 
