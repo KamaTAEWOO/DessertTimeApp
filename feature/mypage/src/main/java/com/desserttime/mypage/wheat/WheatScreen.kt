@@ -43,6 +43,7 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.WheatDetailData
 import com.desserttime.mypage.MyPageViewModel
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun WheatScreen(
