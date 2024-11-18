@@ -217,4 +217,19 @@ class MyPageViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
+    fun requestWheatData(memberId: Int) {
+//        setLoading(true)
+//        memberInfoRepository.requestWheatData()
+//            .onEach {
+//                Timber.i("$TAG requestWheatData: $it")
+//            }
+//            .catch {
+//                Timber.e("$TAG $it")
+//            }
+//            .onCompletion {
+//                setLoading(false)
+//            }
+//            .launchIn(viewModelScope)
+    }
 }

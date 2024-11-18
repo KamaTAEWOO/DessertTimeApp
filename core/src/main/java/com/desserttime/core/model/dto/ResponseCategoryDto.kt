@@ -14,7 +14,7 @@ data class ResponseCategoryMainInfo(
     @SerializedName("dessertName") val dessertName: String,
     @SerializedName("parentDCId") val parentDCId: Int,
     @SerializedName("sessionNum") val sessionNum: Int,
-    @SerializedName("secondCategory") val secondCategory: List<ResponseCategorySubInfoData>?
+    @SerializedName("nextCategory") val secondCategory: List<ResponseCategorySubInfoData>?
 ) {
     // Model 변환 함수
     fun toModel() = ResponseCategoryMainInfoData(
