@@ -15,7 +15,7 @@ data class ResponseMyPageNoticeData(
         data class Notice(
             val noticeId: Int,
             val title: String,
-            val createdDate: String
+            val content: String
         )
     }
 }

@@ -56,6 +56,14 @@ class MyPageViewModel @Inject constructor(
                 currentState.copy(noticeArrayData = event.noticeArrayData)
             }
 
+            is MyPageEvent.RequestMyPageEventData -> {
+                currentState.copy(eventArrayData = event.eventArrayData)
+            }
+
+            is MyPageEvent.RequestMyPageFQAData -> {
+                currentState.copy(fqaArrayData = event.fqaArrayData)
+            }
+
             else -> currentState
         }
 
@@ -178,9 +186,13 @@ class MyPageViewModel @Inject constructor(
         memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
             .onEach {
                 Timber.i("$TAG requestMyPageNoticeData: $it")
-//                it.data.items let { it1 -> MyPageEvent.RequestMyPageNoticeData(it1) }
-//                    ?.let { it2 -> sendAction(it2) }
-                sendAction(MyPageEvent.RequestMyPageNoticeData(it.data.items))
+                if (myPageNoticeData == "EVENT") {
+                    sendAction(MyPageEvent.RequestMyPageEventData(it.data.items))
+                } else if (myPageNoticeData == "FAQ") {
+                    sendAction(MyPageEvent.RequestMyPageFQAData(it.data.items))
+                } else {
+                    sendAction(MyPageEvent.RequestMyPageNoticeData(it.data.items))
+                }
             }
             .catch {
                 Timber.e("$TAG $it")

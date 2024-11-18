@@ -41,7 +41,6 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
-import com.desserttime.domain.model.ContentDescriptionData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
@@ -166,7 +165,7 @@ fun NoticeContent(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState) 
             .padding(horizontal = 20.dp)
     ) {
         items(noticeData.size) { item ->
-            NoticeAndEventItem(noticeData[item].title, noticeData[item].createdDate)
+            NoticeAndEventItem(noticeData[item].title, noticeData[item].content)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -182,7 +181,7 @@ fun EventContent(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState) {
             .padding(horizontal = 20.dp)
     ) {
         items(eventData.size) { item ->
-            NoticeAndEventItem(eventData[item].content, eventData[item].description)
+            NoticeAndEventItem(eventData[item].title, eventData[item].content)
             Spacer(modifier = Modifier.height(8.dp)) // Adds space between items
         }
     }
@@ -230,15 +229,11 @@ fun noticeData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): Mu
     return myPageUiState.noticeArrayData.toMutableList()
 }
 
-fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): List<ContentDescriptionData> {
-//    val myPageNoticeData: String = "EVENT"
-//    if (myPageUiState.noticeArrayData.isEmpty()) {
-//        myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
-//    }
+fun eventData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<ResponseMyPageNoticeData.NoticeData.Notice> {
+    val myPageNoticeData: String = "EVENT"
+    if (myPageUiState.eventArrayData.isEmpty()) {
+        myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+    }
 
-    val contentDescriptionDataLists = listOf(
-        ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19"),
-        ContentDescriptionData(content = "출석체크하고 곳간 채우기!", description = "2024.04.19")
-    )
-    return contentDescriptionDataLists
+    return myPageUiState.eventArrayData.toMutableList()
 }

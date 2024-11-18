@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +40,8 @@ import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
-import com.desserttime.domain.model.ContentDescriptionData
+import com.desserttime.domain.model.ResponseMyPageNoticeData
+import com.desserttime.mypage.MyPageState
 import com.desserttime.mypage.MyPageViewModel
 
 @Composable
@@ -47,6 +49,7 @@ fun QuestionScreen(
     myPageViewModel: MyPageViewModel
 ) {
     val isLoading by myPageViewModel.isLoading
+    val myPageUiState by myPageViewModel.uiState.collectAsState()
 
     Scaffold(
         modifier = Modifier
@@ -71,7 +74,7 @@ fun QuestionScreen(
                     .background(WildSand)
             ) {
                 Spacer(Modifier.height(20.dp))
-                QuestionContent()
+                QuestionContent(myPageViewModel, myPageUiState)
             }
         }
     )
@@ -82,8 +85,8 @@ fun QuestionScreen(
 }
 
 @Composable
-fun QuestionContent() {
-    val questionData = questionData()
+fun QuestionContent(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState) {
+    val questionData = fqaData(myPageViewModel, myPageUiState)
 
     LazyColumn(
         modifier = Modifier
@@ -91,7 +94,7 @@ fun QuestionContent() {
             .padding(horizontal = 20.dp)
     ) {
         items(questionData.size) { item ->
-            QuestionItem(questionData[item].content, questionData[item].description)
+            QuestionItem(questionData[item].title, questionData[item].content)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -146,17 +149,12 @@ fun QuestionItem(
     }
 }
 
-@Composable
-fun questionData(): List<ContentDescriptionData> {
-    val contentDescriptionDataLists = listOf(
-        ContentDescriptionData(
-            content = stringResource(R.string.txt_question_test_title),
-            description = stringResource(R.string.txt_question_test_content)
-        ),
-        ContentDescriptionData(
-            content = stringResource(R.string.txt_question_test_title),
-            description = stringResource(R.string.txt_question_test_content)
-        )
-    )
-    return contentDescriptionDataLists
+private fun fqaData(myPageViewModel: MyPageViewModel, myPageUiState: MyPageState): MutableList<ResponseMyPageNoticeData.NoticeData.Notice> {
+    val myPageNoticeData: String = "FAQ"
+    if (myPageUiState.fqaArrayData.isEmpty()) {
+        myPageViewModel.requestMyPageNoticeData(myPageNoticeData)
+    }
+
+    return myPageUiState.fqaArrayData.toMutableList()
 }
+

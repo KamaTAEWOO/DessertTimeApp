@@ -38,7 +38,7 @@ data class ResponseMyPageNoticeDto(
         fun toModel() = ResponseMyPageNoticeData.NoticeData.Notice(
             noticeId = noticeId,
             title = title,
-            createdDate = createdDate
+            content = createdDate
         )
     }
 }

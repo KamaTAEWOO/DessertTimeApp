@@ -12,5 +12,7 @@ data class MyPageState(
     var isNickNameUsable: NickNameDoubleCheckData = NickNameDoubleCheckData.NONE,
     var isAgreeAD: String = "",
     var isAgreeAlarm: String = "",
-    var noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList()
+    var noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList(),
+    var eventArrayData : List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList(),
+    var fqaArrayData : List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList()
 ) : BaseState

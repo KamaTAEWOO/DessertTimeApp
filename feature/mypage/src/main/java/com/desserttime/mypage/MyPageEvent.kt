@@ -23,4 +23,12 @@ sealed class MyPageEvent : BaseEvent {
     data class RequestMyPageNoticeData(
         val noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice>
     ) : MyPageEvent()
+
+    data class RequestMyPageEventData(
+        val eventArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice>
+    ) : MyPageEvent()
+
+    data class RequestMyPageFQAData(
+        val fqaArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice>
+    ) : MyPageEvent()
 }
