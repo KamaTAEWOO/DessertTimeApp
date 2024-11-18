@@ -13,6 +13,6 @@ data class MyPageState(
     var isAgreeAD: String = "",
     var isAgreeAlarm: String = "",
     var noticeArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList(),
-    var eventArrayData : List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList(),
-    var fqaArrayData : List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList()
+    var eventArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList(),
+    var fqaArrayData: List<ResponseMyPageNoticeData.NoticeData.Notice> = emptyList()
 ) : BaseState

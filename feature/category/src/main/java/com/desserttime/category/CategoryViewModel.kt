@@ -42,7 +42,7 @@ class CategoryViewModel @Inject constructor(
 
         categoryRepository.requestAllCategories()
             .onEach {
-                // Timber.i("$TAG requestCategoryData: $it")
+                Timber.i("$TAG requestCategoryData: $it")
                 sendAction(CategoryEvent.RequestCategoryData(it))
             }
             .catch {

@@ -79,7 +79,7 @@ fun WheatScreen(
                 WheatContent()
                 Spacer(modifier = Modifier.height(20.dp))
                 // detail wheat content
-                WheatDetailContent()
+                WheatDetailContent(myPageViewModel)
             }
         }
     )
@@ -179,9 +179,9 @@ fun WheatContent() {
 }
 
 @Composable
-fun WheatDetailContent() {
+fun WheatDetailContent(myPageViewModel: MyPageViewModel) {
     // Load wheat detail data
-    val wheatDetailData = loadData()
+    val wheatDetailData = loadData(myPageViewModel)
 
     Column(
         modifier = Modifier
@@ -272,7 +272,7 @@ fun WheatDetailItem(wheatDetailData: WheatDetailData) {
     }
 }
 
-fun loadData(): List<WheatDetailData> {
+fun loadData(myPageViewModel: MyPageViewModel): List<WheatDetailData> {
     // WheatDetailData 리스트로 담기
     val wheatDetailDataList = listOf(
         WheatDetailData(name = "바질치즈 스콘", price = 4, date = "2024.04.19"),
