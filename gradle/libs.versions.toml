@@ -55,6 +55,9 @@ androidx-webkit = "1.5.0"
 # glide
 glide = "4.12.0"
 
+# lottie
+lottie = "6.1.0"
+
 # compose
 androidx-activity-compose = "1.5.1"
 androidx-compose-bom = "2023.10.01"
@@ -136,6 +139,9 @@ androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "a
 
 # glide
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+
+# lottie
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 
 # coil
 coil = { group = "io.coil-kt", name = "coil", version.ref = "coil-compose" }
