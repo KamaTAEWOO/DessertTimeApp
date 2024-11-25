@@ -307,7 +307,6 @@ object CommonUi {
         }
     }
 
-
     @SuppressLint("RememberReturnType")
     @Composable
     fun LoadingGifScreen(gifResId: Int, showIndicator: Boolean = true) {

@@ -720,7 +720,7 @@ private fun inputData(
 
 private fun saveData(myPageViewModel: MyPageViewModel) {
     // Save the data to the server
-    Timber.i("$TAG saveData: ${(gBackupMemberData?.memberId ?: "").toString()} $gBirthYear, $gGender, $gFirstCity, $gSecondCity, $gThirdCity, $gNickname, $gTaste")
+    Timber.i("$TAG saveData: ${(gBackupMemberData?.memberId ?: "")} $gBirthYear, $gGender, $gFirstCity, $gSecondCity, $gThirdCity, $gNickname, $gTaste")
     val memberSaveData = RequestMyPageMemberSaveData(
         memberId = (gBackupMemberData?.memberId ?: "").toString(),
         birth = gBirthYear,
