@@ -340,12 +340,12 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             // Add a refresh button to reload the page
-            Button(
-                onClick = { webView?.reload() },
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text("Refresh Page")
-            }
+//            Button(
+//                onClick = { webView?.reload() },
+//                modifier = Modifier.padding(16.dp)
+//            ) {
+//                Text("Refresh Page")
+//            }
 
             AndroidView(
                 factory = { context ->
