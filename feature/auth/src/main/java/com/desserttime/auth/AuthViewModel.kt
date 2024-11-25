@@ -281,7 +281,7 @@ class AuthViewModel @Inject constructor(
             .onEach { response ->
                 Timber.i("$TAG checkValidation: response=$response")
                 if (response.statusCode == 200) {
-                    response.data?.memberId?.let { memberId ->
+                    response.data.memberId.let { memberId ->
                         Timber.i("$TAG checkValidation: memberId=$memberId")
                         onNavigateToHome()
                     } ?: run {

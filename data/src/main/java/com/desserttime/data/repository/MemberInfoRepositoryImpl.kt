@@ -33,7 +33,7 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override val memberData: Flow<MemberData> = memberDataStore.memberData
 
-    override fun requestMemberData(): Flow<ResponseMyPageMemberData> = memberInfoRemoteSource.requestMemberData()
+    override fun requestMemberData(memberId: String): Flow<ResponseMyPageMemberData> = memberInfoRemoteSource.requestMemberData(memberId)
 
     override fun requestNicknameDoubleCheck(nickname: String): Flow<ResponseNicknameDoubleCheckData> =
         memberInfoRemoteSource.requestNicknameDoubleCheck(nickname)

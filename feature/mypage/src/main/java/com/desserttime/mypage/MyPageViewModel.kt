@@ -10,6 +10,7 @@ import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -67,10 +68,10 @@ class MyPageViewModel @Inject constructor(
             else -> currentState
         }
 
-    fun requestMyPageMemberData() {
+    fun requestMyPageMemberData(memberId: String) {
         setLoading(true)
 
-        memberInfoRepository.requestMemberData()
+        memberInfoRepository.requestMemberData(memberId)
             .onEach {
                 Timber.i("$TAG requestMyPageMemberData: $it")
                 sendAction(MyPageEvent.RequestMyPageMemberData(it.data))
@@ -110,7 +111,10 @@ class MyPageViewModel @Inject constructor(
 
         memberInfoRepository.requestMyPageMemberSaveData(memberSaveData)
             .onEach {
-                Timber.i("$TAG requestMyPageMemberSaveData: $it")
+                Timber.i("$TAG requestMyPageMemberSaveData: $it ${memberSaveData.memberId}")
+                delay(1000)
+                // 성공 시 다시 사용자 정보를 업데이트 해줘야함.
+                requestMyPageMemberData(memberSaveData.memberId)
             }
             .catch {
                 Timber.e("$TAG $it")

@@ -6,6 +6,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseMemberData
+import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.WithdrawalData
 import kotlinx.coroutines.flow.Flow
@@ -39,8 +40,8 @@ class MemberInfoRemoteSource @Inject constructor(
         emit(memberInfoService.requestInquiry(requestInquiryData).toModel())
     }
 
-    fun requestMemberData() = flow {
-        emit(memberInfoService.requestMemberData("1").toModel())
+    fun requestMemberData(memberId: String): Flow<ResponseMyPageMemberData> = flow {
+        emit(memberInfoService.requestMemberData(memberId).toModel())
     }
     fun requestNicknameDoubleCheck(nickname: String) = flow {
         emit(memberInfoService.requestNicknameDoubleCheck("nickname", nickname).toModel())
