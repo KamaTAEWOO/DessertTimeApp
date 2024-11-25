@@ -186,7 +186,7 @@ fun NotLoginProfileSection(onNavigateToLogin: () -> Unit) {
 
 // login 한 상태
 @Composable
-fun LoginProfileSection(onNavigateToMyInfo: () -> Unit, MemberData: MemberData?) {
+fun LoginProfileSection(onNavigateToMyInfo: () -> Unit, memberData: MemberData?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -203,7 +203,7 @@ fun LoginProfileSection(onNavigateToMyInfo: () -> Unit, MemberData: MemberData?)
         )
         Spacer(modifier = Modifier.height(20.dp))
         CenteredTextBox(
-            text = MemberData?.nickName ?: "",
+            text = memberData?.nickName ?: "",
             textStyle = DessertTimeTheme.typography.textStyleBold24,
             textColor = Color.Black
         )
