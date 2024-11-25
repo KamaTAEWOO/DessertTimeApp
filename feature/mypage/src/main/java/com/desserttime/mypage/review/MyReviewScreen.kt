@@ -297,7 +297,7 @@ fun ReviewItemDeletePopup(
     if (showDialog) {
         Dialog(onDismissRequest = { showDialog = false }) {
             CommonPopup(
-                title = stringResource(R.string.txt_review_delete_popup_title),
+                title = stringResource(R.string.txt_mypage_delete_popup_title),
                 onConfirm = {
                     showDialog = false
                     onDeleteConfirm() // 삭제 확인 콜백 호출

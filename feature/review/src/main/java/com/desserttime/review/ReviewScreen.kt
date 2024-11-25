@@ -48,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -59,6 +60,7 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
+import com.desserttime.design.ui.common.PopUpUi.CommonPopup
 import timber.log.Timber
 
 private const val TAG = "ReviewScreen::"
@@ -333,6 +335,8 @@ fun ReviewItemDeletePopup(
     onDeleteConfirm: () -> Unit, // 삭제 확인 시 호출되는 콜백 함수
     onDismiss: () -> Unit // 팝업 닫기 시 호출되는 콜백 함수
 ) {
+    // 팝업창의 표시 여부를 위한 상태
+    var showDialog by remember { mutableStateOf(false) }
     Timber.i("anchorPosition: $anchorPosition, x: ${anchorPosition.x}, y: ${anchorPosition.y}")
 
     Popup(
@@ -354,7 +358,9 @@ fun ReviewItemDeletePopup(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TextButton(onClick = { onDeleteConfirm() }) {
+                TextButton(onClick = {
+                    showDialog = true
+                }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
@@ -374,6 +380,26 @@ fun ReviewItemDeletePopup(
                     }
                 }
             }
+        }
+    }
+
+    // showDialog가 true일 때 화면 중앙에 CommonPopup을 Dialog로 표시
+    if (showDialog) {
+        Dialog(onDismissRequest = { showDialog = false }) {
+            CommonPopup(
+                title = stringResource(R.string.txt_review_delete_popup_title),
+                onConfirm = {
+                    showDialog = false
+                    onDeleteConfirm() // 삭제 확인 콜백 호출
+                },
+                onDismiss = {
+                    showDialog = false
+                    onDismiss() // 팝업 닫기 콜백 호출
+                },
+                onPopupDismiss = {
+                    showDialog = false
+                }
+            )
         }
     }
 }
