@@ -48,6 +48,8 @@ import com.desserttime.design.theme.Tundora
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
+import com.desserttime.domain.model.MemberData
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 private const val TAG = "MyPageScreen::"
@@ -70,7 +72,7 @@ fun MyPageScreen(
     globalMyPageUiState = myPageUiState
 
     LaunchedEffect(myPageViewModel) {
-        myPageViewModel.requestMyPageMemberData()
+        myPageViewModel.requestMyPageMemberData(myPageViewModel.memberData.first().memberId.toString())
     }
 
     Timber.i("$TAG myPageUiState: ${globalMyPageUiState.myPageMemberData.nickName}, ${globalMyPageUiState.myPageMemberData.usersReviewCount}, ${globalMyPageUiState.myPageMemberData.usersTotalPoint}")
@@ -139,7 +141,7 @@ fun ProfileSection(
     if (memberData!!.memberId == 0) { // null 체크하겠지만, 혹시 모름..
         NotLoginProfileSection(onNavigateToLogin)
     } else {
-        LoginProfileSection(onNavigateToMyInfo)
+        LoginProfileSection(onNavigateToMyInfo, memberData)
     }
     Spacer(modifier = Modifier.height(20.dp))
     MyReviewData(onNavigateToMyReview)
@@ -184,7 +186,7 @@ fun NotLoginProfileSection(onNavigateToLogin: () -> Unit) {
 
 // login 한 상태
 @Composable
-fun LoginProfileSection(onNavigateToMyInfo: () -> Unit) {
+fun LoginProfileSection(onNavigateToMyInfo: () -> Unit, memberData: MemberData?) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -201,7 +203,7 @@ fun LoginProfileSection(onNavigateToMyInfo: () -> Unit) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         CenteredTextBox(
-            text = globalMyPageUiState.myPageMemberData.nickName,
+            text = memberData?.nickName ?: "",
             textStyle = DessertTimeTheme.typography.textStyleBold24,
             textColor = Color.Black
         )

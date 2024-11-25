@@ -43,6 +43,9 @@ dependencies {
     // glide
     implementation(libs.glide)
 
+    // lottie
+    implementation(libs.lottie)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

@@ -153,7 +153,7 @@ fun LoginScreen(
     }
 
     if (isLoading) {
-        CommonUi.LoadingScreen()
+        CommonUi.LottieAnimationDemo()
     }
 }
 

@@ -9,5 +9,5 @@ data class ReviewWriteData(
     val score: Int,
     val ingredientId: List<Int>,
     val content: String,
-    val isSaved: Boolean
+    val status: Boolean
 )

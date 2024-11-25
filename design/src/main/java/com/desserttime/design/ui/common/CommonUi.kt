@@ -44,6 +44,10 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Popup
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bumptech.glide.Glide
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black30
@@ -279,6 +283,26 @@ object CommonUi {
                 contentAlignment = Alignment.Center
             ) {
                 LoadingGifScreen(R.drawable.loading, true)
+            }
+        }
+    }
+
+    @Composable
+    fun LottieAnimationDemo(isLoading: Boolean = true) {
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading1))
+        val progress by animateLottieCompositionAsState(composition)
+
+        if (isLoading) {
+            Box(
+                modifier = Modifier
+                    .background(Color.Black.copy(alpha = 0.1f)),
+                contentAlignment = Alignment.Center
+            ) {
+                LottieAnimation(
+                    composition = composition,
+                    progress = progress,
+                    modifier = Modifier.size(120.dp)
+                )
             }
         }
     }

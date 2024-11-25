@@ -61,14 +61,14 @@ class ReviewViewModel @Inject constructor(
                 // ReviewWriteData 객체 생성
                 val reviewWriteData = ReviewWriteData(
                     memberId = memberId,
-                    reviewId = 10, // reviewId를 동적으로 할당해야 하는 경우 적절히 수정
+                    reviewId = 4, // reviewId를 동적으로 할당해야 하는 경우 적절히 수정
                     storeName = storeName,
                     menuName = menuName,
                     dessertCategoryId = dessertCategoryId,
                     score = score,
                     ingredientId = ingredientId,
                     content = content,
-                    isSaved = true
+                    status = true
                 )
 
                 // 리뷰 데이터 저장
