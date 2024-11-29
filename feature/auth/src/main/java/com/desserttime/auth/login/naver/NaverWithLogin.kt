@@ -66,16 +66,14 @@ suspend fun fetchNaverUserInfo(): LoginResult {
                     val responseObj = jsonObject.getJSONObject("response")
                     val name = responseObj.getString("name")
                     val email = responseObj.getString("email")
-                    val id = responseObj.getString("id")
-
-                    Timber.i("$TAG id: $id") // 로그인 시 토큰 대신 사용 7ImgfubjaYVScQZf-N-gES7YwmZeQhPP8E2wMrHxINU
+                    val token = NaverIdLoginSDK.getAccessToken()
 
                     LoginResult.SUCCESS(
                         MemberProfileData(
                             id = NAVER_LOGIN_PROVIDER,
                             name = name,
                             email = email,
-                            token = id
+                            token = token ?: ""
                         )
                     )
                 } else {
