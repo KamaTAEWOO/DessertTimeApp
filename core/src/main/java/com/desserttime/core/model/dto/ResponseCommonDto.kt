@@ -8,13 +8,15 @@ data class ResponseCommonDto(
     @SerializedName("success") val success: Boolean,
     @SerializedName("timestamp") val timestamp: String,
     @SerializedName("statusCode") val statusCode: Int,
-    @SerializedName("message") val message: String
+    @SerializedName("message") val message: String,
+    @SerializedName("error") val error: String? = null
 ) {
     // Model로 변환하는 함수
     fun toModel() = ResponseCommon(
         success = success,
         timestamp = timestamp,
         statusCode = statusCode,
-        message = message
+        message = message,
+        error = error
     )
 }

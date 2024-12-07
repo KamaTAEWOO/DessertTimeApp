@@ -4,5 +4,6 @@ data class ResponseCommon(
     val success: Boolean = false,
     val timestamp: String = "",
     val statusCode: Int = 0,
-    val message: String = ""
+    val message: String = "",
+    val error: String? = null
 )
