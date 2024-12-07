@@ -1,7 +1,7 @@
 name: "✨ Feature"
 description: "새로운 기능 추가"
 labels: ["feature"]
-assignees: ["user"]
+assignees: ["KamaTAEWOO"]
 body:
   - type: textarea
     attributes:
