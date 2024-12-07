@@ -367,7 +367,7 @@ fun MyInfoScreen(
                                     selectedYear = year + "년" // 선택된 연도 설정
                                     expanded = false // DropdownMenu 닫기
                                 },
-                                selectedYear = selectedYear,
+                                currentYear = selectedYear.toInt(),
                                 onDismiss = {
                                     expanded = false // DropdownMenu를 닫기 위한 콜백
                                 }

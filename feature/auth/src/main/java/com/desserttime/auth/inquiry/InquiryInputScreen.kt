@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -29,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
@@ -41,11 +39,7 @@ import com.desserttime.design.theme.DoveGray
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
-import timber.log.Timber
 
-private const val TAG = "InquiryInputScreen::"
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InquiryInputScreen(
     onNavigateToInquiryComplete: () -> Unit,
@@ -62,105 +56,135 @@ fun InquiryInputScreen(
         var contentText by remember { mutableStateOf("") }
 
         Spacer(Modifier.padding(top = 54.dp))
-        // Row -> 이미지, Text
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 18.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_back_arrow),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable { onBack() },
-                    contentScale = ContentScale.Fit
-                )
-            }
+        TitleSection(onBack)
+        Spacer(Modifier.padding(top = 40.dp))
+
+        emailText = inquiryEmail(emailText)
+        Spacer(Modifier.padding(top = 20.dp))
+
+        contentText = inquiryContent(contentText)
+        InquiryNextButton(emailText, contentText, authViewModel, onNavigateToInquiryComplete)
+    }
+}
+
+@Composable
+private fun inquiryContent(contentText: String): String {
+    var contentText1 = contentText
+    Text(
+        text = stringResource(id = R.string.txt_inquiry_content),
+        style = DessertTimeTheme.typography.textStyleBold14,
+        color = DoveGray
+    )
+    Spacer(Modifier.padding(top = 8.dp))
+    // outlineTextField
+    OutlinedTextField(
+        value = contentText1,
+        onValueChange = { newText -> contentText1 = newText },
+        textStyle = DessertTimeTheme.typography.textStyleRegular16,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(108.dp),
+        placeholder = {
             Text(
-                text = stringResource(id = R.string.txt_inquiry_title),
-                style = DessertTimeTheme.typography.textStyleBold20,
+                text = stringResource(id = R.string.txt_inquiry_content_hint),
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                color = Black30
+            )
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = AzureRadiance,
+            unfocusedBorderColor = Black30,
+            focusedContainerColor = WildSand
+        )
+    )
+    return contentText1
+}
+
+@Composable
+private fun inquiryEmail(emailText: TextFieldValue): TextFieldValue {
+    var emailText1 = emailText
+    Text(
+        text = stringResource(id = R.string.txt_inquiry_email),
+        style = DessertTimeTheme.typography.textStyleBold14,
+        color = DoveGray
+    )
+    Spacer(Modifier.padding(top = 8.dp))
+    // EditText
+    CommonUi.CustomTextField(
+        textFieldValue = emailText1,
+        onValueChange = { newText -> emailText1 = newText },
+        placeholderText = stringResource(id = R.string.txt_inquiry_email_hint),
+        placeholderStyle = DessertTimeTheme.typography.textStyleMedium16,
+        containerColor = Color.Transparent,
+        cursorColor = Color.Black,
+        focusedIndicatorColor = AzureRadiance,
+        unfocusedIndicatorColor = Black30,
+        textStyle = DessertTimeTheme.typography.textStyleMedium16,
+        underlineThickness = 1.dp,
+        paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp)
+    )
+    return emailText1
+}
+
+@Composable
+private fun TitleSection(onBack: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 18.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_back_arrow),
+                contentDescription = null,
                 modifier = Modifier
-                    .align(Alignment.Center) // Center the text within the Box
+                    .size(24.dp)
+                    .clickable { onBack() },
+                contentScale = ContentScale.Fit
             )
         }
-        Spacer(Modifier.padding(top = 40.dp))
         Text(
-            text = stringResource(id = R.string.txt_inquiry_email),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray
-        )
-        Spacer(Modifier.padding(top = 8.dp))
-        // EditText
-        CommonUi.CustomTextField(
-            textFieldValue = emailText,
-            onValueChange = { newText -> emailText = newText },
-            placeholderText = stringResource(id = R.string.txt_inquiry_email_hint),
-            placeholderStyle = DessertTimeTheme.typography.textStyleMedium16,
-            containerColor = Color.Transparent,
-            cursorColor = Color.Black,
-            focusedIndicatorColor = AzureRadiance,
-            unfocusedIndicatorColor = Black30,
-            textStyle = DessertTimeTheme.typography.textStyleMedium16,
-            underlineThickness = 1.dp,
-            paddingVertical = 0.dp, // 텍스트와 언더라인 사이의 간격 조절
+            text = stringResource(id = R.string.txt_inquiry_title),
+            style = DessertTimeTheme.typography.textStyleBold20,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp)
+                .align(Alignment.Center) // Center the text within the Box
         )
-        Spacer(Modifier.padding(top = 20.dp))
-        Text(
-            text = stringResource(id = R.string.txt_inquiry_content),
-            style = DessertTimeTheme.typography.textStyleBold14,
-            color = DoveGray
-        )
-        Spacer(Modifier.padding(top = 8.dp))
-        // outlineTextField
-        OutlinedTextField(
-            value = contentText,
-            onValueChange = { newText -> contentText = newText },
-            textStyle = DessertTimeTheme.typography.textStyleRegular16,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(108.dp),
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.txt_inquiry_content_hint),
-                    style = DessertTimeTheme.typography.textStyleRegular16,
-                    color = Black30
+    }
+}
+
+@Composable
+private fun InquiryNextButton(
+    emailText: TextFieldValue,
+    contentText: String,
+    authViewModel: AuthViewModel,
+    onNavigateToInquiryComplete: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 58.dp),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        CommonUi.NextButton(
+            text = stringResource(R.string.txt_inquiry_content_send),
+            onClick = {
+                requestSaveInqueryData(
+                    emailText.text,
+                    contentText,
+                    authViewModel,
+                    onNavigateToInquiryComplete
                 )
             },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = AzureRadiance,
-                unfocusedBorderColor = Black30,
-                focusedContainerColor = WildSand
-            )
+            background = MainColor,
+            textColor = Color.White,
+            enabled = true
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 58.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            CommonUi.NextButton(
-                text = stringResource(R.string.txt_inquiry_content_send),
-                onClick = {
-                    requestSaveInqueryData(
-                        emailText.text,
-                        contentText,
-                        authViewModel,
-                        onNavigateToInquiryComplete
-                    )
-                },
-                background = MainColor,
-                textColor = Color.White,
-                enabled = true
-            )
-        }
     }
 }
 
@@ -171,10 +195,5 @@ fun requestSaveInqueryData(
     authViewModel: AuthViewModel,
     onNavigateToInquiryComplete: () -> Unit
 ) {
-    Timber.d("$TAG requestSaveInqueryData: emailText = $emailText, contentText = $contentText")
     authViewModel.requestSendInquiryData(emailText, contentText, onNavigateToInquiryComplete)
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {}

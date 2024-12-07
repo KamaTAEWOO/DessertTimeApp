@@ -4,11 +4,9 @@ import com.desserttime.domain.model.MemberProfileData
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.coroutines.suspendCancellableCoroutine
-import timber.log.Timber
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-private const val TAG = "KakaoWithLogin"
 private const val KAKAO_LOGIN_PROVIDER = "kakao"
 
 suspend fun loginWithKakaoAccount(
@@ -24,8 +22,6 @@ suspend fun loginWithKakaoAccount(
         // 성공적으로 로그인 및 사용자 정보 가져왔을 경우
         userInfoResult
     } catch (e: Exception) {
-        // 로그인 실패 시
-        Timber.i("$TAG Login failed: ${e.message}")
         LoginResult.ERROR("Kakao Account login failed: ${e.message}")
     }
 }
@@ -48,10 +44,8 @@ suspend fun fetchKakaoUserInfo(token: OAuthToken): LoginResult {
     return suspendCancellableCoroutine { continuation ->
         UserApiClient.instance.me { user, error ->
             if (error != null) {
-                Timber.i("$TAG Failed to get user info: ${error.message}")
                 continuation.resume(LoginResult.ERROR("Failed to fetch user info: ${error.message}"))
             } else if (user != null) {
-                Timber.i("$TAG user.id: ${token.accessToken}") // 로그인 시 토큰 대신 사용 3677513571
                 val memberProfileData = MemberProfileData(
                     id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
