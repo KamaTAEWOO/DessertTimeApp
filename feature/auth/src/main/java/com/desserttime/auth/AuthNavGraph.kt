@@ -36,7 +36,6 @@ import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
-    authViewModel: AuthViewModel,
     categoryViewModel: CategoryViewModel,
     reviewViewModel: ReviewViewModel,
     myPageViewModel: MyPageViewModel,
@@ -54,8 +53,7 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -66,8 +64,7 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -78,8 +75,7 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -98,8 +94,7 @@ fun NavGraphBuilder.authNavGraph(
                             inclusive = false
                         }
                     }
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -110,8 +105,7 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 

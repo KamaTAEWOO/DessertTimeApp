@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -31,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
@@ -49,7 +51,7 @@ private const val TAG = "InquiryInputScreen::"
 fun InquiryInputScreen(
     onNavigateToInquiryComplete: () -> Unit,
     onBack: () -> Unit,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -133,10 +135,10 @@ fun InquiryInputScreen(
                     color = Black30
                 )
             },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = WildSand,
-                focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = AzureRadiance,
+                unfocusedBorderColor = Black30,
+                focusedContainerColor = WildSand
             )
         )
         Column(

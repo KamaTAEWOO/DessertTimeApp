@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -163,10 +164,10 @@ fun WithdrawalReason() {
                     color = Black30
                 )
             },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = WildSand,
-                focusedIndicatorColor = AzureRadiance,
-                unfocusedIndicatorColor = Black30
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = AzureRadiance,
+                unfocusedBorderColor = Black30,
+                focusedContainerColor = WildSand
             )
         )
         withdrawalEtcData = contentText

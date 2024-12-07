@@ -3,12 +3,12 @@ def hasApplicationPlugin = pluginManager.hasPlugin("com.android.application")
 
 if (hasLibraryPlugin || hasApplicationPlugin) {
     android {
-        compileSdk = 34
+        compileSdk = 35
 
         defaultConfig {
             minSdk = 26
             //noinspection EditedTargetSdkVersion
-            targetSdk = 34
+            targetSdk = 35
             versionCode 1
             versionName "1.0"
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -28,6 +28,10 @@ if (hasLibraryPlugin || hasApplicationPlugin) {
 
         kotlinOptions {
             jvmTarget = "17"
+        }
+
+        composeOptions {
+            kotlinCompilerExtensionVersion = "1.5.8"
         }
     }
 }

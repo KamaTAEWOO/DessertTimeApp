@@ -354,11 +354,11 @@ fun AccusationDialog(
                             color = Black30
                         )
                     },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = WildSand,
-                        focusedIndicatorColor = AzureRadiance,
-                        unfocusedIndicatorColor = WildSand
-                    )
+//                    colors = TextFieldDefaults.textFieldColors(
+//                        containerColor = WildSand,
+//                        focusedIndicatorColor = AzureRadiance,
+//                        unfocusedIndicatorColor = WildSand
+//                    )
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))

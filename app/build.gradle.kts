@@ -27,6 +27,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
+    }
 }
 
 dependencies {
@@ -65,6 +68,7 @@ dependencies {
     implementation(libs.firebase.bom)
     implementation(libs.play.services.auth)
 
+    implementation(libs.compose.compiler)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

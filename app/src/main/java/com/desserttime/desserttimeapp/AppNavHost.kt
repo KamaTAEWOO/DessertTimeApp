@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.authNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.category.CategoryViewModel
@@ -26,7 +25,6 @@ import com.desserttime.review.ReviewViewModel
 fun AppNavHost(
     navHostController: NavHostController = rememberNavController()
 ) {
-    val authViewModel: AuthViewModel = hiltViewModel()
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val reviewViewModel: ReviewViewModel = hiltViewModel()
     val myPageViewModel: MyPageViewModel = hiltViewModel()
@@ -39,7 +37,6 @@ fun AppNavHost(
         modifier = Modifier.fillMaxSize(),
         route = NavGraphLabel.ROOT
     ) {
-        // navHostController.navigate(AuthDestination.Login.route) {
         composable(route = RootDestination.Splash.route) {
             SplashScreen {
                 navHostController.navigate(AuthDestination.Login.route) {
@@ -60,17 +57,12 @@ fun AppNavHost(
                 },
                 onNavigateToHome = {
                     navHostController.navigate(MainDestination.Home.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
         authNavGraph(
             navHostController = navHostController,
-            authViewModel = authViewModel,
             categoryViewModel = categoryViewModel,
             reviewViewModel = reviewViewModel,
             myPageViewModel = myPageViewModel,

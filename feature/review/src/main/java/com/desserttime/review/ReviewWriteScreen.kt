@@ -44,6 +44,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -257,10 +258,10 @@ fun ReviewWriteScreen(
                                     textAlign = TextAlign.Start
                                 )
                             },
-                            colors = TextFieldDefaults.textFieldColors(
-                                containerColor = WildSand,
-                                focusedIndicatorColor = AzureRadiance,
-                                unfocusedIndicatorColor = Black30
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = AzureRadiance,
+                                unfocusedBorderColor = Black30,
+                                focusedContainerColor = WildSand
                             )
                         )
                         Column(
