@@ -53,7 +53,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun SignUpAgreeScreen(
     onNavigateToSignUpInput: () -> Unit = {},
-    onBack: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val isLoading by authViewModel.isLoading

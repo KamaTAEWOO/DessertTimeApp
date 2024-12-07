@@ -62,7 +62,6 @@ private const val TAG = "SignUpInputScreen"
 @Composable
 fun SignUpInputScreen(
     onNavigateToSignUpChoose: () -> Unit,
-    onBack: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val selectedGenderData = remember { mutableStateOf<GenderData?>(GenderData.OTHER) }
@@ -364,6 +363,7 @@ fun AddressSearchView(onAddressSelected: (String) -> Unit) {
                                 Timber.i("$TAG webViewClient", "Page loaded: $url")
                             }
 
+                            // TODO Deprecated
                             override fun onReceivedError(
                                 view: WebView?,
                                 errorCode: Int,

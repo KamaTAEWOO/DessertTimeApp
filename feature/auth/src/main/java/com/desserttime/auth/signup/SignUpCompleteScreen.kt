@@ -32,7 +32,6 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SignUpCompleteScreen(
-    onNavigateToSignIn: () -> Unit,
     onTimeout: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {

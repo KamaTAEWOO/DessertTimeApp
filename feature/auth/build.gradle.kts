@@ -18,11 +18,16 @@ android {
         resValue("string", "KAKAO_REDIRECT_SCHEME", "kakao$kakaoRedirectUrl")
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
+    }
+
+    kapt {
+        correctErrorTypes = true
     }
 }
 

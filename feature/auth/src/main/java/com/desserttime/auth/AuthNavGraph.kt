@@ -50,9 +50,6 @@ fun NavGraphBuilder.authNavGraph(
             SignUpAgreeScreen(
                 onNavigateToSignUpInput = {
                     navHostController.navigate(AuthDestination.SignUpInput.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
                 }
             )
         }
@@ -61,9 +58,6 @@ fun NavGraphBuilder.authNavGraph(
             SignUpInputScreen(
                 onNavigateToSignUpChoose = {
                     navHostController.navigate(AuthDestination.SignUpChoose.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
                 }
             )
         }
@@ -72,22 +66,12 @@ fun NavGraphBuilder.authNavGraph(
             SignUpChooseScreen(
                 onNavigateToSignUpComplete = {
                     navHostController.navigate(AuthDestination.SignUpComplete.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
                 }
             )
         }
 
         composable(route = AuthDestination.SignUpComplete.route) {
             SignUpCompleteScreen(
-                onNavigateToSignIn = {
-                    navHostController.navigate(AuthDestination.Login.route) {
-                        popUpTo(AuthDestination.SignUpComplete.route) {
-                            inclusive = true
-                        }
-                    }
-                },
                 onTimeout = {
                     navHostController.navigate(MainDestination.Home.route) {
                         popUpTo(AuthDestination.SignUpComplete.route) {

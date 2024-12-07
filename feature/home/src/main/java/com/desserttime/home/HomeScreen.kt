@@ -52,7 +52,6 @@ fun HomeScreen(
     onNavigateToAlarm: () -> Unit,
     homeViewModel: HomeViewModel
 ) {
-    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val memberData by homeViewModel.memberData.collectAsState(
         initial = MemberData(
             0, "", "", "",

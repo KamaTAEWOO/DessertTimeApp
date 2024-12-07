@@ -6,9 +6,6 @@ plugins {
 android {
     namespace = "com.desserttime.design"
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose = true
     }

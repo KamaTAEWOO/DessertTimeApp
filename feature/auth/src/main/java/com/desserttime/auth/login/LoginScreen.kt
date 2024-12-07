@@ -226,6 +226,8 @@ fun LoginScreenPreview() {
     LoginScreen(
         onNavigateToSignUpAgree = {},
         onNavigateToInquiryInput = {},
-        onNavigateToHome = {}
+        onNavigateToHome = {},
+        authViewModel = hiltViewModel()
     )
 }
+

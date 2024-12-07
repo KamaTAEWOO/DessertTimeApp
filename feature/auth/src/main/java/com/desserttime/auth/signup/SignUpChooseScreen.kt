@@ -52,7 +52,6 @@ private const val TAG = "SignUpChooseScreen"
 @Composable
 fun SignUpChooseScreen(
     onNavigateToSignUpComplete: () -> Unit,
-    onBack: () -> Unit,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val isLoading by authViewModel.isLoading

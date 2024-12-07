@@ -83,5 +83,5 @@ fun InquiryCompleteScreen(
 @Preview(showBackground = true)
 @Composable
 fun PreviewInquiryCompleteScreen() {
-    InquiryCompleteScreen({})
+    InquiryCompleteScreen {}
 }
