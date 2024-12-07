@@ -6,7 +6,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -28,7 +38,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
 import com.desserttime.design.R
-import com.desserttime.design.theme.*
+import com.desserttime.design.theme.Alto
+import com.desserttime.design.theme.Black
+import com.desserttime.design.theme.Black54
+import com.desserttime.design.theme.DessertTimeTheme
+import com.desserttime.design.theme.Emperor
+import com.desserttime.design.theme.Gallery
+import com.desserttime.design.theme.Malachite
+import com.desserttime.design.theme.OsloGray
+import com.desserttime.design.theme.Turbo
+import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.LoginMethodData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -38,9 +57,9 @@ fun LoginScreen(
     authViewModel: AuthViewModel = hiltViewModel(),
     onNavigateToSignUpAgree: () -> Unit = {},
     onNavigateToInquiryInput: () -> Unit = {},
-    onNavigateToHome: () -> Unit = {},
+    onNavigateToHome: () -> Unit = {}
 ) {
-    SetStatusBarColor(White)
+    SetStatusBarColor(Color.White)
     val context = LocalContext.current
     val isLoading by authViewModel.isLoading
 

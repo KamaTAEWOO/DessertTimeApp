@@ -173,7 +173,6 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.SubCategoryReviewDetail.route) {
             SubCategoryReviewDetailScreen(
-                categoryViewModel = categoryViewModel,
                 onNavigateToSubCategoryReview = {
                     navHostController.popBackStack()
                 }
