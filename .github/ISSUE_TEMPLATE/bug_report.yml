@@ -1,7 +1,7 @@
 name: "🐛 Bug Report"
 description: "버그를 신고하여 개선에 도움을 주세요."
 labels: ["bug"]
-assignees: ["user"]
+assignees: ["KamaTAEWOO"]
 body:
   - type: textarea
     attributes:
