@@ -63,7 +63,7 @@ fun MainControl(
     homeViewModel: HomeViewModel,
     likeViewModel: LikeViewModel
 ) {
-    SetStatusBarColor(color = Color.White) // navigation bar color
+    SetStatusBarColor(color = Color.White)
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }

@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ktlint) apply false
     alias(libs.plugins.detekt) apply true
     alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.kotlinKsp) apply false
     alias(libs.plugins.kapt) apply false
 }
 

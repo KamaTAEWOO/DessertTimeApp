@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private val BASE_URL = BuildConfig.BASE_URL
+    private val BASE_URL = "http://138.2.122.18:3000" //BuildConfig.BASE_URL
 
     @LoggingRetrofit
     @Provides
