@@ -5,8 +5,10 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.kotlinKsp)
 }
+
+private val BASE_URL = "http://138.2.122.18:3000"
 
 android {
     namespace = "com.desserttime.core"
@@ -26,33 +28,18 @@ android {
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
     }
 
+    buildTypes {
+        all {
+            resValue("string", "BASE_URL", BASE_URL)
+        }
+    }
+
     buildFeatures {
         buildConfig = true
     }
-//    compileSdk = 34
-//
-//    defaultConfig {
-//        minSdk = 26
-//
-//        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles("consumer-rules.pro")
-//    }
-//
-//    buildTypes {
-//        release {
-//            isMinifyEnabled = false
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//        }
-//    }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_1_8
-//        targetCompatibility = JavaVersion.VERSION_1_8
-//    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
@@ -67,7 +54,7 @@ dependencies {
 
     // hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.hilt.navigation.compose)
 
     // logging

@@ -36,7 +36,6 @@ import com.desserttime.review.ReviewWriteScreen
 
 fun NavGraphBuilder.authNavGraph(
     navHostController: NavHostController,
-    authViewModel: AuthViewModel,
     categoryViewModel: CategoryViewModel,
     reviewViewModel: ReviewViewModel,
     myPageViewModel: MyPageViewModel,
@@ -51,11 +50,7 @@ fun NavGraphBuilder.authNavGraph(
             SignUpAgreeScreen(
                 onNavigateToSignUpInput = {
                     navHostController.navigate(AuthDestination.SignUpInput.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -63,11 +58,7 @@ fun NavGraphBuilder.authNavGraph(
             SignUpInputScreen(
                 onNavigateToSignUpChoose = {
                     navHostController.navigate(AuthDestination.SignUpChoose.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -75,31 +66,19 @@ fun NavGraphBuilder.authNavGraph(
             SignUpChooseScreen(
                 onNavigateToSignUpComplete = {
                     navHostController.navigate(AuthDestination.SignUpComplete.route)
-                },
-                onBack = {
-                    navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
         composable(route = AuthDestination.SignUpComplete.route) {
             SignUpCompleteScreen(
-                onNavigateToSignIn = {
-                    navHostController.navigate(AuthDestination.Login.route) {
-                        popUpTo(AuthDestination.SignUpComplete.route) {
-                            inclusive = true
-                        }
-                    }
-                },
                 onTimeout = {
                     navHostController.navigate(MainDestination.Home.route) {
                         popUpTo(AuthDestination.SignUpComplete.route) {
                             inclusive = false
                         }
                     }
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -110,8 +89,7 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onBack = {
                     navHostController.popBackStack()
-                },
-                authViewModel = authViewModel
+                }
             )
         }
 
@@ -195,7 +173,6 @@ fun NavGraphBuilder.authNavGraph(
 
         composable(route = MainDestination.SubCategoryReviewDetail.route) {
             SubCategoryReviewDetailScreen(
-                categoryViewModel = categoryViewModel,
                 onNavigateToSubCategoryReview = {
                     navHostController.popBackStack()
                 }

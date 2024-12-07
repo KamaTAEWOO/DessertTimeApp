@@ -21,14 +21,14 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -61,11 +61,8 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import androidx.compose.foundation.layout.Row as Ro
 
-private const val TAG = "LikeDetailScreen::"
-
 @Composable
 fun SubCategoryReviewDetailScreen(
-    categoryViewModel: CategoryViewModel,
     onNavigateToSubCategoryReview: () -> Unit
 ) {
     val subCategoryReviewData = subCategoryReviewItemData()
@@ -199,10 +196,10 @@ fun SubCategoryReviewDetailItem(
             Spacer(modifier = Modifier.padding(top = 16.dp))
             MaterialItemList(materialArr)
             Spacer(modifier = Modifier.padding(top = 20.dp))
-            Divider(
-                color = Alabaster,
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
                 thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                color = Alabaster
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
             AccusationButton()
@@ -275,7 +272,7 @@ fun AccusationDialog(
     initialSelectedItems: List<String> = emptyList()
 ) {
     // selectedItems를 명확하게 String 타입 리스트로 선언
-    var selectedItems by remember { mutableStateOf(initialSelectedItems) }
+    val selectedItems by remember { mutableStateOf(initialSelectedItems) }
     var contentText by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -354,10 +351,10 @@ fun AccusationDialog(
                             color = Black30
                         )
                     },
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = WildSand,
-                        focusedIndicatorColor = AzureRadiance,
-                        unfocusedIndicatorColor = WildSand
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = AzureRadiance,
+                        unfocusedBorderColor = WildSand,
+                        focusedContainerColor = WildSand
                     )
                 )
 

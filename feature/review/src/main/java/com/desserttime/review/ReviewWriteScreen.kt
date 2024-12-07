@@ -41,13 +41,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -257,10 +258,10 @@ fun ReviewWriteScreen(
                                     textAlign = TextAlign.Start
                                 )
                             },
-                            colors = TextFieldDefaults.textFieldColors(
-                                containerColor = WildSand,
-                                focusedIndicatorColor = AzureRadiance,
-                                unfocusedIndicatorColor = Black30
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = AzureRadiance,
+                                unfocusedBorderColor = Black30,
+                                focusedContainerColor = WildSand
                             )
                         )
                         Column(
@@ -376,7 +377,6 @@ fun DropdownExample() {
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<String?>(null) }
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-    val scrollState = rememberScrollState()
 
     // 입력된 텍스트와 일치하는 항목만 필터링
     val filteredSuggestions = suggestions.filter {
@@ -524,10 +524,10 @@ fun DropdownExample() {
                                         color = Black60
                                     )
                                 }
-                                Divider(
-                                    color = Alto,
+                                HorizontalDivider(
+                                    modifier = Modifier.fillMaxWidth(),
                                     thickness = 5.dp,
-                                    modifier = Modifier.fillMaxWidth()
+                                    color = Alto
                                 )
                             }
                         }
@@ -649,7 +649,7 @@ fun ScoreCheck(reviewUiState: ReviewState) {
                         for (i in index + 1 until starStates.size) {
                             starStates[i] = false
                         }
-                        count.value = index + 1
+                        count.intValue = index + 1
                     }
             )
         }

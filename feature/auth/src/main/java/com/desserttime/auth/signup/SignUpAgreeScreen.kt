@@ -37,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AltoAgree
@@ -52,8 +53,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun SignUpAgreeScreen(
     onNavigateToSignUpInput: () -> Unit = {},
-    onBack: () -> Unit,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val isLoading by authViewModel.isLoading
 

@@ -1,27 +1,25 @@
 [versions]
-agp = "8.3.1"
-coreKtx = "1.13.1"
+agp = "8.7.3"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.2"
-activityCompose = "1.9.0"
-composeBom = "2023.08.00"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
 appcompat = "1.7.0"
 material = "1.12.0"
-navigation-compose = "2.5.3"
 lifecycle = "2.8.4"
-material3 = "1.2.0"
+material3 = "1.3.1"
 flowlayout = "1.4.3"
 activity-ktx = "1.8.0"
 
 # plugins
-androidPlugin = "7.4.1"
-kotlinPlugin = "1.7.20"
+kotlinPlugin = "1.9.22"
+kspPlugin = "1.9.22-1.0.16"
 ktlintPlugin = "11.4.2"
 detektPlugin = "1.23.0"
 googleServicePlugin = "4.3.15"
-hiltPlugin = "2.45"
+hiltPlugin = "2.48"
 
 # auth
 kakao-user = "2.14.0"
@@ -32,12 +30,11 @@ firebase-bom = "29.0.0"
 play-services-auth = "19.2.0"
 
 ## hilt
-hilt = "2.45"
-hilt-navigation-compose = "1.0.0"
-java-inject = "1"
+hilt = "2.48"
+hilt-navigation-compose = "1.2.0"
 
 ## coroutine
-corotine-core = "1.6.4"
+corotine-core = "1.7.3"
 
 ## network
 retrofit = "2.9.0"
@@ -47,7 +44,7 @@ logging-interceptor = "4.11.0"
 timber = "5.0.1"
 
 # preference
-datastore = "1.0.0"
+datastore = "1.1.1"
 
 # webview
 androidx-webkit = "1.5.0"
@@ -59,23 +56,15 @@ glide = "4.12.0"
 lottie = "6.1.0"
 
 # compose
-androidx-activity-compose = "1.5.1"
-androidx-compose-bom = "2023.10.01"
-androidx-navigation-compose = "2.7.7"
-androidx-splashscreen = "1.0.0"
-androidx-lifecycle-compose = "2.6.0"
-androidxPagingCompose = "1.0.0-alpha18"
+androidx-compose-bom = "2024.11.00"
+androidx-navigation-compose = "2.8.4"
+androidx-splashscreen = "1.0.1"
+androidx-lifecycle-compose = "2.8.7"
+composeCompiler = "1.4.8"
 
 # related compose UI
-#accompanist-compose = "0.31.5-beta"
 accompanist-compose = "0.28.0"
-calendar-compose = "2.4.0"
-naver-map-compose = "1.2.3"
 coil-compose = "2.4.0"
-bottomsheet-dialog = "1.2.2"
-getstream-chat-android-compose = "5.17.7"
-kotlinBom = "1.8.0"
-lifecycleRuntimeComposeAndroid = "2.8.4"
 
 
 [plugins]
@@ -88,6 +77,7 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
 google-service = { id = "com.google.gms.google-services", version.ref = "googleServicePlugin"}
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltPlugin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlinPlugin" }
+kotlinKsp = { id = "com.google.devtools.ksp", version.ref = "kspPlugin" }
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -113,11 +103,11 @@ activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
-java-inject = { group = "javax.inject", name = "javax.inject", version.ref = "java-inject" }
 
 # auth
 kakao-user = { group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao-user" }
 naver-login = { group = "com.navercorp.nid", name = "oauth", version.ref = "naver-login" }
+#noinspection SimilarGradleDependency
 google-services = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "google-services" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebase-auth" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
@@ -143,31 +133,18 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 # lottie
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 
-# coil
-coil = { group = "io.coil-kt", name = "coil", version.ref = "coil-compose" }
-# coil-gif
-coil-gif = { group = "io.coil-kt", name = "coil-gif", version.ref = "coil-compose" }
-
 # compose
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splashscreen" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidx-compose-bom" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation-compose" }
 androidx-lifecycle-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle-compose" }
-androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidxPagingCompose" }
+compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "composeCompiler" }
 
 # related compose UI
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist-compose" }
 accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanist-compose" }
 accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist-compose" }
-accompanist-webview = { group = "com.google.accompanist", name = "accompanist-webview", version.ref = "accompanist-compose" }
-accompanist-inset = { group = "com.google.accompanist", name = "accompanist-insets", version.ref = "accompanist-compose" }
-calendar-compose = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar-compose" }
-naver-map-compose = { group = "io.github.fornewid", name = "naver-map-compose", version.ref = "naver-map-compose" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose" }
-bottomsheet-dialog = { group = "com.holix.android", name = "bottomsheetdialog-compose", version.ref = "bottomsheet-dialog" }
-getstream-chat-android-compose = { group = "io.getstream", name = "stream-chat-android-compose", version.ref = "getstream-chat-android-compose" }
-kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlinBom" }
-androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [bundles]
 retrofit = ["retrofit", "converter-gson", "logging-interceptor"]

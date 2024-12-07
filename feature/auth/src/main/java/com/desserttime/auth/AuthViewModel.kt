@@ -283,9 +283,6 @@ class AuthViewModel @Inject constructor(
                     response.data.memberId.let { memberId ->
                         Timber.i("$TAG checkValidation: memberId=$memberId")
                         onNavigateToHome()
-                    } ?: run {
-                        Timber.e("$TAG checkValidation: Member ID is null in response data.")
-                        onNavigateToSignUpAgree()
                     }
                 } else {
                     Timber.w("$TAG checkValidation: Unsuccessful response")

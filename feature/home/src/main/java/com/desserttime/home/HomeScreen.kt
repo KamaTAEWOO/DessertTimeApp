@@ -28,7 +28,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.CornflowerBlue
 import com.desserttime.design.theme.DessertTimeTheme
@@ -52,7 +51,6 @@ fun HomeScreen(
     onNavigateToAlarm: () -> Unit,
     homeViewModel: HomeViewModel
 ) {
-    val homeUiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val memberData by homeViewModel.memberData.collectAsState(
         initial = MemberData(
             0, "", "", "",
@@ -73,8 +71,8 @@ fun HomeScreen(
 
     Timber.i("$TAG memberData: $memberData")
 
-    val memberId: Int = memberData.memberId ?: 0
-    val nickName: String = memberData.nickName ?: ""
+    val memberId: Int = memberData.memberId
+    val nickName: String = memberData.nickName
 
     LazyColumn(
         modifier = Modifier
