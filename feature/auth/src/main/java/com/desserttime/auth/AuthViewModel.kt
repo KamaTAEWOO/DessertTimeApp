@@ -269,7 +269,6 @@ class AuthViewModel @Inject constructor(
         onNavigateToHome: () -> Unit = {}
     ): Boolean {
         Timber.i("$TAG checkValidation: snsId=$snsId")
-
         if (snsId.isEmpty()) {
             onNavigateToSignUpAgree()
             return false
