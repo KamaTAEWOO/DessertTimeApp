@@ -1,6 +1,9 @@
 package com.desserttime.core.di
 
+import android.content.Context
 import com.desserttime.core.BuildConfig
+import com.desserttime.core.BuildConfig.BASE_URL
+import com.desserttime.core.R
 import com.desserttime.core.network.interceptors.DessertTimeInterceptor
 import com.desserttime.core.network.qualifier.LoggingClient
 import com.desserttime.core.network.qualifier.LoggingRetrofit
@@ -9,6 +12,7 @@ import com.desserttime.core.network.qualifier.RefreshTokenRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -20,16 +24,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private val BASE_URL = "http://138.2.122.18:3000" //BuildConfig.BASE_URL
-
     @LoggingRetrofit
     @Provides
     @Singleton
     fun provideLoggingRetrofit(
-        @LoggingClient okHttpClient: OkHttpClient
+        @LoggingClient okHttpClient: OkHttpClient,
+        @ApplicationContext context: Context
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(context.getString(R.string.BASE_URL))
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -38,10 +41,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRefreshTokenRetrofit(
-        @RefreshTokenClient okHttpClient: OkHttpClient
+        @RefreshTokenClient okHttpClient: OkHttpClient,
+        @ApplicationContext context: Context
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(context.getString(R.string.BASE_URL))
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.kotlinKsp)
 }
 
+private val BASE_URL = "http://138.2.122.18:3000"
+
 android {
     namespace = "com.desserttime.core"
 
@@ -24,6 +26,12 @@ android {
         buildConfigField("String", "NAVER_API_KEY", "\"$naverUrl\"")
         buildConfigField("String", "NAVER_API_SECRET", "\"$naverSecret\"")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
+    }
+
+    buildTypes {
+        all {
+            resValue("string", "BASE_URL", BASE_URL)
+        }
     }
 
     buildFeatures {
