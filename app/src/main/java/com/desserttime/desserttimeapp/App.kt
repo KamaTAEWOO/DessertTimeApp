@@ -14,7 +14,9 @@ private const val ClientName = "DessertTime"
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
-        Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(CustomDebugTree("DTA"))
+        }
         KakaoSdk.init(this, BuildConfig.KAKAO_API_KEY)
         NaverIdLoginSDK.initialize(this, BuildConfig.NAVER_API_KEY, BuildConfig.NAVER_API_SECRET, ClientName)
         FirebaseApp.initializeApp(this)

@@ -97,7 +97,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginScreenContent(
+private fun LoginScreenContent(
     context: Context,
     isLoading: Boolean,
     onNavigateToSignUpAgree: () -> Unit,
@@ -152,7 +152,7 @@ fun LoginScreenContent(
 }
 
 @Composable
-fun AppCloseButton(context: Context) {
+private fun AppCloseButton(context: Context) {
     val activity = context as Activity
 
     Box(
@@ -173,7 +173,7 @@ fun AppCloseButton(context: Context) {
 }
 
 @Composable
-fun LoginHeader() {
+private fun LoginHeader() {
     Image(
         painter = painterResource(id = R.drawable.ic_login_logo),
         contentDescription = "Login Logo",
@@ -184,7 +184,7 @@ fun LoginHeader() {
 }
 
 @Composable
-fun LoginTextAndLine() {
+private fun LoginTextAndLine() {
     Row(
         modifier = Modifier
             .height(20.dp),
@@ -211,7 +211,7 @@ fun LoginTextAndLine() {
 }
 
 @Composable
-fun LoginButtonsSection(
+private fun LoginButtonsSection(
     onLoginWithKakao: () -> Unit,
     onLoginWithNaver: () -> Unit,
     onLoginWithGoogle: () -> Unit
@@ -249,7 +249,7 @@ fun LoginButtonsSection(
 }
 
 @Composable
-fun LoginButton(
+private fun LoginButton(
     text: String,
     onClick: () -> Unit = {},
     background: Color,
@@ -288,7 +288,7 @@ fun LoginButton(
 }
 
 @Composable
-fun InquiryActionButton(onClick: () -> Unit) {
+private fun InquiryActionButton(onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = White),
@@ -305,7 +305,7 @@ fun InquiryActionButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun LoadingOverlay() {
+private fun LoadingOverlay() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -317,7 +317,7 @@ fun LoadingOverlay() {
 }
 
 @Composable
-fun SetStatusBarColor(color: Color) {
+private fun SetStatusBarColor(color: Color) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(color)

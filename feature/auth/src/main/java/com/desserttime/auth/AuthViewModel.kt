@@ -21,14 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
 import retrofit2.HttpException
-import timber.log.Timber
 import javax.inject.Inject
-
-/*
-* 로그인 및 회원가입 시 사용되는 viewModel
-* */
-
-private const val TAG = "AuthViewModel::"
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -156,42 +149,18 @@ class AuthViewModel @Inject constructor(
         sendAction(AuthEvent.RequestMemberPickCategory5Data(memberPickCategory5))
     }
 
-    // 전체 변수 로그 찍기
-    fun printAllData() {
-        val currentState = uiState.value
-        Timber.i("$TAG memberName: ${currentState.memberName}")
-        Timber.i("$TAG memberEmail: ${currentState.memberEmail}")
-        Timber.i("$TAG snsId: ${currentState.snsId}")
-        Timber.i("$TAG signInSns: ${currentState.signInSns}")
-        Timber.i("$TAG birthYear: ${currentState.birthYear}")
-        Timber.i("$TAG memberGender: ${currentState.memberGender}")
-        Timber.i("$TAG firstCity: ${currentState.firstCity}")
-        Timber.i("$TAG secondaryCity: ${currentState.secondaryCity}")
-        Timber.i("$TAG thirdCity: ${currentState.thirdCity}")
-        Timber.i("$TAG isAgreeAD: ${currentState.isAgreeAD}")
-        Timber.i("$TAG memberPickCategory1: ${currentState.memberPickCategory1}")
-        Timber.i("$TAG memberPickCategory2: ${currentState.memberPickCategory2}")
-        Timber.i("$TAG memberPickCategory3: ${currentState.memberPickCategory3}")
-        Timber.i("$TAG memberPickCategory4: ${currentState.memberPickCategory4}")
-        Timber.i("$TAG memberPickCategory5: ${currentState.memberPickCategory5}")
-    }
-
     fun loginWithLogic(
         method: LoginMethodData,
         context: Context,
         onNavigateToSignUpAgree: () -> Unit,
         onNavigateToHome: () -> Unit
     ) {
-        setLoading(true)
-
         viewModelScope.launch {
             val result = when (method) {
                 LoginMethodData.KAKAO -> loginWithKakaoAccount(context)
                 LoginMethodData.NAVER -> naverWithLogin(context)
                 LoginMethodData.GOOGLE -> googleLoginStart()
             }
-
-            // 로그인 성공 시 회원가입 동의 화면으로 이동
             when (result) {
                 is LoginResult.SUCCESS -> {
                     // Member 정보를 저장
@@ -202,15 +171,12 @@ class AuthViewModel @Inject constructor(
                     delay(500)
 
                     checkValidation(result.member.token, onNavigateToSignUpAgree, onNavigateToHome)
-                    printAllData()
                 }
 
                 is LoginResult.ERROR -> {
-                    Timber.e(result.message)
                 }
 
                 is LoginResult.LOADING -> {
-                    Timber.e("$TAG LoginResult.LOADING")
                 }
             }
         }
@@ -239,23 +205,15 @@ class AuthViewModel @Inject constructor(
 
         setLoading(true)
 
-        // return 값 받아오기
         memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
-                Timber.i("$TAG requestUserSignUp: $it")
                 _snsId.value = currentState.snsId
-                Timber.i("$TAG requestUserSignUp: ${_snsId.value}")
                 onNavigateToSignUpComplete()
             }
             .catch { exception ->
                 if (exception is HttpException) {
                     val errorBody = exception.response()?.errorBody()?.string()
-                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
-                } else {
-                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
                 }
-                // 에러 발생 시 로그
-                Timber.e("$TAG requestUserSignUp error=$exception")
             }
             .onCompletion {
                 setLoading(false)
@@ -268,7 +226,6 @@ class AuthViewModel @Inject constructor(
         onNavigateToSignUpAgree: () -> Unit = {},
         onNavigateToHome: () -> Unit = {}
     ): Boolean {
-        Timber.i("$TAG checkValidation: snsId=$snsId")
         if (snsId.isEmpty()) {
             onNavigateToSignUpAgree()
             return false
@@ -278,22 +235,15 @@ class AuthViewModel @Inject constructor(
 
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach { response ->
-                Timber.i("$TAG checkValidation: response=$response")
                 if (response.statusCode == 200) {
                     response.data.memberId.let { memberId ->
-                        Timber.i("$TAG checkValidation: memberId=$memberId")
                         onNavigateToHome()
                     }
-                } else {
-                    Timber.w("$TAG checkValidation: Unsuccessful response")
                 }
             }
             .catch { exception ->
                 if (exception is HttpException) {
                     val errorBody = exception.response()?.errorBody()?.string()
-                    Timber.e("$TAG requestUserSignUp error=${exception.message()}, body=$errorBody")
-                } else {
-                    Timber.e("$TAG requestUserSignUp unexpected error=$exception")
                 }
                 onNavigateToSignUpAgree()
             }
@@ -305,13 +255,11 @@ class AuthViewModel @Inject constructor(
         return true
     }
 
-    // 문의하기
     fun requestSendInquiryData(email: String, content: String, onNavigateToInquiryComplete: () -> Unit) {
         setLoading(true)
 
         memberInfoRepository.requestInquiry(RequestInquiryData(email, content))
             .onEach {
-                Timber.i("$TAG requestInquiry: $it")
                 onNavigateToInquiryComplete()
             }
             .onCompletion {

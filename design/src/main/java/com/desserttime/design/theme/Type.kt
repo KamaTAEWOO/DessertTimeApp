@@ -3,6 +3,9 @@ package com.desserttime.design.theme
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 /*
 * Text(
@@ -59,47 +62,215 @@ data class DessertTimeTypography(
 
 val LocalDessertTimeTypography = staticCompositionLocalOf {
     DessertTimeTypography(
-        textStyleBold12 = TextStyle.Default,
-        textStyleBold14 = TextStyle.Default,
-        textStyleBold16 = TextStyle.Default,
-        textStyleBold18 = TextStyle.Default,
-        textStyleBold20 = TextStyle.Default,
-        textStyleBold24 = TextStyle.Default,
-        textStyleBold26 = TextStyle.Default,
-        textStyleBold30 = TextStyle.Default,
-        textStyleRegular10 = TextStyle.Default,
-        textStyleRegular12 = TextStyle.Default,
-        textStyleRegular14 = TextStyle.Default,
-        textStyleRegular16 = TextStyle.Default,
-        textStyleRegular18 = TextStyle.Default,
-        textStyleRegular20 = TextStyle.Default,
-        textStyleRegular24 = TextStyle.Default,
-        textStyleRegular26 = TextStyle.Default,
-        textStyleRegular30 = TextStyle.Default,
-        textStyleLight10 = TextStyle.Default,
-        textStyleLight12 = TextStyle.Default,
-        textStyleLight14 = TextStyle.Default,
-        textStyleLight16 = TextStyle.Default,
-        textStyleLight18 = TextStyle.Default,
-        textStyleLight20 = TextStyle.Default,
-        textStyleLight24 = TextStyle.Default,
-        textStyleLight30 = TextStyle.Default,
-        textStyleItalic12 = TextStyle.Default,
-        textStyleItalic14 = TextStyle.Default,
-        textStyleItalic16 = TextStyle.Default,
-        textStyleItalic18 = TextStyle.Default,
-        textStyleItalic20 = TextStyle.Default,
-        textStyleItalic24 = TextStyle.Default,
-        textStyleItalic30 = TextStyle.Default,
-        textStyleMedium12 = TextStyle.Default,
-        textStyleMedium14 = TextStyle.Default,
-        textStyleMedium16 = TextStyle.Default,
-        textStyleMedium18 = TextStyle.Default,
-        textStyleMedium20 = TextStyle.Default,
-        textStyleMedium22 = TextStyle.Default,
-        textStyleMedium24 = TextStyle.Default,
-        textStyleMedium26 = TextStyle.Default,
-        textStyleMedium28 = TextStyle.Default,
-        textStyleMedium30 = TextStyle.Default
+        textStyleBold12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.dp.value.sp
+        ),
+        textStyleBold14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.dp.value.sp
+        ),
+        textStyleBold16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.dp.value.sp
+        ),
+        textStyleBold18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.dp.value.sp
+        ),
+        textStyleBold20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.dp.value.sp
+        ),
+        textStyleBold24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.dp.value.sp
+        ),
+        textStyleBold26 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 26.dp.value.sp
+        ),
+        textStyleBold30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Bold,
+            fontSize = 30.dp.value.sp
+        ),
+        textStyleRegular10 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 10.dp.value.sp
+        ),
+        textStyleRegular12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.dp.value.sp
+        ),
+        textStyleRegular14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.dp.value.sp
+        ),
+        textStyleRegular16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.dp.value.sp
+        ),
+        textStyleRegular18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 18.dp.value.sp
+        ),
+        textStyleRegular20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 20.dp.value.sp
+        ),
+        textStyleRegular24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 24.dp.value.sp
+        ),
+        textStyleRegular26 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 26.dp.value.sp
+        ),
+        textStyleRegular30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 30.dp.value.sp
+        ),
+        textStyleLight10 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 10.dp.value.sp
+        ),
+        textStyleLight12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 12.dp.value.sp
+        ),
+        textStyleLight14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 14.dp.value.sp
+        ),
+        textStyleLight16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 16.dp.value.sp
+        ),
+        textStyleLight18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 18.dp.value.sp
+        ),
+        textStyleLight20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 20.dp.value.sp
+        ),
+        textStyleLight24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 24.dp.value.sp
+        ),
+        textStyleLight30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Light,
+            fontSize = 30.dp.value.sp
+        ),
+        textStyleItalic12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.dp.value.sp
+        ),
+        textStyleItalic14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.dp.value.sp
+        ),
+        textStyleItalic16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 16.dp.value.sp
+        ),
+        textStyleItalic18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 18.dp.value.sp
+        ),
+        textStyleItalic20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 20.dp.value.sp
+        ),
+        textStyleItalic24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 24.dp.value.sp
+        ),
+        textStyleItalic30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Normal,
+            fontSize = 30.dp.value.sp
+        ),
+        textStyleMedium12 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.dp.value.sp
+        ),
+        textStyleMedium14 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.dp.value.sp
+        ),
+        textStyleMedium16 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.dp.value.sp
+        ),
+        textStyleMedium18 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 18.dp.value.sp
+        ),
+        textStyleMedium20 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.dp.value.sp
+        ),
+        textStyleMedium22 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 22.dp.value.sp
+        ),
+        textStyleMedium24 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 24.dp.value.sp
+        ),
+        textStyleMedium26 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 26.dp.value.sp
+        ),
+        textStyleMedium28 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 28.dp.value.sp
+        ),
+        textStyleMedium30 = TextStyle(
+            fontFamily = roboto,
+            fontWeight = FontWeight.Medium,
+            fontSize = 30.dp.value.sp
+        )
     )
 }

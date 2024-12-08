@@ -53,5 +53,3 @@ val MineShaftPicture = Color(0xFF333333)
 val MaiTai = Color(0xFFB7720A)
 val Salem = Color(0xFF048C44)
 val Salem20 = Color(0x33048C44)
-
-// Dark

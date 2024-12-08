@@ -13,17 +13,14 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONObject
-import timber.log.Timber
 import kotlin.coroutines.resume
 
-private const val TAG = "NaverWithLogin"
 const val NAVER_LOGIN_PROVIDER = "naver"
 
 suspend fun naverWithLogin(context: Context): LoginResult = withContext(Dispatchers.IO) {
     suspendCancellableCoroutine { continuation ->
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                Timber.i("$TAG 로그인 성공")
                 // Proceed to fetch user info
                 launch {
                     continuation.resume(fetchNaverUserInfo())
@@ -33,7 +30,6 @@ suspend fun naverWithLogin(context: Context): LoginResult = withContext(Dispatch
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-                Timber.i("$TAG errorCode:$errorCode, errorDesc:$errorDescription")
                 continuation.resume(LoginResult.ERROR("Login failed: $message"))
             }
 

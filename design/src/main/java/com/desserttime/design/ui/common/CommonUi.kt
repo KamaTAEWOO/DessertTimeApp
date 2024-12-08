@@ -22,7 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -51,9 +52,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bumptech.glide.Glide
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black30
+import com.desserttime.design.theme.Black60
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.WildSand
-import java.util.Calendar
 
 object CommonUi {
 
@@ -169,20 +170,19 @@ object CommonUi {
 
     @Composable
     fun Divide(color: Color) {
-        Divider(
-            color = color,
-            thickness = 1.dp
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = color
         )
     }
 
     @Composable
     fun BirthYearDropdown(
         expanded: Boolean,
-        selectedYear: String,
+        currentYear: Int,
         onYearSelected: (String) -> Unit,
         onDismiss: () -> Unit
     ) {
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val birthYears = (1930..currentYear).toList()
         val listState = rememberLazyListState()
 
@@ -200,8 +200,8 @@ object CommonUi {
                     color = Color.White,
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    LaunchedEffect(selectedYear) {
-                        val selectedIndex = birthYears.indexOf(selectedYear.toIntOrNull())
+                    LaunchedEffect(currentYear) {
+                        val selectedIndex = birthYears.indexOf(currentYear)
                         if (selectedIndex != -1) {
                             // 선택된 항목을 중앙보다 더 아래로 스크롤
                             val scrollOffset = -250 // 원하는 만큼의 오프셋을 설정해 선택 항목을 아래로 내림
@@ -237,7 +237,7 @@ object CommonUi {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         itemsIndexed(birthYears) { index, year ->
-                            val isSelected = (year.toString() == selectedYear)
+                            val isSelected = (year == currentYear)
                             val isCenter = index == centerIndex // 중앙에 위치한 항목인지 여부
                             Box(
                                 modifier = Modifier
@@ -333,6 +333,23 @@ object CommonUi {
                     modifier = Modifier.size(200.dp, 100.dp)
                 )
             }
+        }
+    }
+
+    @Composable
+    fun PageCountDown(count: Int) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 102.dp),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Text(
+                text = count.toString() + stringResource(id = R.string.txt_next_page),
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                color = Black60,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
     }
 }

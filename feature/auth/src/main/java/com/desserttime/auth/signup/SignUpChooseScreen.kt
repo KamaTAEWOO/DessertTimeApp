@@ -45,9 +45,6 @@ import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.MainColor20
 import com.desserttime.design.theme.Silver
 import com.desserttime.design.ui.common.CommonUi
-import timber.log.Timber
-
-private const val TAG = "SignUpChooseScreen"
 
 @Composable
 fun SignUpChooseScreen(
@@ -67,56 +64,39 @@ fun SignUpChooseScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.padding(top = 66.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(5.dp) // Adjust height to ensure visibility
-                .border(
-                    1.dp,
-                    AthensGray,
-                    RoundedCornerShape(10.dp)
-                )
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Flamingo,
-                        RoundedCornerShape(10.dp)
-                    )
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f) // Width is 50% of the parent
-                    .fillMaxHeight() // Full height
-                    .background(
-                        Flamingo,
-                        RoundedCornerShape(10.dp)
-                    ) // Use Color.Red if Flamingo is not defined
-            )
-        }
+        ProgressBar()
         Spacer(Modifier.padding(top = 28.dp))
-        Text(
-            text = stringResource(id = R.string.txt_choose_interest),
-            style = DessertTimeTheme.typography.textStyleBold26,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
-        Spacer(Modifier.padding(top = 6.dp))
-        Text(
-            text = stringResource(id = R.string.txt_choose_interest_hint),
-            style = DessertTimeTheme.typography.textStyleRegular16,
-            color = DoveGray,
-            modifier = Modifier
-                .fillMaxWidth()
-        )
+        TitleSection()
     }
+
     // 취향 리스트
+    ChooseList(selectedItems, selectedItemCount)
+
+    ChooseNextButton(onNavigateToSignUpComplete, authViewModel, selectedItems, selectedItemCount)
+
+    if (isLoading) {
+        CommonUi.LoadingScreen()
+    }
+}
+
+@Composable
+private fun ChooseList(
+    selectedItems: SnapshotStateList<Int>,
+    selectedItemCount: MutableIntState
+) {
     Column {
         Spacer(Modifier.padding(top = 184.dp))
         ViewSelectTasteData(selectedItems, selectedItemCount)
     }
+}
+
+@Composable
+private fun ChooseNextButton(
+    onNavigateToSignUpComplete: () -> Unit,
+    authViewModel: AuthViewModel,
+    selectedItems: SnapshotStateList<Int>,
+    selectedItemCount: MutableIntState
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -137,9 +117,56 @@ fun SignUpChooseScreen(
             enabled = true
         )
     }
+}
 
-    if (isLoading) {
-        CommonUi.LoadingScreen()
+@Composable
+private fun TitleSection() {
+    Text(
+        text = stringResource(id = R.string.txt_choose_interest),
+        style = DessertTimeTheme.typography.textStyleBold26,
+        color = Color.Black,
+        modifier = Modifier
+            .fillMaxWidth()
+    )
+    Spacer(Modifier.padding(top = 6.dp))
+    Text(
+        text = stringResource(id = R.string.txt_choose_interest_hint),
+        style = DessertTimeTheme.typography.textStyleRegular16,
+        color = DoveGray,
+        modifier = Modifier
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+private fun ProgressBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(5.dp)
+            .border(
+                1.dp,
+                AthensGray,
+                RoundedCornerShape(10.dp)
+            )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Flamingo,
+                    RoundedCornerShape(10.dp)
+                )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .fillMaxHeight() // Full height
+                .background(
+                    Flamingo,
+                    RoundedCornerShape(10.dp)
+                )
+        )
     }
 }
 
@@ -203,8 +230,6 @@ fun SelectTasteRecyclerView(
                         // 최대 5개까지만 추가 가능
                         if (selectedItems.size < 5) {
                             selectedItems.add(index)
-                        } else {
-                            Timber.i("$TAG 최대 5개까지만 선택 가능합니다.")
                         }
                     }
                     selectedItemCount.intValue = selectedItems.size
@@ -260,7 +285,6 @@ private fun saveSignUpChooseData(
     authViewModel.saveMemberPickCategory4Data(if (selectedItems.size > 3) selectedItems[3] + 1 else 0)
     authViewModel.saveMemberPickCategory5Data(if (selectedItems.size > 4) selectedItems[4] + 1 else 0)
 
-    authViewModel.printAllData()
     // 서버로 데이터 보내기
     authViewModel.requestUserSignUp(onNavigateToSignUpComplete)
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +37,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
@@ -48,7 +49,6 @@ import com.desserttime.design.theme.Gallery
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.CommonUi
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SignUpAgreeScreen(
@@ -56,52 +56,29 @@ fun SignUpAgreeScreen(
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
     val isLoading by authViewModel.isLoading
-
-    // SystemUiController를 사용하여 상태 바 색상 설정
-    val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(Color.White)
-
-    // 버튼 색상 변경
     var buttonColor = remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
+            .padding(start = 32.dp)
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Column(
+        Spacer(Modifier.padding(top = 70.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_cake),
+            contentDescription = "img_login_logo",
             modifier = Modifier
-                .padding(start = 32.dp)
-        ) {
-            Spacer(Modifier.padding(top = 70.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_cake),
-                contentDescription = "img_login_logo",
-                modifier = Modifier
-                    .size(56.dp, 56.dp),
-                contentScale = ContentScale.FillBounds
-            )
-            Spacer(Modifier.padding(top = 24.dp))
-            TitleText()
-            Spacer(Modifier.padding(top = 48.dp))
-            buttonColor = allAgreeRadioButtonGroup(authViewModel)
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 58.dp),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            // Spacer(Modifier.padding(top = 177.dp))
-            CommonUi.NextButton(
-                text = stringResource(R.string.txt_next),
-                onClick = onNavigateToSignUpInput,
-                background = if (buttonColor.value) MainColor else AltoAgree,
-                textColor = if (buttonColor.value) Color.White else Black30,
-                enabled = buttonColor.value
-            )
-        }
+                .size(56.dp, 56.dp),
+            contentScale = ContentScale.FillBounds
+        )
+        Spacer(Modifier.padding(top = 24.dp))
+        TitleText()
+        Spacer(Modifier.padding(top = 48.dp))
+        buttonColor = allAgreeRadioButtonGroup(authViewModel)
     }
+
+    AgreeNextButton(onNavigateToSignUpInput, buttonColor)
 
     if (isLoading) {
         CommonUi.LoadingScreen()
@@ -138,10 +115,7 @@ fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean
         stringResource(R.string.txt_all_agree_detail3)
     )
 
-    // 각 옵션의 선택 상태를 관리하는 리스트
-    // TODO : 데이터 저장하기
     val selectedOptions = remember { mutableStateListOf(false, false, false, false) }
-
     val buttonColor = remember { mutableStateOf(false) }
 
     Column {
@@ -159,55 +133,88 @@ fun allAgreeRadioButtonGroup(authViewModel: AuthViewModel): MutableState<Boolean
             } else {
                 Spacer(Modifier.padding(top = 29.dp))
             }
-            Row {
-                CustomRadioButton(
-                    selected = selectedOptions[index],
-                    onClick = {
-                        if (index == 0) {
-                            val allChecked = selectedOptions[0]
-                            for (i in selectedOptions.indices) {
-                                selectedOptions[i] = !allChecked
-                            }
-                        } else {
-                            selectedOptions[index] = !selectedOptions[index]
-                            selectedOptions[0] = selectedOptions.subList(1, selectedOptions.size).all { it }
-                        }
-                    }
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 25.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = text,
-                        style = DessertTimeTheme.typography.textStyleRegular16,
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .wrapContentSize()
-                    )
-                    if (index != 0) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_right_arrow),
-                            contentDescription = null,
-                            tint = Black50, // 이미지 색상
-                            modifier = Modifier
-                                .wrapContentSize()
-                        )
-                    }
-                }
-            }
+
+            AgreeList(selectedOptions, index, text)
         }
     }
 
-    val check = selectedOptions.any { it }
-    buttonColor.value = check
-
-    authViewModel.saveIsAgreeADData(if (selectedOptions[selectedOptions.size - 1]) "Y" else "N")
+    buttonColor.value = getButtonState(selectedOptions)
+    saveAgreeState(authViewModel, selectedOptions[3])
 
     return buttonColor
+}
+
+@Composable
+private fun AgreeList(
+    selectedOptions: SnapshotStateList<Boolean>,
+    index: Int,
+    text: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { handleOptionClick(selectedOptions, index) } // Make the entire row clickable
+    ) {
+        CustomRadioButton(
+            selected = selectedOptions[index],
+            onClick = { handleOptionClick(selectedOptions, index) }
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(end = 25.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = text,
+                style = DessertTimeTheme.typography.textStyleRegular16,
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .wrapContentSize()
+            )
+            if (index != 0) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_right_arrow),
+                    contentDescription = null,
+                    tint = Black50,
+                    modifier = Modifier.wrapContentSize()
+                )
+            }
+        }
+    }
+}
+
+// 1번과 2번, 3번, 0번 선택 상태를 확인하는 함수
+private fun getButtonState(selectedOptions: List<Boolean>): Boolean {
+    val areFirstTwoSelected = selectedOptions[1] && selectedOptions[2]
+    val isOnlyFirstSelected = selectedOptions[0] && !selectedOptions[1] && !selectedOptions[2] && !selectedOptions[3]
+
+    return areFirstTwoSelected || isOnlyFirstSelected
+}
+
+// 선택 상태에 따른 데이터 저장 함수
+private fun saveAgreeState(authViewModel: AuthViewModel, isThirdSelected: Boolean) {
+    authViewModel.saveIsAgreeADData(if (isThirdSelected) "Y" else "N")
+}
+
+// 옵션 선택 로직 처리 함수
+private fun handleOptionClick(
+    selectedOptions: MutableList<Boolean>,
+    index: Int
+) {
+    if (index == 0) {
+        val allChecked = selectedOptions[0]
+        for (i in selectedOptions.indices) {
+            selectedOptions[i] = !allChecked
+        }
+    } else {
+        selectedOptions[index] = !selectedOptions[index]
+        selectedOptions[0] = selectedOptions.subList(1, selectedOptions.size).all { it }
+    }
 }
 
 @Composable
@@ -229,7 +236,6 @@ fun CustomRadioButton(
         contentAlignment = Alignment.Center
     ) {
         if (selected) {
-            // 선택된 상태에서는 이미지 표시
             Icon(
                 painter = painterResource(id = R.drawable.ic_check),
                 contentDescription = null,
@@ -240,12 +246,23 @@ fun CustomRadioButton(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-//    SignUpAgreeScreen(
-//        onNavigateToSignUpInput = {},
-//        onBack = {},
-//        authViewModel = AuthViewModel()
-//    )
+private fun AgreeNextButton(
+    onNavigateToSignUpInput: () -> Unit,
+    buttonColor: MutableState<Boolean>
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 58.dp),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        CommonUi.NextButton(
+            text = stringResource(R.string.txt_next),
+            onClick = onNavigateToSignUpInput,
+            background = if (buttonColor.value) MainColor else AltoAgree,
+            textColor = if (buttonColor.value) Color.White else Black30,
+            enabled = buttonColor.value
+        )
+    }
 }
