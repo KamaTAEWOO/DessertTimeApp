@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +40,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
@@ -52,8 +51,6 @@ import com.desserttime.design.theme.TundoraCategory
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import timber.log.Timber
-
-private const val TAG: String = "CategoryScreen::"
 
 @Composable
 fun CategoryScreen(
@@ -71,7 +68,8 @@ fun CategoryScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
+            .padding(start = 20.dp, end = 20.dp),
         horizontalAlignment = Alignment.Start
     ) {
         AppBarUi.AppBar(stringResource(id = R.string.txt_bottom_category))
@@ -79,16 +77,16 @@ fun CategoryScreen(
         Text(
             text = stringResource(id = R.string.txt_category_sub_title),
             style = DessertTimeTheme.typography.textStyleBold18,
-            color = Color.Black,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+            color = Color.Black
         )
         Spacer(modifier = Modifier.height(16.dp))
+
+        CommonUi.Divide(color = Alto)
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
-                .padding(start = 20.dp, end = 20.dp)
         ) {
             items(categoryUiState.allCategory) { category ->
                 CategoryMainItem(
@@ -101,6 +99,7 @@ fun CategoryScreen(
                     },
                     onNavigationToSubReview
                 )
+                CommonUi.Divide(color = Alto)
             }
         }
     }
@@ -119,11 +118,6 @@ fun CategoryMainItem(
     onExpandToggle: () -> Unit,
     onNavigationToSubReview: () -> Unit
 ) {
-    Divider(
-        color = Alto,
-        thickness = 1.dp,
-        modifier = Modifier.fillMaxWidth()
-    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -161,12 +155,11 @@ fun CategoryMainItem(
         }
 
         if (isExpanded) {
-            Timber.i("$TAG categoryMainId: $categoryMainId")
+            Timber.d("CategoryMainItem isExpanded: $categoryMainId")
             CategorySubItem(
                 categoryUiState,
                 categoryMainId,
                 onClick = {
-                    Timber.i("$TAG Clicked: $it")
                     categoryUiState.subCategory = it
                     onNavigationToSubReview()
                 }
@@ -180,8 +173,6 @@ fun CategoryMainItemImage(
     categoryMainId: Int,
     color: Color
 ) {
-    Timber.i("$TAG categoryMainId: $categoryMainId")
-
     val imageResIds = listOf(
         R.drawable.ic_off_1,
         R.drawable.ic_off_2,
@@ -206,7 +197,7 @@ fun CategoryMainItemImage(
     )
 
     val imageResId = imageResIds.getOrElse(categoryMainId) {
-        R.drawable.ic_off_1 // Fallback image
+        R.drawable.ic_off_1
     }
 
     Image(
@@ -241,11 +232,8 @@ fun CategorySubItem(
     // 선택된 아이템의 이름을 저장하는 상태
     var selectedItem by remember { mutableStateOf<String?>(null) }
 
-    Divider(
-        color = Alto,
-        thickness = 1.dp,
-        modifier = Modifier.fillMaxWidth()
-    )
+    CommonUi.Divide(color = Alto)
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
@@ -275,16 +263,16 @@ fun CategorySubItem(
             }
         }
     }
-    Divider(
-        color = Alto,
-        thickness = 1.dp,
+    HorizontalDivider(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(
                 elevation = 4.dp,
                 shape = RectangleShape,
                 clip = false
-            )
+            ),
+        thickness = 1.dp,
+        color = Alto
     )
 }
 
@@ -311,7 +299,3 @@ fun CategorySubItemRound(
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun CategoryScreenPreview() {}

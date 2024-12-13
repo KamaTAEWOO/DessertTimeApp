@@ -13,7 +13,6 @@ import com.desserttime.auth.signup.SignUpCompleteScreen
 import com.desserttime.auth.signup.SignUpInputScreen
 import com.desserttime.category.CategoryViewModel
 import com.desserttime.category.SubCategoryReviewDetailScreen
-import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.controler.MainControl
 import com.desserttime.core.navigation.NavGraphLabel
 import com.desserttime.core.navigation.destination.AuthDestination
@@ -129,9 +128,6 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToReviewWrite = {
                     navHostController.navigate(MainDestination.ReviewWrite.route)
                 },
-                onNavigationToSubReview = {
-                    navHostController.navigate(MainDestination.SubCategoryReview.route)
-                },
                 categoryViewModel = categoryViewModel,
                 reviewViewModel = reviewViewModel,
                 onNavigateToWheat = {
@@ -150,6 +146,9 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToMyReview = {
                     navHostController.navigate(MainDestination.MyReview.route)
                 },
+                onNavigateToCategoryDetail = {
+                    navHostController.navigate(MainDestination.SubCategoryReviewDetail.route)
+                },
                 homeViewModel = homeViewModel,
                 likeViewModel = likeViewModel
             )
@@ -159,17 +158,17 @@ fun NavGraphBuilder.authNavGraph(
             AlarmScreen()
         }
 
-        composable(route = MainDestination.SubCategoryReview.route) {
-            SubCategoryReviewScreen(
-                categoryViewModel = categoryViewModel,
-                onNavigateToCategory = {
-                    navHostController.popBackStack()
-                },
-                onNavigateToSubCategoryReviewDetail = {
-                    navHostController.navigate(MainDestination.SubCategoryReviewDetail.route)
-                }
-            )
-        }
+//        composable(route = MainDestination.SubCategoryReview.route) {
+//            SubCategoryReviewScreen(
+//                categoryViewModel = categoryViewModel,
+//                onNavigateToCategory = {
+//                    navHostController.popBackStack()
+//                },
+//                onNavigateToSubCategoryReviewDetail = {
+//                    navHostController.navigate(MainDestination.SubCategoryReviewDetail.route)
+//                }
+//            )
+//        }
 
         composable(route = MainDestination.SubCategoryReviewDetail.route) {
             SubCategoryReviewDetailScreen(

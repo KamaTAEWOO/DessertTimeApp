@@ -33,10 +33,8 @@ class CategoryViewModel @Inject constructor(
             is CategoryEvent.RequestCategoryData -> {
                 currentState.copy(allCategory = event.allCategory)
             }
-            else -> currentState
         }
 
-    // category data 받아오기
     fun requestCategoryData() {
         setLoading(true)
 
