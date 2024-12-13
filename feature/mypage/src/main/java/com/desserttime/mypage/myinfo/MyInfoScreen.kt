@@ -79,9 +79,9 @@ import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.design.ui.common.CommonUi.BirthYearDropdown
 import com.desserttime.domain.model.GenderData
 import com.desserttime.domain.model.MemberData
-import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.mypage.MyPageViewModel
+import com.desserttime.mypage.model.NickNameDoubleCheckData
 import timber.log.Timber
 
 private const val TAG = "MyInfoScreen::"
@@ -112,7 +112,7 @@ fun MyInfoScreen(
         return
     }
 
-    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName)) }
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName ?: "")) }
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
@@ -125,7 +125,8 @@ fun MyInfoScreen(
             }
         )
     }
-    val selectAddress = remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
+    val selectAddress =
+        remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
     val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
     val changeSaveColor = remember { mutableStateOf(false) }
 
@@ -211,7 +212,12 @@ fun MyInfoScreen(
                                 )
 
                                 Button(
-                                    onClick = { nicknameDoubleCheck(myPageViewModel, nickname.text) },
+                                    onClick = {
+                                        nicknameDoubleCheck(
+                                            myPageViewModel,
+                                            nickname.text
+                                        )
+                                    },
                                     modifier = Modifier
                                         .size(82.dp, 40.dp)
                                         .align(Alignment.CenterVertically),
@@ -246,6 +252,7 @@ fun MyInfoScreen(
                                     }
                                     Spacer(modifier = Modifier.height(5.dp))
                                 }
+
                                 NickNameDoubleCheckData.USABLE -> {
                                     Timber.i("$TAG NickNameDoubleCheckData.USABLE")
                                     Spacer(modifier = Modifier.height(4.dp))
@@ -262,6 +269,7 @@ fun MyInfoScreen(
                                     }
                                     Spacer(modifier = Modifier.height(5.dp))
                                 }
+
                                 else -> {
                                     Timber.i("$TAG NickNameDoubleCheckData.NONE")
                                     Spacer(modifier = Modifier.height(20.dp))
@@ -467,7 +475,8 @@ fun MyInfoScreen(
     )
 
     Timber.i("$TAG Data: $nickname, $selectedYear, $selectedGenderData, $selectAddress, $taste")
-    val changeButtonColor = inputData(nickname, selectedYear, selectedGenderData, selectAddress, taste)
+    val changeButtonColor =
+        inputData(nickname, selectedYear, selectedGenderData, selectAddress, taste)
     changeSaveColor.value = changeButtonColor
 
     if (isLoading) {

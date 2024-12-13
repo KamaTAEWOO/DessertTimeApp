@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.domain.model.MemberData
-import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
+import com.desserttime.mypage.model.NickNameDoubleCheckData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -129,7 +129,12 @@ class MyPageViewModel @Inject constructor(
         memberInfoRepository.requestSettingLoadData(memberId)
             .onEach {
                 Timber.i("$TAG requestSettingLoadData: $it")
-                sendAction(MyPageEvent.RequestMyPageSettingLoadData(it.data.isAgreeAD, it.data.isAgreeAlarm))
+                sendAction(
+                    MyPageEvent.RequestMyPageSettingLoadData(
+                        it.data.isAgreeAD,
+                        it.data.isAgreeAlarm
+                    )
+                )
             }
             .catch {
                 Timber.e("$TAG $it")

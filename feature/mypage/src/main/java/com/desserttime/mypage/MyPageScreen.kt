@@ -20,7 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -485,10 +485,10 @@ fun NoticeSection(
                     style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
-            Divider(
-                color = Gallery,
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
                 thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                color = Gallery
             )
             Row(
                 modifier = Modifier
@@ -518,10 +518,10 @@ fun NoticeSection(
                     style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
-            Divider(
-                color = Gallery,
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
                 thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                color = Gallery
             )
             Row(
                 modifier = Modifier
@@ -548,10 +548,10 @@ fun NoticeSection(
                     style = DessertTimeTheme.typography.textStyleMedium14
                 )
             }
-            Divider(
-                color = Gallery,
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
                 thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                color = Gallery
             )
             Row(
                 modifier = Modifier

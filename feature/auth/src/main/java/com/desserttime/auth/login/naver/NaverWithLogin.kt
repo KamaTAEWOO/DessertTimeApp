@@ -2,7 +2,7 @@ package com.desserttime.auth.login.naver
 
 import android.content.Context
 import com.desserttime.auth.login.LoginResult
-import com.desserttime.domain.model.MemberProfileData
+import com.desserttime.auth.model.MemberProfileData
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import kotlinx.coroutines.Dispatchers
