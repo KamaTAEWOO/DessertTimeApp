@@ -1,4 +1,4 @@
-package com.desserttime.domain.model
+package com.desserttime.mypage.model
 
 enum class NickNameDoubleCheckData {
     NONE,

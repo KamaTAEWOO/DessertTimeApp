@@ -2,8 +2,8 @@ package com.desserttime.mypage
 
 import com.desserttime.core.base.BaseState
 import com.desserttime.domain.model.MyPageMemberData
-import com.desserttime.domain.model.NickNameDoubleCheckData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
+import com.desserttime.mypage.model.NickNameDoubleCheckData
 
 data class MyPageState(
     var taste: String = "",

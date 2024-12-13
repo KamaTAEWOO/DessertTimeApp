@@ -1,6 +1,5 @@
 package com.desserttime.controler
 
-import HomeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,6 +33,7 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
+import com.desserttime.home.HomeScreen
 import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeScreen
 import com.desserttime.like.LikeViewModel
@@ -83,6 +83,12 @@ fun MainControl(
     Spacer(Modifier.padding(bottom = 42.dp))
 }
 
+data class BottomNavItem(
+    val route: String,
+    val iconResId: Int,
+    val labelResId: Int
+)
+
 @Composable
 fun BottomNavBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -90,13 +96,41 @@ fun BottomNavBar(navController: NavController) {
     val selectedColor = MainColor
     val unselectedColor = Manatee
 
+    val items = listOf(
+        BottomNavItem(
+            route = MainDestination.Home.route,
+            iconResId = R.drawable.ic_bottom_home,
+            labelResId = R.string.txt_bottom_home
+        ),
+        BottomNavItem(
+            route = MainDestination.Category.route,
+            iconResId = R.drawable.ic_bottom_category,
+            labelResId = R.string.txt_bottom_category
+        ),
+        BottomNavItem(
+            route = MainDestination.Review.route,
+            iconResId = R.drawable.ic_bottom_review,
+            labelResId = R.string.txt_bottom_review
+        ),
+        BottomNavItem(
+            route = MainDestination.Like.route,
+            iconResId = R.drawable.ic_bottom_like,
+            labelResId = R.string.txt_bottom_like
+        ),
+        BottomNavItem(
+            route = MainDestination.MyPage.route,
+            iconResId = R.drawable.ic_bottom_mypage,
+            labelResId = R.string.txt_bottom_my_page
+        )
+    )
+
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
         color = Color.Transparent
     ) {
         NavigationBar(
-            containerColor = Color.Transparent, // Set transparent to avoid background color interference
+            containerColor = Color.Transparent,
             contentColor = Manatee,
             modifier = Modifier
                 .fillMaxWidth()
@@ -104,157 +138,43 @@ fun BottomNavBar(navController: NavController) {
                 .background(Color.White)
                 .shadow(2.dp)
         ) {
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bottom_home),
-                        contentDescription = stringResource(id = R.string.txt_bottom_home),
-                        tint = if (currentRoute == MainDestination.Home.route) selectedColor else unselectedColor
-                    )
-                },
-                label = {
-                    Text(
-                        stringResource(id = R.string.txt_bottom_home),
-                        color = if (currentRoute == MainDestination.Home.route) selectedColor else unselectedColor
-                    )
-                },
-                selected = currentRoute == MainDestination.Home.route,
-                onClick = {
-                    if (currentRoute != MainDestination.Home.route) {
-                        navController.navigate(MainDestination.Home.route) {
-                            // Avoid multiple instances of the same destination
-                            popUpTo(MainDestination.Home.route) { inclusive = true }
+            items.forEach { item ->
+                val isSelected = currentRoute == item.route
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            painter = painterResource(id = item.iconResId),
+                            contentDescription = stringResource(id = item.labelResId),
+                            tint = if (isSelected) selectedColor else unselectedColor
+                        )
+                    },
+                    label = {
+                        Text(
+                            stringResource(id = item.labelResId),
+                            color = if (isSelected) selectedColor else unselectedColor
+                        )
+                    },
+                    selected = isSelected,
+                    onClick = {
+                        if (!isSelected) {
+                            navController.navigate(item.route) {
+                                popUpTo(navController.graph.startDestinationId) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                         }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.White, // Ensuring no border color
-                    selectedIconColor = selectedColor,
-                    unselectedIconColor = unselectedColor,
-                    selectedTextColor = selectedColor,
-                    unselectedTextColor = unselectedColor
+                    },
+                    colors = NavigationBarItemDefaults.colors(
+                        indicatorColor = Color.White,
+                        selectedIconColor = selectedColor,
+                        unselectedIconColor = unselectedColor,
+                        selectedTextColor = selectedColor,
+                        unselectedTextColor = unselectedColor
+                    )
                 )
-            )
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bottom_category),
-                        contentDescription = stringResource(id = R.string.txt_bottom_category),
-                        tint = if (currentRoute == MainDestination.Category.route) selectedColor else unselectedColor
-                    )
-                },
-                label = {
-                    Text(
-                        stringResource(id = R.string.txt_bottom_category),
-                        color = if (currentRoute == MainDestination.Category.route) selectedColor else unselectedColor
-                    )
-                },
-                selected = currentRoute == MainDestination.Category.route,
-                onClick = {
-                    if (currentRoute != MainDestination.Category.route) {
-                        navController.navigate(MainDestination.Category.route) {
-                            popUpTo(MainDestination.Category.route) { inclusive = true }
-                        }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.White,
-                    selectedIconColor = selectedColor,
-                    unselectedIconColor = unselectedColor,
-                    selectedTextColor = selectedColor,
-                    unselectedTextColor = unselectedColor
-                )
-            )
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bottom_review),
-                        contentDescription = stringResource(id = R.string.txt_bottom_review),
-                        tint = if (currentRoute == MainDestination.Review.route) selectedColor else unselectedColor
-                    )
-                },
-                label = {
-                    Text(
-                        stringResource(id = R.string.txt_bottom_review),
-                        color = if (currentRoute == MainDestination.Review.route) selectedColor else unselectedColor
-                    )
-                },
-                selected = currentRoute == MainDestination.Review.route,
-                onClick = {
-                    if (currentRoute != MainDestination.Review.route) {
-                        navController.navigate(MainDestination.Review.route) {
-                            popUpTo(MainDestination.Review.route) { inclusive = true }
-                        }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.White,
-                    selectedIconColor = selectedColor,
-                    unselectedIconColor = unselectedColor,
-                    selectedTextColor = selectedColor,
-                    unselectedTextColor = unselectedColor
-                )
-            )
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bottom_like),
-                        contentDescription = stringResource(id = R.string.txt_bottom_like),
-                        tint = if (currentRoute == MainDestination.Like.route) selectedColor else unselectedColor
-                    )
-                },
-                label = {
-                    Text(
-                        stringResource(id = R.string.txt_bottom_like),
-                        color = if (currentRoute == MainDestination.Like.route) selectedColor else unselectedColor
-                    )
-                },
-                selected = currentRoute == MainDestination.Like.route,
-                onClick = {
-                    if (currentRoute != MainDestination.Like.route) {
-                        navController.navigate(MainDestination.Like.route) {
-                            popUpTo(MainDestination.Like.route) { inclusive = true }
-                        }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.White,
-                    selectedIconColor = selectedColor,
-                    unselectedIconColor = unselectedColor,
-                    selectedTextColor = selectedColor,
-                    unselectedTextColor = unselectedColor
-                )
-            )
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_bottom_mypage),
-                        contentDescription = stringResource(id = R.string.txt_bottom_my_page),
-                        tint = if (currentRoute == MainDestination.MyPage.route) selectedColor else unselectedColor
-                    )
-                },
-                label = {
-                    Text(
-                        stringResource(id = R.string.txt_bottom_my_page),
-                        color = if (currentRoute == MainDestination.MyPage.route) selectedColor else unselectedColor
-                    )
-                },
-                selected = currentRoute == MainDestination.MyPage.route,
-                onClick = {
-                    if (currentRoute != MainDestination.MyPage.route) {
-                        navController.navigate(MainDestination.MyPage.route) {
-                            popUpTo(MainDestination.MyPage.route) { inclusive = true }
-                        }
-                    }
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.White,
-                    selectedIconColor = selectedColor,
-                    unselectedIconColor = unselectedColor,
-                    selectedTextColor = selectedColor,
-                    unselectedTextColor = unselectedColor
-                )
-            )
+            }
         }
     }
 }
@@ -263,6 +183,6 @@ fun BottomNavBar(navController: NavController) {
 fun SetStatusBarColor(color: Color) {
     val systemUiController = rememberSystemUiController()
     SideEffect {
-        systemUiController.setSystemBarsColor(color)
+        systemUiController.setStatusBarColor(color = color)
     }
 }

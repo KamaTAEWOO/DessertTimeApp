@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.login.google.GoogleLoginInit
+import com.desserttime.auth.model.LoginMethodData
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alto
 import com.desserttime.design.theme.Black
@@ -49,7 +50,6 @@ import com.desserttime.design.theme.OsloGray
 import com.desserttime.design.theme.Turbo
 import com.desserttime.design.theme.White
 import com.desserttime.design.ui.common.CommonUi
-import com.desserttime.domain.model.LoginMethodData
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable

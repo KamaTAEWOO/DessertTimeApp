@@ -1,4 +1,4 @@
-package com.desserttime.domain.model
+package com.desserttime.auth.model
 
 data class MemberProfileData(
     val id: String,
