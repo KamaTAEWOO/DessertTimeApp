@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
 import com.desserttime.category.CategoryViewModel
+import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
@@ -51,7 +52,6 @@ fun MainControl(
     onNavigateToSetting: () -> Unit,
     onNavigateToMyInfo: () -> Unit,
     onNavigateToReviewWrite: () -> Unit,
-    onNavigationToSubReview: () -> Unit,
     categoryViewModel: CategoryViewModel,
     reviewViewModel: ReviewViewModel,
     onNavigateToWheat: () -> Unit,
@@ -60,6 +60,7 @@ fun MainControl(
     onNavigateToQuestion: () -> Unit,
     onNavigationInquiryInput: () -> Unit,
     onNavigateToMyReview: () -> Unit,
+    onNavigateToCategoryDetail: () -> Unit,
     homeViewModel: HomeViewModel,
     likeViewModel: LikeViewModel
 ) {
@@ -73,11 +74,54 @@ fun MainControl(
             startDestination = MainDestination.Home.route,
             Modifier.padding(innerPadding)
         ) {
-            composable(MainDestination.Home.route) { HomeScreen(onNavigateToLogin, onNavigateToAlarm, homeViewModel) }
-            composable(MainDestination.Category.route) { CategoryScreen(categoryViewModel, onNavigationToSubReview) }
-            composable(MainDestination.Like.route) { LikeScreen(onNavigateToLikeDetail, likeViewModel) }
-            composable(MainDestination.MyPage.route) { MyPageScreen(onNavigateToLogin, onNavigateToSetting, onNavigateToMyInfo, onNavigateToWheat, onNavigateToNoticeAndEvent, myPageViewModel, onNavigateToQuestion, onNavigationInquiryInput, onNavigateToMyReview) }
-            composable(MainDestination.Review.route) { ReviewScreen(reviewViewModel, onNavigateToReviewWrite) }
+            composable(MainDestination.Home.route) {
+                HomeScreen(
+                    onNavigateToLogin,
+                    onNavigateToAlarm,
+                    homeViewModel
+                )
+            }
+            composable(MainDestination.Category.route) {
+                CategoryScreen(
+                    categoryViewModel
+                ) { navController.navigate(MainDestination.SubCategoryReview.route) }
+            }
+            composable(MainDestination.Like.route) {
+                LikeScreen(
+                    onNavigateToLikeDetail,
+                    likeViewModel
+                )
+            }
+            composable(MainDestination.MyPage.route) {
+                MyPageScreen(
+                    onNavigateToLogin,
+                    onNavigateToSetting,
+                    onNavigateToMyInfo,
+                    onNavigateToWheat,
+                    onNavigateToNoticeAndEvent,
+                    myPageViewModel,
+                    onNavigateToQuestion,
+                    onNavigationInquiryInput,
+                    onNavigateToMyReview
+                )
+            }
+            composable(MainDestination.Review.route) {
+                ReviewScreen(
+                    reviewViewModel,
+                    onNavigateToReviewWrite
+                )
+            }
+            composable(route = MainDestination.SubCategoryReview.route) {
+                SubCategoryReviewScreen(
+                    categoryViewModel = categoryViewModel,
+                    onNavigateToCategory = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToSubCategoryReviewDetail = {
+                        onNavigateToCategoryDetail()
+                    }
+                )
+            }
         }
     }
     Spacer(Modifier.padding(bottom = 42.dp))

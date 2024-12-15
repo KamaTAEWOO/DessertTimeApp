@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -38,7 +36,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -54,8 +51,6 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.domain.model.LikeData
 
-private const val TAG = "SubCategoryReviewScreen::"
-
 @Composable
 fun SubCategoryReviewScreen(
     categoryViewModel: CategoryViewModel,
@@ -66,8 +61,7 @@ fun SubCategoryReviewScreen(
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(WindowInsets.systemBars.asPaddingValues()),
+            .fillMaxSize(),
         topBar = {
             AppBarUi.AppBar(
                 { onNavigateToCategory() },
@@ -246,83 +240,129 @@ fun SubCategoryReviewItem(
             .border(1.dp, Mercury, shape = RoundedCornerShape(10.dp))
             .clickable { onNavigateToSubCategoryReviewDetail() }
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
-        ) {
-            Image(
-                painter = painterResource(id = icLikeProfile),
-                contentDescription = stringResource(id = R.string.img_like_nickname),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(34.dp)
-                    .clip(CircleShape)
-            )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp)
-            ) {
-                Text(
-                    text = nickName,
-                    style = DessertTimeTheme.typography.textStyleRegular12,
-                    color = Color.Black
-                )
-                Text(
-                    text = date,
-                    style = DessertTimeTheme.typography.textStyleRegular12,
-                    color = DustyGray
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier
-                    .padding(start = 12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_like),
-                    contentDescription = stringResource(id = R.string.img_like_love),
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 4.dp)
-                )
-                Text(
-                    text = stringResource(id = likeCount),
-                    style = DessertTimeTheme.typography.textStyleBold12,
-                    color = MainColor,
-                    modifier = Modifier.padding(top = 3.dp, end = 3.dp)
-                )
-            }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 20.dp, bottom = 24.dp)
-        ) {
-            // title
-            Text(
-                text = stringResource(id = title),
-                style = DessertTimeTheme.typography.textStyleBold16,
-                color = Color.Black
-            )
-            ScoreCheck(score)
-            MenuPicture(likePicture)
-            Text(
-                text = content,
-                style = DessertTimeTheme.typography.textStyleRegular14,
-                color = Black60,
-                maxLines = 1, // Restricting to a single line
-                overflow = TextOverflow.Ellipsis, // Adding ellipsis if text exceeds the max line
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp)
-            )
-            Spacer(modifier = Modifier.padding(top = 16.dp))
-            MaterialItemList(materialArr)
-        }
+        ReviewHeader(
+            icLikeProfile = icLikeProfile,
+            nickName = nickName,
+            date = date,
+            likeCount = likeCount
+        )
+        ReviewContent(
+            title = title,
+            score = score,
+            likePicture = likePicture,
+            content = content,
+            materialArr = materialArr
+        )
     }
+}
+
+@Composable
+fun ReviewHeader(
+    icLikeProfile: Int,
+    nickName: String,
+    date: String,
+    likeCount: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
+    ) {
+        ProfileImage(icLikeProfile)
+        Spacer(modifier = Modifier.width(8.dp))
+        UserDetails(nickName, date)
+        Spacer(modifier = Modifier.width(12.dp))
+        LikeInfo(likeCount)
+    }
+}
+
+@Composable
+fun ProfileImage(icLikeProfile: Int) {
+    Image(
+        painter = painterResource(id = icLikeProfile),
+        contentDescription = stringResource(id = R.string.img_like_nickname),
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(34.dp)
+            .clip(CircleShape)
+    )
+}
+
+@Composable
+fun UserDetails(nickName: String, date: String) {
+    Column {
+        Text(
+            text = nickName,
+            style = DessertTimeTheme.typography.textStyleRegular12,
+            color = Color.Black
+        )
+        Text(
+            text = date,
+            style = DessertTimeTheme.typography.textStyleRegular12,
+            color = DustyGray
+        )
+    }
+}
+
+@Composable
+fun LikeInfo(likeCount: Int) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_like),
+            contentDescription = stringResource(id = R.string.img_like_love),
+            modifier = Modifier.size(20.dp)
+        )
+        Text(
+            text = stringResource(id = likeCount),
+            style = DessertTimeTheme.typography.textStyleBold12,
+            color = MainColor,
+            modifier = Modifier.padding(top = 3.dp)
+        )
+    }
+}
+
+@Composable
+fun ReviewContent(
+    title: Int,
+    score: Int,
+    likePicture: Int,
+    content: String,
+    materialArr: List<Int>
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, end = 20.dp, bottom = 24.dp)
+    ) {
+        Text(
+            text = stringResource(id = title),
+            style = DessertTimeTheme.typography.textStyleBold16,
+            color = Color.Black
+        )
+        ScoreCheck(score)
+        MenuPicture(likePicture)
+        ReviewContentText(content)
+        Spacer(modifier = Modifier.height(16.dp))
+        MaterialItemList(materialArr)
+    }
+}
+
+@Composable
+fun ReviewContentText(content: String) {
+    Text(
+        text = content,
+        style = DessertTimeTheme.typography.textStyleRegular14,
+        color = Black60,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp)
+    )
 }
 
 @Composable
@@ -419,10 +459,4 @@ fun MaterialItemRound(
                 .padding(horizontal = 10.dp, vertical = 5.dp)
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun SubCategoryReviewScreenPreview() {
-    // SubCategoryReviewScreen({})
 }

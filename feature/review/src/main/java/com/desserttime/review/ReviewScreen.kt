@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -45,12 +47,10 @@ import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.Popup
-import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Black60
@@ -63,8 +63,6 @@ import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.PopUpUi.CommonPopup
 import timber.log.Timber
 
-private const val TAG = "ReviewScreen::"
-
 @Composable
 fun ReviewScreen(
     reviewViewModel: ReviewViewModel,
@@ -74,10 +72,9 @@ fun ReviewScreen(
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        // 카메라에서 이미지 캡처 후 결과 처리
         val bitmap = result.data?.extras?.get("data") as? Bitmap
         if (bitmap != null) {
-            Timber.i("$TAG imageBitmap: $bitmap")
+            Timber.d("Captured bitmap: $bitmap")
         }
     }
 
@@ -86,119 +83,138 @@ fun ReviewScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        AppBarUi.AppBar(
-            stringResource(id = R.string.txt_bottom_review),
-            {},
-            {}
+        ReviewAppBar()
+        ReviewHeader()
+        ReviewContent(
+            reviewViewModel = reviewViewModel,
+            onNavigateToReviewWrite = onNavigateToReviewWrite,
+            cameraLauncher = cameraLauncher
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(20.dp)
-                .background(WildSand)
+    }
+}
+
+@Composable
+fun ReviewAppBar() {
+    AppBarUi.AppBar(
+        stringResource(id = R.string.txt_bottom_review),
+        onSearchClick = {},
+        onBellClick = {}
+    )
+}
+
+@Composable
+fun ReviewHeader() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize()
+            .background(WildSand)
+            .padding(vertical = 10.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.txt_review_possibility),
+            style = DessertTimeTheme.typography.textStyleBold18,
+            color = Color.Black,
+            modifier = Modifier.padding(start = 20.dp, end = 8.dp)
         )
-        Row(
+        ReviewCountBadge()
+        Spacer(modifier = Modifier.weight(1f))
+        ReviewLeaveDaysInfo()
+    }
+}
+
+@Composable
+fun ReviewCountBadge() {
+    Box(
+        modifier = Modifier.padding(top = 4.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.txt_review_possibility_count),
+            style = DessertTimeTheme.typography.textStyleMedium12,
+            color = Color.White,
             modifier = Modifier
-                .fillMaxWidth()
-                .height(42.dp) // Fixed height to prevent stretching
-                .background(WildSand)
+                .background(MainColor, shape = RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp))
+                .size(38.dp, 18.dp),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun ReviewLeaveDaysInfo() {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(top = 4.dp, end = 20.dp)
+    ) {
+        Text(
+            text = stringResource(id = R.string.txt_review_leave_days),
+            style = DessertTimeTheme.typography.textStyleMedium12,
+            color = TundoraCategory,
+            modifier = Modifier.padding(end = 4.dp)
+        )
+        IconButton(
+            onClick = { /* TODO */ },
+            modifier = Modifier.size(14.dp)
         ) {
-            // 작성 가능 후기
-            Text(
-                text = stringResource(id = R.string.txt_review_possibility),
-                style = DessertTimeTheme.typography.textStyleBold18,
-                color = Color.Black,
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 8.dp)
+            Icon(
+                painter = painterResource(id = R.drawable.ic_alert_review),
+                contentDescription = stringResource(id = R.string.img_review_leave_days_info_description)
             )
-            // 6건
-            Box(
-                modifier = Modifier
-                    .padding(top = 4.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.txt_review_possibility_count),
-                    style = DessertTimeTheme.typography.textStyleMedium12,
-                    color = Color.White,
-                    modifier = Modifier
-                        .background(MainColor, shape = RoundedCornerShape(20.dp))
-                        .clip(RoundedCornerShape(20.dp))
-                        .size(38.dp, 18.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp, end = 20.dp)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.txt_review_leave_days),
-                        style = DessertTimeTheme.typography.textStyleMedium12,
-                        color = TundoraCategory,
-                        modifier = Modifier.padding(end = 4.dp)
-                    )
-                    IconButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .size(14.dp)
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_alert_review),
-                            contentDescription = stringResource(id = R.string.img_review_leave_days_info_description)
-                        )
-                    }
-                }
-            }
         }
-        Box(
+    }
+}
+
+@Composable
+fun ReviewContent(
+    reviewViewModel: ReviewViewModel,
+    onNavigateToReviewWrite: () -> Unit,
+    cameraLauncher: ActivityResultLauncher<Intent>
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        ReviewItemView(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(WildSand)
+                .padding(horizontal = 12.dp),
+            onNavigateToReviewWrite = onNavigateToReviewWrite,
+            reviewViewModel = reviewViewModel
+        )
+        ReviewFloatingButton(cameraLauncher)
+    }
+}
+
+@Composable
+fun ReviewFloatingButton(cameraLauncher: ActivityResultLauncher<Intent>) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize() // 부모 Box를 화면 전체로 채움
+    ) {
+        Button(
+            onClick = {
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                cameraLauncher.launch(cameraIntent)
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MainColor,
+                contentColor = Color.White
+            ),
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter) // 버튼을 하단 중앙에 정렬
+                .padding(16.dp)
+                .height(61.dp)
+                .fillMaxWidth()
         ) {
-            // Main content with review items
-            ReviewItemView(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(WildSand)
-                    .padding(horizontal = 12.dp),
-                onNavigateToReviewWrite = onNavigateToReviewWrite,
-                reviewViewModel = reviewViewModel
+            Text(
+                text = stringResource(id = R.string.txt_review_new_receipt),
+                style = DessertTimeTheme.typography.textStyleMedium20,
+                color = Color.White
             )
-            // Floating button positioned at the bottom
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(16.dp)
-                    .zIndex(1f)
-            ) {
-                Button(
-                    onClick = {
-                        // 카메라 앱 호출을 위한 Intent 생성
-                        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        // 카메라 인텐트 실행
-                        cameraLauncher.launch(cameraIntent)
-                    },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MainColor,
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .height(61.dp)
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.txt_review_new_receipt),
-                        style = DessertTimeTheme.typography.textStyleMedium20,
-                        color = Color.White
-                    )
-                }
-            }
         }
     }
 }
@@ -220,8 +236,6 @@ fun ReviewItemView(
                 onNavigateToReviewWrite = onNavigateToReviewWrite,
                 index = index,
                 onDelete = { itemIndex ->
-                    // Remove the item at the specific index
-                    Timber.i("$TAG Delete review item at index $itemIndex")
                     reviewItems = reviewItems.toMutableList().apply {
                         removeAt(itemIndex)
                     }
@@ -242,8 +256,8 @@ fun ReviewItemView(
 fun ReviewItem(
     reviewViewModel: ReviewViewModel,
     onNavigateToReviewWrite: () -> Unit,
-    index: Int, // Pass the item's index
-    onDelete: (Int) -> Unit // Pass the index back when deleting
+    index: Int,
+    onDelete: (Int) -> Unit
 ) {
     val reviewUiState by reviewViewModel.uiState.collectAsStateWithLifecycle()
     var showDialog by remember { mutableStateOf(false) }
@@ -420,7 +434,3 @@ fun sendReviewData(
 fun itemDelete(itemIndex: Int) {
     // 리뷰 번호를 이용해서 item 삭제
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ReviewScreenPreview() {}

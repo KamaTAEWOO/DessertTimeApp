@@ -44,6 +44,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.desserttime.design.R
 import com.desserttime.design.theme.Alabaster
 import com.desserttime.design.theme.Alto
@@ -113,6 +115,8 @@ fun SubCategoryReviewDetailItem(
     content: String,
     materialArr: List<Int>
 ) {
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -202,7 +206,7 @@ fun SubCategoryReviewDetailItem(
                 color = Alabaster
             )
             Spacer(modifier = Modifier.padding(top = 12.dp))
-            AccusationButton()
+            AccusationButton(categoryViewModel)
         }
     }
 }
@@ -234,8 +238,9 @@ fun MenuDetailPicture(likePicture: Int) {
 }
 
 @Composable
-fun AccusationButton() {
+fun AccusationButton(categoryViewModel: CategoryViewModel) {
     var showDialog by remember { mutableStateOf(false) }
+    val categoryUiState by categoryViewModel.uiState.collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -248,6 +253,7 @@ fun AccusationButton() {
                 .align(Alignment.CenterEnd)
                 .wrapContentWidth()
                 .clickable {
+                    // categoryViewModel.requestAccusationData() // 서버 요청
                     showDialog = true // 다이얼로그 표시
                 }
         )
@@ -255,8 +261,11 @@ fun AccusationButton() {
 
     if (showDialog) {
         AccusationDialog(
+            categoryUiState = categoryUiState,
             onDismiss = { showDialog = false },
             onConfirm = { selectedItems, contentText ->
+                // 선택된 항목 처리
+                // categoryViewModel.requestSendAccusationData(selectedItems, contentText)
                 showDialog = false
             },
             initialSelectedItems = listOf("저작권 침해")
@@ -267,12 +276,13 @@ fun AccusationButton() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccusationDialog(
+    categoryUiState: CategoryState,
     onDismiss: () -> Unit,
     onConfirm: (List<String>, String) -> Unit,
     initialSelectedItems: List<String> = emptyList()
 ) {
     // selectedItems를 명확하게 String 타입 리스트로 선언
-    val selectedItems by remember { mutableStateOf(initialSelectedItems) }
+    var selectedItems by remember { mutableStateOf(initialSelectedItems) }
     var contentText by remember { mutableStateOf("") }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -298,7 +308,7 @@ fun AccusationDialog(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-//                val groupedAccusations = likeUiState.allAccusations.values.chunked(2)
+//                val groupedAccusations = categoryUiState.allAccusations.values.chunked(2)
 //
 //                groupedAccusations.forEach { rowOptions ->
 //                    Ro(
