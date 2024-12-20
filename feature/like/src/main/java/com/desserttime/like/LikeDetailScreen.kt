@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -104,7 +103,7 @@ fun LikeDetailScreen(
 }
 
 @Composable
-fun LikeDetailItem(
+private fun LikeDetailItem(
     icLikeProfile: Int,
     nickName: String,
     date: String,
@@ -122,97 +121,156 @@ fun LikeDetailItem(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Ro(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
-        ) {
-            Image(
-                painter = painterResource(id = icLikeProfile),
-                contentDescription = stringResource(id = R.string.img_like_nickname),
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(34.dp)
-                    .clip(CircleShape)
-            )
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp)
-            ) {
-                Text(
-                    text = nickName,
-                    style = DessertTimeTheme.typography.textStyleRegular12,
-                    color = Color.Black
-                )
-                Text(
-                    text = date,
-                    style = DessertTimeTheme.typography.textStyleRegular12,
-                    color = DustyGray
-                )
-            }
-            Column(
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier
-                    .padding(start = 12.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_like),
-                    contentDescription = stringResource(id = R.string.img_like_love),
-                    modifier = Modifier
-                        .size(20.dp)
-                        .padding(end = 4.dp)
-                )
-                Text(
-                    text = stringResource(id = likeCount),
-                    style = DessertTimeTheme.typography.textStyleBold12,
-                    color = MainColor,
-                    modifier = Modifier.padding(top = 3.dp, end = 3.dp)
-                )
-            }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 20.dp, bottom = 20.dp)
-        ) {
-            MenuDetailPicture(likePicture)
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-            Text(
-                text = stringResource(id = title),
-                style = DessertTimeTheme.typography.textStyleBold18,
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(top = 8.dp))
-            ScoreCheck(score)
-            Spacer(modifier = Modifier.padding(top = 16.dp))
-            Text(
-                text = content,
-                style = DessertTimeTheme.typography.textStyleRegular12,
-                color = Black60,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp)
-            )
-            Spacer(modifier = Modifier.padding(top = 16.dp))
-            MaterialItemList(materialArr)
-            Spacer(modifier = Modifier.padding(top = 20.dp))
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = Alabaster
-            )
-            Spacer(modifier = Modifier.padding(top = 12.dp))
-            AccusationButton(likeViewModel)
-        }
+        ProfileSection(
+            icLikeProfile = icLikeProfile,
+            nickName = nickName,
+            date = date,
+            likeCount = likeCount
+        )
+        ContentSection(
+            likePicture = likePicture,
+            title = title,
+            score = score,
+            content = content,
+            materialArr = materialArr,
+            likeViewModel = likeViewModel
+        )
     }
 }
 
 @Composable
-fun MenuDetailPicture(likePicture: Int) {
+private fun ProfileSection(
+    icLikeProfile: Int,
+    nickName: String,
+    date: String,
+    likeCount: Int
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 24.dp, start = 20.dp, end = 20.dp, bottom = 18.dp)
+    ) {
+        ProfileImage(icLikeProfile)
+        ProfileInfo(nickName, date)
+        LikeCount(likeCount)
+    }
+}
+
+@Composable
+private fun ProfileImage(icLikeProfile: Int) {
+    Image(
+        painter = painterResource(id = icLikeProfile),
+        contentDescription = stringResource(id = R.string.img_like_nickname),
+        contentScale = ContentScale.Crop,
+        modifier = Modifier
+            .size(34.dp)
+            .clip(CircleShape)
+    )
+}
+
+@Composable
+private fun ProfileInfo(nickName: String, date: String) {
+    Column(
+        modifier = Modifier
+            .padding(start = 8.dp)
+    ) {
+        Text(
+            text = nickName,
+            style = DessertTimeTheme.typography.textStyleRegular12,
+            color = Color.Black
+        )
+        Text(
+            text = date,
+            style = DessertTimeTheme.typography.textStyleRegular12,
+            color = DustyGray
+        )
+    }
+}
+
+@Composable
+private fun LikeCount(likeCount: Int) {
+    Column(
+        horizontalAlignment = Alignment.End,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 12.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_like),
+            contentDescription = stringResource(id = R.string.img_like_love),
+            modifier = Modifier
+                .size(20.dp)
+                .padding(end = 4.dp)
+        )
+        Text(
+            text = stringResource(id = likeCount),
+            style = DessertTimeTheme.typography.textStyleBold12,
+            color = MainColor,
+            modifier = Modifier.padding(top = 3.dp, end = 3.dp)
+        )
+    }
+}
+
+@Composable
+private fun ContentSection(
+    likePicture: Int,
+    title: Int,
+    score: Int,
+    content: String,
+    materialArr: List<Int>,
+    likeViewModel: LikeViewModel
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, end = 20.dp, bottom = 20.dp)
+    ) {
+        MenuDetailPicture(likePicture)
+        Spacer(modifier = Modifier.height(20.dp))
+        TitleText(title)
+        Spacer(modifier = Modifier.height(8.dp))
+        ScoreCheck(score)
+        Spacer(modifier = Modifier.height(16.dp))
+        ContentText(content)
+        Spacer(modifier = Modifier.height(16.dp))
+        MaterialItemList(materialArr)
+        Spacer(modifier = Modifier.height(20.dp))
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 1.dp,
+            color = Alabaster
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        AccusationButton(likeViewModel)
+    }
+}
+
+@Composable
+private fun TitleText(title: Int) {
+    Text(
+        text = stringResource(id = title),
+        style = DessertTimeTheme.typography.textStyleBold18,
+        color = Color.Black
+    )
+}
+
+@Composable
+private fun ContentText(content: String) {
+    Text(
+        text = content,
+        style = DessertTimeTheme.typography.textStyleRegular12,
+        color = Black60,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp)
+    )
+}
+
+@Composable
+private fun MenuDetailPicture(likePicture: Int) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -273,7 +331,6 @@ fun AccusationButton(likeViewModel: LikeViewModel) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccusationDialog(
     likeUiState: LikeState,
