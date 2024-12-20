@@ -375,6 +375,7 @@ fun ContentPreview(content: String) {
             .padding(top = 12.dp)
     )
 }
+
 @Composable
 fun ScoreCheck(score: Int) {
     val imageResource = painterResource(id = R.drawable.ic_star_off)
