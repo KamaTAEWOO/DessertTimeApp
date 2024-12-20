@@ -1,5 +1,7 @@
 package com.desserttime.mypage
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,7 +38,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -454,136 +455,68 @@ fun NoticeSection(
     ) {
         Column(
             modifier = Modifier
-                .wrapContentHeight() // Remove fixed height
-                .background(Color.White) // Ensure background color is defined
+                .wrapContentHeight()
+                .background(Color.White)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = 15.dp,
-                        horizontal = 20.dp
-                    )
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) {
-                        onNavigateToNoticeAndEvent()
-                        myPageUiState.isNoticeAndEvent = true
-                    }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_notice),
-                    contentDescription = stringResource(id = R.string.txt_mypage_notice),
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_notice),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14
-                )
-            }
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = Gallery
+            // Row items
+            NoticeRowItem(
+                iconRes = R.drawable.ic_notice,
+                textRes = R.string.txt_mypage_notice,
+                onClick = {
+                    onNavigateToNoticeAndEvent()
+                    myPageUiState.isNoticeAndEvent = true
+                }
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = 15.dp,
-                        horizontal = 20.dp
-                    )
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) {
-                        onNavigateToNoticeAndEvent()
-                        myPageUiState.isNoticeAndEvent = false
-                    }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_event),
-                    contentDescription = stringResource(id = R.string.txt_mypage_event),
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_event),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14
-                )
-            }
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = Gallery
+            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Gallery)
+            NoticeRowItem(
+                iconRes = R.drawable.ic_event,
+                textRes = R.string.txt_mypage_event,
+                onClick = {
+                    onNavigateToNoticeAndEvent()
+                    myPageUiState.isNoticeAndEvent = false
+                }
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = 15.dp,
-                        horizontal = 20.dp
-                    )
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { onNavigateToQuestion() }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_question),
-                    contentDescription = stringResource(id = R.string.txt_mypage_question),
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_question),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14
-                )
-            }
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth(),
-                thickness = 1.dp,
-                color = Gallery
+            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Gallery)
+            NoticeRowItem(
+                iconRes = R.drawable.ic_question,
+                textRes = R.string.txt_mypage_question,
+                onClick = onNavigateToQuestion
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = 15.dp,
-                        horizontal = 20.dp
-                    )
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { onNavigationInquiryInput() }
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_inquire),
-                    contentDescription = stringResource(id = R.string.txt_mypage_inquiry),
-                    modifier = Modifier
-                        .size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(16.dp)) // Better spacing between the image and text
-                Text(
-                    text = stringResource(id = R.string.txt_mypage_inquiry),
-                    color = Tundora,
-                    style = DessertTimeTheme.typography.textStyleMedium14
-                )
-            }
+            HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Gallery)
+            NoticeRowItem(
+                iconRes = R.drawable.ic_inquire,
+                textRes = R.string.txt_mypage_inquiry,
+                onClick = onNavigationInquiryInput
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun MyPageScreenPreview() {
-    // MyPageScreen({}, {}, {}, {}, {}, myPageViewModel)
+fun NoticeRowItem(
+    @DrawableRes iconRes: Int,
+    @StringRes textRes: Int,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 15.dp, horizontal = 20.dp)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onClick() }
+    ) {
+        Image(
+            painter = painterResource(id = iconRes),
+            contentDescription = stringResource(id = textRes),
+            modifier = Modifier.size(20.dp)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = stringResource(id = textRes),
+            color = Tundora,
+            style = DessertTimeTheme.typography.textStyleMedium14
+        )
+    }
 }
