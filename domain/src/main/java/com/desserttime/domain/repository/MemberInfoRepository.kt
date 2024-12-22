@@ -5,7 +5,6 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData

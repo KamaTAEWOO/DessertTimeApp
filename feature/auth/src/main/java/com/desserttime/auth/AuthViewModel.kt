@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
-import retrofit2.HttpException
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -251,7 +250,7 @@ class AuthViewModel @Inject constructor(
                 if (response.success) {
                     saveToken(response.data.token)
                     sharedPreferencesManager.saveToken(response.data.token)
-                     onNavigateToHome()
+                    onNavigateToHome()
                 } else {
                     onNavigateToSignUpAgree()
                 }

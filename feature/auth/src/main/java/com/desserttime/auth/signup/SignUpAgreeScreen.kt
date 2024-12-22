@@ -38,7 +38,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.desserttime.auth.AuthViewModel
 import com.desserttime.design.R
 import com.desserttime.design.theme.AltoAgree

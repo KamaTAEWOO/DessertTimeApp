@@ -32,4 +32,3 @@ class SharedPreferencesManager @Inject constructor(
 
     fun getToken(): String? = sharedPreferences.getString("auth_token", null)
 }
-

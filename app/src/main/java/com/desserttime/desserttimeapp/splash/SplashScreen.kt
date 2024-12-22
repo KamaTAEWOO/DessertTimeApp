@@ -45,4 +45,3 @@ fun SplashScreen(onNavigateToLogin: () -> Unit, onNavigateToHome: () -> Unit) {
         )
     }
 }
-

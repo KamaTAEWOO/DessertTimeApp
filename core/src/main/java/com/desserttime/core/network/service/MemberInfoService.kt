@@ -1,7 +1,6 @@
 package com.desserttime.core.network.service
 
 import com.desserttime.core.model.dto.ResponseCommonDto
-import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
 import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
