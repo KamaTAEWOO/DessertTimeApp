@@ -9,6 +9,7 @@ import com.desserttime.core.network.qualifier.LoggingClient
 import com.desserttime.core.network.qualifier.LoggingRetrofit
 import com.desserttime.core.network.qualifier.RefreshTokenClient
 import com.desserttime.core.network.qualifier.RefreshTokenRetrofit
+import com.desserttime.core.utility.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @LoggingRetrofit
     @Provides
     @Singleton
@@ -55,21 +57,39 @@ object NetworkModule {
     @Singleton
     fun provideRefreshTokenClient(
         dessertTimeInterceptor: DessertTimeInterceptor,
-        loggingInterceptor: Interceptor
+        loggingInterceptor: Interceptor,
+        sharedPreferencesManager: SharedPreferencesManager
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(dessertTimeInterceptor)
             .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val originalRequest = chain.request()
+                val token = sharedPreferencesManager.getToken()
+                val newRequest = originalRequest.newBuilder()
+                    .header("Authorized", "Bearer $token")
+                    .build()
+                chain.proceed(newRequest)
+            }
             .build()
 
     @LoggingClient
     @Provides
     @Singleton
     fun provideLoggingClient(
-        loggingInterceptor: Interceptor
+        loggingInterceptor: Interceptor,
+        sharedPreferencesManager: SharedPreferencesManager
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val originalRequest = chain.request()
+                val token = sharedPreferencesManager.getToken() ?: ""
+                val newRequest = originalRequest.newBuilder()
+                    .header("Authorized", "Bearer $token")
+                    .build()
+                chain.proceed(newRequest)
+            }
             .build()
 
     @Provides

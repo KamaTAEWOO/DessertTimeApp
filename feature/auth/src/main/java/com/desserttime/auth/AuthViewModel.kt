@@ -189,11 +189,11 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun saveToken(token: String) {
+    private fun saveToken(token: String) {
         sharedPreferencesManager.saveToken(token)
     }
 
-    fun getToken(): String? {
+    private fun getToken(): String? {
         return sharedPreferencesManager.getToken()
     }
 
