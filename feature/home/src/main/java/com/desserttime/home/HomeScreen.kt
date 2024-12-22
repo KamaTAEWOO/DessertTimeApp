@@ -52,6 +52,8 @@ fun HomeScreen(
     onNavigateToAlarm: () -> Unit,
     homeViewModel: HomeViewModel
 ) {
+    // TODO : memberData를 가져오는 로직이 필요함
+
     val memberData by homeViewModel.memberData.collectAsState(
         initial = MemberData(
             memberId = 0,

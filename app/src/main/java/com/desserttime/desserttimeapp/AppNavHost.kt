@@ -40,13 +40,22 @@ fun AppNavHost(
         route = NavGraphLabel.ROOT
     ) {
         composable(route = RootDestination.Splash.route) {
-            SplashScreen {
-                navHostController.navigate(AuthDestination.Login.route) {
-                    popUpTo(RootDestination.Splash.route) {
-                        inclusive = true
+            SplashScreen(
+                onNavigateToLogin = {
+                    navHostController.navigate(AuthDestination.Login.route) {
+                        popUpTo(RootDestination.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onNavigateToHome = {
+                    navHostController.navigate(MainDestination.Home.route) {
+                        popUpTo(RootDestination.Splash.route) {
+                            inclusive = true
+                        }
                     }
                 }
-            }
+            )
         }
 
         composable(route = AuthDestination.Login.route) {
