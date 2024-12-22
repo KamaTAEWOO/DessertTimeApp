@@ -5,9 +5,9 @@ import com.desserttime.core.network.service.MemberInfoService
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
+import com.desserttime.domain.model.ResponseTokenData
 import com.desserttime.domain.model.WithdrawalData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,14 +26,8 @@ class MemberInfoRemoteSource @Inject constructor(
         emit(memberInfoService.requestMemberSignUp(requestMemberSignUpData).toModel())
     }
 
-    fun requestMemberValidation(snsId: String): Flow<ResponseMemberData> = flow {
-        // 서버에서 데이터를 받아오고 `Flow`로 방출
-        val response = memberInfoService.requestMemberValidation(snsId).toModel()
-        emit(response) // `Flow`로 데이터를 방출
-    }.onEach { response ->
-        runBlocking {
-            memberDataStore.saveMemberData(response.data)
-        }
+    fun requestMemberValidation(snsId: String): Flow<ResponseTokenData> = flow {
+        emit(memberInfoService.requestMemberValidation(snsId).toModel())
     }
 
     fun requestInquiry(requestInquiryData: RequestInquiryData) = flow {

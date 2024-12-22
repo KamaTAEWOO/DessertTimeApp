@@ -7,11 +7,11 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
 import com.desserttime.domain.model.ResponseSettingLoadData
+import com.desserttime.domain.model.ResponseTokenData
 import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +25,7 @@ class MemberInfoRepositoryImpl @Inject constructor(
     override fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData): Flow<ResponseCommon> =
         memberInfoRemoteSource.requestMemberSignUp(requestMemberSignUpData)
 
-    override fun requestMemberValidation(snsId: String): Flow<ResponseMemberData> =
+    override fun requestMemberValidation(snsId: String): Flow<ResponseTokenData> =
         memberInfoRemoteSource.requestMemberValidation(snsId)
 
     override fun requestInquiry(requestInquiryData: RequestInquiryData): Flow<ResponseCommon> =

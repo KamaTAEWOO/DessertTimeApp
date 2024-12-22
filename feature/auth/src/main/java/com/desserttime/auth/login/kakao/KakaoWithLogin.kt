@@ -50,7 +50,7 @@ suspend fun fetchKakaoUserInfo(token: OAuthToken): LoginResult {
                     id = KAKAO_LOGIN_PROVIDER,
                     name = user.kakaoAccount?.profile?.nickname.orEmpty(),
                     email = user.kakaoAccount?.email.orEmpty(),
-                    token = token.accessToken
+                    token = user.id.toString()
                 )
                 continuation.resume(LoginResult.SUCCESS(memberProfileData))
             }

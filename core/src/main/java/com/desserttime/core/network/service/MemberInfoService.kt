@@ -1,11 +1,11 @@
 package com.desserttime.core.network.service
 
 import com.desserttime.core.model.dto.ResponseCommonDto
-import com.desserttime.core.model.dto.ResponseMemberValidationDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
 import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
 import com.desserttime.core.model.dto.ResponseSettingLoadDataDto
+import com.desserttime.core.model.dto.ResponseTokenDto
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import retrofit2.http.Body
@@ -25,7 +25,7 @@ interface MemberInfoService {
     @GET("/member/validation/{snsId}")
     suspend fun requestMemberValidation(
         @Path("snsId") snsId: String
-    ): ResponseMemberValidationDto
+    ): ResponseTokenDto
 
     @POST("/qna")
     suspend fun requestInquiry(

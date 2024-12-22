@@ -5,18 +5,18 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
-import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
 import com.desserttime.domain.model.ResponseSettingLoadData
+import com.desserttime.domain.model.ResponseTokenData
 import com.desserttime.domain.model.WithdrawalData
 import kotlinx.coroutines.flow.Flow
 
 interface MemberInfoRepository {
     fun requestMemberSignUp(requestMemberSignUpData: RequestMemberSignUpData): Flow<ResponseCommon>
 
-    fun requestMemberValidation(snsId: String): Flow<ResponseMemberData>
+    fun requestMemberValidation(snsId: String): Flow<ResponseTokenData>
 
     fun requestInquiry(requestInquiryData: RequestInquiryData): Flow<ResponseCommon>
 

@@ -55,6 +55,9 @@ glide = "4.12.0"
 # lottie
 lottie = "6.1.0"
 
+# encypt shared preference
+shared-preference-security = "1.1.0-alpha03"
+
 # compose
 androidx-compose-bom = "2024.11.00"
 androidx-navigation-compose = "2.8.4"
@@ -132,6 +135,9 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 
 # lottie
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+
+# encypt shared preference
+shared-preference-security = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "shared-preference-security" }
 
 # compose
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidx-splashscreen" }
