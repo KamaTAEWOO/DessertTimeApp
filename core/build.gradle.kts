@@ -63,6 +63,9 @@ dependencies {
     // data store
     implementation(libs.datastore)
 
+    // security
+    implementation(libs.shared.preference.security)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

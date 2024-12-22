@@ -53,7 +53,7 @@ import com.desserttime.design.ui.common.CommonUi
 @Composable
 fun SignUpAgreeScreen(
     onNavigateToSignUpInput: () -> Unit = {},
-    authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel
 ) {
     val isLoading by authViewModel.isLoading
     var buttonColor = remember { mutableStateOf(false) }

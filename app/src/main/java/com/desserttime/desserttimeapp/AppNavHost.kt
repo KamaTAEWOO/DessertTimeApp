@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.desserttime.auth.AuthViewModel
 import com.desserttime.auth.authNavGraph
 import com.desserttime.auth.login.LoginScreen
 import com.desserttime.category.CategoryViewModel
@@ -25,6 +26,7 @@ import com.desserttime.review.ReviewViewModel
 fun AppNavHost(
     navHostController: NavHostController = rememberNavController()
 ) {
+    val authViewModel: AuthViewModel = hiltViewModel()
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val reviewViewModel: ReviewViewModel = hiltViewModel()
     val myPageViewModel: MyPageViewModel = hiltViewModel()
@@ -49,6 +51,7 @@ fun AppNavHost(
 
         composable(route = AuthDestination.Login.route) {
             LoginScreen(
+                authViewModel = authViewModel,
                 onNavigateToSignUpAgree = {
                     navHostController.navigate(AuthDestination.SignUpAgree.route)
                 },
@@ -63,6 +66,7 @@ fun AppNavHost(
 
         authNavGraph(
             navHostController = navHostController,
+            authViewModel = authViewModel,
             categoryViewModel = categoryViewModel,
             reviewViewModel = reviewViewModel,
             myPageViewModel = myPageViewModel,

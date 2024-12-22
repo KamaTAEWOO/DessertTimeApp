@@ -49,7 +49,7 @@ import com.desserttime.design.ui.common.CommonUi
 @Composable
 fun SignUpChooseScreen(
     onNavigateToSignUpComplete: () -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel
 ) {
     val isLoading by authViewModel.isLoading
 

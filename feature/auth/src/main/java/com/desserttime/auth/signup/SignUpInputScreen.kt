@@ -63,7 +63,7 @@ import java.util.Calendar
 @Composable
 fun SignUpInputScreen(
     onNavigateToSignUpChoose: () -> Unit,
-    authViewModel: AuthViewModel = hiltViewModel()
+    authViewModel: AuthViewModel
 ) {
     val selectedGenderData = remember { mutableStateOf<GenderData?>(GenderData.OTHER) }
     var selectedBirth by remember { mutableStateOf("") }

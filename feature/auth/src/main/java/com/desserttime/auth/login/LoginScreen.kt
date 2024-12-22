@@ -54,7 +54,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun LoginScreen(
-    authViewModel: AuthViewModel = hiltViewModel(),
+    authViewModel: AuthViewModel,
     onNavigateToSignUpAgree: () -> Unit = {},
     onNavigateToInquiryInput: () -> Unit = {},
     onNavigateToHome: () -> Unit = {}

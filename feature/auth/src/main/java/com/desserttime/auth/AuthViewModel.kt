@@ -9,6 +9,7 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethodData
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.core.utility.SharedPreferencesManager
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.repository.MemberInfoRepository
@@ -21,11 +22,13 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import loginWithKakaoAccount
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val memberInfoRepository: MemberInfoRepository
+    private val memberInfoRepository: MemberInfoRepository,
+    private val sharedPreferencesManager: SharedPreferencesManager
 ) : BaseViewModel<AuthState, AuthEvent>(
     initialState = AuthState()
 ) {
@@ -170,7 +173,11 @@ class AuthViewModel @Inject constructor(
                     saveSignInSnsData(result.member.id)
                     delay(500)
 
-                    checkValidation(result.member.token, onNavigateToSignUpAgree, onNavigateToHome)
+                    checkValidation(
+                        result.member.token,
+                        onNavigateToSignUpAgree,
+                        onNavigateToHome
+                    )
                 }
 
                 is LoginResult.ERROR -> {
@@ -180,6 +187,14 @@ class AuthViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun saveToken(token: String) {
+        sharedPreferencesManager.saveToken(token)
+    }
+
+    fun getToken(): String? {
+        return sharedPreferencesManager.getToken()
     }
 
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
@@ -207,13 +222,10 @@ class AuthViewModel @Inject constructor(
 
         memberInfoRepository.requestMemberSignUp(requestMemberSignUpData)
             .onEach {
-                _snsId.value = currentState.snsId
                 onNavigateToSignUpComplete()
             }
-            .catch { exception ->
-                if (exception is HttpException) {
-                    val errorBody = exception.response()?.errorBody()?.string()
-                }
+            .catch { e ->
+                Timber.e(e)
             }
             .onCompletion {
                 setLoading(false)
@@ -231,21 +243,24 @@ class AuthViewModel @Inject constructor(
             return false
         }
 
-        setLoading(true) // Set loading true at the start
+        setLoading(true)
 
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach { response ->
-                if (response.statusCode == 200) {
-                    response.data.memberId.let { memberId ->
-                        onNavigateToHome()
-                    }
+                Timber.d("response.token: ${response.data.token}")
+                if (response.success) {
+                    saveToken(response.data.token)
+                    sharedPreferencesManager.saveToken(response.data.token)
+                     onNavigateToHome()
+                } else {
+                    onNavigateToSignUpAgree()
                 }
             }
-            .catch { exception ->
-                if (exception is HttpException) {
-                    val errorBody = exception.response()?.errorBody()?.string()
+            .catch { e ->
+                Timber.e(e)
+                if (e.message == "HTTP 400 Bad Request") {
+                    onNavigateToSignUpAgree()
                 }
-                onNavigateToSignUpAgree()
             }
             .onCompletion {
                 setLoading(false) // Set loading false here, in completion
