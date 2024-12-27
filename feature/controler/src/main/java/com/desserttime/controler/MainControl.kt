@@ -58,6 +58,7 @@ fun MainControl(
         ) {
             composable(MainDestination.Home.route) {
                 HomeScreen(
+                    homeViewModel = viewModels.homeViewModel,
                     navigationActions.onNavigateToLogin,
                     navigationActions.onNavigateToAlarm
                 )

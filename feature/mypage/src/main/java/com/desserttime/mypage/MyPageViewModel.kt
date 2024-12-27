@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.core.local.MemberDataStore
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
+import com.desserttime.domain.model.TokenData
 import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import com.desserttime.mypage.model.NickNameDoubleCheckData
@@ -128,7 +130,14 @@ class MyPageViewModel @Inject constructor(
             .onEach {
                 delay(1000)
                 // 성공 시 다시 사용자 정보를 업데이트 해줘야함.
-                requestMemberSummaryData(memberSaveData.memberId)
+                requestMemberData(memberSaveData.memberId)
+
+                val memberDataCopy = TokenData(
+                    memberId = memberSaveData.memberId.toInt(),
+                    token = MemberDataManager.token ?: "",
+                    nickName = _memberData.first().nickName
+                )
+                MemberDataManager.saveData(memberDataCopy)
             }
             .catch {
             }

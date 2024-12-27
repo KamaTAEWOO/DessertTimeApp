@@ -20,6 +20,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,15 +43,22 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
+    homeViewModel: HomeViewModel,
     onNavigateToLogin: () -> Unit,
     onNavigateToAlarm: () -> Unit
 ) {
+    homeViewModel.requestMemberData(MemberDataManager.memberId.toString())
     val memberId = MemberDataManager.memberId ?: 0
-    val nickName = MemberDataManager.nickName ?: ""
+    val nickname = remember { mutableStateOf("") }
+
+    LaunchedEffect(nickname) {
+        nickname.value = homeViewModel.memberData.first().nickName
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -59,7 +68,7 @@ fun HomeScreen(
         item {
             AppBarUi.AppBar(
                 memberId = memberId,
-                memberNickName = nickName,
+                memberNickName = nickname.value,
                 onSearchClick = { /* 검색 버튼 클릭 시 동작 */ },
                 onBellClick = {
                     if (memberId == 0) {

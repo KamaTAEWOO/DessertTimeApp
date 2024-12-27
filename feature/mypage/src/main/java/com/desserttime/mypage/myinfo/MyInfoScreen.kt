@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
 import com.desserttime.design.theme.Black
@@ -112,7 +113,7 @@ fun MyInfoScreen(
         return
     }
 
-    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName ?: "")) }
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName)) }
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
@@ -375,7 +376,7 @@ fun MyInfoScreen(
                                     selectedYear = year + "년" // 선택된 연도 설정
                                     expanded = false // DropdownMenu 닫기
                                 },
-                                currentYear = selectedYear.toInt(),
+                                currentYear = selectedYear.filter { it.isDigit() }.toInt(),
                                 onDismiss = {
                                     expanded = false // DropdownMenu를 닫기 위한 콜백
                                 }
