@@ -60,7 +60,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberImagePainter
-import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.AzureRadiance
 import com.desserttime.design.theme.Black

@@ -19,4 +19,3 @@ data class ResponseMemberDto(
         data = data
     )
 }
-
