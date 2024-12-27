@@ -28,22 +28,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
-import com.desserttime.category.CategoryViewModel
 import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
 import com.desserttime.home.HomeScreen
-import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeScreen
-import com.desserttime.like.LikeViewModel
 import com.desserttime.model.NavigationActions
 import com.desserttime.model.ViewModels
 import com.desserttime.mypage.MyPageScreen
-import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.review.ReviewScreen
-import com.desserttime.review.ReviewViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable

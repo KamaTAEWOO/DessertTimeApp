@@ -1,7 +1,6 @@
 package com.desserttime.core.utility
 
 import android.content.Context
-import android.media.session.MediaSession.Token
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.desserttime.domain.model.TokenData

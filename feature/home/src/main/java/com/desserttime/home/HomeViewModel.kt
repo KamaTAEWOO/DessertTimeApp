@@ -1,10 +1,8 @@
 package com.desserttime.home
 
 import com.desserttime.core.base.BaseViewModel
-import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 private const val TAG = "HomeViewModel::"
