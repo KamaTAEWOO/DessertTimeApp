@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.core.local.MemberDataStore
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.WithdrawalData
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val memberInfoRepository: MemberInfoRepository
+    private val memberInfoRepository: MemberInfoRepository,
+    private val memberDataStore: MemberDataStore
 ) : BaseViewModel<MyPageState, MyPageEvent>(
     initialState = MyPageState()
 ) {
@@ -88,6 +90,7 @@ class MyPageViewModel @Inject constructor(
         memberInfoRepository.requestMemberData(memberId)
             .onEach {
                 Timber.d("requestMemberData: $it")
+                memberDataStore.saveMemberData(it.data)
             }
             .catch { e ->
                 Timber.e(e)
