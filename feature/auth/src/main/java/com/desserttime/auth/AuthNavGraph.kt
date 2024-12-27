@@ -20,6 +20,8 @@ import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeDetailScreen
 import com.desserttime.like.LikeViewModel
+import com.desserttime.model.NavigationActions
+import com.desserttime.model.ViewModels
 import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.mypage.myinfo.MyInfoScreen
 import com.desserttime.mypage.myinfo.TasteChooseScreen
@@ -110,7 +112,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = MainDestination.Home.route) {
-            MainControl(
+            val navigationActions = NavigationActions(
                 onNavigateToAlarm = {
                     navHostController.navigate(MainDestination.Alarm.route)
                 },
@@ -133,15 +135,12 @@ fun NavGraphBuilder.authNavGraph(
                 onNavigateToReviewWrite = {
                     navHostController.navigate(MainDestination.ReviewWrite.route)
                 },
-                categoryViewModel = categoryViewModel,
-                reviewViewModel = reviewViewModel,
                 onNavigateToWheat = {
                     navHostController.navigate(MainDestination.Wheat.route)
                 },
                 onNavigateToNoticeAndEvent = {
                     navHostController.navigate(MainDestination.NoticeAndEvent.route)
                 },
-                myPageViewModel = myPageViewModel,
                 onNavigateToQuestion = {
                     navHostController.navigate(MainDestination.Question.route)
                 },
@@ -153,9 +152,20 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onNavigateToCategoryDetail = {
                     navHostController.navigate(MainDestination.SubCategoryReviewDetail.route)
-                },
+                }
+            )
+
+            val viewModels = ViewModels(
+                categoryViewModel = categoryViewModel,
+                reviewViewModel = reviewViewModel,
+                myPageViewModel = myPageViewModel,
                 homeViewModel = homeViewModel,
                 likeViewModel = likeViewModel
+            )
+
+            MainControl(
+                navigationActions = navigationActions,
+                viewModels = viewModels
             )
         }
 

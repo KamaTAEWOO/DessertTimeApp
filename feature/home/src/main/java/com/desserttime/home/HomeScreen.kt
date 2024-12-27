@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.CornflowerBlue
 import com.desserttime.design.theme.DessertTimeTheme
@@ -49,40 +50,10 @@ import timber.log.Timber
 @Composable
 fun HomeScreen(
     onNavigateToLogin: () -> Unit,
-    onNavigateToAlarm: () -> Unit,
-    homeViewModel: HomeViewModel
+    onNavigateToAlarm: () -> Unit
 ) {
-    // TODO : memberData를 가져오는 로직이 필요함
-
-    val memberData by homeViewModel.memberData.collectAsState(
-        initial = MemberData(
-            memberId = 0,
-            nickName = "",
-            snsId = "",
-            signInSns = "",
-            memberEmail = "",
-            memberName = "",
-            birthYear = 0,
-            gender = "",
-            isHavingImg = false,
-            isUsable = false,
-            createdDate = "",
-            updateDate = "",
-            lastAccessDate = "",
-            memo = "",
-            type = "",
-            firstCity = "",
-            secondaryCity = "",
-            thirdCity = "",
-            isAgreeAD = false,
-            isAgreeAlarm = false
-        )
-    )
-
-    Timber.d("HomeScreen memberData: $memberData")
-
-    val memberId = memberData.memberId
-    val nickName = memberData.nickName ?: ""
+    val memberId = MemberDataManager.memberId ?: 0
+    val nickName = MemberDataManager.nickName ?: ""
 
     LazyColumn(
         modifier = Modifier
