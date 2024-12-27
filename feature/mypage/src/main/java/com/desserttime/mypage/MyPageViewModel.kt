@@ -66,14 +66,15 @@ class MyPageViewModel @Inject constructor(
             else -> currentState
         }
 
-    fun requestMyPageMemberData(memberId: String) {
+    fun requestMemberSummaryData(memberId: String) {
         setLoading(true)
-
-        memberInfoRepository.requestMemberData(memberId)
+        memberInfoRepository.requestMemberSummaryData(memberId)
             .onEach {
+                Timber.d("requestMyPageMemberData: $it")
                 sendAction(MyPageEvent.RequestMyPageMemberData(it.data))
             }
-            .catch {
+            .catch { e ->
+                Timber.e(e)
             }
             .onCompletion {
                 setLoading(false)
@@ -92,7 +93,8 @@ class MyPageViewModel @Inject constructor(
                     sendAction(MyPageEvent.RequestMyPageNicknameDoubleCheck(NickNameDoubleCheckData.UNUSABLE))
                 }
             }
-            .catch {
+            .catch { e ->
+                Timber.e(e)
             }
             .onCompletion {
                 setLoading(false)
@@ -107,7 +109,7 @@ class MyPageViewModel @Inject constructor(
             .onEach {
                 delay(1000)
                 // 성공 시 다시 사용자 정보를 업데이트 해줘야함.
-                requestMyPageMemberData(memberSaveData.memberId)
+                requestMemberSummaryData(memberSaveData.memberId)
             }
             .catch {
             }

@@ -32,8 +32,13 @@ interface MemberInfoService {
         @Body requestInquiryData: RequestInquiryData
     ): ResponseCommonDto
 
-    // My Page
+    // 마이페이지 - 첫 화면 사용자 정보 요약
     @GET("/member/my-page/{memberId}")
+    suspend fun requestMemberSummaryData(
+        @Path("memberId") memberId: String
+    ): ResponseMyPageMemberDto
+
+    @GET("/member/my-page/member/{memberId}")
     suspend fun requestMemberData(
         @Path("memberId") memberId: String
     ): ResponseMyPageMemberDto

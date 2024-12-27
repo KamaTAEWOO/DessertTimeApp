@@ -16,12 +16,14 @@ import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.core.utility.SharedPreferencesManager
 import com.desserttime.design.theme.MainColor
 import com.desserttime.desserttimeapp.R
+import timber.log.Timber
 
 @Composable
 fun SplashScreen(onNavigateToLogin: () -> Unit, onNavigateToHome: () -> Unit) {
     val context: Context = LocalContext.current
     val sharedPreferencesManager = SharedPreferencesManager(context)
     val memberData = sharedPreferencesManager.getMemberData()
+    Timber.d("token: ${memberData?.token}")
     if (memberData != null) {
         MemberDataManager.saveData(memberData)
     }

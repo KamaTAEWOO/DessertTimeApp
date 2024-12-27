@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -50,8 +51,6 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.MemberData
-import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 var globalMyPageUiState: MyPageState = MyPageState()
 
@@ -72,7 +71,7 @@ fun MyPageScreen(
     globalMyPageUiState = myPageUiState
 
     LaunchedEffect(myPageViewModel) {
-        myPageViewModel.requestMyPageMemberData(myPageViewModel.memberData.first().memberId.toString())
+        myPageViewModel.requestMemberSummaryData(MemberDataManager.memberId.toString())
     }
 
     Scaffold(
