@@ -9,9 +9,11 @@ import com.desserttime.auth.login.google.googleLoginStart
 import com.desserttime.auth.login.naver.naverWithLogin
 import com.desserttime.auth.model.LoginMethodData
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.core.utility.SharedPreferencesManager
 import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
+import com.desserttime.domain.model.TokenData
 import com.desserttime.domain.repository.MemberInfoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -188,12 +190,8 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun saveToken(token: String) {
-        sharedPreferencesManager.saveToken(token)
-    }
-
-    private fun getToken(): String? {
-        return sharedPreferencesManager.getToken()
+    private fun saveMemberData(memberData: TokenData) {
+        sharedPreferencesManager.saveMemberData(memberData)
     }
 
     // 회원가입 데이터 저장 후 멤버 번호 정보 받기
@@ -247,9 +245,11 @@ class AuthViewModel @Inject constructor(
         memberInfoRepository.requestMemberValidation(snsId)
             .onEach { response ->
                 Timber.d("response.token: ${response.data.token}")
+                Timber.d("response.success: ${response.data.memberId}, ${response.data.nickName}")
                 if (response.success) {
-                    saveToken(response.data.token)
-                    sharedPreferencesManager.saveToken(response.data.token)
+                    sharedPreferencesManager.saveMemberData(response.data)
+
+                    MemberDataManager.saveData(response.data)
                     onNavigateToHome()
                 } else {
                     onNavigateToSignUpAgree()

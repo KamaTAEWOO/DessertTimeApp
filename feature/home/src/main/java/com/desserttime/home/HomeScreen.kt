@@ -20,8 +20,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +29,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.CornflowerBlue
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.ui.common.AppBarUi
-import com.desserttime.domain.model.MemberData
 import com.desserttime.home.model.ReviewSectionData
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -44,45 +42,14 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 fun HomeScreen(
     onNavigateToLogin: () -> Unit,
-    onNavigateToAlarm: () -> Unit,
-    homeViewModel: HomeViewModel
+    onNavigateToAlarm: () -> Unit
 ) {
-    // TODO : memberData를 가져오는 로직이 필요함
-
-    val memberData by homeViewModel.memberData.collectAsState(
-        initial = MemberData(
-            memberId = 0,
-            nickName = "",
-            snsId = "",
-            signInSns = "",
-            memberEmail = "",
-            memberName = "",
-            birthYear = 0,
-            gender = "",
-            isHavingImg = false,
-            isUsable = false,
-            createdDate = "",
-            updateDate = "",
-            lastAccessDate = "",
-            memo = "",
-            type = "",
-            firstCity = "",
-            secondaryCity = "",
-            thirdCity = "",
-            isAgreeAD = false,
-            isAgreeAlarm = false
-        )
-    )
-
-    Timber.d("HomeScreen memberData: $memberData")
-
-    val memberId = memberData.memberId
-    val nickName = memberData.nickName ?: ""
+    val memberId = MemberDataManager.memberId ?: 0
+    val nickName = MemberDataManager.nickName ?: ""
 
     LazyColumn(
         modifier = Modifier

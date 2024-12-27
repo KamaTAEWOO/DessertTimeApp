@@ -28,41 +28,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.desserttime.category.CategoryScreen
-import com.desserttime.category.CategoryViewModel
 import com.desserttime.category.SubCategoryReviewScreen
 import com.desserttime.core.navigation.destination.MainDestination
 import com.desserttime.design.R
 import com.desserttime.design.theme.MainColor
 import com.desserttime.design.theme.Manatee
 import com.desserttime.home.HomeScreen
-import com.desserttime.home.HomeViewModel
 import com.desserttime.like.LikeScreen
-import com.desserttime.like.LikeViewModel
+import com.desserttime.model.NavigationActions
+import com.desserttime.model.ViewModels
 import com.desserttime.mypage.MyPageScreen
-import com.desserttime.mypage.MyPageViewModel
 import com.desserttime.review.ReviewScreen
-import com.desserttime.review.ReviewViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainControl(
-    onNavigateToAlarm: () -> Unit,
-    onNavigateToLogin: () -> Unit,
-    onNavigateToLikeDetail: () -> Unit,
-    onNavigateToSetting: () -> Unit,
-    onNavigateToMyInfo: () -> Unit,
-    onNavigateToReviewWrite: () -> Unit,
-    categoryViewModel: CategoryViewModel,
-    reviewViewModel: ReviewViewModel,
-    onNavigateToWheat: () -> Unit,
-    onNavigateToNoticeAndEvent: () -> Unit,
-    myPageViewModel: MyPageViewModel,
-    onNavigateToQuestion: () -> Unit,
-    onNavigationInquiryInput: () -> Unit,
-    onNavigateToMyReview: () -> Unit,
-    onNavigateToCategoryDetail: () -> Unit,
-    homeViewModel: HomeViewModel,
-    likeViewModel: LikeViewModel
+    navigationActions: NavigationActions,
+    viewModels: ViewModels
 ) {
     SetStatusBarColor(color = Color.White)
     val navController = rememberNavController()
@@ -76,49 +58,48 @@ fun MainControl(
         ) {
             composable(MainDestination.Home.route) {
                 HomeScreen(
-                    onNavigateToLogin,
-                    onNavigateToAlarm,
-                    homeViewModel
+                    navigationActions.onNavigateToLogin,
+                    navigationActions.onNavigateToAlarm
                 )
             }
             composable(MainDestination.Category.route) {
                 CategoryScreen(
-                    categoryViewModel
+                    viewModels.categoryViewModel
                 ) { navController.navigate(MainDestination.SubCategoryReview.route) }
             }
             composable(MainDestination.Like.route) {
                 LikeScreen(
-                    onNavigateToLikeDetail,
-                    likeViewModel
+                    navigationActions.onNavigateToLikeDetail,
+                    viewModels.likeViewModel
                 )
             }
             composable(MainDestination.MyPage.route) {
                 MyPageScreen(
-                    onNavigateToLogin,
-                    onNavigateToSetting,
-                    onNavigateToMyInfo,
-                    onNavigateToWheat,
-                    onNavigateToNoticeAndEvent,
-                    myPageViewModel,
-                    onNavigateToQuestion,
-                    onNavigationInquiryInput,
-                    onNavigateToMyReview
+                    navigationActions.onNavigateToLogin,
+                    navigationActions.onNavigateToSetting,
+                    navigationActions.onNavigateToMyInfo,
+                    navigationActions.onNavigateToWheat,
+                    navigationActions.onNavigateToNoticeAndEvent,
+                    viewModels.myPageViewModel,
+                    navigationActions.onNavigateToQuestion,
+                    navigationActions.onNavigationInquiryInput,
+                    navigationActions.onNavigateToMyReview
                 )
             }
             composable(MainDestination.Review.route) {
                 ReviewScreen(
-                    reviewViewModel,
-                    onNavigateToReviewWrite
+                    viewModels.reviewViewModel,
+                    navigationActions.onNavigateToReviewWrite
                 )
             }
             composable(route = MainDestination.SubCategoryReview.route) {
                 SubCategoryReviewScreen(
-                    categoryViewModel = categoryViewModel,
+                    categoryViewModel = viewModels.categoryViewModel,
                     onNavigateToCategory = {
                         navController.popBackStack()
                     },
                     onNavigateToSubCategoryReviewDetail = {
-                        onNavigateToCategoryDetail()
+                        navigationActions.onNavigateToCategoryDetail()
                     }
                 )
             }
