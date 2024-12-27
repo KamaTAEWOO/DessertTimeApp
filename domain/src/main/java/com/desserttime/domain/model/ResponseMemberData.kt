@@ -10,23 +10,20 @@ data class ResponseMemberData(
 
 data class MemberData(
     val memberId: Int,
-    val snsId: String,
-    val signInSns: String,
-    val memberEmail: String,
-    val memberName: String?,
-    val nickName: String?,
-    val birthYear: Int,
     val gender: String,
-    val isHavingImg: Boolean,
-    val isUsable: Boolean,
-    val createdDate: String, // ISO-8601 문자열 형태로 받아서 처리
-    val updateDate: String, // ISO-8601 문자열 형태로 받아서 처리
-    val lastAccessDate: String?, // nullable
-    val memo: String?, // nullable
-    val type: String,
+    val nickName: String,
+    val birthYear: Int,
     val firstCity: String,
     val secondaryCity: String,
     val thirdCity: String,
-    val isAgreeAD: Boolean,
-    val isAgreeAlarm: Boolean
+    val profileImgMiddlePath: String?,
+    val profileImgId: String?,
+    val profileImgPath: String?,
+    val profileImgExtension: String?,
+    val desserts: List<Dessert>
+)
+
+data class Dessert(
+    val dessertCategoryId: Int,
+    val dessertName: String
 )

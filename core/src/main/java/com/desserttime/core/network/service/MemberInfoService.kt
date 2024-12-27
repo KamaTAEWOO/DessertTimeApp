@@ -1,6 +1,7 @@
 package com.desserttime.core.network.service
 
 import com.desserttime.core.model.dto.ResponseCommonDto
+import com.desserttime.core.model.dto.ResponseMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
 import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
@@ -40,8 +41,8 @@ interface MemberInfoService {
 
     @GET("/member/my-page/member/{memberId}")
     suspend fun requestMemberData(
-        @Path("memberId") memberId: String
-    ): ResponseMyPageMemberDto
+        @Query("memberId") memberId: String
+    ): ResponseMemberDto
 
     @GET("/member/my-page/nickname/{nickname}")
     suspend fun requestNicknameDoubleCheck(

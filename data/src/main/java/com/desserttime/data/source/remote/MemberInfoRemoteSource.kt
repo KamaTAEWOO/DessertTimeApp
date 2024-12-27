@@ -37,6 +37,11 @@ class MemberInfoRemoteSource @Inject constructor(
     fun requestMemberSummaryData(memberId: String): Flow<ResponseMyPageMemberData> = flow {
         emit(memberInfoService.requestMemberSummaryData(memberId).toModel())
     }
+
+    fun requestMemberData(memberId: String) = flow {
+        emit(memberInfoService.requestMemberData(memberId).toModel())
+    }
+
     fun requestNicknameDoubleCheck(nickname: String) = flow {
         emit(memberInfoService.requestNicknameDoubleCheck("nickname", nickname).toModel())
     }

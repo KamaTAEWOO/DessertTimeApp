@@ -72,6 +72,22 @@ class MyPageViewModel @Inject constructor(
             .onEach {
                 Timber.d("requestMyPageMemberData: $it")
                 sendAction(MyPageEvent.RequestMyPageMemberData(it.data))
+                requestMemberData(memberId)
+            }
+            .catch { e ->
+                Timber.e(e)
+            }
+            .onCompletion {
+                setLoading(false)
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun requestMemberData(memberId: String) {
+        setLoading(true)
+        memberInfoRepository.requestMemberData(memberId)
+            .onEach {
+                Timber.d("requestMemberData: $it")
             }
             .catch { e ->
                 Timber.e(e)

@@ -127,7 +127,7 @@ fun MyInfoScreen(
     }
     val selectAddress =
         remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
-    val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
+    val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.desserts[0].dessertName ?: "" }) } // 수정 해야함.
     val changeSaveColor = remember { mutableStateOf(false) }
 
     Scaffold(
