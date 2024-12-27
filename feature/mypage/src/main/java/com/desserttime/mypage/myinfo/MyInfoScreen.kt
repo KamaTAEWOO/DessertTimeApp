@@ -112,7 +112,7 @@ fun MyInfoScreen(
         return
     }
 
-    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName ?: "")) }
+    var nickname by remember { mutableStateOf(TextFieldValue(memberData.nickName)) }
     var expanded by remember { mutableStateOf(false) }
     var selectedYear by remember { mutableStateOf(memberData.birthYear.toString() + "년") }
     var showAddressSearch by remember { mutableStateOf(false) }
@@ -127,7 +127,7 @@ fun MyInfoScreen(
     }
     val selectAddress =
         remember { mutableStateOf(memberData.firstCity + " " + memberData.secondaryCity + " " + memberData.thirdCity) }
-    val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.memo ?: "" }) }
+    val taste = remember { mutableStateOf(myPageUiState.taste.ifEmpty { memberData.desserts[0].dessertName ?: "" }) } // 수정 해야함.
     val changeSaveColor = remember { mutableStateOf(false) }
 
     Scaffold(
@@ -375,7 +375,7 @@ fun MyInfoScreen(
                                     selectedYear = year + "년" // 선택된 연도 설정
                                     expanded = false // DropdownMenu 닫기
                                 },
-                                currentYear = selectedYear.toInt(),
+                                currentYear = selectedYear.filter { it.isDigit() }.toInt(),
                                 onDismiss = {
                                     expanded = false // DropdownMenu를 닫기 위한 콜백
                                 }

@@ -7,6 +7,7 @@ import com.desserttime.domain.model.RequestInquiryData
 import com.desserttime.domain.model.RequestMemberSignUpData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
 import com.desserttime.domain.model.ResponseCommon
+import com.desserttime.domain.model.ResponseMemberData
 import com.desserttime.domain.model.ResponseMyPageMemberData
 import com.desserttime.domain.model.ResponseMyPageNoticeData
 import com.desserttime.domain.model.ResponseNicknameDoubleCheckData
@@ -33,7 +34,11 @@ class MemberInfoRepositoryImpl @Inject constructor(
 
     override val memberData: Flow<MemberData> = memberDataStore.memberData
 
-    override fun requestMemberData(memberId: String): Flow<ResponseMyPageMemberData> = memberInfoRemoteSource.requestMemberData(memberId)
+    override fun requestMemberSummaryData(memberId: String): Flow<ResponseMyPageMemberData> =
+        memberInfoRemoteSource.requestMemberSummaryData(memberId)
+
+    override fun requestMemberData(memberId: String): Flow<ResponseMemberData> =
+        memberInfoRemoteSource.requestMemberData(memberId)
 
     override fun requestNicknameDoubleCheck(nickname: String): Flow<ResponseNicknameDoubleCheckData> =
         memberInfoRemoteSource.requestNicknameDoubleCheck(nickname)

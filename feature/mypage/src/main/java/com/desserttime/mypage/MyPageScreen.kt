@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.DessertTimeTheme
 import com.desserttime.design.theme.Gallery
@@ -50,10 +51,7 @@ import com.desserttime.design.theme.WildSand
 import com.desserttime.design.ui.common.AppBarUi
 import com.desserttime.design.ui.common.CommonUi
 import com.desserttime.domain.model.MemberData
-import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
-private const val TAG = "MyPageScreen::"
 var globalMyPageUiState: MyPageState = MyPageState()
 
 @Composable
@@ -73,10 +71,8 @@ fun MyPageScreen(
     globalMyPageUiState = myPageUiState
 
     LaunchedEffect(myPageViewModel) {
-        myPageViewModel.requestMyPageMemberData(myPageViewModel.memberData.first().memberId.toString())
+        myPageViewModel.requestMemberSummaryData(MemberDataManager.memberId.toString())
     }
-
-    Timber.i("$TAG myPageUiState: ${globalMyPageUiState.myPageMemberData.nickName}, ${globalMyPageUiState.myPageMemberData.usersReviewCount}, ${globalMyPageUiState.myPageMemberData.usersTotalPoint}")
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -135,7 +131,6 @@ fun ProfileSection(
     val memberData by myPageViewModel.memberData.collectAsState(initial = null)
 
     if (memberData == null) {
-        Timber.e("$TAG memberData is null")
         return
     }
 

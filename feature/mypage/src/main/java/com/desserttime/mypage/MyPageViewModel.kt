@@ -4,8 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
+import com.desserttime.core.local.MemberDataStore
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.model.RequestMyPageMemberSaveData
+import com.desserttime.domain.model.TokenData
 import com.desserttime.domain.model.WithdrawalData
 import com.desserttime.domain.repository.MemberInfoRepository
 import com.desserttime.mypage.model.NickNameDoubleCheckData
@@ -20,11 +23,10 @@ import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
-private const val TAG = "MyPageViewModel::"
-
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
-    private val memberInfoRepository: MemberInfoRepository
+    private val memberInfoRepository: MemberInfoRepository,
+    private val memberDataStore: MemberDataStore
 ) : BaseViewModel<MyPageState, MyPageEvent>(
     initialState = MyPageState()
 ) {
@@ -68,16 +70,32 @@ class MyPageViewModel @Inject constructor(
             else -> currentState
         }
 
-    fun requestMyPageMemberData(memberId: String) {
+    fun requestMemberSummaryData(memberId: String) {
         setLoading(true)
+        memberInfoRepository.requestMemberSummaryData(memberId)
+            .onEach {
+                Timber.d("requestMyPageMemberData: $it")
+                sendAction(MyPageEvent.RequestMyPageMemberData(it.data))
+                requestMemberData(memberId)
+            }
+            .catch { e ->
+                Timber.e(e)
+            }
+            .onCompletion {
+                setLoading(false)
+            }
+            .launchIn(viewModelScope)
+    }
 
+    private fun requestMemberData(memberId: String) {
+        setLoading(true)
         memberInfoRepository.requestMemberData(memberId)
             .onEach {
-                Timber.i("$TAG requestMyPageMemberData: $it")
-                sendAction(MyPageEvent.RequestMyPageMemberData(it.data))
+                Timber.d("requestMemberData: $it")
+                memberDataStore.saveMemberData(it.data)
             }
-            .catch {
-                Timber.e("$TAG $it")
+            .catch { e ->
+                Timber.e(e)
             }
             .onCompletion {
                 setLoading(false)
@@ -90,15 +108,14 @@ class MyPageViewModel @Inject constructor(
 
         memberInfoRepository.requestNicknameDoubleCheck(nickname)
             .onEach {
-                Timber.i("$TAG requestMyPageNicknameDoubleCheck: $it")
                 if (it.data.usable) {
                     sendAction(MyPageEvent.RequestMyPageNicknameDoubleCheck(NickNameDoubleCheckData.USABLE))
                 } else {
                     sendAction(MyPageEvent.RequestMyPageNicknameDoubleCheck(NickNameDoubleCheckData.UNUSABLE))
                 }
             }
-            .catch {
-                Timber.e("$TAG $it")
+            .catch { e ->
+                Timber.e(e)
             }
             .onCompletion {
                 setLoading(false)
@@ -111,13 +128,18 @@ class MyPageViewModel @Inject constructor(
 
         memberInfoRepository.requestMyPageMemberSaveData(memberSaveData)
             .onEach {
-                Timber.i("$TAG requestMyPageMemberSaveData: $it ${memberSaveData.memberId}")
                 delay(1000)
                 // 성공 시 다시 사용자 정보를 업데이트 해줘야함.
-                requestMyPageMemberData(memberSaveData.memberId)
+                requestMemberData(memberSaveData.memberId)
+
+                val memberDataCopy = TokenData(
+                    memberId = memberSaveData.memberId.toInt(),
+                    token = MemberDataManager.token ?: "",
+                    nickName = _memberData.first().nickName
+                )
+                MemberDataManager.saveData(memberDataCopy)
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .onCompletion {
                 setLoading(false)
@@ -128,7 +150,6 @@ class MyPageViewModel @Inject constructor(
     fun requestSettingLoadData(memberId: String) {
         memberInfoRepository.requestSettingLoadData(memberId)
             .onEach {
-                Timber.i("$TAG requestSettingLoadData: $it")
                 sendAction(
                     MyPageEvent.RequestMyPageSettingLoadData(
                         it.data.isAgreeAD,
@@ -137,7 +158,6 @@ class MyPageViewModel @Inject constructor(
                 )
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .launchIn(viewModelScope)
     }
@@ -145,10 +165,8 @@ class MyPageViewModel @Inject constructor(
     fun requestSettingAlarm(memberId: String, isAgreeAlarm: Boolean) {
         memberInfoRepository.requestSettingAlarm(memberId, isAgreeAlarm)
             .onEach {
-                Timber.i("$TAG requestSettingAlarm: $it")
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .launchIn(viewModelScope)
     }
@@ -156,10 +174,8 @@ class MyPageViewModel @Inject constructor(
     fun requestSettingAD(memberId: String, isAgreeAD: Boolean) {
         memberInfoRepository.requestSettingAD(memberId, isAgreeAD)
             .onEach {
-                Timber.i("$TAG requestSettingAD: $it")
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .launchIn(viewModelScope)
     }
@@ -170,7 +186,6 @@ class MyPageViewModel @Inject constructor(
     ) {
         val member = _memberData.first()
         val memberId = member.memberId
-        Timber.i("$TAG requestWithdrawalMember: $memberId $withdrawalReason $withdrawalEtcData")
 
         setLoading(true)
 
@@ -178,10 +193,8 @@ class MyPageViewModel @Inject constructor(
             WithdrawalData(memberId, withdrawalReason, withdrawalEtcData)
         )
             .onEach {
-                Timber.i("$TAG requestWithdrawalMember response: $it")
             }
             .catch { error ->
-                Timber.e("$TAG Error: $error")
             }
             .onCompletion {
                 setLoading(false)
@@ -194,7 +207,6 @@ class MyPageViewModel @Inject constructor(
 
         memberInfoRepository.requestMyPageNoticeData(myPageNoticeData)
             .onEach {
-                Timber.i("$TAG requestMyPageNoticeData: $it")
                 if (myPageNoticeData == "EVENT") {
                     sendAction(MyPageEvent.RequestMyPageEventData(it.data.items))
                 } else if (myPageNoticeData == "FAQ") {
@@ -204,7 +216,6 @@ class MyPageViewModel @Inject constructor(
                 }
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .onCompletion {
                 setLoading(false)
@@ -216,10 +227,8 @@ class MyPageViewModel @Inject constructor(
         setLoading(true)
         memberInfoRepository.requestLogout()
             .onEach {
-                Timber.i("$TAG requestLogout: $it")
             }
             .catch {
-                Timber.e("$TAG $it")
             }
             .onCompletion {
                 setLoading(false)

@@ -1,6 +1,7 @@
 package com.desserttime.core.network.service
 
 import com.desserttime.core.model.dto.ResponseCommonDto
+import com.desserttime.core.model.dto.ResponseMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageMemberDto
 import com.desserttime.core.model.dto.ResponseMyPageNicknameDoubleCheckDto
 import com.desserttime.core.model.dto.ResponseMyPageNoticeDto
@@ -32,11 +33,16 @@ interface MemberInfoService {
         @Body requestInquiryData: RequestInquiryData
     ): ResponseCommonDto
 
-    // My Page
+    // 마이페이지 - 첫 화면 사용자 정보 요약
     @GET("/member/my-page/{memberId}")
-    suspend fun requestMemberData(
+    suspend fun requestMemberSummaryData(
         @Path("memberId") memberId: String
     ): ResponseMyPageMemberDto
+
+    @GET("/member/my-page/member/{memberId}")
+    suspend fun requestMemberData(
+        @Query("memberId") memberId: String
+    ): ResponseMemberDto
 
     @GET("/member/my-page/nickname/{nickname}")
     suspend fun requestNicknameDoubleCheck(

@@ -20,6 +20,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -66,8 +67,9 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
                 val token = sharedPreferencesManager.getMemberData()?.token ?: ""
+                Timber.d("token: $token")
                 val newRequest = originalRequest.newBuilder()
-                    .header("Authorized", "Bearer $token")
+                    .header("Authorization", "Bearer $token")
                     .build()
                 chain.proceed(newRequest)
             }
@@ -85,8 +87,9 @@ object NetworkModule {
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
                 val token = sharedPreferencesManager.getMemberData()?.token ?: ""
+                Timber.d("token: $token")
                 val newRequest = originalRequest.newBuilder()
-                    .header("Authorized", "Bearer $token")
+                    .header("Authorization", "Bearer $token")
                     .build()
                 chain.proceed(newRequest)
             }
