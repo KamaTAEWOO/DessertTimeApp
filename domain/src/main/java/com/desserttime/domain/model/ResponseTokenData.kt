@@ -9,5 +9,7 @@ data class ResponseTokenData(
 )
 
 data class TokenData(
+    val memberId: Int,
+    val nickName: String,
     val token: String
 )

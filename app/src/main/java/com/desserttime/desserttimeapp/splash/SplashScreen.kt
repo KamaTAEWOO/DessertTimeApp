@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.core.utility.SharedPreferencesManager
 import com.desserttime.design.theme.MainColor
 import com.desserttime.desserttimeapp.R
@@ -20,11 +21,14 @@ import com.desserttime.desserttimeapp.R
 fun SplashScreen(onNavigateToLogin: () -> Unit, onNavigateToHome: () -> Unit) {
     val context: Context = LocalContext.current
     val sharedPreferencesManager = SharedPreferencesManager(context)
-    val token = sharedPreferencesManager.getToken() ?: ""
+    val memberData = sharedPreferencesManager.getMemberData()
+    if (memberData != null) {
+        MemberDataManager.saveData(memberData)
+    }
 
     LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(3000)
-        if (token.isNotEmpty()) {
+        if (MemberDataManager.token?.isNotEmpty() == true) {
             onNavigateToHome()
         } else {
             onNavigateToLogin()

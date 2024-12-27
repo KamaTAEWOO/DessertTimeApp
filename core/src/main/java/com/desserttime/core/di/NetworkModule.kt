@@ -65,7 +65,7 @@ object NetworkModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val token = sharedPreferencesManager.getToken()
+                val token = sharedPreferencesManager.getMemberData()?.token ?: ""
                 val newRequest = originalRequest.newBuilder()
                     .header("Authorized", "Bearer $token")
                     .build()
@@ -84,7 +84,7 @@ object NetworkModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val token = sharedPreferencesManager.getToken() ?: ""
+                val token = sharedPreferencesManager.getMemberData()?.token ?: ""
                 val newRequest = originalRequest.newBuilder()
                     .header("Authorized", "Bearer $token")
                     .build()
