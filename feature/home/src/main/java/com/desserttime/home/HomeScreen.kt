@@ -51,6 +51,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun HomeScreen(
@@ -58,8 +59,11 @@ fun HomeScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToAlarm: () -> Unit
 ) {
+    val context = LocalContext.current
+    Timber.d("URL: ${context.getString(com.desserttime.core.R.string.BASE_URL)}")
+
     LaunchedEffect("onec") {
-        homeViewModel.requestMemberData(MemberDataManager.memberId.toString())
+        homeViewModel.requestMemberData(context, MemberDataManager.memberId.toString())
     }
     val memberId = MemberDataManager.memberId ?: 0
     val nickname = remember { mutableStateOf("") }
@@ -273,7 +277,6 @@ fun ReviewSection(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(imageUrls) { imageUrl ->
-                Timber.d("imageUrl: $imageUrl")
                 GlideImage(
                     model = imageUrl,
                     contentDescription = null,

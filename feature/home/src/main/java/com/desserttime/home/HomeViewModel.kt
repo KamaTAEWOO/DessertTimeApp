@@ -1,5 +1,6 @@
 package com.desserttime.home
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import com.desserttime.core.base.BaseViewModel
 import com.desserttime.core.local.MemberDataStore
@@ -13,8 +14,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
-
-private const val TAG = "HomeViewModel::"
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -38,12 +37,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun requestMemberData(memberId: String) {
+    fun requestMemberData(context: Context, memberId: String) {
         memberInfoRepository.requestMemberData(memberId)
             .onEach {
-                Timber.d("requestMemberData: $it")
                 memberDataStore.saveMemberData(it.data)
-                requestHomeImageData(it.data.memberId)
+                requestHomeImageData(context, it.data.memberId)
             }
             .catch { e ->
                 Timber.e(e)
@@ -51,14 +49,15 @@ class HomeViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    private fun requestHomeImageData(memberId: Int) {
+    private fun requestHomeImageData(context: Context, memberId: Int) {
+        Timber.d("requestHomeImageData memberId: $memberId")
         reviewRepository.requestHomeImageData(memberId)
             .onEach {
-                Timber.d("requestHomeImageData: $it")
                 for (imageList in it.data) {
                     for (image in imageList.categoryReviewImgList) {
-                        Timber.d("path: ${image.path}")
-                        sendAction(HomeEvent.ResponseHomeImageData(image.path))
+                        val path = "${context.getString(com.desserttime.core.R.string.BASE_URL)}/${image.middlepath}/${image.path}"
+                        Timber.d("path: $path")
+                        sendAction(HomeEvent.ResponseHomeImageData(path))
                     }
                 }
             }
