@@ -1,6 +1,6 @@
 package com.desserttime.domain.model
 
-data class ResponseHomeImageData (
+data class ResponseHomeImageData(
     val success: Boolean,
     val timestamp: String,
     val statusCode: Int,

@@ -18,5 +18,3 @@ data class ResponseHomeImageDto(
         data = data
     )
 }
-
-
