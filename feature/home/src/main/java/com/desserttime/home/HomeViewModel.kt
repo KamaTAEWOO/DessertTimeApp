@@ -5,6 +5,7 @@ import com.desserttime.core.base.BaseViewModel
 import com.desserttime.core.local.MemberDataStore
 import com.desserttime.domain.model.MemberData
 import com.desserttime.domain.repository.MemberInfoRepository
+import com.desserttime.domain.repository.ReviewRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -18,6 +19,7 @@ private const val TAG = "HomeViewModel::"
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val memberInfoRepository: MemberInfoRepository,
+    private val reviewRepository: ReviewRepository,
     private val memberDataStore: MemberDataStore
 ) : BaseViewModel<HomeState, HomeEvent>(
     initialState = HomeState()
@@ -26,7 +28,14 @@ class HomeViewModel @Inject constructor(
     val memberData: Flow<MemberData> = _memberData
 
     override fun reduceState(currentState: HomeState, event: HomeEvent): HomeState {
-        TODO("Not yet implemented")
+        return when (event) {
+            is HomeEvent.ResponseHomeImageData -> {
+                val updatedReviewImageData = currentState.reviewImageData.toMutableList().apply {
+                    add(event.homeImageData)
+                }
+                currentState.copy(reviewImageData = updatedReviewImageData)
+            }
+        }
     }
 
     fun requestMemberData(memberId: String) {
@@ -34,6 +43,24 @@ class HomeViewModel @Inject constructor(
             .onEach {
                 Timber.d("requestMemberData: $it")
                 memberDataStore.saveMemberData(it.data)
+                requestHomeImageData(it.data.memberId)
+            }
+            .catch { e ->
+                Timber.e(e)
+            }
+            .launchIn(viewModelScope)
+    }
+
+    private fun requestHomeImageData(memberId: Int) {
+        reviewRepository.requestHomeImageData(memberId)
+            .onEach {
+                Timber.d("requestHomeImageData: $it")
+                for (imageList in it.data) {
+                    for (image in imageList.categoryReviewImgList) {
+                        Timber.d("path: ${image.path}")
+                        sendAction(HomeEvent.ResponseHomeImageData(image.path))
+                    }
+                }
             }
             .catch { e ->
                 Timber.e(e)
