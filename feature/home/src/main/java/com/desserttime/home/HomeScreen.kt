@@ -14,12 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,9 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.desserttime.core.utility.MemberDataManager
 import com.desserttime.design.R
 import com.desserttime.design.theme.CornflowerBlue
@@ -45,6 +51,7 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -52,13 +59,21 @@ fun HomeScreen(
     onNavigateToLogin: () -> Unit,
     onNavigateToAlarm: () -> Unit
 ) {
-    homeViewModel.requestMemberData(MemberDataManager.memberId.toString())
+    val context = LocalContext.current
+    Timber.d("URL: ${context.getString(com.desserttime.core.R.string.BASE_URL)}")
+
+    LaunchedEffect("onec") {
+        homeViewModel.requestMemberData(context, MemberDataManager.memberId.toString())
+    }
     val memberId = MemberDataManager.memberId ?: 0
     val nickname = remember { mutableStateOf("") }
+    val homeUIState by homeViewModel.uiState.collectAsState()
 
     LaunchedEffect(nickname) {
         nickname.value = homeViewModel.memberData.first().nickName
     }
+
+    Timber.d("ImageData: ${homeUIState.reviewImageData}")
 
     LazyColumn(
         modifier = Modifier
@@ -102,44 +117,37 @@ fun HomeScreen(
         val reviewSections = listOf(
             ReviewSectionData(
                 titleResId = R.string.txt_home_review_title_test1,
-                imageResIds = listOf(
-                    R.drawable.ic_cake_review1,
-                    R.drawable.ic_cake_review2,
-                    R.drawable.ic_cake_review3,
-                    R.drawable.ic_cake_review4,
-                    R.drawable.ic_cake_review5,
-                    R.drawable.ic_add_review
-                )
-            ),
-            ReviewSectionData(
-                titleResId = R.string.txt_home_review_title_test2,
-                imageResIds = listOf(
-                    R.drawable.ic_bingsu_review1,
-                    R.drawable.ic_bingsu_review2,
-                    R.drawable.ic_bingsu_review3,
-                    R.drawable.ic_bingsu_review1,
-                    R.drawable.ic_bingsu_review2,
-                    R.drawable.ic_add_review
-                )
-            ),
-            ReviewSectionData(
-                titleResId = R.string.txt_home_review_title_test3,
-                imageResIds = listOf(
-                    R.drawable.ic_bingsu_review1,
-                    R.drawable.ic_bingsu_review2,
-                    R.drawable.ic_bingsu_review3,
-                    R.drawable.ic_bingsu_review1,
-                    R.drawable.ic_bingsu_review2,
-                    R.drawable.ic_add_review
-                )
+                imageResIds = homeUIState.reviewImageData
             )
+//            ReviewSectionData(
+//                titleResId = R.string.txt_home_review_title_test2,
+//                imageResIds = listOf(
+//                    R.drawable.ic_bingsu_review1,
+//                    R.drawable.ic_bingsu_review2,
+//                    R.drawable.ic_bingsu_review3,
+//                    R.drawable.ic_bingsu_review1,
+//                    R.drawable.ic_bingsu_review2,
+//                    R.drawable.ic_add_review
+//                )
+//            ),
+//            ReviewSectionData(
+//                titleResId = R.string.txt_home_review_title_test3,
+//                imageResIds = listOf(
+//                    R.drawable.ic_bingsu_review1,
+//                    R.drawable.ic_bingsu_review2,
+//                    R.drawable.ic_bingsu_review3,
+//                    R.drawable.ic_bingsu_review1,
+//                    R.drawable.ic_bingsu_review2,
+//                    R.drawable.ic_add_review
+//                )
+//            )
         )
 
         reviewSections.forEach { section ->
             item {
                 ReviewSection(
                     titleResId = section.titleResId,
-                    imageResIds = section.imageResIds
+                    imageUrls = section.imageResIds
                 )
             }
             item {
@@ -247,10 +255,11 @@ fun IndicatorDot(isActive: Boolean) {
     )
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ReviewSection(
     titleResId: Int,
-    imageResIds: List<Int>,
+    imageUrls: List<String>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -267,9 +276,9 @@ fun ReviewSection(
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(imageResIds.size) { index ->
-                Image(
-                    painter = painterResource(id = imageResIds[index]),
+            items(imageUrls) { imageUrl ->
+                GlideImage(
+                    model = imageUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

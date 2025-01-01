@@ -8,6 +8,12 @@ import javax.inject.Inject
 class ReviewRemoteSource @Inject constructor(
     private val reviewService: ReviewService
 ) {
+    fun requestHomeImageData(memberId: Int) = flow {
+        emit(
+            reviewService.requestHomeImageData(memberId).toModel()
+        )
+    }
+
     fun saveReviewWriteData(reviewWriteData: ReviewWriteData) = flow {
         emit(
             reviewService.saveReviewWriteData(reviewWriteData).toModel()

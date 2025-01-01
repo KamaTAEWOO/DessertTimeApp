@@ -39,6 +39,10 @@ dependencies {
     // logging
     implementation(libs.timber)
 
+    // glide
+    implementation(libs.glide)
+    implementation(libs.glide.compose)
+
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -55,4 +59,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    annotationProcessor(libs.glide.compiler)
 }
